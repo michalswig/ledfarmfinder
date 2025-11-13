@@ -3,6 +3,7 @@ package com.mike.leadfarmfinder.bootstrap;
 import com.mike.leadfarmfinder.entity.FarmLead;
 import com.mike.leadfarmfinder.repository.FarmLeadRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -10,28 +11,31 @@ import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class FarmLeadTestBootstrap implements CommandLineRunner {
 
     private final FarmLeadRepository farmLeadRepository;
 
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws Exception {
         if (farmLeadRepository.count() > 0) {
-            System.out.println("FarmLeadTestBootstrap: DB already has data, skipping");
+            log.info("FarmLead found, no import from DB");
             return;
         }
-
-        FarmLead lead = FarmLead.builder()
+        FarmLead farmLead = FarmLead.builder()
                 .email("test@example.com")
-                .sourceUrl("MANUAL_TEST")
+                .sourceUrl("test")
                 .createdAt(LocalDateTime.now())
                 .active(true)
                 .build();
 
-        farmLeadRepository.save(lead);
+        farmLeadRepository.save(farmLead);
 
-        System.out.println("Saved lead id=" + lead.getId());
-        System.out.println("Total leads: " + farmLeadRepository.count());
+        log.info("FarmLead has been saved with id = {}", farmLead.getId());
+        log.info("Total leads: {}", farmLeadRepository.count());
+
+
     }
 }
+
 
