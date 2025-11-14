@@ -3,11 +3,9 @@ package com.mike.leadfarmfinder.bootstrap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Component;
 
 import java.nio.file.Files;
 
-@Component
 @Slf4j
 public class TxtReadBootstrap implements CommandLineRunner {
     @Override
