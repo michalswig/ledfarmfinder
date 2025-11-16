@@ -60,14 +60,14 @@ databaseChangeLog:
             tableName: farm_leads
             columnNames: unsubscribe_token
             constraintName: uk_farm_leads_unsubscribe_token
-
-  - changeSet:
-      id: 3-fill-unsubscribe-token
-      author: you
-      changes:
-        - sql:
-            sql: >
-              UPDATE farm_leads
-              SET unsubscribe_token = gen_random_uuid()::text
-              WHERE unsubscribe_token IS NULL;
+#
+#  - changeSet:
+#      id: 3-fill-unsubscribe-token
+#      author: you
+#      changes:
+#        - sql:
+#            sql: >
+#              UPDATE farm_leads
+#              SET unsubscribe_token = gen_random_uuid()::text
+#              WHERE unsubscribe_token IS NULL;
 
