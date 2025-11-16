@@ -26,4 +26,6 @@ public class FarmLead {
     private LocalDateTime createdAt;
 
     private boolean active;
+
+    private String unsubscribeToken;
 }

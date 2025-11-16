@@ -43,3 +43,31 @@ databaseChangeLog:
             tableName: farm_leads
             columnName: id
             columnDataType: BIGINT
+
+  - changeSet:
+      id: 2-add-unsubscribe-token-to-farm-leads
+      author: you
+      changes:
+        - addColumn:
+            tableName: farm_leads
+            columns:
+              - column:
+                  name: unsubscribe_token
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+        - addUniqueConstraint:
+            tableName: farm_leads
+            columnNames: unsubscribe_token
+            constraintName: uk_farm_leads_unsubscribe_token
+
+  - changeSet:
+      id: 3-fill-unsubscribe-token
+      author: you
+      changes:
+        - sql:
+            sql: >
+              UPDATE farm_leads
+              SET unsubscribe_token = gen_random_uuid()::text
+              WHERE unsubscribe_token IS NULL;
+

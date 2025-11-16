@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -99,6 +100,7 @@ public class FarmScraperService {
                         .sourceUrl(url)
                         .createdAt(LocalDateTime.now())
                         .active(true)
+                        .unsubscribeToken(UUID.randomUUID().toString())
                         .build();
 
                 repository.save(farmLead);

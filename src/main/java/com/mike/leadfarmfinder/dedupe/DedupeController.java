@@ -57,6 +57,7 @@ public class DedupeController {
                     .sourceUrl("MANUAL_IMPORT")
                     .createdAt(LocalDateTime.now())
                     .active(true)
+                    .unsubscribeToken(UUID.randomUUID().toString())
                     .build();
 
             farmLeadRepository.save(lead);

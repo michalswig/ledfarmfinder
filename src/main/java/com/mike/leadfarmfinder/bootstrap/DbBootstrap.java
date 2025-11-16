@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 //@Component
 @RequiredArgsConstructor
@@ -66,6 +67,7 @@ public class DbBootstrap implements CommandLineRunner {
                     .sourceUrl("IMPORT_TXT")
                     .createdAt(LocalDateTime.now())
                     .active(true)
+                    .unsubscribeToken(UUID.randomUUID().toString())
                     .build();
 
             repository.save(lead);
