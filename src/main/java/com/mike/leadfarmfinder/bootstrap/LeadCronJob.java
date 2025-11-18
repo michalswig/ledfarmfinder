@@ -17,12 +17,12 @@ public class LeadCronJob {
     private final DiscoveryService discoveryService;
     private final FarmScraperService farmScraperService;
 
-    @Scheduled(fixedRate = 600_000)
+    @Scheduled(fixedRate = 7_200_000)
     public void runHourlyCronJob() {
 
         log.info("LeadCronJob: started at {}", LocalDateTime.now());
 
-        List<String> candidateFarmUrls = discoveryService.findCandidateFarmUrls(10);
+        List<String> candidateFarmUrls = discoveryService.findCandidateFarmUrls(100);
 
         log.info("LeadCronJob: {} candidate URLs", candidateFarmUrls.size());
 

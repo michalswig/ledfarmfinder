@@ -1,4 +1,4 @@
-package com.mike.leadfarmfinder.entity;
+package com.mike.leadfarmfinder.service;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
