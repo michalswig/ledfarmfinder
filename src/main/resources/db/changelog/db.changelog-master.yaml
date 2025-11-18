@@ -60,6 +60,196 @@ databaseChangeLog:
             tableName: farm_leads
             columnNames: unsubscribe_token
             constraintName: uk_farm_leads_unsubscribe_token
+
+
+  - changeSet:
+      id: 003-create-serp-query-cursor
+      author: mike
+      changes:
+        - createTable:
+            tableName: serp_query_cursor
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: query
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: current_page
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: max_page
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_run_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
+
+
+  - changeSet:
+      id: 004-create-discovery-run-stats
+      author: mike
+      changes:
+        - createTable:
+            tableName: discovery_run_stats
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: query
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: started_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: finished_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: start_page
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: end_page
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: pages_visited
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: raw_urls
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: cleaned_urls
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: accepted_urls
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: rejected_urls
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: errors
+                  type: INT
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 2025-11-17-01-create-discovered-urls
+      author: mike
+      changes:
+        - createTable:
+            tableName: discovered_urls
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: url
+                  type: VARCHAR(1000)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: is_farm
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: is_seasonal_jobs
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: first_seen_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: last_seen_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - addUniqueConstraint:
+            tableName: discovered_urls
+            columnNames: url
+            constraintName: uk_discovered_urls_url
+
+        - createIndex:
+            tableName: discovered_urls
+            indexName: idx_discovered_urls_first_seen_at
+            columns:
+              - column:
+                  name: first_seen_at
+  - changeSet:
+      id: add-filtered-already-discovered-to-discovery-run-stats
+      author: mike
+      changes:
+        - addColumn:
+            tableName: discovery_run_stats
+            columns:
+              - column:
+                  name: filtered_already_discovered
+                  type: int
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+
 #
 #  - changeSet:
 #      id: 3-fill-unsubscribe-token

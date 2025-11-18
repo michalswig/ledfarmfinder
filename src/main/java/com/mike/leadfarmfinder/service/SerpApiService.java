@@ -25,9 +25,19 @@ public class SerpApiService {
                 .build();
     }
 
-    public List<String> searchUrls(String query, int limit) {
+    public List<String> searchUrls(String query, int limit, int page) {
         try {
-            log.info("SerpApiClient.searchUrls: querying SerpAPI. query='{}', limit={}", query, limit);
+            if (page < 1) {
+                page = 1;
+            }
+
+            // ile wyników na jedną stronę z SerpAPI faktycznie prosimy
+            int resultsPerPage = Math.min(limit, 10); // możesz zmienić np. na 20, jeśli chcesz
+
+            int start = (page - 1) * resultsPerPage;
+
+            log.info("SerpApiClient.searchUrls: querying SerpAPI. query='{}', limit={}, page={}, resultsPerPage={}, start={}",
+                    query, limit, page, resultsPerPage, start);
 
             SerpApiSearchResponse response = restClient.get()
                     .uri(uriBuilder -> uriBuilder
@@ -35,7 +45,8 @@ public class SerpApiService {
                             .queryParam("engine", props.defaultEngine())
                             .queryParam("hl", props.defaultLanguage())
                             .queryParam("gl", props.defaultCountry())
-                            .queryParam("num", limit)
+                            .queryParam("num", resultsPerPage)
+                            .queryParam("start", start)          // <<< KLUCZ DO PAGINACJI
                             .queryParam("q", query)
                             .queryParam("api_key", props.apiKey())
                             .build()
@@ -71,5 +82,9 @@ public class SerpApiService {
             log.error("SerpApiClient.searchUrls: exception while calling SerpAPI", e);
             return Collections.emptyList();
         }
+    }
+
+    public List<String> searchUrls(String query, int limit) {
+        return searchUrls(query, limit, 1);
     }
 }

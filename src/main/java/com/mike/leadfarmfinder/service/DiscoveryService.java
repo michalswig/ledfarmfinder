@@ -1,6 +1,12 @@
 package com.mike.leadfarmfinder.service;
 
 import com.mike.leadfarmfinder.dto.FarmClassificationResult;
+import com.mike.leadfarmfinder.entity.DiscoveredUrl;
+import com.mike.leadfarmfinder.entity.DiscoveryRunStats;
+import com.mike.leadfarmfinder.entity.SerpQueryCursor;
+import com.mike.leadfarmfinder.repository.DiscoveredUrlRepository;
+import com.mike.leadfarmfinder.repository.DiscoveryRunStatsRepository;
+import com.mike.leadfarmfinder.repository.SerpQueryCursorRepository;
 import com.mike.leadfarmfinder.service.openai.OpenAiFarmClassifier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +15,7 @@ import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,6 +26,9 @@ public class DiscoveryService {
 
     private final SerpApiService serpApiService;
     private final OpenAiFarmClassifier farmClassifier;
+    private final SerpQueryCursorRepository serpQueryCursorRepository;
+    private final DiscoveryRunStatsRepository discoveryRunStatsRepository;
+    private final DiscoveredUrlRepository discoveredUrlRepository;
 
     // duże portale, social media, job-boardy – od razu odrzucamy
     private static final Set<String> BLOCKED_DOMAINS = Set.of(
@@ -36,65 +46,128 @@ public class DiscoveryService {
             "meinestadt.de"
     );
 
+    // --- Paginacja SERP ---
+    private static final int RESULTS_PER_PAGE = 10;
+    private static final int MAX_PAGES_PER_RUN = 3;
+    private static final int DEFAULT_MAX_SERP_PAGE = 50;
+
     /**
      * Znajdź kandydackie URLe gospodarstw:
-     *  1) SerpAPI -> lista URLi
+     *  1) SerpAPI -> kilka stron SERP
      *  2) filtr po domenie (BLOCKED_DOMAINS)
-     *  3) OpenAI classifier (is_farm && is_seasonal_jobs)
+     *  3) filtr "już odkryte" (discovered_urls)
+     *  4) OpenAI classifier (is_farm && is_seasonal_jobs)
+     *  5) zapis statystyk do discovery_run_stats
+     *  6) zapis każdego sklasyfikowanego URL do discovered_urls
      */
     public List<String> findCandidateFarmUrls(int limit) {
         String query = "Saisonarbeit Erdbeeren Hof Niedersachsen";
+        LocalDateTime startedAt = LocalDateTime.now();
 
         log.info("DiscoveryService: searching farms for query='{}', limit={}", query, limit);
 
-        List<String> rawUrls = serpApiService.searchUrls(query, limit * 5);
-        log.info("DiscoveryService: raw urls from SerpAPI = {}", rawUrls.size());
+        SerpQueryCursor cursor = loadOrCreateCursor(query);
+        int startPage = cursor.getCurrentPage();
+        int currentPage = startPage;
+        int maxPage = cursor.getMaxPage();
 
-        // 1) wstępne czyszczenie + filtr domen
-        List<String> cleaned = rawUrls.stream()
-                .filter(Objects::nonNull)
-                .map(String::trim)
-                .filter(s -> !s.isBlank())
-                .filter(this::isAllowedDomain)
-                .distinct()
-                .collect(Collectors.toList());
+        log.info("DiscoveryService: starting SERP from page={} (maxPage={})", startPage, maxPage);
 
-        log.info("DiscoveryService: urls after domain filter = {}", cleaned.size());
-
-        // 2) OpenAI classifier
         List<String> accepted = new ArrayList<>();
 
-        for (String url : cleaned) {
-            try {
-                String snippet = fetchTextSnippet(url);
-                if (snippet.isBlank()) {
-                    log.info("DiscoveryService: empty snippet for url={}, skipping", url);
-                    continue;
-                }
+        // statystyki
+        int pagesVisited = 0;
+        int rawUrlsTotal = 0;
+        int cleanedUrlsTotal = 0;
+        int filteredAsAlreadyDiscovered = 0;
+        int acceptedCount = 0;
+        int rejectedCount = 0;
+        int errorsCount = 0;
 
-                FarmClassificationResult result = farmClassifier.classifyFarm(url, snippet);
+        for (int i = 0; i < MAX_PAGES_PER_RUN && accepted.size() < limit; i++) {
+            log.info("DiscoveryService: fetching SERP page={} (runPageIndex={})", currentPage, i);
 
-                if (result.isFarm() && result.isSeasonalJobs()) {
-                    String finalUrl = result.mainContactUrl() != null
-                            ? result.mainContactUrl()
-                            : url;
+            List<String> rawUrls = serpApiService.searchUrls(query, RESULTS_PER_PAGE, currentPage);
+            rawUrlsTotal += rawUrls.size();
 
-                    accepted.add(finalUrl);
-                    log.info("DiscoveryService: ACCEPTED url={} reason={}", finalUrl, result.reason());
-                } else {
-                    log.info("DiscoveryService: REJECTED url={} reason={}", url, result.reason());
-                }
+            log.info("DiscoveryService: raw urls from SerpAPI (page={}) = {}", currentPage, rawUrls.size());
 
+            if (rawUrls.isEmpty()) {
+                log.info("DiscoveryService: no more results from SerpAPI for page={}, stopping", currentPage);
+                break;
+            }
+
+            pagesVisited++;
+
+            // 1) filtr domen
+            List<String> cleaned = rawUrls.stream()
+                    .filter(Objects::nonNull)
+                    .map(String::trim)
+                    .filter(s -> !s.isBlank())
+                    .filter(this::isAllowedDomain)
+                    .distinct()
+                    .collect(Collectors.toList());
+
+            cleanedUrlsTotal += cleaned.size();
+
+            log.info("DiscoveryService: urls after domain filter (page={}) = {}", currentPage, cleaned.size());
+
+            // 2) filtr "już odkryte" w discovered_urls
+            List<String> newUrlsOnly = filterAlreadyDiscovered(cleaned);
+            filteredAsAlreadyDiscovered += (cleaned.size() - newUrlsOnly.size());
+
+            log.info("DiscoveryService: urls after discovered filter (page={}) = {}", currentPage, newUrlsOnly.size());
+
+            // 3) OpenAI classifier na nowo odkrytych
+            for (String url : newUrlsOnly) {
                 if (accepted.size() >= limit) {
                     break;
                 }
 
-            } catch (Exception e) {
-                log.warn("DiscoveryService: error for url={}: {}", url, e.getMessage());
+                try {
+                    String snippet = fetchTextSnippet(url);
+                    if (snippet.isBlank()) {
+                        log.info("DiscoveryService: empty snippet for url={}, skipping", url);
+                        rejectedCount++; // traktujemy jako odrzucone
+                        continue;
+                    }
+
+                    FarmClassificationResult result = farmClassifier.classifyFarm(url, snippet);
+
+                    // zapis do discovered_urls – niezależnie, czy ACCEPT, czy REJECT
+                    saveDiscoveredUrl(url, result);
+
+                    if (result.isFarm() && result.isSeasonalJobs()) {
+                        String finalUrl = result.mainContactUrl() != null
+                                ? result.mainContactUrl()
+                                : url;
+
+                        accepted.add(finalUrl);
+                        acceptedCount++;
+                        log.info("DiscoveryService: ACCEPTED url={} reason={}", finalUrl, result.reason());
+                    } else {
+                        rejectedCount++;
+                        log.info("DiscoveryService: REJECTED url={} reason={}", url, result.reason());
+                    }
+
+                } catch (Exception e) {
+                    errorsCount++;
+                    log.warn("DiscoveryService: error for url={}: {}", url, e.getMessage());
+                }
+            }
+
+            currentPage++;
+            if (currentPage > maxPage) {
+                currentPage = 1;
             }
         }
 
-        // 3) finalne odszumienie
+        // update kursora
+        cursor.setCurrentPage(currentPage);
+        cursor.setLastRunAt(LocalDateTime.now());
+        serpQueryCursorRepository.save(cursor);
+
+        // finalne distinct
         List<String> distinctAccepted = accepted.stream()
                 .filter(Objects::nonNull)
                 .map(String::trim)
@@ -102,13 +175,104 @@ public class DiscoveryService {
                 .distinct()
                 .toList();
 
-        log.info("DiscoveryService: returning {} accepted urls", distinctAccepted.size());
+        // dopasuj acceptedCount do distinct (na wszelki wypadek)
+        acceptedCount = distinctAccepted.size();
+
+        // zapis statystyk
+        DiscoveryRunStats stats = new DiscoveryRunStats();
+        stats.setQuery(query);
+        stats.setStartedAt(startedAt);
+        stats.setFinishedAt(LocalDateTime.now());
+        stats.setStartPage(startPage);
+        stats.setEndPage(currentPage);
+        stats.setPagesVisited(pagesVisited);
+        stats.setRawUrls(rawUrlsTotal);
+        stats.setCleanedUrls(cleanedUrlsTotal);
+        stats.setAcceptedUrls(acceptedCount);
+        stats.setRejectedUrls(rejectedCount);
+        stats.setErrors(errorsCount);
+        stats.setFilteredAlreadyDiscovered(filteredAsAlreadyDiscovered);
+
+        discoveryRunStatsRepository.save(stats);
+
+        log.info(
+                "DiscoveryService: returning {} accepted urls (startPage={}, endPage={}, pagesVisited={}, filteredAlreadyDiscovered={})",
+                distinctAccepted.size(), startPage, currentPage, pagesVisited, filteredAsAlreadyDiscovered
+        );
+
         return distinctAccepted;
     }
 
     /**
-     * Zwraca true tylko jeśli domena NIE jest na blackliście.
+     * Ładuje istniejący kursor SERP dla danego query albo tworzy nowy.
      */
+    private SerpQueryCursor loadOrCreateCursor(String query) {
+        return serpQueryCursorRepository.findByQuery(query)
+                .orElseGet(() -> {
+                    SerpQueryCursor cursor = new SerpQueryCursor();
+                    cursor.setQuery(query);
+                    cursor.setCurrentPage(1);
+                    cursor.setMaxPage(DEFAULT_MAX_SERP_PAGE);
+                    cursor.setLastRunAt(null);
+                    SerpQueryCursor saved = serpQueryCursorRepository.save(cursor);
+                    log.info("DiscoveryService: created new SERP cursor for query='{}'", query);
+                    return saved;
+                });
+    }
+
+    /**
+     * Filtruje URLe, które już są w discovered_urls.
+     */
+    private List<String> filterAlreadyDiscovered(List<String> urls) {
+        List<String> result = urls.stream()
+                .filter(url -> {
+                    boolean exists = discoveredUrlRepository.existsByUrl(url);
+                    if (exists) {
+                        log.debug("DiscoveryService: skipping already discovered url={}", url);
+                    }
+                    return !exists;
+                })
+                .toList();
+
+        log.info("DiscoveryService: {} urls left after already-discovered filter (from {})",
+                result.size(), urls.size());
+
+        return result;
+    }
+
+    /**
+     * Upsert do discovered_urls po każdym wyniku klasyfikacji.
+     */
+    private void saveDiscoveredUrl(String url, FarmClassificationResult result) {
+        try {
+            DiscoveredUrl entity = discoveredUrlRepository.findByUrl(url)
+                    .orElseGet(DiscoveredUrl::new);
+
+            boolean isNew = (entity.getId() == null);
+
+            entity.setUrl(url);
+            entity.setFarm(result.isFarm());
+            entity.setSeasonalJobs(result.isSeasonalJobs());
+            entity.setLastSeenAt(LocalDateTime.now());
+
+            if (isNew) {
+                entity.setFirstSeenAt(LocalDateTime.now());
+            }
+
+            discoveredUrlRepository.save(entity);
+
+            if (isNew) {
+                log.info("DiscoveryService: saved NEW discovered url={} (farm={}, seasonalJobs={})",
+                        url, result.isFarm(), result.isSeasonalJobs());
+            } else {
+                log.debug("DiscoveryService: updated discovered url={} (farm={}, seasonalJobs={})",
+                        url, result.isFarm(), result.isSeasonalJobs());
+            }
+        } catch (Exception e) {
+            log.warn("DiscoveryService: failed to save discovered url={} due to {}", url, e.getMessage());
+        }
+    }
+
     private boolean isAllowedDomain(String url) {
         String domain = extractDomain(url);
         if (domain == null) {
@@ -132,7 +296,7 @@ public class DiscoveryService {
     private String extractDomain(String url) {
         try {
             URI uri = new URI(url);
-            String host = uri.getHost(); // np. "www.instagram.com"
+            String host = uri.getHost();
             if (host == null) return null;
 
             host = host.toLowerCase(Locale.ROOT);
