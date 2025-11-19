@@ -7,7 +7,7 @@ import com.mike.leadfarmfinder.entity.SerpQueryCursor;
 import com.mike.leadfarmfinder.repository.DiscoveredUrlRepository;
 import com.mike.leadfarmfinder.repository.DiscoveryRunStatsRepository;
 import com.mike.leadfarmfinder.repository.SerpQueryCursorRepository;
-import com.mike.leadfarmfinder.service.openai.OpenAiFarmClassifier;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -61,7 +61,7 @@ public class DiscoveryService {
      *  6) zapis każdego sklasyfikowanego URL do discovered_urls
      */
     public List<String> findCandidateFarmUrls(int limit) {
-        String query = "Saisonarbeit Erdbeeren Hof Niedersachsen";
+        String query = "kleine Landwirtschaft Gemüse Obst Deutschland";
         LocalDateTime startedAt = LocalDateTime.now();
 
         log.info("DiscoveryService: searching farms for query='{}', limit={}", query, limit);
@@ -282,6 +282,11 @@ public class DiscoveryService {
 
         if (BLOCKED_DOMAINS.contains(domain)) {
             log.info("DiscoveryService: dropping url={} (blocked domain={})", url, domain);
+            return false;
+        }
+
+        if (domain.contains("zeitung") || domain.contains("news")) {
+            log.info("DiscoveryService: dropping url={} (looks like news/media domain={})", url, domain);
             return false;
         }
 

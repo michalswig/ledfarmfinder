@@ -249,6 +249,30 @@ databaseChangeLog:
                   defaultValueNumeric: 0
                   constraints:
                     nullable: false
+  - changeSet:
+      id: 003-create-farm-sources
+      author: mike
+      changes:
+        - createTable:
+            tableName: farm_sources
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: domain
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: last_scraped_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
 
 #
 #  - changeSet:

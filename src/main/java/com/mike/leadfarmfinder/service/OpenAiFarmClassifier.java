@@ -1,9 +1,8 @@
-package com.mike.leadfarmfinder.service.openai;
+package com.mike.leadfarmfinder.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mike.leadfarmfinder.dto.FarmClassificationResult;
-import com.mike.leadfarmfinder.service.OpenAiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,6 +28,8 @@ public class OpenAiFarmClassifier {
                   asparagus, berries, apples, Christmas trees, etc.).
                 
                 IMPORTANT RULES:
+                - Regional newspapers, news portals, magazines, blogs — even if they have job
+                  advertisements in agriculture — are NOT farms. Always treat them as is_farm = false.”
                 - If the URL domain is a large job portal, social network or generic site
                   (for example: indeed.com, stepstone.de, meinestadt.de, facebook.com,
                   instagram.com, linkedin.com, youtube.com, tiktok.com, xing.com, etc.),

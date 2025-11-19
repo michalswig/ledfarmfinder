@@ -1,7 +1,9 @@
 package com.mike.leadfarmfinder.service;
 
 import com.mike.leadfarmfinder.entity.FarmLead;
+import com.mike.leadfarmfinder.entity.FarmSource;
 import com.mike.leadfarmfinder.repository.FarmLeadRepository;
+import com.mike.leadfarmfinder.repository.FarmSourceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -23,6 +25,7 @@ public class FarmScraperService {
     private final FarmLeadRepository repository;
     private final EmailExtractor emailExtractor;
     private final DomainCrawler domainCrawler;
+    private final FarmSourceRepository farmSourceRepository; // 🆕 pamięć scrapowania domeny
 
     private static final String USER_AGENT =
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
@@ -31,10 +34,26 @@ public class FarmScraperService {
 
     private static final String REFERRER = "https://www.google.com";
 
+    // 🆕 ile godzin musi minąć, żeby ponownie scrapować tę samą domenę
+    private static final int MIN_HOURS_BETWEEN_SCRAPES = 12;
+
     /**
      * High-level API: scrape the start URL and its Kontakt/Impressum/Contact pages.
      */
     public Set<FarmLead> scrapeFarmLeads(String startUrl) {
+
+        // 0. Wyciągamy "base domain" z URL-a – tej domeny pilnujemy w farm_sources
+        String domain = extractBaseDomainFromUrl(startUrl);
+        if (domain == null) {
+            log.warn("FarmScraperService: cannot extract base domain from {}, aborting scrape", startUrl);
+            return Set.of();
+        }
+
+        // 0.1. Sprawdź, czy ta domena nie była scrapowana niedawno
+        if (shouldSkipScraping(domain)) {
+            log.info("FarmScraperService: skipping scraping for domain={} (recently scraped)", domain);
+            return Set.of();
+        }
 
         // 1. Find all relevant URLs on this domain (start + kontakt/impressum/contact)
         Set<String> urlsToScrape = domainCrawler.crawlContacts(startUrl, 1); // depth=1 usually enough
@@ -109,6 +128,9 @@ public class FarmScraperService {
                 newFarmLeads.add(farmLead);
             }
         }
+
+        // 4. Po zakończonym scrapowaniu zaktualizuj last_scraped_at dla domeny
+        updateLastScrapedAt(domain);
 
         return newFarmLeads;
     }
@@ -195,7 +217,6 @@ public class FarmScraperService {
         return localPart.matches("[0-9a-fA-F]+");
     }
 
-
     private String extractDomainFromEmail(String email) {
         int at = email.indexOf('@');
         if (at < 0 || at == email.length() - 1) return null;
@@ -218,6 +239,52 @@ public class FarmScraperService {
             return secondLast + "." + last; // np. obsthof-wicke.de
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    /**
+     * 🆕 Sprawdza, czy scrapowanie tej domeny powinno być pominięte,
+     * bo było robione zbyt niedawno.
+     */
+    private boolean shouldSkipScraping(String domain) {
+        return farmSourceRepository.findByDomain(domain)
+                .map(source -> {
+                    LocalDateTime last = source.getLastScrapedAt();
+                    if (last == null) {
+                        return false;
+                    }
+                    LocalDateTime threshold = LocalDateTime.now()
+                            .minusHours(MIN_HOURS_BETWEEN_SCRAPES);
+                    boolean skip = last.isAfter(threshold);
+                    if (skip) {
+                        log.info(
+                                "FarmScraperService: domain={} lastScrapedAt={} (threshold={}), skipping",
+                                domain, last, threshold
+                        );
+                    }
+                    return skip;
+                })
+                .orElse(false);
+    }
+
+    /**
+     * 🆕 Upsert last_scraped_at w farm_sources.
+     */
+    private void updateLastScrapedAt(String domain) {
+        FarmSource source = farmSourceRepository.findByDomain(domain)
+                .orElseGet(FarmSource::new);
+
+        boolean isNew = (source.getId() == null);
+
+        source.setDomain(domain);
+        source.setLastScrapedAt(LocalDateTime.now());
+
+        farmSourceRepository.save(source);
+
+        if (isNew) {
+            log.info("FarmScraperService: created FarmSource domain={} with lastScrapedAt=now", domain);
+        } else {
+            log.info("FarmScraperService: updated FarmSource domain={} lastScrapedAt=now", domain);
         }
     }
 }
