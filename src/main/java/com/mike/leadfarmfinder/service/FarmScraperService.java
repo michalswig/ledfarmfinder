@@ -1,5 +1,6 @@
 package com.mike.leadfarmfinder.service;
 
+import com.mike.leadfarmfinder.config.LeadFinderProperties;
 import com.mike.leadfarmfinder.entity.FarmLead;
 import com.mike.leadfarmfinder.entity.FarmSource;
 import com.mike.leadfarmfinder.repository.FarmLeadRepository;
@@ -11,6 +12,7 @@ import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.Duration;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -25,7 +27,8 @@ public class FarmScraperService {
     private final FarmLeadRepository repository;
     private final EmailExtractor emailExtractor;
     private final DomainCrawler domainCrawler;
-    private final FarmSourceRepository farmSourceRepository; // 🆕 pamięć scrapowania domeny
+    private final FarmSourceRepository farmSourceRepository;
+    private final LeadFinderProperties leadFinderProperties;
 
     private static final String USER_AGENT =
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
@@ -33,9 +36,6 @@ public class FarmScraperService {
                     "Chrome/129.0.0.0 Safari/537.36";
 
     private static final String REFERRER = "https://www.google.com";
-
-    // 🆕 ile godzin musi minąć, żeby ponownie scrapować tę samą domenę
-    private static final int MIN_HOURS_BETWEEN_SCRAPES = 12;
 
     /**
      * High-level API: scrape the start URL and its Kontakt/Impressum/Contact pages.
@@ -135,12 +135,6 @@ public class FarmScraperService {
         return newFarmLeads;
     }
 
-    /**
-     * Czy email wygląda na sensowny lead dla danego gospodarstwa (startUrl)?
-     * - preferujemy maile z tej samej domeny (np. obsthof-xyz.de)
-     * - odrzucamy oczywiste śmieci (mysite.com, sentry.wixpress.com, itp.)
-     * - ewentualnie dopuszczamy prywatne domeny (gmail.com itd.)
-     */
     private boolean isRelevantEmailForDomain(String email, String startUrl) {
         String emailDomain = extractDomainFromEmail(email);
 
@@ -158,13 +152,11 @@ public class FarmScraperService {
             return false;
         }
 
-        // 1) Ten sam „base domain”: np. obsthof-wicke.de
         if (emailDomain.equalsIgnoreCase(siteBaseDomain) ||
                 emailDomain.endsWith("." + siteBaseDomain)) {
             return true;
         }
 
-        // 2) Popularne prywatne domeny – jeśli właściciel podał prywatny mail
         Set<String> allowedPersonalDomains = Set.of(
                 "gmail.com",
                 "gmx.de",
@@ -180,21 +172,15 @@ public class FarmScraperService {
             return true;
         }
 
-        // 3) Blacklista typowych śmieci
         Set<String> blacklistedDomains = Set.of(
-                // typowe templaty / testy
                 "mysite.com",
                 "example.com",
                 "test.com",
                 "localhost",
-
-                // wix / sentry techniczne
                 "wixpress.com",
                 "sentry.wixpress.com",
                 "sentry-next.wixpress.com",
                 "sentry.io",
-
-                // mailing / automaty – jeśli nie chcesz ich traktować jako leady
                 "mailchimp.com",
                 "sendgrid.net",
                 "sparkpostmail.com",
@@ -205,12 +191,10 @@ public class FarmScraperService {
             return false;
         }
 
-        // Domyślnie: nie bierzemy maili z innych domen (agencje, partnerzy itp.)
         return false;
     }
 
     private boolean looksLikeHexId(String localPart) {
-        // heksowe ID >= 16 znaków, tylko 0-9 a-f
         if (localPart == null || localPart.length() < 16) {
             return false;
         }
@@ -223,10 +207,6 @@ public class FarmScraperService {
         return email.substring(at + 1).toLowerCase();
     }
 
-    /**
-     * Bardzo prosta ekstrakcja base-domain z URL:
-     * np. https://www.obsthof-wicke.de/contact -> obsthof-wicke.de
-     */
     private String extractBaseDomainFromUrl(String url) {
         try {
             String host = new java.net.URI(url).getHost();
@@ -243,23 +223,27 @@ public class FarmScraperService {
     }
 
     /**
-     * 🆕 Sprawdza, czy scrapowanie tej domeny powinno być pominięte,
+     * Sprawdza, czy scrapowanie tej domeny powinno być pominięte,
      * bo było robione zbyt niedawno.
      */
     private boolean shouldSkipScraping(String domain) {
+        long minHoursBetweenScrapes = leadFinderProperties.getScraper().getMinHoursBetweenScrapes();
+
         return farmSourceRepository.findByDomain(domain)
                 .map(source -> {
                     LocalDateTime last = source.getLastScrapedAt();
                     if (last == null) {
                         return false;
                     }
-                    LocalDateTime threshold = LocalDateTime.now()
-                            .minusHours(MIN_HOURS_BETWEEN_SCRAPES);
+                    LocalDateTime now = LocalDateTime.now();
+                    LocalDateTime threshold = now.minusHours(minHoursBetweenScrapes);
+
                     boolean skip = last.isAfter(threshold);
                     if (skip) {
+                        long hoursSince = Duration.between(last, now).toHours();
                         log.info(
-                                "FarmScraperService: domain={} lastScrapedAt={} (threshold={}), skipping",
-                                domain, last, threshold
+                                "FarmScraperService: domain={} lastScrapedAt={}, {}h ago (< {}h), skipping",
+                                domain, last, hoursSince, minHoursBetweenScrapes
                         );
                     }
                     return skip;
@@ -268,7 +252,7 @@ public class FarmScraperService {
     }
 
     /**
-     * 🆕 Upsert last_scraped_at w farm_sources.
+     * Upsert last_scraped_at w farm_sources.
      */
     private void updateLastScrapedAt(String domain) {
         FarmSource source = farmSourceRepository.findByDomain(domain)
