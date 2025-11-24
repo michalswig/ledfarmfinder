@@ -53,7 +53,7 @@ public class DiscoveryService {
     /**
      * Znajdź kandydackie URLe gospodarstw:
      * 1) SerpAPI -> kilka stron SERP
-     * 2) filtr po domenie (BLOCKED_DOMAINS)
+     * 2) filtr po domenie (BLOCKED_DOMAINS + heurystyka looksLikeFarmDomain)
      * 3) filtr "już odkryte" (discovered_urls)
      * 4) OpenAI classifier (is_farm == true)
      * 5) zapis statystyk do discovery_run_stats
@@ -64,13 +64,13 @@ public class DiscoveryService {
         int resultsPerPage = leadFinderProperties.getDiscovery().getResultsPerPage();
         int maxPagesPerRun = leadFinderProperties.getDiscovery().getMaxPagesPerRun();
 
-        // 🆕 pobranie listy zapytań z configu + fallback
+        // pobranie listy zapytań z configu + fallback
         List<String> queries = leadFinderProperties.getDiscovery().getQueries();
         if (queries == null || queries.isEmpty()) {
             queries = List.of("Erdbeerhof Hofladen Niedersachsen");
         }
 
-        // 🆕 wybór aktualnego zapytania + rotacja indexu
+        // wybór aktualnego zapytania + rotacja indexu
         int currentQueryIndex = queryIndex;
         String query = queries.get(currentQueryIndex);
         queryIndex = (queryIndex + 1) % queries.size();
@@ -322,6 +322,59 @@ public class DiscoveryService {
             return false;
         }
 
+        // 🆕 heurystyka: odrzuć oczywiste domeny rządowe / statystyczne / organizacje
+        if (!looksLikeFarmDomain(domain)) {
+            log.info("DiscoveryService: dropping url={} (domain does not look farm-related: {})", url, domain);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Heurystyka: domena „wygląda” na coś związanego z farmami,
+     * albo przynajmniej NIE wygląda na ministerstwo/statystykę/NGO/portal.
+     *
+     * Uwaga: specjalnie jesteśmy bardziej liberalni – jeśli domena nie jest
+     * jednoznacznie „zła”, zwracamy true, żeby nie uciąć potencjalnych farm.
+     */
+    private boolean looksLikeFarmDomain(String domain) {
+        String d = domain.toLowerCase(Locale.ROOT);
+
+        // 1) natychmiastowe odrzucenie – ewidentnie nie-farmowe domeny
+        List<String> hardNegative = List.of(
+                "bundesregierung", "bundeskanzler", "bm", "bmel", "ministerium",
+                "regierung", "landtag", "verwaltung", "stadt-", "kreis-", "landkreis",
+                "destatis", "statistik", "statista",
+                "verbraucherzentrale", "verbraucherzentralen",
+                "nabu.", "wwf.", "greenpeace.",
+                "europa.eu", "ec.europa",
+                "hochschule", "universitaet", "uni-", "fh-",
+                "kammer", "handelskammer", "bauernverband",
+                "landwirtschaft-bw.de", "lwk-niedersachsen.de",
+                "ble.de", "bzfe.de"
+        );
+
+        for (String bad : hardNegative) {
+            if (d.contains(bad)) {
+                return false;
+            }
+        }
+
+        // 2) delikatny plus – domeny z „farmowymi” słowami kluczowymi
+        //    (na razie nie robimy z tego warunku, ale możesz użyć do logów / przyszłego score)
+        List<String> softPositive = List.of(
+                "hof", "hofladen", "obst", "gemuese", "gemüse", "erdbeer", "beeren",
+                "spargel", "bauern", "landwirtschaft", "bioland", "demeter", "biohof",
+                "weingut", "winzer", "obsthof"
+        );
+        boolean looksFarmy = softPositive.stream().anyMatch(d::contains);
+
+        if (looksFarmy) {
+            log.debug("DiscoveryService: domain={} looks farm-related by keyword heuristic", domain);
+        }
+
+        // 3) domyślnie: jeśli nie jest „twardo złe”, przepuszczamy
         return true;
     }
 
