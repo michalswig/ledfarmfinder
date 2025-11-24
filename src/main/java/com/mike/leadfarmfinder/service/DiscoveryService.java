@@ -47,6 +47,9 @@ public class DiscoveryService {
             "meinestadt.de"
     );
 
+    // 🆕 prosty in-memory index do rotacji zapytań
+    private int queryIndex = 0;
+
     /**
      * Znajdź kandydackie URLe gospodarstw:
      * 1) SerpAPI -> kilka stron SERP
@@ -58,22 +61,32 @@ public class DiscoveryService {
      */
     public List<String> findCandidateFarmUrls(int limit) {
 
-        // 🆕 wczytanie configu na początku metody
         int resultsPerPage = leadFinderProperties.getDiscovery().getResultsPerPage();
         int maxPagesPerRun = leadFinderProperties.getDiscovery().getMaxPagesPerRun();
 
-        String query = "Familiäre Landwirtschaft Gemüsebau Obstbau Deutschland";
+        // 🆕 pobranie listy zapytań z configu + fallback
+        List<String> queries = leadFinderProperties.getDiscovery().getQueries();
+        if (queries == null || queries.isEmpty()) {
+            queries = List.of("Erdbeerhof Hofladen Niedersachsen");
+        }
+
+        // 🆕 wybór aktualnego zapytania + rotacja indexu
+        int currentQueryIndex = queryIndex;
+        String query = queries.get(currentQueryIndex);
+        queryIndex = (queryIndex + 1) % queries.size();
+
         LocalDateTime startedAt = LocalDateTime.now();
 
-        log.info("DiscoveryService: searching farms for query='{}', limit={}, resultsPerPage={}, maxPagesPerRun={}",
-                query, limit, resultsPerPage, maxPagesPerRun);
+        log.info("DiscoveryService: searching farms for query='{}' (queryIndex={}), limit={}, resultsPerPage={}, maxPagesPerRun={}",
+                query, currentQueryIndex, limit, resultsPerPage, maxPagesPerRun);
 
         SerpQueryCursor cursor = loadOrCreateCursor(query);
         int startPage = cursor.getCurrentPage();
         int currentPage = startPage;
         int maxPage = cursor.getMaxPage();
 
-        log.info("DiscoveryService: starting SERP from page={} (maxPage={})", startPage, maxPage);
+        log.info("DiscoveryService: starting SERP from page={} (maxPage={}) for query='{}'",
+                startPage, maxPage, query);
 
         List<String> accepted = new ArrayList<>();
 
@@ -87,7 +100,8 @@ public class DiscoveryService {
         int errorsCount = 0;
 
         for (int i = 0; i < maxPagesPerRun && accepted.size() < limit; i++) {
-            log.info("DiscoveryService: fetching SERP page={} (runPageIndex={})", currentPage, i);
+            log.info("DiscoveryService: fetching SERP page={} (runPageIndex={}) for query='{}'",
+                    currentPage, i, query);
 
             List<String> rawUrls = serpApiService.searchUrls(query, resultsPerPage, currentPage);
             rawUrlsTotal += rawUrls.size();
@@ -139,7 +153,7 @@ public class DiscoveryService {
                     // zapis do discovered_urls – niezależnie, czy ACCEPT, czy REJECT
                     saveDiscoveredUrl(url, result);
 
-                    // nowa logika: akceptujemy KAŻDĄ prawdziwą farmę
+                    // akceptujemy KAŻDĄ prawdziwą farmę
                     if (result.isFarm()) {
 
                         String finalUrl = result.mainContactUrl() != null
@@ -214,13 +228,16 @@ public class DiscoveryService {
         discoveryRunStatsRepository.save(stats);
 
         log.info(
-                "DiscoveryService: returning {} accepted urls (startPage={}, endPage={}, pagesVisited={}, filteredAlreadyDiscovered={})",
-                distinctAccepted.size(), startPage, currentPage, pagesVisited, filteredAsAlreadyDiscovered
+                "DiscoveryService: returning {} accepted urls (query='{}', startPage={}, endPage={}, pagesVisited={}, filteredAlreadyDiscovered={})",
+                distinctAccepted.size(), query, startPage, currentPage, pagesVisited, filteredAsAlreadyDiscovered
         );
 
         return distinctAccepted;
     }
 
+    /**
+     * Ładuje istniejący kursor SERP dla danego query albo tworzy nowy.
+     */
     private SerpQueryCursor loadOrCreateCursor(String query) {
         return serpQueryCursorRepository.findByQuery(query)
                 .orElseGet(() -> {
@@ -235,6 +252,9 @@ public class DiscoveryService {
                 });
     }
 
+    /**
+     * Filtruje URLe, które już są w discovered_urls.
+     */
     private List<String> filterAlreadyDiscovered(List<String> urls) {
         List<String> result = urls.stream()
                 .filter(url -> {
@@ -252,6 +272,9 @@ public class DiscoveryService {
         return result;
     }
 
+    /**
+     * Upsert do discovered_urls po każdym wyniku klasyfikacji.
+     */
     private void saveDiscoveredUrl(String url, FarmClassificationResult result) {
         try {
             DiscoveredUrl entity = discoveredUrlRepository.findByUrl(url)
@@ -302,6 +325,11 @@ public class DiscoveryService {
         return true;
     }
 
+    /**
+     * Wyciąga domenę z URL-a:
+     * https://www.instagram.com/p/... -> instagram.com
+     * https://erdbeeren-hannover.de/jobs/ -> erdbeeren-hannover.de
+     */
     private String extractDomain(String url) {
         try {
             URI uri = new URI(url);
@@ -319,6 +347,9 @@ public class DiscoveryService {
         }
     }
 
+    /**
+     * Pobiera HTML strony i wyciąga max 2000 znaków widocznego tekstu.
+     */
     private String fetchTextSnippet(String url) {
         try {
             Document doc = Jsoup.connect(url)

@@ -3,6 +3,8 @@ package com.mike.leadfarmfinder.config;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.List;
+
 @Data
 @ConfigurationProperties(prefix = "leadfinder")
 public class LeadFinderProperties {
@@ -32,6 +34,8 @@ public class LeadFinderProperties {
          * (przyda się w LeadCronJob).
          */
         private int limitPerRun = 100;
+
+        private List<String> queries = List.of();
     }
 
     @Data
