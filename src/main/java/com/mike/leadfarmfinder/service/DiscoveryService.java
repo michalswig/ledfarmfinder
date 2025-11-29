@@ -32,6 +32,7 @@ public class DiscoveryService {
     private final LeadFinderProperties leadFinderProperties;
 
     // duże portale, social media, job-boardy – od razu odrzucamy
+// duże portale, social media, job-boardy – od razu odrzucamy
     private static final Set<String> BLOCKED_DOMAINS = Set.of(
             "indeed.com",
             "de.indeed.com",
@@ -44,18 +45,53 @@ public class DiscoveryService {
             "tiktok.com",
             "xing.com",
             "stepstone.de",
-            "meinestadt.de"
+            "meinestadt.de",
+            // duże sieci handlowe – nie nasze targety
+            "rewe.de",
+            "lidl.de",
+            "aldi.de",
+            "kaufland.de",
+            "edeka.de",
+            "netto-online.de"
     );
 
-    // 🆕 prosty in-memory index do rotacji zapytań
+
+    // słowa kluczowe pomocne do scoringu (LF-6.3)
+    private static final List<String> FARM_KEYWORDS = List.of(
+            "hof", "hofladen",
+            "obst", "gemuese", "gemüse",
+            "erdbeer", "beeren",
+            "spargel",
+            "bauern", "landwirtschaft",
+            "bioland", "demeter", "biohof",
+            "weingut", "winzer", "obsthof"
+    );
+
+    // oczywiste „nie-farmowe” konteksty
+    private static final List<String> HARD_NEGATIVE_KEYWORDS = List.of(
+            "bundesregierung", "bundeskanzler", "bm", "bmel", "ministerium",
+            "regierung", "landtag", "verwaltung", "stadt-", "kreis-", "landkreis",
+            "destatis", "statistik", "statista",
+            "verbraucherzentrale", "verbraucherzentralen",
+            "nabu.", "wwf.", "greenpeace.",
+            "europa.eu", "ec.europa",
+            "hochschule", "universitaet", "universität", "uni-", "fh-",
+            "kammer", "handelskammer", "bauernverband",
+            "landwirtschaft-bw.de", "lwk-niedersachsen.de",
+            "ble.de", "bzfe.de"
+    );
+
+    // prosty in-memory index do rotacji zapytań
     private int queryIndex = 0;
 
     /**
      * Znajdź kandydackie URLe gospodarstw:
-     * 1) SerpAPI -> kilka stron SERP
-     * 2) filtr po domenie (BLOCKED_DOMAINS + heurystyka looksLikeFarmDomain)
-     * 3) filtr "już odkryte" (discovered_urls)
-     * 4) OpenAI classifier (is_farm == true)
+     * 1) SerpAPI -> kilka stron SERP (z rotacją queries)
+     * 2) filtr po domenie (BLOCKED_DOMAINS + looksLikeFarmDomain)
+     * 3) REUSE discovered_urls:
+     *      - jeśli already farm -> ACCEPT bez OpenAI
+     *      - jeśli already not farm -> REJECT bez OpenAI
+     * 4) dla nowych: scoring domeny + OpenAI classifier (is_farm == true)
      * 5) zapis statystyk do discovery_run_stats
      * 6) zapis każdego sklasyfikowanego URL do discovered_urls
      */
@@ -77,8 +113,10 @@ public class DiscoveryService {
 
         LocalDateTime startedAt = LocalDateTime.now();
 
-        log.info("DiscoveryService: searching farms for query='{}' (queryIndex={}), limit={}, resultsPerPage={}, maxPagesPerRun={}",
-                query, currentQueryIndex, limit, resultsPerPage, maxPagesPerRun);
+        log.info(
+                "DiscoveryService: searching farms for query='{}' (queryIndex={}), limit={}, resultsPerPage={}, maxPagesPerRun={}",
+                query, currentQueryIndex, limit, resultsPerPage, maxPagesPerRun
+        );
 
         SerpQueryCursor cursor = loadOrCreateCursor(query);
         int startPage = cursor.getCurrentPage();
@@ -94,7 +132,7 @@ public class DiscoveryService {
         int pagesVisited = 0;
         int rawUrlsTotal = 0;
         int cleanedUrlsTotal = 0;
-        int filteredAsAlreadyDiscovered = 0;
+        int filteredAsAlreadyDiscovered = 0; // teraz znaczy: „obsłużone z discovered_urls (reuse)”
         int acceptedCount = 0;
         int rejectedCount = 0;
         int errorsCount = 0;
@@ -128,22 +166,74 @@ public class DiscoveryService {
 
             log.info("DiscoveryService: urls after domain filter (page={}) = {}", currentPage, cleaned.size());
 
-            // 2) filtr "już odkryte" w discovered_urls
-            List<String> newUrlsOnly = filterAlreadyDiscovered(cleaned);
-            filteredAsAlreadyDiscovered += (cleaned.size() - newUrlsOnly.size());
+            // 2) LF-6.4 – spróbuj REUSE discovered_urls:
+            //    - jeśli mamy wpis i isFarm=true -> ACCEPT bez OpenAI
+            //    - jeśli mamy wpis i isFarm=false -> REJECT bez OpenAI
+            //    - jeśli brak wpisu -> trafi do newUrlsOnly -> scoring + OpenAI
+            List<String> newUrlsOnly = new ArrayList<>();
 
-            log.info("DiscoveryService: urls after discovered filter (page={}) = {}", currentPage, newUrlsOnly.size());
-
-            // 3) OpenAI classifier na nowo odkrytych
-            for (String url : newUrlsOnly) {
+            for (String url : cleaned) {
                 if (accepted.size() >= limit) {
                     break;
                 }
 
+                Optional<DiscoveredUrl> existingOpt = discoveredUrlRepository.findByUrl(url);
+                if (existingOpt.isEmpty()) {
+                    newUrlsOnly.add(url);
+                    continue;
+                }
+
+                filteredAsAlreadyDiscovered++;
+
+                DiscoveredUrl existing = existingOpt.get();
+                boolean farm = Boolean.TRUE.equals(existing.isFarm());
+
+                if (farm) {
+                    // REUSE: znana farma – nie wołamy OpenAI
+                    accepted.add(url);
+                    acceptedCount++;
+                    log.info(
+                            "DiscoveryService: REUSED (FARM) url={} from discovered_urls, skipping OpenAI",
+                            url
+                    );
+                } else {
+                    // REUSE: znamy jako nie-farma – nie marnujemy OpenAI
+                    rejectedCount++;
+                    log.info(
+                            "DiscoveryService: REUSED (NOT FARM) url={} from discovered_urls, skipping OpenAI",
+                            url
+                    );
+                }
+            }
+
+            log.info("DiscoveryService: new urls for OpenAI after discovered filter (page={}) = {}",
+                    currentPage, newUrlsOnly.size());
+
+            // 3) LF-6.3 – policz score domeny i posortuj malejąco (tylko dla NOWYCH url-i)
+            List<ScoredUrl> scored = newUrlsOnly.stream()
+                    .map(url -> new ScoredUrl(url, computeDomainPriorityScore(url)))
+                    .sorted(Comparator.comparingInt(ScoredUrl::score).reversed())
+                    .toList();
+
+            log.info("DiscoveryService: scored {} NEW urls (top example: {})",
+                    scored.size(),
+                    scored.isEmpty() ? "none"
+                            : (scored.get(0).url() + " score=" + scored.get(0).score())
+            );
+
+            // 4) OpenAI classifier na posortowanych, NOWO odkrytych
+            for (ScoredUrl scoredUrl : scored) {
+                if (accepted.size() >= limit) {
+                    break;
+                }
+
+                String url = scoredUrl.url();
+
                 try {
                     String snippet = fetchTextSnippet(url);
                     if (snippet.isBlank()) {
-                        log.info("DiscoveryService: empty snippet for url={}, skipping", url);
+                        log.info("DiscoveryService: empty snippet for url={} (score={}), skipping",
+                                url, scoredUrl.score());
                         rejectedCount++; // traktujemy jako odrzucone
                         continue;
                     }
@@ -153,7 +243,6 @@ public class DiscoveryService {
                     // zapis do discovered_urls – niezależnie, czy ACCEPT, czy REJECT
                     saveDiscoveredUrl(url, result);
 
-                    // akceptujemy KAŻDĄ prawdziwą farmę
                     if (result.isFarm()) {
 
                         String finalUrl = result.mainContactUrl() != null
@@ -164,8 +253,9 @@ public class DiscoveryService {
                         acceptedCount++;
 
                         log.info(
-                                "DiscoveryService: ACCEPTED (FARM) url={} seasonalJobs={} reason={}",
+                                "DiscoveryService: ACCEPTED (FARM) url={} score={} seasonalJobs={} reason={}",
                                 finalUrl,
+                                scoredUrl.score(),
                                 result.isSeasonalJobs(),
                                 result.reason()
                         );
@@ -175,8 +265,9 @@ public class DiscoveryService {
                         rejectedCount++;
 
                         log.info(
-                                "DiscoveryService: REJECTED (NOT A FARM) url={} seasonalJobs={} reason={}",
+                                "DiscoveryService: REJECTED (NOT A FARM) url={} score={} seasonalJobs={} reason={}",
                                 url,
+                                scoredUrl.score(),
                                 result.isSeasonalJobs(),
                                 result.reason()
                         );
@@ -184,7 +275,8 @@ public class DiscoveryService {
 
                 } catch (Exception e) {
                     errorsCount++;
-                    log.warn("DiscoveryService: error for url={}: {}", url, e.getMessage());
+                    log.warn("DiscoveryService: error for url={} (score={}): {}",
+                            url, scoredUrl.score(), e.getMessage());
                 }
             }
 
@@ -228,8 +320,9 @@ public class DiscoveryService {
         discoveryRunStatsRepository.save(stats);
 
         log.info(
-                "DiscoveryService: returning {} accepted urls (query='{}', startPage={}, endPage={}, pagesVisited={}, filteredAlreadyDiscovered={})",
-                distinctAccepted.size(), query, startPage, currentPage, pagesVisited, filteredAsAlreadyDiscovered
+                "DiscoveryService: returning {} accepted urls (query='{}', startPage={}, endPage={}, pagesVisited={}, reusedFromDiscovered={}, distinctAccepted={})",
+                distinctAccepted.size(), query, startPage, currentPage, pagesVisited,
+                filteredAsAlreadyDiscovered, distinctAccepted.size()
         );
 
         return distinctAccepted;
@@ -250,26 +343,6 @@ public class DiscoveryService {
                     log.info("DiscoveryService: created new SERP cursor for query='{}'", query);
                     return saved;
                 });
-    }
-
-    /**
-     * Filtruje URLe, które już są w discovered_urls.
-     */
-    private List<String> filterAlreadyDiscovered(List<String> urls) {
-        List<String> result = urls.stream()
-                .filter(url -> {
-                    boolean exists = discoveredUrlRepository.existsByUrl(url);
-                    if (exists) {
-                        log.debug("DiscoveryService: skipping already discovered url={}", url);
-                    }
-                    return !exists;
-                })
-                .toList();
-
-        log.info("DiscoveryService: {} urls left after already-discovered filter (from {})",
-                result.size(), urls.size());
-
-        return result;
     }
 
     /**
@@ -322,7 +395,7 @@ public class DiscoveryService {
             return false;
         }
 
-        // 🆕 heurystyka: odrzuć oczywiste domeny rządowe / statystyczne / organizacje
+        // heurystyka: odrzuć oczywiste domeny rządowe / statystyczne / organizacje
         if (!looksLikeFarmDomain(domain)) {
             log.info("DiscoveryService: dropping url={} (domain does not look farm-related: {})", url, domain);
             return false;
@@ -334,41 +407,19 @@ public class DiscoveryService {
     /**
      * Heurystyka: domena „wygląda” na coś związanego z farmami,
      * albo przynajmniej NIE wygląda na ministerstwo/statystykę/NGO/portal.
-     *
-     * Uwaga: specjalnie jesteśmy bardziej liberalni – jeśli domena nie jest
-     * jednoznacznie „zła”, zwracamy true, żeby nie uciąć potencjalnych farm.
      */
     private boolean looksLikeFarmDomain(String domain) {
         String d = domain.toLowerCase(Locale.ROOT);
 
         // 1) natychmiastowe odrzucenie – ewidentnie nie-farmowe domeny
-        List<String> hardNegative = List.of(
-                "bundesregierung", "bundeskanzler", "bm", "bmel", "ministerium",
-                "regierung", "landtag", "verwaltung", "stadt-", "kreis-", "landkreis",
-                "destatis", "statistik", "statista",
-                "verbraucherzentrale", "verbraucherzentralen",
-                "nabu.", "wwf.", "greenpeace.",
-                "europa.eu", "ec.europa",
-                "hochschule", "universitaet", "uni-", "fh-",
-                "kammer", "handelskammer", "bauernverband",
-                "landwirtschaft-bw.de", "lwk-niedersachsen.de",
-                "ble.de", "bzfe.de"
-        );
-
-        for (String bad : hardNegative) {
+        for (String bad : HARD_NEGATIVE_KEYWORDS) {
             if (d.contains(bad)) {
                 return false;
             }
         }
 
         // 2) delikatny plus – domeny z „farmowymi” słowami kluczowymi
-        //    (na razie nie robimy z tego warunku, ale możesz użyć do logów / przyszłego score)
-        List<String> softPositive = List.of(
-                "hof", "hofladen", "obst", "gemuese", "gemüse", "erdbeer", "beeren",
-                "spargel", "bauern", "landwirtschaft", "bioland", "demeter", "biohof",
-                "weingut", "winzer", "obsthof"
-        );
-        boolean looksFarmy = softPositive.stream().anyMatch(d::contains);
+        boolean looksFarmy = FARM_KEYWORDS.stream().anyMatch(d::contains);
 
         if (looksFarmy) {
             log.debug("DiscoveryService: domain={} looks farm-related by keyword heuristic", domain);
@@ -376,6 +427,56 @@ public class DiscoveryService {
 
         // 3) domyślnie: jeśli nie jest „twardo złe”, przepuszczamy
         return true;
+    }
+
+    /**
+     * LF-6.3 – oblicza priorytet domeny na podstawie heurystyk.
+     * Im wyższy score, tym wcześniej URL idzie do OpenAI.
+     */
+    private int computeDomainPriorityScore(String url) {
+        String domain = extractDomain(url);
+        if (domain == null) {
+            return 0;
+        }
+
+        String d = domain.toLowerCase(Locale.ROOT);
+        int score = 0;
+
+        // +20 za każde „farmowe” słowo kluczowe
+        for (String kw : FARM_KEYWORDS) {
+            if (d.contains(kw)) {
+                score += 20;
+            }
+        }
+
+        // +10 za domenę .de (lokalność)
+        if (d.endsWith(".de")) {
+            score += 10;
+        }
+
+        // -20 za każdy hard negative (gdyby się przedarł)
+        for (String bad : HARD_NEGATIVE_KEYWORDS) {
+            if (d.contains(bad)) {
+                score -= 20;
+            }
+        }
+
+        // małe bonusy / kary za długość i "dziwność" domeny
+        if (d.length() <= 15) {
+            score += 5; // krótsze, często brandowe
+        }
+
+        if (d.contains("shop") || d.contains("markt") || d.contains("portal")) {
+            score -= 5; // sklepy / portale – niekoniecznie gospodarstwo
+        }
+
+        return score;
+    }
+
+    /**
+     * Prosty record na potrzeby scoringu.
+     */
+    private record ScoredUrl(String url, int score) {
     }
 
     /**

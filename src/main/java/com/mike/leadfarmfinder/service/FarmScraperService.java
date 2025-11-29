@@ -11,8 +11,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -108,7 +108,7 @@ public class FarmScraperService {
 
                 String lowerCasePageEmail = pageEmail.toLowerCase();
                 if (knownEmails.contains(lowerCasePageEmail)) {
-                    log.info("Found farm lead with email '{}'", pageEmail);
+                    log.info("Email '{}' already exists, skipping", pageEmail);
                     continue;
                 }
 
@@ -135,15 +135,21 @@ public class FarmScraperService {
         return newFarmLeads;
     }
 
+    /**
+     * Czy email wygląda na sensowny lead dla danego gospodarstwa (startUrl)?
+     * - preferujemy maile z tej samej domeny (np. obsthof-xyz.de)
+     * - dopuszczamy prywatne domeny (gmail.com, gmx.de, mail.de, freenet.de, posteo.de, itp.)
+     * - odrzucamy oczywiste śmieci / techniczne domeny
+     */
     private boolean isRelevantEmailForDomain(String email, String startUrl) {
         String emailDomain = extractDomainFromEmail(email);
-
-        String localPart = email.substring(0, email.indexOf('@'));
-        if (looksLikeHexId(localPart)) {
+        if (emailDomain == null) {
             return false;
         }
 
-        if (emailDomain == null) {
+        String localPart = email.substring(0, email.indexOf('@'));
+        if (looksLikeHexId(localPart)) {
+            // np. techniczne ID typu "a3f4b8c9d0e1f2a3" – to zwykle nie jest lead
             return false;
         }
 
@@ -152,11 +158,13 @@ public class FarmScraperService {
             return false;
         }
 
+        // 1) Ten sam „base domain”: np. obsthof-wicke.de
         if (emailDomain.equalsIgnoreCase(siteBaseDomain) ||
                 emailDomain.endsWith("." + siteBaseDomain)) {
             return true;
         }
 
+        // 2) Popularne prywatne domeny – bardzo częste na małych rodzinnych gospodarstwach
         Set<String> allowedPersonalDomains = Set.of(
                 "gmail.com",
                 "gmx.de",
@@ -166,21 +174,31 @@ public class FarmScraperService {
                 "hotmail.com",
                 "yahoo.de",
                 "yahoo.com",
-                "aol.com"
+                "aol.com",
+                // typowe niemieckie prywatne
+                "mail.de",
+                "freenet.de",
+                "posteo.de"
         );
         if (allowedPersonalDomains.contains(emailDomain.toLowerCase())) {
             return true;
         }
 
+        // 3) Blacklista typowych śmieci / technicznych domen
         Set<String> blacklistedDomains = Set.of(
+                // typowe templaty / testy
                 "mysite.com",
                 "example.com",
                 "test.com",
                 "localhost",
+
+                // wix / sentry techniczne
                 "wixpress.com",
                 "sentry.wixpress.com",
                 "sentry-next.wixpress.com",
                 "sentry.io",
+
+                // mailing / automaty – jeśli nie chcesz ich traktować jako leady
                 "mailchimp.com",
                 "sendgrid.net",
                 "sparkpostmail.com",
@@ -191,6 +209,7 @@ public class FarmScraperService {
             return false;
         }
 
+        // 4) Domyślnie: nie bierzemy maili z innych domen (agencje, portale, vendorzy)
         return false;
     }
 
@@ -207,6 +226,10 @@ public class FarmScraperService {
         return email.substring(at + 1).toLowerCase();
     }
 
+    /**
+     * Bardzo prosta ekstrakcja base-domain z URL:
+     * np. https://www.obsthof-wicke.de/contact -> obsthof-wicke.de
+     */
     private String extractBaseDomainFromUrl(String url) {
         try {
             String host = new java.net.URI(url).getHost();
@@ -225,6 +248,7 @@ public class FarmScraperService {
     /**
      * Sprawdza, czy scrapowanie tej domeny powinno być pominięte,
      * bo było robione zbyt niedawno.
+     * Używa configu: leadfinder.scraper.min-hours-between-scrapes.
      */
     private boolean shouldSkipScraping(String domain) {
         long minHoursBetweenScrapes = leadFinderProperties.getScraper().getMinHoursBetweenScrapes();
