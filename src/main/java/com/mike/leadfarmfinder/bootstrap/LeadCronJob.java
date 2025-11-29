@@ -17,7 +17,7 @@ public class LeadCronJob {
     private final DiscoveryService discoveryService;
     private final FarmScraperService farmScraperService;
 
-    @Scheduled(fixedRate = 300_000)
+    @Scheduled(fixedRate = 600_000)
     public void runHourlyCronJob() {
 
         log.info("LeadCronJob: started at {}", LocalDateTime.now());

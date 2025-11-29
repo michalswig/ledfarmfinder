@@ -28,7 +28,7 @@ public class OpenAiFarmClassifier {
                   asparagus, berries, apples, Christmas trees, etc.).
                 
                 IMPORTANT RULES:
-                - Regional newspapers, news portals, magazines, blogs — even if they have job
+                - Regional newspapers, news portals, magazines, blogs, tourist organizations, campsites — even if they have job
                   advertisements in agriculture — are NOT farms. Always treat them as is_farm = false.”
                 - If the URL domain is a large job portal, social network or generic site
                   (for example: indeed.com, stepstone.de, meinestadt.de, facebook.com,

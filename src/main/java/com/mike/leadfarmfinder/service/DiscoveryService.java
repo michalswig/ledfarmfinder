@@ -32,7 +32,6 @@ public class DiscoveryService {
     private final LeadFinderProperties leadFinderProperties;
 
     // duże portale, social media, job-boardy – od razu odrzucamy
-// duże portale, social media, job-boardy – od razu odrzucamy
     private static final Set<String> BLOCKED_DOMAINS = Set.of(
             "indeed.com",
             "de.indeed.com",
@@ -45,16 +44,8 @@ public class DiscoveryService {
             "tiktok.com",
             "xing.com",
             "stepstone.de",
-            "meinestadt.de",
-            // duże sieci handlowe – nie nasze targety
-            "rewe.de",
-            "lidl.de",
-            "aldi.de",
-            "kaufland.de",
-            "edeka.de",
-            "netto-online.de"
+            "meinestadt.de"
     );
-
 
     // słowa kluczowe pomocne do scoringu (LF-6.3)
     private static final List<String> FARM_KEYWORDS = List.of(
@@ -232,10 +223,12 @@ public class DiscoveryService {
                 try {
                     String snippet = fetchTextSnippet(url);
                     if (snippet.isBlank()) {
-                        log.info("DiscoveryService: empty snippet for url={} (score={}), skipping",
-                                url, scoredUrl.score());
-                        rejectedCount++; // traktujemy jako odrzucone
-                        continue;
+                        // 🔁 ZMIANA: nie odrzucamy, tylko używamy URL jako minimalnego kontekstu
+                        log.info(
+                                "DiscoveryService: empty snippet for url={} (score={}), using URL as fallback snippet",
+                                url, scoredUrl.score()
+                        );
+                        snippet = url;
                     }
 
                     FarmClassificationResult result = farmClassifier.classifyFarm(url, snippet);
