@@ -9,4 +9,5 @@ public interface FarmLeadRepository extends JpaRepository<FarmLead,Integer> {
     boolean existsByEmailIgnoreCase(String email);
     Optional<FarmLead> findByEmailIgnoreCase(String email);
     Optional<FarmLead> findByUnsubscribeToken(String unsubscribeToken);
+    Optional<FarmLead> findFirstByActiveTrueAndBounceFalseAndFirstEmailSentAtIsNullOrderByCreatedAtAsc();
 }

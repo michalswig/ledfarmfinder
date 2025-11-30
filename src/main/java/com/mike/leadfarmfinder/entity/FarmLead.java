@@ -33,6 +33,8 @@ public class FarmLead {
 
     private LocalDateTime lastEmailSentAt;
 
+    private boolean bounce;
+
     @PrePersist
     void prePersist() {
         if (createdAt == null) {

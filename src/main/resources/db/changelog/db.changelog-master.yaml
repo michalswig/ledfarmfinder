@@ -304,3 +304,15 @@ databaseChangeLog:
               - column:
                   name: last_scraped_at
                   type: TIMESTAMP
+
+  - changeSet:
+      id: 5-2-add-bounce-column
+      author: you
+      changes:
+        - addColumn:
+            tableName: farm_leads
+            columns:
+              - column:
+                  name: bounce
+                  type: BOOLEAN
+                  defaultValueBoolean: false
