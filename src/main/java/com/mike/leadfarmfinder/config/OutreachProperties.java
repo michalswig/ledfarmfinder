@@ -31,4 +31,10 @@ public class OutreachProperties {
      * (LF-5.3 wykorzystamy do batchingu).
      */
     private int maxEmailsPerRun = 20;
+
+    /**
+     * Template treści pierwszego maila.
+     * Możesz używać placeholderów typu {{UNSUBSCRIBE_URL}}.
+     */
+    private String firstEmailBodyTemplate;
 }

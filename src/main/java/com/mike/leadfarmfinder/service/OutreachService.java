@@ -5,9 +5,12 @@ import com.mike.leadfarmfinder.entity.FarmLead;
 import com.mike.leadfarmfinder.repository.FarmLeadRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -16,6 +19,9 @@ public class OutreachService {
 
     private final OutreachProperties outreachProperties;
     private final FarmLeadRepository farmLeadRepository;
+
+    @Value("${app.outreach.unsubscribe-base-url:}")
+    private String unsubscribeBaseUrl;
 
     public void sendFirstEmail(FarmLead lead) {
         if (!outreachProperties.isEnabled()) {
@@ -44,7 +50,20 @@ public class OutreachService {
         String from = outreachProperties.getFromAddress();
         String to = lead.getEmail();
         String subject = outreachProperties.getDefaultSubject();
-        String body = buildEmailBody();
+
+        // --- KONTEKST DO TEMPLATA ---
+        Map<String, String> vars = new HashMap<>();
+        vars.put("EMAIL", lead.getEmail());
+
+        String unsubscribeUrl = "";
+        if (unsubscribeBaseUrl != null && !unsubscribeBaseUrl.isBlank()
+                && lead.getUnsubscribeToken() != null && !lead.getUnsubscribeToken().isBlank()) {
+            unsubscribeUrl = unsubscribeBaseUrl + lead.getUnsubscribeToken();
+        }
+        vars.put("UNSUBSCRIBE_URL", unsubscribeUrl);
+
+        String template = outreachProperties.getFirstEmailBodyTemplate();
+        String body = renderTemplate(template, vars);
 
         // NA RAZIE: tylko log
         log.info("=== OUTREACH EMAIL PREVIEW ===");
@@ -54,9 +73,8 @@ public class OutreachService {
         log.info("Body:\n{}", body);
         log.info("=== END OUTREACH EMAIL PREVIEW ===");
 
-        // >>> LF-5.2: aktualizacja pól w leadzie (symulujemy „wysłano”)
+        // update timestampów jak w 5.2
         LocalDateTime now = LocalDateTime.now();
-
         if (lead.getFirstEmailSentAt() == null) {
             lead.setFirstEmailSentAt(now);
         }
@@ -65,18 +83,16 @@ public class OutreachService {
         farmLeadRepository.save(lead);
     }
 
-    private String buildEmailBody() {
-        return """
-                Guten Tag,
-
-                wir unterstützen landwirtschaftliche Betriebe in Deutschland
-                bei der Gewinnung von zuverlässigen Saisonarbeitskräften aus Polen.
-
-                Wenn Sie in der kommenden Saison zusätzliche Hände brauchen,
-                können wir Sie gerne unterstützen.
-
-                Mit freundlichen Grüßen
-                LeadFarmFinder
-                """;
+    private String renderTemplate(String template, Map<String, String> variables) {
+        if (template == null) {
+            return "";
+        }
+        String result = template;
+        for (var entry : variables.entrySet()) {
+            String placeholder = "{{" + entry.getKey() + "}}";
+            String value = entry.getValue() != null ? entry.getValue() : "";
+            result = result.replace(placeholder, value);
+        }
+        return result;
     }
 }
