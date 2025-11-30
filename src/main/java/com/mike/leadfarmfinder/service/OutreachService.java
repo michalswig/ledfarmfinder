@@ -1,9 +1,9 @@
 package com.mike.leadfarmfinder.service;
 
+import com.mike.leadfarmfinder.config.OutreachProperties;
 import com.mike.leadfarmfinder.entity.FarmLead;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -11,13 +11,19 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class OutreachService {
 
-    @Value("${app.outreach.unsubscribe-base-url}")
-    private String unsubscribeBaseurl;
-    @Value("${app.outreach.from}")
-    private String fromAddress;
-    // docelowo wstrzykniemy JavaMailSender, na razie tylko logi
+    private final OutreachProperties outreachProperties;
 
-    public void sendInitialEmail(FarmLead lead) {
+    // TODO LF-5.6: wstrzykniemy tu jeszcze unsubscribeBaseUrl i dodamy link
+
+    public void sendFirstEmail(FarmLead lead) {
+        if (!outreachProperties.isEnabled()) {
+            log.info("OutreachService: outreach disabled, skipping (leadId={}, email={})",
+                    lead != null ? lead.getId() : null,
+                    lead != null ? lead.getEmail() : null
+            );
+            return;
+        }
+
         if (lead == null) {
             log.warn("OutreachService: lead is null, skipping");
             return;
@@ -28,36 +34,32 @@ public class OutreachService {
             return;
         }
 
-        if (lead.getUnsubscribeToken() == null) {
-            log.warn("OutreachService: lead {} has no unsubscribe token, skipping", lead.getEmail());
-            return;
-        }
+        String from = outreachProperties.getFromAddress();
+        String to = lead.getEmail();
+        String subject = outreachProperties.getDefaultSubject();
 
-        String unsubscribeLink = unsubscribeBaseurl + lead.getUnsubscribeToken();
-        String body = buildEmailBody(unsubscribeLink);
+        String body = buildEmailBody(); // na razie bez unsubscribe linka
 
-        // NA RAZIE TYLKO LOGUJEMY:
         log.info("=== OUTREACH EMAIL PREVIEW ===");
-        log.info("From: {}", fromAddress);
-        log.info("To: {}", lead.getEmail());
-        log.info("Subject: {}", "Seasonal workers for your farm");
+        log.info("From: {}", from);
+        log.info("To: {}", to);
+        log.info("Subject: {}", subject);
         log.info("Body:\n{}", body);
         log.info("=== END OUTREACH EMAIL PREVIEW ===");
     }
 
-    private String buildEmailBody(String unsubscribeLink) {
+    private String buildEmailBody() {
         return """
                 Guten Tag,
 
-                wir unterstützen landwirtschaftliche Betriebe in Deutschland bei der Gewinnung von zuverlässigen Saisonarbeitskräften aus Polen.
+                wir unterstützen landwirtschaftliche Betriebe in Deutschland
+                bei der Gewinnung von zuverlässigen Saisonarbeitskräften aus Polen.
 
-                Wenn Sie in der kommenden Saison zusätzliche Hände brauchen, können wir Sie gerne unterstützen.
-
-                Wenn Sie kein Interesse haben, klicken Sie bitte auf den folgenden Link, um keine weiteren Nachrichten zu erhalten:
-                %s
+                Wenn Sie in der kommenden Saison zusätzliche Hände brauchen,
+                können wir Sie gerne unterstützen.
 
                 Mit freundlichen Grüßen
                 LeadFarmFinder
-                """.formatted(unsubscribeLink);
+                """;
     }
 }
