@@ -6,8 +6,11 @@ import com.mike.leadfarmfinder.repository.FarmLeadRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import jakarta.mail.internet.MimeMessage;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +22,7 @@ public class OutreachService {
 
     private final OutreachProperties outreachProperties;
     private final FarmLeadRepository farmLeadRepository;
+    private final JavaMailSender mailSender;   // NEW
 
     @Value("${app.outreach.unsubscribe-base-url:}")
     private String unsubscribeBaseUrl;
@@ -51,7 +55,7 @@ public class OutreachService {
         String to = lead.getEmail();
         String subject = outreachProperties.getDefaultSubject();
 
-        // --- KONTEKST DO TEMPLATA ---
+        // 🔁 template + placeholdery
         Map<String, String> vars = new HashMap<>();
         vars.put("EMAIL", lead.getEmail());
 
@@ -65,7 +69,7 @@ public class OutreachService {
         String template = outreachProperties.getFirstEmailBodyTemplate();
         String body = renderTemplate(template, vars);
 
-        // NA RAZIE: tylko log
+        // 🧪 1) Zawsze logujemy preview (żeby widzieć co idzie)
         log.info("=== OUTREACH EMAIL PREVIEW ===");
         log.info("From: {}", from);
         log.info("To: {}", to);
@@ -73,7 +77,21 @@ public class OutreachService {
         log.info("Body:\n{}", body);
         log.info("=== END OUTREACH EMAIL PREVIEW ===");
 
-        // update timestampów jak w 5.2
+        // 📨 2) Decyzja: wysyłamy naprawdę czy tylko symulacja?
+        if (outreachProperties.isSimulateOnly()) {
+            log.info("OutreachService: simulate-only=true, skipping real SMTP send");
+        } else {
+            try {
+                sendViaSmtp(from, to, subject, body);
+                log.info("OutreachService: email sent successfully to {}", to);
+            } catch (Exception e) {
+                log.warn("OutreachService: FAILED to send email to {}: {}", to, e.getMessage());
+                // UWAGA: tutaj na razie NIE ustawiamy bounce – to będzie osobny krok.
+                return; // nie zapisuj firstEmailSentAt, skoro wysyłka się wywaliła
+            }
+        }
+
+        // ✅ 3) Aktualizacja timestampów TYLKO gdy "wysłane" (realnie lub symulacja)
         LocalDateTime now = LocalDateTime.now();
         if (lead.getFirstEmailSentAt() == null) {
             lead.setFirstEmailSentAt(now);
@@ -81,6 +99,18 @@ public class OutreachService {
         lead.setLastEmailSentAt(now);
 
         farmLeadRepository.save(lead);
+    }
+
+    private void sendViaSmtp(String from, String to, String subject, String body) throws Exception {
+        MimeMessage message = mailSender.createMimeMessage();
+
+        MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
+        helper.setFrom(from);
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(body, false); // false = plain text
+
+        mailSender.send(message);
     }
 
     private String renderTemplate(String template, Map<String, String> variables) {

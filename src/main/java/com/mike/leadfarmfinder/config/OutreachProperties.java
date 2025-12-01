@@ -37,4 +37,10 @@ public class OutreachProperties {
      * Możesz używać placeholderów typu {{UNSUBSCRIBE_URL}}.
      */
     private String firstEmailBodyTemplate;
+
+    /**
+     * Jeśli true – nie wysyłamy realnych maili, tylko logujemy.
+     * Na produkcji ustawisz false.
+     */
+    private boolean simulateOnly = true;
 }

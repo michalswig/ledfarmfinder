@@ -1,7 +1,4 @@
 spring:
-  application:
-    name: leadfarmfinder
-
   datasource:
     url: jdbc:postgresql://localhost:5432/farms
     username: postgres
@@ -17,19 +14,19 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
   mail:
-    host: localhost
-    port: 1025
-    username:
-    password:
+    host: hosting2078033.online.pro   # SMTP z panelu
+    port: 587                         # zwykle TLS na 587
+    username: office@o1jobs.de        # pełny login skrzynki
+    password: uD7xzUh17A # <-- TU WSTAW PRAWDZIWE HASŁO
     properties:
-      mail.smtp.auth: false
-      mail.smtp.starttls.enable: false
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.debug: true                # na razie włącz, zobaczysz handshake SMTP w logach
 
-# Cron switches
+# Cron switches – w prod chcesz mieć oba na true
 leadcron:
   enabled: false
 
-# Outreach (EPIC 5)
 leadfinder:
   outreach:
     enabled: true
@@ -37,7 +34,7 @@ leadfinder:
     default-subject: "Polnische Mitarbeiter – sofort verfügbar und zuverlässig"
     max-emails-per-run: 20
     simulate-only: false
-    # TEMPLATE: pierwszy email (UTF-8, bez \n)
+
     first-email-body-template: |
       Guten Tag,
 
@@ -123,18 +120,53 @@ leadfinder:
       - Bauernhof Viehzucht kleiner Betrieb NRW
       - Milchviehbetrieb Familienbetrieb Niedersachsen
 
-# Unsubscribe link
+      # ---- Nowe dodatkowe zapytania NRW ----
+      - Erdbeerhof kleiner Betrieb Nordrhein Westfalen
+      - Himbeerhof Familienbetrieb NRW
+      - Beerenhof kleiner Hof Nordrhein Westfalen
+      - Obsthof kleiner Familienbetrieb NRW
+      - Apfelhof Saisonarbeit Nordrhein Westfalen
+      - Streuobsthof kleiner Hof NRW
+      - Beerenplantage Familienbetrieb Nordrhein Westfalen
+      - Erdbeerhof Saisonarbeiter gesucht NRW
+
+      - Gemüsehof kleiner Familienbetrieb Nordrhein Westfalen
+      - Gemüsebau kleiner Betrieb NRW
+      - Kartoffelhof Familienbetrieb Nordrhein Westfalen
+      - Salatanbau kleiner Hof NRW
+      - Gemüsehof Erntehelfer gesucht Nordrhein Westfalen
+      - Spargelhof kleiner Betrieb NRW
+      - Spargelhof Saisonarbeit Nordrhein Westfalen
+
+      - Ackerbau Familienbetrieb NRW
+      - Bauernhof Getreideanbau kleiner Betrieb Nordrhein Westfalen
+      - Hofbetrieb Ackerbau NRW klein
+      - Getreidehof kleiner Familienbetrieb Nordrhein Westfalen
+
+      - Milchviehbetrieb kleiner Hof NRW
+      - Rinderhof Familienbetrieb Nordrhein Westfalen
+      - Bauernhof Viehzucht kleiner Familienbetrieb NRW
+      - Hofladen Milchprodukte Familienbetrieb NRW
+
+      - Weihnachtsbaumhof Familienbetrieb Nordrhein Westfalen
+      - Tannenhof kleiner Betrieb NRW
+      - Weihnachtsbaumplantage kleiner Hof Nordrhein Westfalen
+      - Tannenbaumverkauf Familienbetrieb NRW
+
+      - Kleiner Bauernhof Familienbetrieb Nordrhein Westfalen
+      - Bauernhof Hofladen kleiner Betrieb NRW
+      - Landwirtschaftlicher Betrieb kleiner Hof NRW
+      - Hofbetrieb Saisonarbeit Nordrhein Westfalen
+
 app:
   outreach:
     unsubscribe-base-url: "http://localhost:8080/api/leads/unsubscribe?token="
 
-# OpenAI
 openai:
   api-key: ${OPENAI_API_KEY}
   base-url: https://api.openai.com/v1
   model: gpt-4.1-mini
 
-# SerpAPI
 serpapi:
   api-key: ${SERPAPI_API_KEY}
   base-url: https://serpapi.com/search
