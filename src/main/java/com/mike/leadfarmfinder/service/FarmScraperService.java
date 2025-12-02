@@ -5,6 +5,7 @@ import com.mike.leadfarmfinder.entity.FarmLead;
 import com.mike.leadfarmfinder.entity.FarmSource;
 import com.mike.leadfarmfinder.repository.FarmLeadRepository;
 import com.mike.leadfarmfinder.repository.FarmSourceRepository;
+import com.mike.leadfarmfinder.util.TokenGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -119,7 +120,7 @@ public class FarmScraperService {
                         .sourceUrl(url)
                         .createdAt(LocalDateTime.now())
                         .active(true)
-                        .unsubscribeToken(UUID.randomUUID().toString())
+                        .unsubscribeToken(TokenGenerator.generateShortToken())
                         .build();
 
                 repository.save(farmLead);

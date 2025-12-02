@@ -1,5 +1,6 @@
 package com.mike.leadfarmfinder.entity;
 
+import com.mike.leadfarmfinder.util.TokenGenerator;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -40,9 +41,11 @@ public class FarmLead {
         if (createdAt == null) {
             createdAt = LocalDateTime.now();
         }
-        // na wszelki wypadek
         if (!active) {
             active = true;
+        }
+        if (unsubscribeToken == null || unsubscribeToken.isBlank()) {
+            unsubscribeToken = TokenGenerator.generateShortToken();
         }
     }
 }

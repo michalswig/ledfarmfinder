@@ -165,7 +165,8 @@ leadfinder:
 
 app:
   outreach:
-    unsubscribe-base-url: "http://localhost:8080/api/leads/unsubscribe?token="
+    unsubscribe-base-url: "http://localhost:8080/unsubscribe/"
+
 
 openai:
   api-key: ${OPENAI_API_KEY}
