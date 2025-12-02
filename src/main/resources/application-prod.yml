@@ -31,37 +31,42 @@ leadfinder:
   outreach:
     enabled: true
     from-address: office@o1jobs.de
-    default-subject: "Polnische Mitarbeiter – sofort verfügbar und zuverlässig"
+    default-subject: "Zuverlässige polnische Arbeitskräfte – kurzfristig verfügbar"
     max-emails-per-run: 20
     simulate-only: false
 
     first-email-body-template: |
-      Guten Tag,
-
-      wir möchten Ihnen unser Angebot zur Vermittlung zuverlässiger und erfahrener Arbeitskräfte aus Polen vorstellen.
-      Wir sind eine kleine, aber erfahrene Personalvermittlungsagentur mit Sitz in Polen und haben uns auf die Vermittlung von polnischen Erntehelfern, Hilfsarbeitern und Saisonkräften in ganz Deutschland spezialisiert.
-      Täglich melden sich zahlreiche motivierte Bewerber bei uns, die bereit sind, kurzfristig oder langfristig in Deutschland zu arbeiten.
-      In unserer Datenbank befinden sich viele geprüfte und einsatzbereite Kandidaten mit Berufserfahrung – darunter auch Personen mit Deutsch- oder Englischkenntnissen sowie Führerscheinen der Klasse B oder T.
+      Guten Tag
+  
+      Wir vermitteln zuverlässige Arbeitskräfte aus Polen für die Landwirtschaft und ähnliche Bereiche.
+      Wir sind eine kleine Agentur aus Polen und arbeiten schnell, unkompliziert und ohne viel Bürokratie.
+  
+      Viele Kandidaten sind kurzfristig einsatzbereit, die meisten mit Erfahrung – einige auch mit Deutsch- oder Englischkenntnissen.
 
       Unsere Vermittlungskonditionen (einmalige Provision):
-      - 280 € pro Mitarbeiter – Erntehelfer / landwirtschaftliche Helfer
-      - 320 € pro Mitarbeiter – Tierpfleger / Melker
-      - 400 € pro Mitarbeiter – Hilfsarbeiter in Bereichen wie Bau, Reinigung, Produktion, Service, Gartenarbeit, Verpackung/Sortierung
+        • 280 Euro- Erntehelfer / landwirtschaftliche Helfer
+        • 320 Euro-Tierpfleger / zB.Melker
+        • 400 Euro- Hilfsarbeiter (Bau, Reinigung, Produktion, Gartenarbeit, Sortierung)
 
       Ablauf der Vermittlung:
-      1. Sie erhalten von uns einen Vermittlungsvertrag sowie ein kurzes Formular zur Stellenbeschreibung.
-      2. Nach Eingang der Beschreibung senden wir Ihnen innerhalb weniger Tage passende Kandidatenprofile.
-      3. Sobald Sie sich für bestimmte Personen entscheiden, organisieren wir deren Anreise.
-      4. Eine Unterkunft sollte von Ihrer Seite gestellt werden.
+        • Sie erhalten von uns einen kurzen Vermittlungsvertrag und eine Stellenbeschreibung (Folmular)
+        • Danach senden wir Ihnen passende Kandidatenprofile innerhalb weniger Tage zu.
+        • Nach der Bestätigung eines Kandidaten organisieren wir die Anreise zum gewünschten Termin.
+        • Die Unterkunft muss vorhanden sein.
 
+      Wichtig: Sie sind der Arbeitgeber. Wir sind ausschließlich Vermittler, keine Zeitarbeitsfirma.
+      
+      Bei Rückfragen stehe ich gerne zur Verfügung.
+      
       Falls Sie kein Interesse haben, können Sie sich über den folgenden Link abmelden:
-      {{UNSUBSCRIBE_URL}}
-
+      {{UNSUBSCRIBE_URL}}      
+      
       Mit freundlichen Grüßen
       Patrycja Swigost
+      o1jobs
+      Telefon: +49 160 6328144
+      E-Mail: office@o1jobs.de
       www.o1jobs.de
-      +49 160 6328144
-      office@o1jobs.de
 
   scraper:
     min-hours-between-scrapes: 12
