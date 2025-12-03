@@ -43,4 +43,15 @@ public class OutreachProperties {
      * Na produkcji ustawisz false.
      */
     private boolean simulateOnly = true;
+
+    private long delayBetweenEmailsMillis = 0L;
+
+    public long getDelayBetweenEmailsMillis() {
+        return delayBetweenEmailsMillis;
+    }
+
+    public void setDelayBetweenEmailsMillis(long delayBetweenEmailsMillis) {
+        this.delayBetweenEmailsMillis = delayBetweenEmailsMillis;
+    }
+
 }

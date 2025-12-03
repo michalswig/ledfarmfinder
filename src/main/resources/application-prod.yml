@@ -26,6 +26,8 @@ spring:
 # Cron switches – w prod chcesz mieć oba na true
 leadcron:
   enabled: false
+  max-urls-per-run: 100   # ile URL-i na jedno odpalenie
+  interval-millis: 600000 # co ile ms (tu: 10 min)
 
 leadfinder:
   outreach:
@@ -34,6 +36,8 @@ leadfinder:
     default-subject: "Zuverlässige polnische Arbeitskräfte – kurzfristig verfügbar"
     max-emails-per-run: 20
     simulate-only: false
+    interval-millis: 900000        # jak było
+    delay-between-emails-millis: 1000  # 1 sekunda
 
     first-email-body-template: |
       Guten Tag
