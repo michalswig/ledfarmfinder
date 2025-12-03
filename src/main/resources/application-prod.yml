@@ -165,7 +165,7 @@ leadfinder:
 
 app:
   outreach:
-    unsubscribe-base-url: "http://localhost:8080/unsubscribe/"
+    unsubscribe-base-url: "https://o1jobs.de/unsubscribe/"
 
 
 openai:

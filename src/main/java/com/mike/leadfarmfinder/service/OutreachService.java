@@ -3,14 +3,16 @@ package com.mike.leadfarmfinder.service;
 import com.mike.leadfarmfinder.config.OutreachProperties;
 import com.mike.leadfarmfinder.entity.FarmLead;
 import com.mike.leadfarmfinder.repository.FarmLeadRepository;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.angus.mail.smtp.SMTPAddressFailedException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import jakarta.mail.internet.MimeMessage;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +24,7 @@ public class OutreachService {
 
     private final OutreachProperties outreachProperties;
     private final FarmLeadRepository farmLeadRepository;
-    private final JavaMailSender mailSender;   // NEW
+    private final JavaMailSender mailSender;
 
     @Value("${app.outreach.unsubscribe-base-url:}")
     private String unsubscribeBaseUrl;
@@ -69,7 +71,7 @@ public class OutreachService {
         String template = outreachProperties.getFirstEmailBodyTemplate();
         String body = renderTemplate(template, vars);
 
-        // 🧪 1) Zawsze logujemy preview (żeby widzieć co idzie)
+        // 🧪 preview
         log.info("=== OUTREACH EMAIL PREVIEW ===");
         log.info("From: {}", from);
         log.info("To: {}", to);
@@ -77,21 +79,49 @@ public class OutreachService {
         log.info("Body:\n{}", body);
         log.info("=== END OUTREACH EMAIL PREVIEW ===");
 
-        // 📨 2) Decyzja: wysyłamy naprawdę czy tylko symulacja?
+        boolean hardBounce = false;
+        boolean sent = false;
+
         if (outreachProperties.isSimulateOnly()) {
             log.info("OutreachService: simulate-only=true, skipping real SMTP send");
+            sent = true; // logicznie traktujemy jako "poszło" na potrzeby timestampów
         } else {
             try {
-                sendViaSmtp(from, to, subject, body);
+                // ⬇️ tu dodaliśmy unsubscribeUrl
+                sendViaSmtp(from, to, subject, body, unsubscribeUrl);
                 log.info("OutreachService: email sent successfully to {}", to);
+                sent = true;
+            } catch (MailException e) {
+                log.warn("OutreachService: FAILED to send email to {} (MailException): {}", to, e.getMessage());
+
+                if (isHardBounce(e)) {
+                    hardBounce = true;
+                    log.info("OutreachService: detected HARD BOUNCE (5xx) for {}", to);
+                } else {
+                    log.info("OutreachService: send failed for {}, but no hard-bounce (5xx) detected – leaving lead active", to);
+                }
+
             } catch (Exception e) {
-                log.warn("OutreachService: FAILED to send email to {}: {}", to, e.getMessage());
-                // UWAGA: tutaj na razie NIE ustawiamy bounce – to będzie osobny krok.
-                return; // nie zapisuj firstEmailSentAt, skoro wysyłka się wywaliła
+                log.warn("OutreachService: FAILED to send email to {} (Exception): {}", to, e.getMessage());
+                // traktujemy jako problem techniczny po naszej stronie – bez bounce
             }
         }
 
-        // ✅ 3) Aktualizacja timestampów TYLKO gdy "wysłane" (realnie lub symulacja)
+        // 🚫 Jeśli hard bounce (5xx) – oznaczamy lead i kończymy
+        if (hardBounce) {
+            lead.setBounce(true);
+            lead.setActive(false);
+            farmLeadRepository.save(lead);
+            return;
+        }
+
+        // Jeśli nie wysłano (sent=false) i to nie była tylko symulacja → nie ruszamy timestampów
+        if (!sent && !outreachProperties.isSimulateOnly()) {
+            log.info("OutreachService: email not sent to {} (no simulate, no hardBounce) – no timestamps update", to);
+            return;
+        }
+
+        // ✅ Aktualizacja timestampów tylko gdy "wysłane" (realnie lub symulacja)
         LocalDateTime now = LocalDateTime.now();
         if (lead.getFirstEmailSentAt() == null) {
             lead.setFirstEmailSentAt(now);
@@ -101,7 +131,8 @@ public class OutreachService {
         farmLeadRepository.save(lead);
     }
 
-    private void sendViaSmtp(String from, String to, String subject, String body) throws Exception {
+    // ⬇️ Zmienione: dodany parametr unsubscribeUrl i nagłówki List-Unsubscribe
+    private void sendViaSmtp(String from, String to, String subject, String body, String unsubscribeUrl) throws Exception {
         MimeMessage message = mailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
@@ -110,7 +141,30 @@ public class OutreachService {
         helper.setSubject(subject);
         helper.setText(body, false); // false = plain text
 
+        // 🔥 List-Unsubscribe — tylko jeśli mamy sensowny URL
+        if (unsubscribeUrl != null && !unsubscribeUrl.isBlank()) {
+            String headerValue = "<" + unsubscribeUrl + ">";
+            message.addHeader("List-Unsubscribe", headerValue);
+            // Gmail One-Click (opcjonalne, ale warto)
+            message.addHeader("List-Unsubscribe-Post", "List-Unsubscribe=One-Click");
+        }
+
         mailSender.send(message);
+    }
+
+    private boolean isHardBounce(Throwable ex) {
+        Throwable cause = ex;
+        while (cause != null) {
+            if (cause instanceof SMTPAddressFailedException smtpEx) {
+                int code = smtpEx.getReturnCode();
+                if (code >= 500 && code < 600) {
+                    log.debug("Detected SMTP hard bounce code {} for address {}", code, smtpEx.getAddress());
+                    return true;
+                }
+            }
+            cause = cause.getCause();
+        }
+        return false;
     }
 
     private String renderTemplate(String template, Map<String, String> variables) {
