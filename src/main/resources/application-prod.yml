@@ -17,7 +17,7 @@ spring:
     host: hosting2078033.online.pro   # SMTP z panelu
     port: 587                         # zwykle TLS na 587
     username: office@o1jobs.de        # pełny login skrzynki
-    password: uD7xzUh17A # <-- TU WSTAW PRAWDZIWE HASŁO
+    password: ${MAIL_PASSWORD} # <-- TU WSTAW PRAWDZIWE HASŁO
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
