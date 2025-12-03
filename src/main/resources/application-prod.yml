@@ -29,7 +29,7 @@ leadcron:
 
 leadfinder:
   outreach:
-    enabled: true
+    enabled: false
     from-address: office@o1jobs.de
     default-subject: "Zuverlässige polnische Arbeitskräfte – kurzfristig verfügbar"
     max-emails-per-run: 20
@@ -179,3 +179,4 @@ serpapi:
   default-country: de
   default-language: de
   default-engine: google
+
