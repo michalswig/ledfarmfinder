@@ -1,143 +1,143 @@
-spring:
-  application:
-    name: leadfarmfinder
-
-  datasource:
-    url: jdbc:postgresql://localhost:5432/farms
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: none
-    show-sql: true
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-
-  mail:
-    host: localhost
-    port: 1025
-    username:
-    password:
-    properties:
-      mail.smtp.auth: false
-      mail.smtp.starttls.enable: false
-
-# Cron switches
-leadcron:
-  enabled: false
-
-# Outreach (EPIC 5)
-leadfinder:
-  outreach:
-    enabled: true
-    from-address: office@o1jobs.de
-    default-subject: "Polnische Mitarbeiter – sofort verfügbar und zuverlässig"
-    max-emails-per-run: 20
-    simulate-only: false
-    # TEMPLATE: pierwszy email (UTF-8, bez \n)
-    first-email-body-template: |
-      Guten Tag,
-
-      wir möchten Ihnen unser Angebot zur Vermittlung zuverlässiger und erfahrener Arbeitskräfte aus Polen vorstellen.
-      Wir sind eine kleine, aber erfahrene Personalvermittlungsagentur mit Sitz in Polen und haben uns auf die Vermittlung von polnischen Erntehelfern, Hilfsarbeitern und Saisonkräften in ganz Deutschland spezialisiert.
-      Täglich melden sich zahlreiche motivierte Bewerber bei uns, die bereit sind, kurzfristig oder langfristig in Deutschland zu arbeiten.
-      In unserer Datenbank befinden sich viele geprüfte und einsatzbereite Kandidaten mit Berufserfahrung – darunter auch Personen mit Deutsch- oder Englischkenntnissen sowie Führerscheinen der Klasse B oder T.
-
-      Unsere Vermittlungskonditionen (einmalige Provision):
-      - 280 € pro Mitarbeiter – Erntehelfer / landwirtschaftliche Helfer
-      - 320 € pro Mitarbeiter – Tierpfleger / Melker
-      - 400 € pro Mitarbeiter – Hilfsarbeiter in Bereichen wie Bau, Reinigung, Produktion, Service, Gartenarbeit, Verpackung/Sortierung
-
-      Ablauf der Vermittlung:
-      1. Sie erhalten von uns einen Vermittlungsvertrag sowie ein kurzes Formular zur Stellenbeschreibung.
-      2. Nach Eingang der Beschreibung senden wir Ihnen innerhalb weniger Tage passende Kandidatenprofile.
-      3. Sobald Sie sich für bestimmte Personen entscheiden, organisieren wir deren Anreise.
-      4. Eine Unterkunft sollte von Ihrer Seite gestellt werden.
-
-      Falls Sie kein Interesse haben, können Sie sich über den folgenden Link abmelden:
-      {{UNSUBSCRIBE_URL}}
-
-      Mit freundlichen Grüßen
-      Patrycja Swigost
-      www.o1jobs.de
-      +49 160 6328144
-      office@o1jobs.de
-
-  scraper:
-    min-hours-between-scrapes: 12
-
-  discovery:
-    results-per-page: 10
-    max-pages-per-run: 3
-    default-max-serp-page: 50
-    limit-per-run: 100
-
-    queries:
-      - Erdbeerhof kleine Farm Niedersachsen
-      - Erdbeerhof Familienbetrieb NRW
-      - Himbeerhof Hofladen Niedersachsen
-      - Beerenhof kleiner Bauernhof Nordrhein Westfalen
-      - Erdbeerplantage Bauernhof Rheinland Pfalz
-      - Beerenhof Saisonarbeit Baden Württemberg
-
-      - Gemüsehof kleiner Betrieb Niedersachsen
-      - Gemüsebau Familienbetrieb NRW
-      - Bauernhof Gemüseanbau kleine Farm Hessen
-      - Gemüsehof Saisonarbeiter gesucht Niedersachsen
-      - Kartoffelhof Hofladen Niedersachsen
-      - Salat Gemüsehof Bauernhof Nordrhein Westfalen
-
-      - Obsthof Familienbetrieb Niedersachsen
-      - Apfelhof kleiner Hof Nordrhein Westfalen
-      - Obstbau kleine Farm Rheinland Pfalz
-      - Kleiner Obsthof Baden Württemberg
-      - Obsthof Saisonarbeit NRW
-      - Apfelplantage kleiner Betrieb Niedersachsen
-
-      - Bauernhof kleiner Betrieb Niedersachsen
-      - Kleiner Familienhof NRW
-      - Bauernhof Hofladen Niedersachsen kleinbetrieb
-      - Hofladen Bauernhof Rheinland Pfalz
-      - Ackerbau kleiner Hof Nordrhein Westfalen
-      - Familiengeführter Bauernhof Niedersachsen
-
-      - Kartoffelhof kleiner Bauernhof NRW
-      - Kartoffelanbau kleiner Familienbetrieb Niedersachsen
-      - Hofbetrieb Kartoffeln Niedersachsen
-      - Bauernhof Getreide kleinere Betriebe NRW
-      - Kartoffelernte Bauernhof Jobs Niedersachsen
-      - Kartoffelhof Hofladen Nordrhein Westfalen
-
-      - Weihnachtsbaumhof kleiner Betrieb Niedersachsen
-      - Tannenhof Familienbetrieb NRW
-      - Weihnachtsbaum Plantage Bauernhof Niedersachsen
-      - Tannenbaum Hof kleiner Betrieb Norddeutschland
-      - Weihnachtsbaumverkauf Hofbetrieb NRW
-
-      - Milchhof kleiner Familienbetrieb Niedersachsen
-      - Hofladen Milchprodukte kleiner Hof NRW
-      - Rinderhof kleiner Hof Niedersachsen
-      - Bauernhof Viehzucht kleiner Betrieb NRW
-      - Milchviehbetrieb Familienbetrieb Niedersachsen
-
-# Unsubscribe link
-app:
-  outreach:
-    unsubscribe-base-url: "http://localhost:8080/api/leads/unsubscribe?token="
-
-# OpenAI
-openai:
-  api-key: ${OPENAI_API_KEY}
-  base-url: https://api.openai.com/v1
-  model: gpt-4.1-mini
-
-# SerpAPI
-serpapi:
-  api-key: ${SERPAPI_API_KEY}
-  base-url: https://serpapi.com/search
-  default-country: de
-  default-language: de
-  default-engine: google
+#spring:
+#  application:
+#    name: leadfarmfinder
+#
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/farms
+#    username: postgres
+#    password: postgres
+#    driver-class-name: org.postgresql.Driver
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: none
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+#
+#  mail:
+#    host: localhost
+#    port: 1025
+#    username:
+#    password:
+#    properties:
+#      mail.smtp.auth: false
+#      mail.smtp.starttls.enable: false
+#
+## Cron switches
+#leadcron:
+#  enabled: false
+#
+## Outreach (EPIC 5)
+#leadfinder:
+#  outreach:
+#    enabled: true
+#    from-address: office@o1jobs.de
+#    default-subject: "Polnische Mitarbeiter – sofort verfügbar und zuverlässig"
+#    max-emails-per-run: 20
+#    simulate-only: false
+#    # TEMPLATE: pierwszy email (UTF-8, bez \n)
+#    first-email-body-template: |
+#      Guten Tag,
+#
+#      wir möchten Ihnen unser Angebot zur Vermittlung zuverlässiger und erfahrener Arbeitskräfte aus Polen vorstellen.
+#      Wir sind eine kleine, aber erfahrene Personalvermittlungsagentur mit Sitz in Polen und haben uns auf die Vermittlung von polnischen Erntehelfern, Hilfsarbeitern und Saisonkräften in ganz Deutschland spezialisiert.
+#      Täglich melden sich zahlreiche motivierte Bewerber bei uns, die bereit sind, kurzfristig oder langfristig in Deutschland zu arbeiten.
+#      In unserer Datenbank befinden sich viele geprüfte und einsatzbereite Kandidaten mit Berufserfahrung – darunter auch Personen mit Deutsch- oder Englischkenntnissen sowie Führerscheinen der Klasse B oder T.
+#
+#      Unsere Vermittlungskonditionen (einmalige Provision):
+#      - 280 € pro Mitarbeiter – Erntehelfer / landwirtschaftliche Helfer
+#      - 320 € pro Mitarbeiter – Tierpfleger / Melker
+#      - 400 € pro Mitarbeiter – Hilfsarbeiter in Bereichen wie Bau, Reinigung, Produktion, Service, Gartenarbeit, Verpackung/Sortierung
+#
+#      Ablauf der Vermittlung:
+#      1. Sie erhalten von uns einen Vermittlungsvertrag sowie ein kurzes Formular zur Stellenbeschreibung.
+#      2. Nach Eingang der Beschreibung senden wir Ihnen innerhalb weniger Tage passende Kandidatenprofile.
+#      3. Sobald Sie sich für bestimmte Personen entscheiden, organisieren wir deren Anreise.
+#      4. Eine Unterkunft sollte von Ihrer Seite gestellt werden.
+#
+#      Falls Sie kein Interesse haben, können Sie sich über den folgenden Link abmelden:
+#      {{UNSUBSCRIBE_URL}}
+#
+#      Mit freundlichen Grüßen
+#      Patrycja Swigost
+#      www.o1jobs.de
+#      +49 160 6328144
+#      office@o1jobs.de
+#
+#  scraper:
+#    min-hours-between-scrapes: 12
+#
+#  discovery:
+#    results-per-page: 10
+#    max-pages-per-run: 3
+#    default-max-serp-page: 50
+#    limit-per-run: 100
+#
+#    queries:
+#      - Erdbeerhof kleine Farm Niedersachsen
+#      - Erdbeerhof Familienbetrieb NRW
+#      - Himbeerhof Hofladen Niedersachsen
+#      - Beerenhof kleiner Bauernhof Nordrhein Westfalen
+#      - Erdbeerplantage Bauernhof Rheinland Pfalz
+#      - Beerenhof Saisonarbeit Baden Württemberg
+#
+#      - Gemüsehof kleiner Betrieb Niedersachsen
+#      - Gemüsebau Familienbetrieb NRW
+#      - Bauernhof Gemüseanbau kleine Farm Hessen
+#      - Gemüsehof Saisonarbeiter gesucht Niedersachsen
+#      - Kartoffelhof Hofladen Niedersachsen
+#      - Salat Gemüsehof Bauernhof Nordrhein Westfalen
+#
+#      - Obsthof Familienbetrieb Niedersachsen
+#      - Apfelhof kleiner Hof Nordrhein Westfalen
+#      - Obstbau kleine Farm Rheinland Pfalz
+#      - Kleiner Obsthof Baden Württemberg
+#      - Obsthof Saisonarbeit NRW
+#      - Apfelplantage kleiner Betrieb Niedersachsen
+#
+#      - Bauernhof kleiner Betrieb Niedersachsen
+#      - Kleiner Familienhof NRW
+#      - Bauernhof Hofladen Niedersachsen kleinbetrieb
+#      - Hofladen Bauernhof Rheinland Pfalz
+#      - Ackerbau kleiner Hof Nordrhein Westfalen
+#      - Familiengeführter Bauernhof Niedersachsen
+#
+#      - Kartoffelhof kleiner Bauernhof NRW
+#      - Kartoffelanbau kleiner Familienbetrieb Niedersachsen
+#      - Hofbetrieb Kartoffeln Niedersachsen
+#      - Bauernhof Getreide kleinere Betriebe NRW
+#      - Kartoffelernte Bauernhof Jobs Niedersachsen
+#      - Kartoffelhof Hofladen Nordrhein Westfalen
+#
+#      - Weihnachtsbaumhof kleiner Betrieb Niedersachsen
+#      - Tannenhof Familienbetrieb NRW
+#      - Weihnachtsbaum Plantage Bauernhof Niedersachsen
+#      - Tannenbaum Hof kleiner Betrieb Norddeutschland
+#      - Weihnachtsbaumverkauf Hofbetrieb NRW
+#
+#      - Milchhof kleiner Familienbetrieb Niedersachsen
+#      - Hofladen Milchprodukte kleiner Hof NRW
+#      - Rinderhof kleiner Hof Niedersachsen
+#      - Bauernhof Viehzucht kleiner Betrieb NRW
+#      - Milchviehbetrieb Familienbetrieb Niedersachsen
+#
+## Unsubscribe link
+#app:
+#  outreach:
+#    unsubscribe-base-url: "http://localhost:8080/api/leads/unsubscribe?token="
+#
+## OpenAI
+#openai:
+#  api-key: ${OPENAI_API_KEY}
+#  base-url: https://api.openai.com/v1
+#  model: gpt-4.1-mini
+#
+## SerpAPI
+#serpapi:
+#  api-key: ${SERPAPI_API_KEY}
+#  base-url: https://serpapi.com/search
+#  default-country: de
+#  default-language: de
+#  default-engine: google
