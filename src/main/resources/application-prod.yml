@@ -170,7 +170,7 @@ leadfinder:
 
 app:
   outreach:
-    unsubscribe-base-url: "https://o1jobs.de/unsubscribe/"
+    unsubscribe-base-url: "https://leadfarmfinder.onrender.com/unsubscribe/"
 
 openai:
   api-key: ${OPENAI_API_KEY}
