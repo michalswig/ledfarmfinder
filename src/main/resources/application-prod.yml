@@ -36,7 +36,7 @@ leadfinder:
     from-address: office@o1jobs.de
     default-subject: "Zuverlässige polnische Arbeitskräfte – kurzfristig verfügbar"
     max-emails-per-run: 20
-    simulate-only: true           # PROD SAFE DEFAULT: true – najpierw testy/logi
+    simulate-only: false           # PROD SAFE DEFAULT: true – najpierw testy/logi
     interval-millis: 900000       # 15 min między batchami
     delay-between-emails-millis: 1000  # 1 sekunda między mailami
 
