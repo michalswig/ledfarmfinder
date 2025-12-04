@@ -32,7 +32,7 @@ leadcron:
 
 leadfinder:
   outreach:
-    enabled: false                # PROD SAFE DEFAULT: false (włączysz, gdy chcesz realnie wysyłać)
+    enabled: true                # PROD SAFE DEFAULT: false (włączysz, gdy chcesz realnie wysyłać)
     from-address: office@o1jobs.de
     default-subject: "Zuverlässige polnische Arbeitskräfte – kurzfristig verfügbar"
     max-emails-per-run: 20
