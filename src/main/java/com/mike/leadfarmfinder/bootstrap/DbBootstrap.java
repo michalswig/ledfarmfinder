@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 @Slf4j
 public class DbBootstrap implements CommandLineRunner {
