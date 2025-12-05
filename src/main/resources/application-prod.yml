@@ -24,11 +24,11 @@ spring:
       mail.smtp.starttls.enable: true
       mail.debug: false           # na prod: false, żeby nie logować całego SMTP
 
-# Scraping CRON – na pierwsze deploye lepiej wyłączony, włączysz jak będziesz gotów
+# Scraping CRON – prod optymalnie pod limit 5000 hits/miesiąc
 leadcron:
-  enabled: false                  # na prod docelowo: true
-  max-urls-per-run: 100
-  interval-millis: 5400000         # 20 min
+  enabled: true                 # jak będziesz gotów
+  max-urls-per-run: 100         # ile URL-i maksymalnie obrabiasz w jednym runie
+  interval-millis: 5400000      # 90 minut = 1.5h między runami
 
 leadfinder:
   outreach:

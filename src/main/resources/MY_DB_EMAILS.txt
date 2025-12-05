@@ -2778,7 +2778,6 @@ haukek@hof-moorhoern.de
 theodor.bormann@t-online.de
 info@service-vom-hof.de
 info@lueneburger-heide.de
-u003einfo@lueneburger-heide.de
 info@oekolandbau.de
 info@schmidt-nordmeier.de
 info@erdbeeren-westerwald.de
@@ -2835,4 +2834,3 @@ personal@erdbeeren-levenig.de
 info@lueneburger-heide.de
 norbert.stamm@t-online.de
 putfarken-erdbeeren@mail.de
-info@sh-tourismus.de
