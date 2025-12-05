@@ -28,7 +28,7 @@ spring:
 leadcron:
   enabled: false                  # na prod docelowo: true
   max-urls-per-run: 100
-  interval-millis: 1200000         # 20 min
+  interval-millis: 5400000         # 20 min
 
 leadfinder:
   outreach:
