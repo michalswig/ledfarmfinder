@@ -26,13 +26,13 @@ spring:
 
 # Scraping CRON – prod optymalnie pod limit 5000 hits/miesiąc
 leadcron:
-  enabled: true                 # jak będziesz gotów
+  enabled: false                 # jak będziesz gotów
   max-urls-per-run: 100         # ile URL-i maksymalnie obrabiasz w jednym runie
   interval-millis: 5400000      # 90 minut = 1.5h między runami
 
 leadfinder:
   outreach:
-    enabled: true                # PROD SAFE DEFAULT: false (włączysz, gdy chcesz realnie wysyłać)
+    enabled: false                # PROD SAFE DEFAULT: false (włączysz, gdy chcesz realnie wysyłać)
     from-address: "Patrycja Swigost <office@o1jobs.de>"
     default-subject: "Zuverlässige polnische Arbeitskräfte – kurzfristig verfügbar"
     max-emails-per-run: 20
