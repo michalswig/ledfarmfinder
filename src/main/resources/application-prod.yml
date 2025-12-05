@@ -28,7 +28,7 @@ spring:
 leadcron:
   enabled: true                 # jak będziesz gotów
   max-urls-per-run: 100         # ile URL-i maksymalnie obrabiasz w jednym runie
-  interval-millis: 5400000      # 90 minut = 1.5h między runami
+  interval-millis: 1560000      # 26 min * 60 * 1000
 
 leadfinder:
   outreach:

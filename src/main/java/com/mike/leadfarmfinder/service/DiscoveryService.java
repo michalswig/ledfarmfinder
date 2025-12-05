@@ -44,7 +44,8 @@ public class DiscoveryService {
             "tiktok.com",
             "xing.com",
             "stepstone.de",
-            "meinestadt.de"
+            "meinestadt.de",
+            "sh-tourismus.de"
     );
 
     // słowa kluczowe pomocne do scoringu (LF-6.3)
@@ -69,7 +70,14 @@ public class DiscoveryService {
             "hochschule", "universitaet", "universität", "uni-", "fh-",
             "kammer", "handelskammer", "bauernverband",
             "landwirtschaft-bw.de", "lwk-niedersachsen.de",
-            "ble.de", "bzfe.de"
+            "ble.de", "bzfe.de",
+            // 🔽 NOWE: turystyka / portale regionu / ogólne
+            "tourismus", "tourism",
+            "touristik",
+            "reisefuhrer", "reiseführer",
+            "urlaub",
+            "reiseland",
+            "stadtmarketing", "stadtwerke"
     );
 
     // prosty in-memory index do rotacji zapytań
@@ -94,7 +102,7 @@ public class DiscoveryService {
         // pobranie listy zapytań z configu + fallback
         List<String> queries = leadFinderProperties.getDiscovery().getQueries();
         if (queries == null || queries.isEmpty()) {
-            queries = List.of("Erdbeerhof Hofladen Niedersachsen");
+            throw new IllegalStateException("Discovery queries are not configured! Add leadfinder.discovery.queries[]");
         }
 
         // wybór aktualnego zapytania + rotacja indexu
