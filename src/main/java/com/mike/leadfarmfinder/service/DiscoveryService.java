@@ -209,8 +209,12 @@ public class DiscoveryService {
             log.info("DiscoveryService: raw urls from SerpAPI (page={}) = {}", currentPage, rawUrls.size());
 
             if (rawUrls.isEmpty()) {
-                log.info("DiscoveryService: no more results from SerpAPI for page={}, stopping", currentPage);
-                break;
+                log.info("DiscoveryService: no more results from SerpAPI for page={}, moving to next page", currentPage);
+                currentPage++;
+                if (currentPage > maxPage) {
+                    currentPage = 1;
+                }
+                break; // zapiszesz już “następną” stronę jako current_page
             }
 
             pagesVisited++;
