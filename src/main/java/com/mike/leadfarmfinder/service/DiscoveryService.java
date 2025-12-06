@@ -45,7 +45,12 @@ public class DiscoveryService {
             "xing.com",
             "stepstone.de",
             "meinestadt.de",
-            "sh-tourismus.de"
+            "sh-tourismus.de",
+            "swr.de",
+            "www.swr.de",
+            "zdf.de",
+            "ard.de",
+            "rtl.de"
     );
 
     // słowa kluczowe pomocne do scoringu (LF-6.3)
@@ -59,26 +64,75 @@ public class DiscoveryService {
             "weingut", "winzer", "obsthof"
     );
 
-    // oczywiste „nie-farmowe” konteksty
     private static final List<String> HARD_NEGATIVE_KEYWORDS = List.of(
+            // Rząd / administracja
             "bundesregierung", "bundeskanzler", "bm", "bmel", "ministerium",
-            "regierung", "landtag", "verwaltung", "stadt-", "kreis-", "landkreis",
+            "regierung", "landtag", "verwaltung",
+
+            // Samorządy / publiczne instytucje
+            "stadt-", "kreis-", "landkreis", "gemeinde-", "rathaus",
+
+            // Statystyka / nauka
             "destatis", "statistik", "statista",
+            "hochschule", "universitaet", "universität", "uni-", "fh-",
+
+            // Organizacje / NGO
             "verbraucherzentrale", "verbraucherzentralen",
             "nabu.", "wwf.", "greenpeace.",
+
+            // Strony UE
             "europa.eu", "ec.europa",
-            "hochschule", "universitaet", "universität", "uni-", "fh-",
+
+            // Izby rolnicze i państwowe instytucje rolnicze
             "kammer", "handelskammer", "bauernverband",
             "landwirtschaft-bw.de", "lwk-niedersachsen.de",
             "ble.de", "bzfe.de",
-            // 🔽 NOWE: turystyka / portale regionu / ogólne
-            "tourismus", "tourism",
-            "touristik",
-            "reisefuhrer", "reiseführer",
-            "urlaub",
-            "reiseland",
-            "stadtmarketing", "stadtwerke"
+
+            // MEDIA – ❗ blokować absolutnie
+            "swr", "ard", "zdf", "ndr", "wdr", "mdr", "br.de", "hr.de",
+            "spiegel", "focus", "stern", "welt", "bild",
+            "t-online", "faz", "zeit", "tagesschau", "tagesthemen",
+
+            // Turystyka / portale regionalne
+            "tourismus", "tourism", "touristik",
+            "reisefuhrer", "reiseführer", "urlaub",
+            "reiseland", "ausflug", "freizeit",
+            "stadtmarketing", "messe", "visit",
+
+            // Katalogi branżowe / generatory stron
+            "jimdo", "wix", "wordpress", "joomla",
+            "webnode", "strato", "ionos",
+            "branchenbuch", "gelbeseiten", "verzeichnis",
+
+            // sklepy / portale
+            "shop", "portal", "marktplatz",
+
+            // Agencje i usługi
+            "marketing", "agentur", "consulting",
+            "fotografie", "media", "werbung",
+            "seo", "webdesign", "hosting",
+
+            // MEDIA / TV / RADIO / PRESS
+            "swr", "wdr", "ndr", "mdr", "rbb", "br.de", "hr.de",
+            "ard", "zdf",
+            "orf", "dradio", "deutschlandfunk",
+            "dw.com", "deutsche-welle",
+
+            // GAZETY / PORTALE NEWSOWE
+            "spiegel", "focus", "stern", "welt", "bild",
+            "t-online", "faz", "zeit", "tagesschau", "tagesthemen",
+            "merkur", "sueddeutsche", "morgenpost",
+            "ndr.de", "wdr.de", "swr.de",
+
+            // NEWS / PRESS KEYWORDS
+            "nachrichten", "news", "presse", "press", "report",
+            "journal", "zeitung", "gazette", "magazin", "blog",
+
+            // FILM / TV / VIDEO / STREAM
+            "tv", "video", "stream", "media"
+
     );
+
 
     // prosty in-memory index do rotacji zapytań
     private int queryIndex = 0;
