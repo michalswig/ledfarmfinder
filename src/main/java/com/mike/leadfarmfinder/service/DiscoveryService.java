@@ -31,7 +31,10 @@ public class DiscoveryService {
     private final DiscoveredUrlRepository discoveredUrlRepository;
     private final LeadFinderProperties leadFinderProperties;
 
-    // duże portale, social media, job-boardy – od razu odrzucamy
+    /**
+     * Twardo blokowane domeny – jeśli dokładnie taka domena się pojawi, nie przechodzi dalej.
+     * (duże portale, social media, job-boardy, media)
+     */
     private static final Set<String> BLOCKED_DOMAINS = Set.of(
             "indeed.com",
             "de.indeed.com",
@@ -40,20 +43,29 @@ public class DiscoveryService {
             "m.facebook.com",
             "youtube.com",
             "linkedin.com",
-            "www.linkedin.com",
             "tiktok.com",
             "xing.com",
             "stepstone.de",
             "meinestadt.de",
+
+            // portale turystyczne / regiony
             "sh-tourismus.de",
+
+            // media – przykładowe top domeny
             "swr.de",
-            "www.swr.de",
             "zdf.de",
             "ard.de",
-            "rtl.de"
+            "rtl.de",
+            "ndr.de",
+            "wdr.de",
+            "mdr.de",
+            "br.de",
+            "hr.de"
     );
 
-    // słowa kluczowe pomocne do scoringu (LF-6.3)
+    /**
+     * Słowa kluczowe charakterystyczne dla gospodarstw – używane w scoringu.
+     */
     private static final List<String> FARM_KEYWORDS = List.of(
             "hof", "hofladen",
             "obst", "gemuese", "gemüse",
@@ -64,9 +76,18 @@ public class DiscoveryService {
             "weingut", "winzer", "obsthof"
     );
 
+    /**
+     * Hard-negative – jeśli domena / URL zawiera któreś z tych słów,
+     * traktujemy to jako "na pewno nie farma" (media, turystyka, administracja itd.).
+     *
+     * Używamy tego w:
+     *  - looksLikeFarmDomain()  -> natychmiastowe odrzucenie
+     *  - isAllowedDomain()      -> dodatkowy filtr
+     *  - computeDomainPriorityScore() -> score -100 jako dodatkowe zabezpieczenie
+     */
     private static final List<String> HARD_NEGATIVE_KEYWORDS = List.of(
             // Rząd / administracja
-            "bundesregierung", "bundeskanzler", "bm", "bmel", "ministerium",
+            "bundesregierung", "bundeskanzler", "ministerium",
             "regierung", "landtag", "verwaltung",
 
             // Samorządy / publiczne instytucje
@@ -88,10 +109,16 @@ public class DiscoveryService {
             "landwirtschaft-bw.de", "lwk-niedersachsen.de",
             "ble.de", "bzfe.de",
 
-            // MEDIA – ❗ blokować absolutnie
-            "swr", "ard", "zdf", "ndr", "wdr", "mdr", "br.de", "hr.de",
+            // MEDIA / TV / RADIO / PRESS
+            "swr", "ard", "zdf", "ndr", "wdr", "mdr", "rbb",
             "spiegel", "focus", "stern", "welt", "bild",
             "t-online", "faz", "zeit", "tagesschau", "tagesthemen",
+            "merkur", "sueddeutsche", "morgenpost",
+            "deutschlandfunk", "dw.com", "deutsche-welle",
+
+            // NEWS / PRESS KEYWORDS
+            "nachrichten", "news", "presse", "press", "report",
+            "journal", "zeitung", "gazette", "magazin", "blog",
 
             // Turystyka / portale regionalne
             "tourismus", "tourism", "touristik",
@@ -99,40 +126,22 @@ public class DiscoveryService {
             "reiseland", "ausflug", "freizeit",
             "stadtmarketing", "messe", "visit",
 
-            // Katalogi branżowe / generatory stron
+            // Katalogi branżowe / generatory stron / portale
+            "branchenbuch", "gelbeseiten", "verzeichnis",
+            "portal", "marktplatz",
+
+            // CMS / "site builders"
             "jimdo", "wix", "wordpress", "joomla",
             "webnode", "strato", "ionos",
-            "branchenbuch", "gelbeseiten", "verzeichnis",
-
-            // sklepy / portale
-            "shop", "portal", "marktplatz",
 
             // Agencje i usługi
             "marketing", "agentur", "consulting",
-            "fotografie", "media", "werbung",
+            "fotografie", "werbung",
             "seo", "webdesign", "hosting",
 
-            // MEDIA / TV / RADIO / PRESS
-            "swr", "wdr", "ndr", "mdr", "rbb", "br.de", "hr.de",
-            "ard", "zdf",
-            "orf", "dradio", "deutschlandfunk",
-            "dw.com", "deutsche-welle",
-
-            // GAZETY / PORTALE NEWSOWE
-            "spiegel", "focus", "stern", "welt", "bild",
-            "t-online", "faz", "zeit", "tagesschau", "tagesthemen",
-            "merkur", "sueddeutsche", "morgenpost",
-            "ndr.de", "wdr.de", "swr.de",
-
-            // NEWS / PRESS KEYWORDS
-            "nachrichten", "news", "presse", "press", "report",
-            "journal", "zeitung", "gazette", "magazin", "blog",
-
-            // FILM / TV / VIDEO / STREAM
+            // FILM / TV / VIDEO / STREAM / MEDIA
             "tv", "video", "stream", "media"
-
     );
-
 
     // prosty in-memory index do rotacji zapytań
     private int queryIndex = 0;
@@ -140,7 +149,7 @@ public class DiscoveryService {
     /**
      * Znajdź kandydackie URLe gospodarstw:
      * 1) SerpAPI -> kilka stron SERP (z rotacją queries)
-     * 2) filtr po domenie (BLOCKED_DOMAINS + looksLikeFarmDomain)
+     * 2) filtr po domenie (BLOCKED_DOMAINS + hard-negative + heurystyka)
      * 3) REUSE discovered_urls:
      *      - jeśli already farm -> ACCEPT bez OpenAI
      *      - jeśli already not farm -> REJECT bez OpenAI
@@ -153,7 +162,6 @@ public class DiscoveryService {
         int resultsPerPage = leadFinderProperties.getDiscovery().getResultsPerPage();
         int maxPagesPerRun = leadFinderProperties.getDiscovery().getMaxPagesPerRun();
 
-        // pobranie listy zapytań z configu + fallback
         List<String> queries = leadFinderProperties.getDiscovery().getQueries();
         if (queries == null || queries.isEmpty()) {
             throw new IllegalStateException("Discovery queries are not configured! Add leadfinder.discovery.queries[]");
@@ -185,7 +193,7 @@ public class DiscoveryService {
         int pagesVisited = 0;
         int rawUrlsTotal = 0;
         int cleanedUrlsTotal = 0;
-        int filteredAsAlreadyDiscovered = 0; // teraz znaczy: „obsłużone z discovered_urls (reuse)”
+        int filteredAsAlreadyDiscovered = 0;
         int acceptedCount = 0;
         int rejectedCount = 0;
         int errorsCount = 0;
@@ -219,10 +227,7 @@ public class DiscoveryService {
 
             log.info("DiscoveryService: urls after domain filter (page={}) = {}", currentPage, cleaned.size());
 
-            // 2) LF-6.4 – spróbuj REUSE discovered_urls:
-            //    - jeśli mamy wpis i isFarm=true -> ACCEPT bez OpenAI
-            //    - jeśli mamy wpis i isFarm=false -> REJECT bez OpenAI
-            //    - jeśli brak wpisu -> trafi do newUrlsOnly -> scoring + OpenAI
+            // 2) REUSE discovered_urls:
             List<String> newUrlsOnly = new ArrayList<>();
 
             for (String url : cleaned) {
@@ -242,29 +247,21 @@ public class DiscoveryService {
                 boolean farm = Boolean.TRUE.equals(existing.isFarm());
 
                 if (farm) {
-                    // REUSE: znana farma – nie wołamy OpenAI
                     accepted.add(url);
                     acceptedCount++;
-                    log.info(
-                            "DiscoveryService: REUSED (FARM) url={} from discovered_urls, skipping OpenAI",
-                            url
-                    );
+                    log.info("DiscoveryService: REUSED (FARM) url={} from discovered_urls, skipping OpenAI", url);
                 } else {
-                    // REUSE: znamy jako nie-farma – nie marnujemy OpenAI
                     rejectedCount++;
-                    log.info(
-                            "DiscoveryService: REUSED (NOT FARM) url={} from discovered_urls, skipping OpenAI",
-                            url
-                    );
+                    log.info("DiscoveryService: REUSED (NOT FARM) url={} from discovered_urls, skipping OpenAI", url);
                 }
             }
 
             log.info("DiscoveryService: new urls for OpenAI after discovered filter (page={}) = {}",
                     currentPage, newUrlsOnly.size());
 
-            // 3) LF-6.3 – policz score domeny i posortuj malejąco (tylko dla NOWYCH url-i)
+            // 3) scoring i sortowanie NOWYCH url-i
             List<ScoredUrl> scored = newUrlsOnly.stream()
-                    .map(url -> new ScoredUrl(url, computeDomainPriorityScore(url)))
+                    .map(u -> new ScoredUrl(u, computeDomainPriorityScore(u)))
                     .sorted(Comparator.comparingInt(ScoredUrl::score).reversed())
                     .toList();
 
@@ -274,7 +271,7 @@ public class DiscoveryService {
                             : (scored.get(0).url() + " score=" + scored.get(0).score())
             );
 
-            // 4) OpenAI classifier na posortowanych, NOWO odkrytych
+            // 4) OpenAI classifier na posortowanych nowych url-ach
             for (ScoredUrl scoredUrl : scored) {
                 if (accepted.size() >= limit) {
                     break;
@@ -285,17 +282,14 @@ public class DiscoveryService {
                 try {
                     String snippet = fetchTextSnippet(url);
                     if (snippet.isBlank()) {
-                        // 🔁 ZMIANA: nie odrzucamy, tylko używamy URL jako minimalnego kontekstu
-                        log.info(
-                                "DiscoveryService: empty snippet for url={} (score={}), using URL as fallback snippet",
-                                url, scoredUrl.score()
-                        );
+                        log.info("DiscoveryService: empty snippet for url={} (score={}), using URL as fallback snippet",
+                                url, scoredUrl.score());
                         snippet = url;
                     }
 
                     FarmClassificationResult result = farmClassifier.classifyFarm(url, snippet);
 
-                    // zapis do discovered_urls – niezależnie, czy ACCEPT, czy REJECT
+                    // zapis do discovered_urls – niezależnie od wyniku
                     saveDiscoveredUrl(url, result);
 
                     if (result.isFarm()) {
@@ -316,9 +310,7 @@ public class DiscoveryService {
                         );
 
                     } else {
-
                         rejectedCount++;
-
                         log.info(
                                 "DiscoveryService: REJECTED (NOT A FARM) url={} score={} seasonalJobs={} reason={}",
                                 url,
@@ -354,7 +346,6 @@ public class DiscoveryService {
                 .distinct()
                 .toList();
 
-        // dopasuj acceptedCount do distinct (na wszelki wypadek)
         acceptedCount = distinctAccepted.size();
 
         // zapis statystyk
@@ -433,6 +424,13 @@ public class DiscoveryService {
         }
     }
 
+    /**
+     * Główny filtr domen:
+     *  - musi mieć host
+     *  - nie może być na BLOCKED_DOMAINS
+     *  - nie może być hard-negative (media, administracja, turystyka, portale itd.)
+     *  - + heurystyka looksLikeFarmDomain (odrzuca ewidentny syf)
+     */
     private boolean isAllowedDomain(String url) {
         String domain = extractDomain(url);
         if (domain == null) {
@@ -440,17 +438,24 @@ public class DiscoveryService {
             return false;
         }
 
-        if (BLOCKED_DOMAINS.contains(domain)) {
+        String d = domain.toLowerCase(Locale.ROOT);
+
+        if (BLOCKED_DOMAINS.contains(d)) {
             log.info("DiscoveryService: dropping url={} (blocked domain={})", url, domain);
             return false;
         }
 
-        if (domain.contains("zeitung") || domain.contains("news")) {
+        if (isHardNegative(d)) {
+            log.info("DiscoveryService: dropping url={} (hard-negative domain={})", url, domain);
+            return false;
+        }
+
+        // dodatkowe bezpieczeństwo na media/news (gdyby coś się prześlizgnęło)
+        if (d.contains("zeitung") || d.contains("news")) {
             log.info("DiscoveryService: dropping url={} (looks like news/media domain={})", url, domain);
             return false;
         }
 
-        // heurystyka: odrzuć oczywiste domeny rządowe / statystyczne / organizacje
         if (!looksLikeFarmDomain(domain)) {
             log.info("DiscoveryService: dropping url={} (domain does not look farm-related: {})", url, domain);
             return false;
@@ -466,21 +471,16 @@ public class DiscoveryService {
     private boolean looksLikeFarmDomain(String domain) {
         String d = domain.toLowerCase(Locale.ROOT);
 
-        // 1) natychmiastowe odrzucenie – ewidentnie nie-farmowe domeny
-        for (String bad : HARD_NEGATIVE_KEYWORDS) {
-            if (d.contains(bad)) {
-                return false;
-            }
+        if (isHardNegative(d)) {
+            return false;
         }
 
-        // 2) delikatny plus – domeny z „farmowymi” słowami kluczowymi
         boolean looksFarmy = FARM_KEYWORDS.stream().anyMatch(d::contains);
 
         if (looksFarmy) {
             log.debug("DiscoveryService: domain={} looks farm-related by keyword heuristic", domain);
         }
 
-        // 3) domyślnie: jeśli nie jest „twardo złe”, przepuszczamy
         return true;
     }
 
@@ -495,6 +495,12 @@ public class DiscoveryService {
         }
 
         String d = domain.toLowerCase(Locale.ROOT);
+
+        // jeśli hard-negative -> praktycznie wykluczamy ten URL ze smart-kolejki
+        if (isHardNegative(d)) {
+            return -100;
+        }
+
         int score = 0;
 
         // +20 za każde „farmowe” słowo kluczowe
@@ -507,13 +513,6 @@ public class DiscoveryService {
         // +10 za domenę .de (lokalność)
         if (d.endsWith(".de")) {
             score += 10;
-        }
-
-        // -20 za każdy hard negative (gdyby się przedarł)
-        for (String bad : HARD_NEGATIVE_KEYWORDS) {
-            if (d.contains(bad)) {
-                score -= 20;
-            }
         }
 
         // małe bonusy / kary za długość i "dziwność" domeny
@@ -529,6 +528,20 @@ public class DiscoveryService {
     }
 
     /**
+     * Sprawdzanie "hard-negative" – czy tekst (domena/URL) zawiera
+     * cokolwiek z listy HARD_NEGATIVE_KEYWORDS.
+     */
+    private boolean isHardNegative(String text) {
+        String d = text.toLowerCase(Locale.ROOT);
+        for (String bad : HARD_NEGATIVE_KEYWORDS) {
+            if (d.contains(bad)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Prosty record na potrzeby scoringu.
      */
     private record ScoredUrl(String url, int score) {
@@ -536,8 +549,8 @@ public class DiscoveryService {
 
     /**
      * Wyciąga domenę z URL-a:
-     * https://www.instagram.com/p/... -> instagram.com
-     * https://erdbeeren-hannover.de/jobs/ -> erdbeeren-hannover.de
+     *  https://www.instagram.com/p/... -> instagram.com
+     *  https://erdbeeren-hannover.de/jobs/ -> erdbeeren-hannover.de
      */
     private String extractDomain(String url) {
         try {
