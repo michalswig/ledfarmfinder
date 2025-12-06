@@ -51,7 +51,7 @@ public class DiscoveryService {
             // portale turystyczne / regiony
             "sh-tourismus.de",
 
-            // media – przykładowe top domeny
+            // przykładowe duże media
             "swr.de",
             "zdf.de",
             "ard.de",
@@ -64,7 +64,7 @@ public class DiscoveryService {
     );
 
     /**
-     * Słowa kluczowe charakterystyczne dla gospodarstw – używane w scoringu.
+     * Słowa kluczowe charakterystyczne dla gospodarstw – używane w scoringu i heurystyce domen.
      */
     private static final List<String> FARM_KEYWORDS = List.of(
             "hof", "hofladen",
@@ -120,11 +120,12 @@ public class DiscoveryService {
             "nachrichten", "news", "presse", "press", "report",
             "journal", "zeitung", "gazette", "magazin", "blog",
 
-            // Turystyka / portale regionalne
+            // Turystyka / portale regionalne / lifestyle
             "tourismus", "tourism", "touristik",
             "reisefuhrer", "reiseführer", "urlaub",
             "reiseland", "ausflug", "freizeit",
             "stadtmarketing", "messe", "visit",
+            "erleben", "anzeiger", "kurier",
 
             // Katalogi branżowe / generatory stron / portale
             "branchenbuch", "gelbeseiten", "verzeichnis",
@@ -429,7 +430,7 @@ public class DiscoveryService {
      *  - musi mieć host
      *  - nie może być na BLOCKED_DOMAINS
      *  - nie może być hard-negative (media, administracja, turystyka, portale itd.)
-     *  - + heurystyka looksLikeFarmDomain (odrzuca ewidentny syf)
+     *  - + heurystyka looksLikeFarmDomain (musi wyglądać na gospodarstwo)
      */
     private boolean isAllowedDomain(String url) {
         String domain = extractDomain(url);
@@ -465,8 +466,12 @@ public class DiscoveryService {
     }
 
     /**
-     * Heurystyka: domena „wygląda” na coś związanego z farmami,
-     * albo przynajmniej NIE wygląda na ministerstwo/statystykę/NGO/portal.
+     * Heurystyka: domena „wygląda” na coś związanego z farmami.
+     *
+     * W tej ostrej wersji:
+     *  - jeśli domain zawiera cokolwiek z HARD_NEGATIVE_KEYWORDS -> false
+     *  - jeśli NIE zawiera żadnego słowa z FARM_KEYWORDS -> false
+     *  - tylko domeny z "hof/obst/spargel/erdbeer/bauern/weingut/..." przechodzą.
      */
     private boolean looksLikeFarmDomain(String domain) {
         String d = domain.toLowerCase(Locale.ROOT);
@@ -476,11 +481,11 @@ public class DiscoveryService {
         }
 
         boolean looksFarmy = FARM_KEYWORDS.stream().anyMatch(d::contains);
-
-        if (looksFarmy) {
-            log.debug("DiscoveryService: domain={} looks farm-related by keyword heuristic", domain);
+        if (!looksFarmy) {
+            return false;
         }
 
+        log.debug("DiscoveryService: domain={} looks farm-related by keyword heuristic", domain);
         return true;
     }
 

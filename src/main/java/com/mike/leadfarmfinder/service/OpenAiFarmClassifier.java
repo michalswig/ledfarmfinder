@@ -17,19 +17,29 @@ public class OpenAiFarmClassifier {
 
     public FarmClassificationResult classifyFarm(String url, String textSnippet) {
         String prompt = """
-                You are a classifier for a seasonal farm worker lead generation system.
-                The user will give you:
-                1) URL of a website
-                2) Extracted plain text of the page (truncated).
+                You are a STRICT classifier for a seasonal farm worker lead generation system.
                 
-                Your task:
-                - Decide if this website is a small or medium German farm.
-                - Decide if this farm offers seasonal agricultural jobs (fruits, vegetables,
-                  asparagus, berries, apples, Christmas trees, etc.).
+                INPUT:
+                - url: the URL of a website
+                - page_text: extracted plain text of the page (possibly truncated)
                 
-                IMPORTANT RULES:
-                - Regional newspapers, news portals, magazines, blogs, tourist organizations, campsites — even if they have job
-                  advertisements in agriculture — are NOT farms. Always treat them as is_farm = false.”
+                YOUR TASK:
+                1) Decide if this website represents ONE specific small or medium German FARM business.
+                2) Decide if this farm offers SEASONAL AGRICULTURAL JOBS
+                   (fruits, vegetables, asparagus, berries, apples, vineyards, Christmas trees, etc.).
+                
+                STRICT NEGATIVE RULES (VERY IMPORTANT):
+                - Regional newspapers, news portals, city magazines, lifestyle portals, blogs, tourist organizations,
+                  and campsites are NOT farms, even if they contain job advertisements for farm work.
+                  Examples of NOT-farms:
+                  * "Kielerleben" (city/region lifestyle portal)
+                  * "Sauerlandkurier" (regional newspaper / portal)
+                  * any "Stadtmagazin", "Stadtportal", "Tourismusverband", "Reiseland", etc.
+                  In ALL these cases you MUST answer: "is_farm": false.
+                
+                - If the website lists MANY different farms, attractions, companies, events or tourist offers in a region
+                  (directories, portals, tourism pages), it is NOT itself a farm business.
+                
                 - If the URL domain is a large job portal, social network or generic site
                   (for example: indeed.com, stepstone.de, meinestadt.de, facebook.com,
                   instagram.com, linkedin.com, youtube.com, tiktok.com, xing.com, etc.),
@@ -41,25 +51,48 @@ public class OpenAiFarmClassifier {
                     "main_contact_url": null
                   }
                 
-                - Only consider as "farm" if it clearly represents a specific agricultural
-                  business (Hof, Landhof, Obsthof, Spargelhof, Erdbeerhof, Bauernhof etc.).
-                - "is_seasonal_jobs" should be true only if the text clearly mentions
-                  seasonal work, harvest workers, Saisonarbeit, Erntehelfer, Studentenjobs
-                  on farm etc.
+                POSITIVE RULES (WHEN TO RETURN is_farm = true):
+                - Only consider "is_farm": true if the website clearly represents ONE specific agricultural business:
+                  e.g. Hof, Landhof, Obsthof, Spargelhof, Erdbeerhof, Bauernhof, Biohof, Weingut, Winzer, etc.
+                - Typical signs:
+                  * there is one main farm name (e.g. "Erdbeerhof Müller", "Obsthof Schmidt"),
+                  * there is an address and contact data for THIS farm,
+                  * the content describes their own products, fields, orchards, animals, etc.
                 
-                URL:
-                %s
+                SEASONAL JOBS:
+                - "is_seasonal_jobs" should be true ONLY if the text clearly mentions seasonal work on the farm, for example:
+                  "Saisonarbeit", "Erntehelfer", "Erntehilfe", "Erntehelfer:innen",
+                  "Erntejobs", "Saisonkräfte", "Ferienjob auf dem Hof",
+                  "Studentenjobs auf unserem Hof" or similar.
+                - If seasonal work is not clearly mentioned, use "is_seasonal_jobs": false.
                 
-                TEXT:
-                %s
+                DECISION POLICY:
+                - If you are NOT clearly sure that this is ONE specific farm business, you MUST answer "is_farm": false.
+                - Portals, media, city / regional magazines, tourism pages and directories are always "is_farm": false.
+                - Do NOT guess "is_farm": true only because the text talks about farms in general or many different farms.
                 
-                Respond ONLY in valid JSON with fields:
+                OUTPUT FORMAT:
+                Respond ONLY with a single valid JSON object:
                 {
                   "is_farm": boolean,
                   "is_seasonal_jobs": boolean,
                   "reason": string,
                   "main_contact_url": string | null
                 }
+                
+                "reason" should be a short explanation like:
+                - "single-farm-website-with-products-and-contact"
+                - "regional-media-portal-not-a-farm"
+                - "tourism-portal-listing-many-farms"
+                - "job-portal-or-social-network"
+                - "no-clear-sign-of-farm"
+                
+                INPUT DATA:
+                URL:
+                %s
+                
+                PAGE_TEXT (first 2000 chars approx.):
+                %s
                 """.formatted(url, textSnippet);
 
         String json = openAiService.classify(prompt);
