@@ -78,12 +78,17 @@ public class DiscoveryService {
      */
     private static final List<String> FARM_KEYWORDS = List.of(
             "hof", "hofladen",
-            "obst", "gemuese", "gemüse",
-            "erdbeer", "beeren",
+            "obst", "obsthof",
+            "gemuese", "gemüse",
+            "erdbeer", "beeren", "himbeer", "beerenhof",
             "spargel",
-            "bauern", "landwirtschaft",
-            "bioland", "demeter", "biohof",
-            "weingut", "winzer", "obsthof"
+            "kartoffel", "kartoffelhof",
+            "ackerbau", "getreide", "getreidehof",
+            "landwirtschaft", "bauernhof", "landhof",
+            "gaertnerei", "gärtnerei", "gartenbau",
+            "blumen", "schnittblumen",
+            "weingut", "winzer",
+            "biohof", "bioland", "demeter"
     );
 
     /**
@@ -238,7 +243,23 @@ public class DiscoveryService {
             // Portale rezerwacyjne i katalogi
             "airbnb",
             "booking",
-            "obstbaufachbetriebe"
+            "obstbaufachbetriebe",
+
+            // Turystyka / noclegi na farmie – NIE nasz target
+            "ferienwohnung", "ferienwohnungen",
+            "ferienhof", "bauernhofurlaub", "urlaub-auf-dem-bauernhof",
+            "ferienhaus", "ferienhaeuser", "ferienhäuser",
+            "pension", "gasthof", "hotel", "zimmer", "zimmervermietung",
+            "camping", "zeltplatz", "stellplatz", "wohnmobil",
+            "glamping", "tiny-house", "tiny-house-dorf",
+            "wellness", "sauna", "spa",
+
+            //agenturen
+            "zeitarbeit", "zeitarbeitsfirma",
+            "personalvermittlung", "personaldienstleister",
+            "arbeitsagentur", "jobvermittlung",
+            "leiharbeit", "arbeitnehmerüberlassung"
+
     );
 
     // prosty in-memory index do rotacji zapytań

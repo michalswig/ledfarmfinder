@@ -168,6 +168,19 @@ leadfinder:
       - Landwirtschaftlicher Betrieb kleiner Hof NRW
       - Hofbetrieb Saisonarbeit Nordrhein Westfalen
 
+      - Blumenhof Gärtnerei kleiner Betrieb Nordrhein Westfalen
+      - Schnittblumen Gärtnerei Familienbetrieb Niedersachsen
+      - Stauden Gärtnerei Hof kleiner Betrieb NRW
+      - Gemüse Gärtnerei Hofverkauf Niedersachsen
+      - Hofverkauf Kartoffeln Gemüse kleiner Hof NRW
+      - Direkt ab Hof Gemüseverkauf kleiner Betrieb Nordrhein Westfalen
+      - Obst und Gemüse Hofverkauf Familienbetrieb Niedersachsen
+
+      - Erdbeerhof Erntehelfer gesucht kleiner Betrieb Niedersachsen
+      - Spargelhof Saisonarbeit direkt auf dem Hof NRW
+      - Gemüsehof Erntehelfer Jobs Familienbetrieb Niedersachsen
+      - Obsthof Saisonkräfte Feldarbeit Nordrhein Westfalen
+
 app:
   outreach:
     unsubscribe-base-url: "https://leadfarmfinder.onrender.com/unsubscribe/"
