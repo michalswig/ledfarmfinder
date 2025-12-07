@@ -35,32 +35,42 @@ public class DiscoveryService {
      * Twardo blokowane domeny – jeśli dokładnie taka domena się pojawi, nie przechodzi dalej.
      * (duże portale, social media, job-boardy, media)
      */
+// Twardo blokowane domeny – nie idą nawet do OpenAI
     private static final Set<String> BLOCKED_DOMAINS = Set.of(
-            "indeed.com",
+            // Job-portale / social media
             "de.indeed.com",
-            "instagram.com",
             "facebook.com",
-            "m.facebook.com",
-            "youtube.com",
+            "indeed.com",
+            "instagram.com",
             "linkedin.com",
+            "meinestadt.de",
+            "stepstone.de",
             "tiktok.com",
             "xing.com",
-            "stepstone.de",
-            "meinestadt.de",
+            "youtube.com",
 
-            // portale turystyczne / regiony
+            // Portale turystyczne / regiony
             "sh-tourismus.de",
 
-            // przykładowe duże media
-            "swr.de",
-            "zdf.de",
+            // Duże media / TV / radio
             "ard.de",
-            "rtl.de",
-            "ndr.de",
-            "wdr.de",
-            "mdr.de",
             "br.de",
-            "hr.de"
+            "hr.de",
+            "mdr.de",
+            "ndr.de",
+            "rtl.de",
+            "swr.de",
+            "wdr.de",
+            "zdf.de",
+
+            // Duże portale rezerwacyjne / ogłoszeniowe
+            "airbnb.com",
+            "airbnb.de",
+            "booking.com",
+            "kleinanzeigen.de",
+
+            // Katalogi branżowe / organizacje
+            "obstbaufachbetriebe.de"
     );
 
     /**
@@ -87,61 +97,148 @@ public class DiscoveryService {
      */
     private static final List<String> HARD_NEGATIVE_KEYWORDS = List.of(
             // Rząd / administracja
-            "bundesregierung", "bundeskanzler", "ministerium",
-            "regierung", "landtag", "verwaltung",
+            "bundeskanzler",
+            "bundesregierung",
+            "ministerium",
+            "regierung",
+            "landtag",
+            "verwaltung",
 
             // Samorządy / publiczne instytucje
-            "stadt-", "kreis-", "landkreis", "gemeinde-", "rathaus",
+            "gemeinde-",
+            "kreis-",
+            "landkreis",
+            "rathaus",
+            "stadt-",
 
             // Statystyka / nauka
-            "destatis", "statistik", "statista",
-            "hochschule", "universitaet", "universität", "uni-", "fh-",
+            "destatis",
+            "hochschule",
+            "statista",
+            "statistik",
+            "fh-",
+            "uni-",
+            "universitaet",
+            "universität",
 
             // Organizacje / NGO
-            "verbraucherzentrale", "verbraucherzentralen",
-            "nabu.", "wwf.", "greenpeace.",
+            "greenpeace.",
+            "nabu.",
+            "verbraucherzentrale",
+            "verbraucherzentralen",
+            "wwf.",
 
             // Strony UE
-            "europa.eu", "ec.europa",
+            "ec.europa",
+            "europa.eu",
 
             // Izby rolnicze i państwowe instytucje rolnicze
-            "kammer", "handelskammer", "bauernverband",
-            "landwirtschaft-bw.de", "lwk-niedersachsen.de",
-            "ble.de", "bzfe.de",
+            "bauernverband",
+            "ble.de",
+            "bzfe.de",
+            "handelskammer",
+            "kammer",
+            "landwirtschaft-bw.de",
+            "lwk-niedersachsen.de",
 
-            // MEDIA / TV / RADIO / PRESS
-            "swr", "ard", "zdf", "ndr", "wdr", "mdr", "rbb",
-            "spiegel", "focus", "stern", "welt", "bild",
-            "t-online", "faz", "zeit", "tagesschau", "tagesthemen",
-            "merkur", "sueddeutsche", "morgenpost",
-            "deutschlandfunk", "dw.com", "deutsche-welle",
+            // MEDIA / TV / RADIO / PRESS (nazwy marek)
+            "bild",
+            "dw.com",
+            "deutschlandfunk",
+            "deutsche-welle",
+            "faz",
+            "focus",
+            "merkur",
+            "mdr",
+            "morgenpost",
+            "ndr",
+            "rbb",
+            "sueddeutsche",
+            "spiegel",
+            "stern",
+            "swr",
+            "t-online",
+            "tagesschau",
+            "tagesthemen",
+            "welt",
+            "wdr",
+            "zeit",
+            "zdf",
 
-            // NEWS / PRESS KEYWORDS
-            "nachrichten", "news", "presse", "press", "report",
-            "journal", "zeitung", "gazette", "magazin", "blog",
+            // NEWS / PRESS – słowa kluczowe
+            "blog",
+            "gazette",
+            "journal",
+            "magazin",
+            "nachrichten",
+            "news",
+            "presse",
+            "press",
+            "report",
+            "zeitung",
 
             // Turystyka / portale regionalne / lifestyle
-            "tourismus", "tourism", "touristik",
-            "reisefuhrer", "reiseführer", "urlaub",
-            "reiseland", "ausflug", "freizeit",
-            "stadtmarketing", "messe", "visit",
-            "erleben", "anzeiger", "kurier",
+            "ausflug",
+            "erleben",
+            "freizeit",
+            "messe",
+            "reiseland",
+            "reisefuhrer",
+            "reiseführer",
+            "stadtmarketing",
+            "tonight",       // np. tonight.de
+            "tourism",
+            "tourismus",
+            "touristik",
+            "urlaub",
+            "visit",
+            "anzeiger",
+            "kurier",
 
             // Katalogi branżowe / generatory stron / portale
-            "branchenbuch", "gelbeseiten", "verzeichnis",
-            "portal", "marktplatz",
+            "branchenbuch",
+            "gelbeseiten",
+            "marktplatz",
+            "portal",
+            "verzeichnis",
 
             // CMS / "site builders"
-            "jimdo", "wix", "wordpress", "joomla",
-            "webnode", "strato", "ionos",
+            "ionos",
+            "jimdo",
+            "joomla",
+            "strato",
+            "webnode",
+            "wix",
+            "wordpress",
 
             // Agencje i usługi
-            "marketing", "agentur", "consulting",
-            "fotografie", "werbung",
-            "seo", "webdesign", "hosting",
+            "agentur",
+            "consulting",
+            "fotografie",
+            "hosting",
+            "marketing",
+            "seo",
+            "webdesign",
+            "werbung",
 
-            // FILM / TV / VIDEO / STREAM / MEDIA
-            "tv", "video", "stream", "media"
+            // FILM / TV / VIDEO / STREAM / MEDIA (ogólne słowa)
+            "media",
+            "stream",
+            "tv",
+            "video",
+
+            // Miasta / landy / administracja lokalna
+            "hannover.de",
+            "brandenburg.de",
+
+            // Organizacje / klastry gospodarcze
+            "agrobusiness",
+            "netzwerk",
+
+            // Portale rezerwacyjne i katalogi
+            "airbnb",
+            "booking",
+            "obstbaufachbetriebe"
     );
 
     // prosty in-memory index do rotacji zapytań

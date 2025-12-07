@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 
 import javax.naming.NamingException;
 import javax.naming.directory.*;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Hashtable;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -88,7 +90,9 @@ public class EmailExtractor {
 
     /**
      * Normalize email:
+     * - URL decode (%20 → spacja, itp.)
      * - trim
+     * - usunięcie śmieci z początku (np. %20, przecinki, nawiasy, itp.)
      * - rozbicie na local@domain
      * - walidacja lokalnej części (zwykłe ASCII, rozsądna długość, brak "u00xx")
      * - wyłuskanie i „zacięcie” TLD (np. ".deust" -> ".de" jeśli "de" jest dozwolone)
@@ -104,14 +108,47 @@ public class EmailExtractor {
             return null;
         }
 
-        String email = raw.trim();
+        String email = raw;
+
+        // 1) URL-decode – usuwa np. %20, %0A itp. jeśli występują
+        try {
+            email = URLDecoder.decode(email, StandardCharsets.UTF_8);
+        } catch (IllegalArgumentException ignored) {
+            // jeżeli jest coś dziwnego, zostawiamy oryginał
+        }
+
+        // 2) podstawowy trim
+        email = email.trim();
         if (email.isEmpty()) {
+            return null;
+        }
+
+        // 3) wyrzuć śmieci na początku: cudzysłowy, nawiasy, przecinki, średniki, itp.
+        email = email.replaceAll("^[\"'<>()\\[\\];:,]+", "").trim();
+
+        // 4) usuń wiodące sekwencje %xx (np. %20, %0A) – mogą zostać po dziwnych linkach
+        while (email.matches("^%[0-9A-Fa-f]{2}.*")) {
+            email = email.substring(3).trim();
+        }
+
+        if (email.isEmpty()) {
+            return null;
+        }
+
+        // 5) po czyszczeniu adres MUSI zaczynać się od litery/cyfry
+        char first = email.charAt(0);
+        if (!Character.isLetterOrDigit(first)) {
             return null;
         }
 
         int atIndex = email.indexOf('@');
         int lastDot = email.lastIndexOf('.');
         if (atIndex <= 0 || lastDot <= atIndex) {
+            return null;
+        }
+
+        // zabezpieczenie na drugi "@" – takie adresy odrzucamy
+        if (email.indexOf('@', atIndex + 1) != -1) {
             return null;
         }
 
@@ -181,11 +218,7 @@ public class EmailExtractor {
         }
 
         // odrzucamy znaki spoza zestawu i dziwne długości
-        if (!LOCAL_PART_PATTERN.matcher(local).matches()) {
-            return false;
-        }
-
-        return true;
+        return LOCAL_PART_PATTERN.matcher(local).matches();
     }
 
     /**
