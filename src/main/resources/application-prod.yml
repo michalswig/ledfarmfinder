@@ -15,14 +15,30 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
   mail:
-    host: hosting2078033.online.pro
+    host: o1jobs.de           # zgodne z MX/SRV
     port: 587
     username: office@o1jobs.de
-    password: ${MAIL_PASSWORD}    # z ENV: MAIL_PASSWORD
+    password: ${MAIL_PASSWORD}
+    protocol: smtp
+    default-encoding: UTF-8
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
-      mail.debug: false           # na prod: false, żeby nie logować całego SMTP
+      mail.smtp.starttls.required: true
+
+      # Envelope MAIL FROM – musi być z Twojej domeny
+      mail.smtp.from: office@o1jobs.de
+
+      # Co podaje się w komendzie EHLO/HELO
+      mail.smtp.localhost: o1jobs.de
+
+      # Time-outy dla bezpieczeństwa
+      mail.smtp.connectiontimeout: 5000
+      mail.smtp.timeout: 5000
+      mail.smtp.writetimeout: 5000
+
+      # Na prod raczej false, do debugowania możesz tymczasowo zmienić na true
+      mail.debug: true
 
 # Scraping CRON – prod optymalnie pod limit 5000 hits/miesiąc
 leadcron:
@@ -32,12 +48,12 @@ leadcron:
 
 leadfinder:
   outreach:
-    enabled: true                # PROD SAFE DEFAULT: false (włączysz, gdy chcesz realnie wysyłać)
+    enabled: true                # PROD: wysyłka włączona
     from-address: "Patrycja Swigost <office@o1jobs.de>"
     default-subject: "Zuverlässige polnische Arbeitskräfte – kurzfristig verfügbar"
     max-emails-per-run: 20
-    simulate-only: false           # PROD SAFE DEFAULT: true – najpierw testy/logi
-    interval-millis: 900000       # 15 min między batchami
+    simulate-only: false         # realne wysyłki
+    interval-millis: 900000      # 15 min między batchami
     delay-between-emails-millis: 1000  # 1 sekunda między mailami
 
     first-email-body-template: |
