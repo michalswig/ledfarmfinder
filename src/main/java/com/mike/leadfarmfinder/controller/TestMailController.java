@@ -22,7 +22,7 @@ public class TestMailController {
         MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
 
         helper.setFrom("Patrycja Swigost <office@o1jobs.de>");
-        helper.setTo("TWÓJ_MAIL_TESTOWY@gmail.com"); // tu wstaw swój adres
+        helper.setTo("m.swigost@gmail.com"); // tu wstaw swój adres
         helper.setSubject("Test SMTP o1jobs.de");
         helper.setText("To jest testowy mail z LeadFarmFinder.", false);
 
