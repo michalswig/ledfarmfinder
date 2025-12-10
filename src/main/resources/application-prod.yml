@@ -38,7 +38,7 @@ spring:
       mail.smtp.writetimeout: 5000
 
       # Na prod raczej false, do debugowania możesz tymczasowo zmienić na true
-      mail.debug: true
+      mail.debug: false
 
 # Scraping CRON – prod optymalnie pod limit 5000 hits/miesiąc
 leadcron:
