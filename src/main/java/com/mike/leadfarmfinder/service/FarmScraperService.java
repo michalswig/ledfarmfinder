@@ -12,12 +12,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,30 +36,40 @@ public class FarmScraperService {
 
     private static final String REFERRER = "https://www.google.com";
 
-    /**
-     * High-level API: scrape the start URL and its Kontakt/Impressum/Contact pages.
-     */
+    // NEW: standardowe ścieżki, gdy kontaktUrl jest 404 / crawler nic nie zwróci
+    private static final List<String> FALLBACK_PATHS = List.of(
+            "/",                // home
+            "/kontakt", "/kontakt/",
+            "/contact", "/contact/",
+            "/impressum", "/impressum/",
+            "/datenschutz", "/datenschutz/"
+    );
+
     public Set<FarmLead> scrapeFarmLeads(String startUrl) {
 
-        // 0. Wyciągamy "base domain" z URL-a – tej domeny pilnujemy w farm_sources
         String domain = extractBaseDomainFromUrl(startUrl);
         if (domain == null) {
             log.warn("FarmScraperService: cannot extract base domain from {}, aborting scrape", startUrl);
             return Set.of();
         }
 
-        // 0.1. Sprawdź, czy ta domena nie była scrapowana niedawno
         if (shouldSkipScraping(domain)) {
             log.info("FarmScraperService: skipping scraping for domain={} (recently scraped)", domain);
             return Set.of();
         }
 
-        // 1. Find all relevant URLs on this domain (start + kontakt/impressum/contact)
-        Set<String> urlsToScrape = domainCrawler.crawlContacts(startUrl, 1); // depth=1 usually enough
+        // 1) crawl
+        Set<String> urlsToScrape = domainCrawler.crawlContacts(startUrl, 1);
+
+        // NEW: jeśli crawler nie znalazł nic (np. startUrl=404), robimy fallback
+        if (urlsToScrape == null || urlsToScrape.isEmpty()) {
+            urlsToScrape = buildFallbackUrls(startUrl);
+            log.info("FarmScraperService: crawler returned 0 urls, using fallback urls for startUrl={} -> {}",
+                    startUrl, urlsToScrape.size());
+        }
 
         log.info("Urls to scrape for {}: {}", startUrl, urlsToScrape);
 
-        // 2. Load known emails once to avoid duplicates
         Set<String> knownEmails = repository.findAll().stream()
                 .map(FarmLead::getEmail)
                 .filter(Objects::nonNull)
@@ -70,7 +78,9 @@ public class FarmScraperService {
 
         Set<FarmLead> newFarmLeads = new LinkedHashSet<>();
 
-        // 3. Scrape each URL
+        // NEW: warunek "czy był realny sukces HTTP" (żeby nie ustawiać lastScrapedAt po pustym runie)
+        boolean anyPageFetchedOk = false;
+
         for (String url : urlsToScrape) {
 
             Document doc;
@@ -80,15 +90,17 @@ public class FarmScraperService {
                         .referrer(REFERRER)
                         .timeout(10_000)
                         .get();
+
+                anyPageFetchedOk = true; // <<< NEW
+
             } catch (Exception e) {
                 log.warn("Failed to fetch {}, skipping. Reason: {}", url, e.toString());
-                continue; // nie wywalaj całej apki, tylko pomiń ten URL
+                continue;
             }
 
             String html = doc.html();
 
             Set<String> pageEmails = emailExtractor.extractEmails(html);
-
             log.info("Found {} raw emails on {}", pageEmails.size(), url);
 
             if (pageEmails.isEmpty()) {
@@ -101,22 +113,21 @@ public class FarmScraperService {
                 pageEmail = pageEmail.trim();
                 if (pageEmail.isBlank()) continue;
 
-                // odfiltruj śmieciowe / niepowiązane maile
                 if (!isRelevantEmailForDomain(pageEmail, startUrl)) {
                     log.info("Skipping non-relevant email '{}' for startUrl '{}'", pageEmail, startUrl);
                     continue;
                 }
 
-                String lowerCasePageEmail = pageEmail.toLowerCase();
-                if (knownEmails.contains(lowerCasePageEmail)) {
+                String lower = pageEmail.toLowerCase(Locale.ROOT);
+                if (knownEmails.contains(lower)) {
                     log.info("Email '{}' already exists, skipping", pageEmail);
                     continue;
                 }
 
-                log.info("New farm lead on {} -> {}", url, lowerCasePageEmail);
+                log.info("New farm lead on {} -> {}", url, lower);
 
                 FarmLead farmLead = FarmLead.builder()
-                        .email(lowerCasePageEmail)
+                        .email(lower)
                         .sourceUrl(url)
                         .createdAt(LocalDateTime.now())
                         .active(true)
@@ -125,47 +136,71 @@ public class FarmScraperService {
 
                 repository.save(farmLead);
 
-                knownEmails.add(lowerCasePageEmail);
+                knownEmails.add(lower);
                 newFarmLeads.add(farmLead);
             }
         }
 
-        // 4. Po zakończonym scrapowaniu zaktualizuj last_scraped_at dla domeny
-        updateLastScrapedAt(domain);
+        // NEW: lastScrapedAt tylko jeśli miało sens (fetch OK lub znaleziono leady)
+        boolean successRun = anyPageFetchedOk || !newFarmLeads.isEmpty();
+        if (successRun) {
+            updateLastScrapedAt(domain);
+        } else {
+            log.info("FarmScraperService: NOT updating lastScrapedAt for domain={} because nothing was fetched and no leads were found",
+                    domain);
+        }
 
         return newFarmLeads;
     }
 
-    /**
-     * Czy email wygląda na sensowny lead dla danego gospodarstwa (startUrl)?
-     * - preferujemy maile z tej samej domeny (np. obsthof-xyz.de)
-     * - dopuszczamy prywatne domeny (gmail.com, gmx.de, mail.de, freenet.de, posteo.de, itp.)
-     * - odrzucamy oczywiste śmieci / techniczne domeny
-     */
+    private Set<String> buildFallbackUrls(String startUrl) {
+        String root = rootUrl(startUrl);
+        if (root == null) return Set.of();
+
+        Set<String> urls = new LinkedHashSet<>();
+        for (String path : FALLBACK_PATHS) {
+            urls.add(join(root, path));
+        }
+        return urls;
+    }
+
+    private String rootUrl(String url) {
+        try {
+            URI uri = new URI(url);
+            String scheme = (uri.getScheme() == null) ? "https" : uri.getScheme();
+            String host = uri.getHost();
+            if (host == null) return null;
+            return scheme + "://" + host;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private String join(String root, String path) {
+        if (root.endsWith("/") && path.startsWith("/")) {
+            return root.substring(0, root.length() - 1) + path;
+        }
+        if (!root.endsWith("/") && !path.startsWith("/")) {
+            return root + "/" + path;
+        }
+        return root + path;
+    }
+
     private boolean isRelevantEmailForDomain(String email, String startUrl) {
         String emailDomain = extractDomainFromEmail(email);
-        if (emailDomain == null) {
-            return false;
-        }
+        if (emailDomain == null) return false;
 
         String localPart = email.substring(0, email.indexOf('@'));
-        if (looksLikeHexId(localPart)) {
-            // np. techniczne ID typu "a3f4b8c9d0e1f2a3" – to zwykle nie jest lead
-            return false;
-        }
+        if (looksLikeHexId(localPart)) return false;
 
         String siteBaseDomain = extractBaseDomainFromUrl(startUrl);
-        if (siteBaseDomain == null) {
-            return false;
-        }
+        if (siteBaseDomain == null) return false;
 
-        // 1) Ten sam „base domain”: np. obsthof-wicke.de
         if (emailDomain.equalsIgnoreCase(siteBaseDomain) ||
                 emailDomain.endsWith("." + siteBaseDomain)) {
             return true;
         }
 
-        // 2) Popularne prywatne domeny – bardzo częste na małych rodzinnych gospodarstwach
         Set<String> allowedPersonalDomains = Set.of(
                 "gmail.com",
                 "gmx.de",
@@ -176,7 +211,6 @@ public class FarmScraperService {
                 "yahoo.de",
                 "yahoo.com",
                 "aol.com",
-                // typowe niemieckie prywatne
                 "mail.de",
                 "freenet.de",
                 "posteo.de"
@@ -185,21 +219,17 @@ public class FarmScraperService {
             return true;
         }
 
-        // 3) Blacklista typowych śmieci / technicznych domen
         Set<String> blacklistedDomains = Set.of(
-                // typowe templaty / testy
                 "mysite.com",
                 "example.com",
                 "test.com",
                 "localhost",
 
-                // wix / sentry techniczne
                 "wixpress.com",
                 "sentry.wixpress.com",
                 "sentry-next.wixpress.com",
                 "sentry.io",
 
-                // mailing / automaty – jeśli nie chcesz ich traktować jako leady
                 "mailchimp.com",
                 "sendgrid.net",
                 "sparkpostmail.com",
@@ -210,14 +240,11 @@ public class FarmScraperService {
             return false;
         }
 
-        // 4) Domyślnie: nie bierzemy maili z innych domen (agencje, portale, vendorzy)
         return false;
     }
 
     private boolean looksLikeHexId(String localPart) {
-        if (localPart == null || localPart.length() < 16) {
-            return false;
-        }
+        if (localPart == null || localPart.length() < 16) return false;
         return localPart.matches("[0-9a-fA-F]+");
     }
 
@@ -227,39 +254,29 @@ public class FarmScraperService {
         return email.substring(at + 1).toLowerCase();
     }
 
-    /**
-     * Bardzo prosta ekstrakcja base-domain z URL:
-     * np. https://www.obsthof-wicke.de/contact -> obsthof-wicke.de
-     */
     private String extractBaseDomainFromUrl(String url) {
         try {
-            String host = new java.net.URI(url).getHost();
+            String host = new URI(url).getHost();
             if (host == null) return null;
             host = host.toLowerCase();
             String[] parts = host.split("\\.");
             if (parts.length < 2) return host;
             String last = parts[parts.length - 1];
             String secondLast = parts[parts.length - 2];
-            return secondLast + "." + last; // np. obsthof-wicke.de
+            return secondLast + "." + last;
         } catch (Exception e) {
             return null;
         }
     }
 
-    /**
-     * Sprawdza, czy scrapowanie tej domeny powinno być pominięte,
-     * bo było robione zbyt niedawno.
-     * Używa configu: leadfinder.scraper.min-hours-between-scrapes.
-     */
     private boolean shouldSkipScraping(String domain) {
         long minHoursBetweenScrapes = leadFinderProperties.getScraper().getMinHoursBetweenScrapes();
 
         return farmSourceRepository.findByDomain(domain)
                 .map(source -> {
                     LocalDateTime last = source.getLastScrapedAt();
-                    if (last == null) {
-                        return false;
-                    }
+                    if (last == null) return false;
+
                     LocalDateTime now = LocalDateTime.now();
                     LocalDateTime threshold = now.minusHours(minHoursBetweenScrapes);
 
@@ -276,9 +293,6 @@ public class FarmScraperService {
                 .orElse(false);
     }
 
-    /**
-     * Upsert last_scraped_at w farm_sources.
-     */
     private void updateLastScrapedAt(String domain) {
         FarmSource source = farmSourceRepository.findByDomain(domain)
                 .orElseGet(FarmSource::new);
