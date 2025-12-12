@@ -88,7 +88,19 @@ public class DiscoveryService {
             "gaertnerei", "gärtnerei", "gartenbau",
             "blumen", "schnittblumen",
             "weingut", "winzer",
-            "biohof", "bioland", "demeter"
+            "biohof", "bioland", "demeter",
+//            zima
+            "gewaechshaus", "gewächshaus",
+            "jungpflanzen", "pflanzen",
+            "baumschule", "stauden",
+            "pilz", "pilze", "pilzzucht", "champignon",
+            "gemuesebau", "gemüsebau",
+            "garten",  // często w nazwie domeny
+            "betrieb", "familienbetrieb",  // często w URL/tytule, ale czasem też w domenie
+            "direktvermarktung", "hofverkauf",
+            "verarbeitung", "aufbereitung", "pack", "verpackung", "sortierung", "lager",
+            "milchvieh", "vieh", "rinder", "schwein", "gefluegel", "geflügel", "eier", "legehennen"
+
     );
 
     /**
