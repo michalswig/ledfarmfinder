@@ -47,14 +47,18 @@ leadcron:
   interval-millis: 1560000      # 26 min * 60 * 1000
 
 leadfinder:
+  email:
+    mx-check: true
+    mx-timeout-ms: 2000
+    mx-unknown-policy: ALLOW   # albo DROP
   outreach:
     enabled: true                # PROD: wysyłka włączona
     from-address: "Patrycja Swigost <office@o1jobs.de>"
     default-subject: "Zuverlässige polnische Arbeitskräfte – kurzfristig verfügbar"
-    max-emails-per-run: 20
+    max-emails-per-run: 10
     simulate-only: false         # realne wysyłki
-    interval-millis: 900000      # 15 min między batchami
-    delay-between-emails-millis: 1000  # 1 sekunda między mailami
+    interval-millis: 1800000      # 30 min między batchami
+    delay-between-emails-millis: 3000  # 3 sekunda między mailami
 
     first-email-body-template: |
       Guten Tag
@@ -99,103 +103,146 @@ leadfinder:
     limit-per-run: 100
 
     queries:
-      - Erdbeerhof kleine Farm Niedersachsen
-      - Erdbeerhof Familienbetrieb NRW
-      - Himbeerhof Hofladen Niedersachsen
-      - Beerenhof kleiner Bauernhof Nordrhein Westfalen
-      - Erdbeerplantage Bauernhof Rheinland Pfalz
-      - Beerenhof Saisonarbeit Baden Württemberg
+      # --- Szklarnie / Gewächshaus ---
+      - Gewächshausbetrieb Gemüse Nordrhein Westfalen
+      - Gemüsebau Gewächshaus Niedersachsen
+      - Tomaten Gewächshaus Familienbetrieb NRW
+      - Gurken Gewächshaus Betrieb Niedersachsen
+      - Bio Gemüsebau Gewächshaus Nordrhein Westfalen
+      - Kräuter Gewächshaus Betrieb NRW
+      - Jungpflanzenbetrieb Gärtnerei Niedersachsen
 
-      - Gemüsehof kleiner Betrieb Niedersachsen
-      - Gemüsebau Familienbetrieb NRW
-      - Bauernhof Gemüseanbau kleine Farm Hessen
-      - Gemüsehof Saisonarbeiter gesucht Niedersachsen
-      - Kartoffelhof Hofladen Niedersachsen
-      - Salat Gemüsehof Bauernhof Nordrhein Westfalen
+      # --- Gärtnerei / Zierpflanzen / Baumschule ---
+      - Gärtnerei Familienbetrieb Nordrhein Westfalen
+      - Zierpflanzenbetrieb NRW
+      - Topfpflanzen Gärtnerei Niedersachsen
+      - Weihnachtsstern Gärtnerei Betrieb NRW
+      - Baumschule Familienbetrieb Nordrhein Westfalen
+      - Staudenbetrieb Gärtnerei Niedersachsen
 
-      - Obsthof Familienbetrieb Niedersachsen
-      - Apfelhof kleiner Hof Nordrhein Westfalen
-      - Obstbau kleine Farm Rheinland Pfalz
-      - Kleiner Obsthof Baden Württemberg
-      - Obsthof Saisonarbeit NRW
-      - Apfelplantage kleiner Betrieb Niedersachsen
+      # --- Pilzarnie ---
+      - Pilzzuchtbetrieb Nordrhein Westfalen
+      - Champignonfarm Niedersachsen
+      - Speisepilze Betrieb NRW
+      - Pilzfarm Familienbetrieb Niedersachsen
 
-      - Bauernhof kleiner Betrieb Niedersachsen
-      - Kleiner Familienhof NRW
-      - Bauernhof Hofladen Niedersachsen kleinbetrieb
-      - Hofladen Bauernhof Rheinland Pfalz
-      - Ackerbau kleiner Hof Nordrhein Westfalen
-      - Familiengeführter Bauernhof Niedersachsen
+      # --- Magazyny / sortowanie ---
+      - Gemüselager landwirtschaftlicher Betrieb NRW
+      - Kartoffellager Bauernhof Niedersachsen
+      - Aufbereitung Gemüse Betrieb Nordrhein Westfalen
+      - Verpackung Gemüse Hofbetrieb Niedersachsen
 
-      - Kartoffelhof kleiner Bauernhof NRW
-      - Kartoffelanbau kleiner Familienbetrieb Niedersachsen
-      - Hofbetrieb Kartoffeln Niedersachsen
-      - Bauernhof Getreide kleinere Betriebe NRW
-      - Kartoffelernte Bauernhof Jobs Niedersachsen
-      - Kartoffelhof Hofladen Nordrhein Westfalen
+      # --- Hofladen / Direktvermarktung ---
+      - Hofladen Bauernhof Nordrhein Westfalen
+      - Direktvermarktung Hof Niedersachsen
+      - Hofverkauf landwirtschaftlicher Betrieb NRW
+      - Hofladen Familienbetrieb Niedersachsen
 
-      - Weihnachtsbaumhof kleiner Betrieb Niedersachsen
-      - Tannenhof Familienbetrieb NRW
-      - Weihnachtsbaum Plantage Bauernhof Niedersachsen
-      - Tannenbaum Hof kleiner Betrieb Norddeutschland
-      - Weihnachtsbaumverkauf Hofbetrieb NRW
+      # --- Hodowla zwierząt ---
+      - Milchviehbetrieb Familienbetrieb NRW
+      - Rinderhof Niedersachsen
+      - Geflügelhof Familienbetrieb Nordrhein Westfalen
+      - Eierpackstelle landwirtschaftlicher Betrieb Niedersachsen
 
-      - Milchhof kleiner Familienbetrieb Niedersachsen
-      - Hofladen Milchprodukte kleiner Hof NRW
-      - Rinderhof kleiner Hof Niedersachsen
-      - Bauernhof Viehzucht kleiner Betrieb NRW
-      - Milchviehbetrieb Familienbetrieb Niedersachsen
 
-      # ---- Nowe dodatkowe zapytania NRW ----
-      - Erdbeerhof kleiner Betrieb Nordrhein Westfalen
-      - Himbeerhof Familienbetrieb NRW
-      - Beerenhof kleiner Hof Nordrhein Westfalen
-      - Obsthof kleiner Familienbetrieb NRW
-      - Apfelhof Saisonarbeit Nordrhein Westfalen
-      - Streuobsthof kleiner Hof NRW
-      - Beerenplantage Familienbetrieb Nordrhein Westfalen
-      - Erdbeerhof Saisonarbeiter gesucht NRW
-
-      - Gemüsehof kleiner Familienbetrieb Nordrhein Westfalen
-      - Gemüsebau kleiner Betrieb NRW
-      - Kartoffelhof Familienbetrieb Nordrhein Westfalen
-      - Salatanbau kleiner Hof NRW
-      - Gemüsehof Erntehelfer gesucht Nordrhein Westfalen
-      - Spargelhof kleiner Betrieb NRW
-      - Spargelhof Saisonarbeit Nordrhein Westfalen
-
-      - Ackerbau Familienbetrieb NRW
-      - Bauernhof Getreideanbau kleiner Betrieb Nordrhein Westfalen
-      - Hofbetrieb Ackerbau NRW klein
-      - Getreidehof kleiner Familienbetrieb Nordrhein Westfalen
-
-      - Milchviehbetrieb kleiner Hof NRW
-      - Rinderhof Familienbetrieb Nordrhein Westfalen
-      - Bauernhof Viehzucht kleiner Familienbetrieb NRW
-      - Hofladen Milchprodukte Familienbetrieb NRW
-
-      - Weihnachtsbaumhof Familienbetrieb Nordrhein Westfalen
-      - Tannenhof kleiner Betrieb NRW
-      - Weihnachtsbaumplantage kleiner Hof Nordrhein Westfalen
-      - Tannenbaumverkauf Familienbetrieb NRW
-
-      - Kleiner Bauernhof Familienbetrieb Nordrhein Westfalen
-      - Bauernhof Hofladen kleiner Betrieb NRW
-      - Landwirtschaftlicher Betrieb kleiner Hof NRW
-      - Hofbetrieb Saisonarbeit Nordrhein Westfalen
-
-      - Blumenhof Gärtnerei kleiner Betrieb Nordrhein Westfalen
-      - Schnittblumen Gärtnerei Familienbetrieb Niedersachsen
-      - Stauden Gärtnerei Hof kleiner Betrieb NRW
-      - Gemüse Gärtnerei Hofverkauf Niedersachsen
-      - Hofverkauf Kartoffeln Gemüse kleiner Hof NRW
-      - Direkt ab Hof Gemüseverkauf kleiner Betrieb Nordrhein Westfalen
-      - Obst und Gemüse Hofverkauf Familienbetrieb Niedersachsen
-
-      - Erdbeerhof Erntehelfer gesucht kleiner Betrieb Niedersachsen
-      - Spargelhof Saisonarbeit direkt auf dem Hof NRW
-      - Gemüsehof Erntehelfer Jobs Familienbetrieb Niedersachsen
-      - Obsthof Saisonkräfte Feldarbeit Nordrhein Westfalen
+#    queries:
+#      - Erdbeerhof kleine Farm Niedersachsen
+#      - Erdbeerhof Familienbetrieb NRW
+#      - Himbeerhof Hofladen Niedersachsen
+#      - Beerenhof kleiner Bauernhof Nordrhein Westfalen
+#      - Erdbeerplantage Bauernhof Rheinland Pfalz
+#      - Beerenhof Saisonarbeit Baden Württemberg
+#
+#      - Gemüsehof kleiner Betrieb Niedersachsen
+#      - Gemüsebau Familienbetrieb NRW
+#      - Bauernhof Gemüseanbau kleine Farm Hessen
+#      - Gemüsehof Saisonarbeiter gesucht Niedersachsen
+#      - Kartoffelhof Hofladen Niedersachsen
+#      - Salat Gemüsehof Bauernhof Nordrhein Westfalen
+#
+#      - Obsthof Familienbetrieb Niedersachsen
+#      - Apfelhof kleiner Hof Nordrhein Westfalen
+#      - Obstbau kleine Farm Rheinland Pfalz
+#      - Kleiner Obsthof Baden Württemberg
+#      - Obsthof Saisonarbeit NRW
+#      - Apfelplantage kleiner Betrieb Niedersachsen
+#
+#      - Bauernhof kleiner Betrieb Niedersachsen
+#      - Kleiner Familienhof NRW
+#      - Bauernhof Hofladen Niedersachsen kleinbetrieb
+#      - Hofladen Bauernhof Rheinland Pfalz
+#      - Ackerbau kleiner Hof Nordrhein Westfalen
+#      - Familiengeführter Bauernhof Niedersachsen
+#
+#      - Kartoffelhof kleiner Bauernhof NRW
+#      - Kartoffelanbau kleiner Familienbetrieb Niedersachsen
+#      - Hofbetrieb Kartoffeln Niedersachsen
+#      - Bauernhof Getreide kleinere Betriebe NRW
+#      - Kartoffelernte Bauernhof Jobs Niedersachsen
+#      - Kartoffelhof Hofladen Nordrhein Westfalen
+#
+#      - Weihnachtsbaumhof kleiner Betrieb Niedersachsen
+#      - Tannenhof Familienbetrieb NRW
+#      - Weihnachtsbaum Plantage Bauernhof Niedersachsen
+#      - Tannenbaum Hof kleiner Betrieb Norddeutschland
+#      - Weihnachtsbaumverkauf Hofbetrieb NRW
+#
+#      - Milchhof kleiner Familienbetrieb Niedersachsen
+#      - Hofladen Milchprodukte kleiner Hof NRW
+#      - Rinderhof kleiner Hof Niedersachsen
+#      - Bauernhof Viehzucht kleiner Betrieb NRW
+#      - Milchviehbetrieb Familienbetrieb Niedersachsen
+#
+#      # ---- Nowe dodatkowe zapytania NRW ----
+#      - Erdbeerhof kleiner Betrieb Nordrhein Westfalen
+#      - Himbeerhof Familienbetrieb NRW
+#      - Beerenhof kleiner Hof Nordrhein Westfalen
+#      - Obsthof kleiner Familienbetrieb NRW
+#      - Apfelhof Saisonarbeit Nordrhein Westfalen
+#      - Streuobsthof kleiner Hof NRW
+#      - Beerenplantage Familienbetrieb Nordrhein Westfalen
+#      - Erdbeerhof Saisonarbeiter gesucht NRW
+#
+#      - Gemüsehof kleiner Familienbetrieb Nordrhein Westfalen
+#      - Gemüsebau kleiner Betrieb NRW
+#      - Kartoffelhof Familienbetrieb Nordrhein Westfalen
+#      - Salatanbau kleiner Hof NRW
+#      - Gemüsehof Erntehelfer gesucht Nordrhein Westfalen
+#      - Spargelhof kleiner Betrieb NRW
+#      - Spargelhof Saisonarbeit Nordrhein Westfalen
+#
+#      - Ackerbau Familienbetrieb NRW
+#      - Bauernhof Getreideanbau kleiner Betrieb Nordrhein Westfalen
+#      - Hofbetrieb Ackerbau NRW klein
+#      - Getreidehof kleiner Familienbetrieb Nordrhein Westfalen
+#
+#      - Milchviehbetrieb kleiner Hof NRW
+#      - Rinderhof Familienbetrieb Nordrhein Westfalen
+#      - Bauernhof Viehzucht kleiner Familienbetrieb NRW
+#      - Hofladen Milchprodukte Familienbetrieb NRW
+#
+#      - Weihnachtsbaumhof Familienbetrieb Nordrhein Westfalen
+#      - Tannenhof kleiner Betrieb NRW
+#      - Weihnachtsbaumplantage kleiner Hof Nordrhein Westfalen
+#      - Tannenbaumverkauf Familienbetrieb NRW
+#
+#      - Kleiner Bauernhof Familienbetrieb Nordrhein Westfalen
+#      - Bauernhof Hofladen kleiner Betrieb NRW
+#      - Landwirtschaftlicher Betrieb kleiner Hof NRW
+#      - Hofbetrieb Saisonarbeit Nordrhein Westfalen
+#
+#      - Blumenhof Gärtnerei kleiner Betrieb Nordrhein Westfalen
+#      - Schnittblumen Gärtnerei Familienbetrieb Niedersachsen
+#      - Stauden Gärtnerei Hof kleiner Betrieb NRW
+#      - Gemüse Gärtnerei Hofverkauf Niedersachsen
+#      - Hofverkauf Kartoffeln Gemüse kleiner Hof NRW
+#      - Direkt ab Hof Gemüseverkauf kleiner Betrieb Nordrhein Westfalen
+#      - Obst und Gemüse Hofverkauf Familienbetrieb Niedersachsen
+#
+#      - Erdbeerhof Erntehelfer gesucht kleiner Betrieb Niedersachsen
+#      - Spargelhof Saisonarbeit direkt auf dem Hof NRW
+#      - Gemüsehof Erntehelfer Jobs Familienbetrieb Niedersachsen
+#      - Obsthof Saisonkräfte Feldarbeit Nordrhein Westfalen
 
 app:
   outreach:
