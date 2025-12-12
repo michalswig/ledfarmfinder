@@ -233,7 +233,7 @@ public class DiscoveryService {
             "leiharbeit", "arbeitnehmerüberlassung"
     );
 
-    // >>> NEW: odrzucamy pliki (PDF itd.) zanim w ogóle pójdą dalej
+    // NEW: odrzucamy pliki zanim w ogóle pójdą dalej
     private static final Set<String> BLOCKED_EXTENSIONS = Set.of(
             ".pdf", ".jpg", ".jpeg", ".png", ".gif", ".webp",
             ".zip", ".rar", ".7z",
@@ -241,7 +241,7 @@ public class DiscoveryService {
             ".ppt", ".pptx"
     );
 
-    // >>> NEW: lekki boost jeśli URL wygląda jak podstrona o firmie / kontakcie
+    // NEW: boost tylko jako "priorytet" dla URL-i na farmowych domenach
     private static final List<String> URL_HINT_KEYWORDS = List.of(
             "/kontakt", "/contact",
             "/impressum",
@@ -314,7 +314,7 @@ public class DiscoveryService {
                     .filter(Objects::nonNull)
                     .map(String::trim)
                     .filter(s -> !s.isBlank())
-                    .filter(this::isNotFileUrl)       // <<< NEW
+                    .filter(this::isNotFileUrl)  // NEW
                     .filter(this::isAllowedDomain)
                     .distinct()
                     .collect(Collectors.toList());
@@ -376,7 +376,6 @@ public class DiscoveryService {
                     }
 
                     FarmClassificationResult result = farmClassifier.classifyFarm(url, snippet);
-
                     saveDiscoveredUrl(url, result);
 
                     if (result.isFarm()) {
@@ -523,14 +522,15 @@ public class DiscoveryService {
 
     private boolean looksLikeFarmDomain(String domain) {
         String d = domain.toLowerCase(Locale.ROOT);
-
         if (isHardNegative(d)) return false;
+        return hasFarmKeyword(d);
+    }
 
-        boolean looksFarmy = FARM_KEYWORDS.stream().anyMatch(d::contains);
-        if (!looksFarmy) return false;
-
-        log.debug("DiscoveryService: domain={} looks farm-related by keyword heuristic", domain);
-        return true;
+    private boolean hasFarmKeyword(String d) {
+        for (String kw : FARM_KEYWORDS) {
+            if (d.contains(kw)) return true;
+        }
+        return false;
     }
 
     private int computeDomainPriorityScore(String url) {
@@ -538,24 +538,31 @@ public class DiscoveryService {
         if (domain == null) return 0;
 
         String d = domain.toLowerCase(Locale.ROOT);
-
         if (isHardNegative(d)) return -100;
 
         int score = 0;
 
+        // baza: keywordy w domenie
         for (String kw : FARM_KEYWORDS) {
             if (d.contains(kw)) score += 20;
         }
 
+        // lokalność
         if (d.endsWith(".de")) score += 10;
+
+        // krótsze domeny lekko na plus
         if (d.length() <= 15) score += 5;
+
+        // podejrzane tokeny
         if (d.contains("shop") || d.contains("markt") || d.contains("portal")) score -= 5;
 
-        // <<< NEW: url-hint boost (bez otwierania nowych domen)
-        String u = url.toLowerCase(Locale.ROOT);
-        for (String hint : URL_HINT_KEYWORDS) {
-            if (u.contains(hint)) {
-                score += 8;
+        // NEW: boost tylko jeśli domena już jest "farmowa"
+        if (hasFarmKeyword(d)) {
+            String u = url.toLowerCase(Locale.ROOT);
+            for (String hint : URL_HINT_KEYWORDS) {
+                if (u.contains(hint)) {
+                    score += 8;
+                }
             }
         }
 
@@ -605,7 +612,6 @@ public class DiscoveryService {
         }
     }
 
-    // >>> NEW: filtr plików po suffixie / ścieżce
     private boolean isNotFileUrl(String url) {
         try {
             URI uri = new URI(url);
@@ -621,7 +627,6 @@ public class DiscoveryService {
             }
             return true;
         } catch (Exception e) {
-            // jak nie umiemy sparsować – nie ryzykujemy
             log.info("DiscoveryService: dropping url={} (invalid url for file-check: {})", url, e.getMessage());
             return false;
         }
