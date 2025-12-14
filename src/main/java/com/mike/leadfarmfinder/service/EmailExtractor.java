@@ -24,62 +24,50 @@ public class EmailExtractor {
     // Patterns
     // =========================
 
-    /**
-     * Prosty regex na "normalne" maile (po normalizacji obfuskacji).
-     */
+    /** Prosty regex na "normalne" maile (po normalizacji obfuskacji). */
     private static final Pattern EMAIL_PATTERN =
             Pattern.compile("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}");
 
-    /**
-     * Mailto: mailto:info@domain.de lub mailto:info(at)domain(dot)de?subject=...
-     */
+    /** Mailto: mailto:info@domain.de lub mailto:info(at)domain(dot)de?subject=... */
     private static final Pattern MAILTO_PATTERN =
             Pattern.compile("(?i)mailto:([^\"'\\s>]+)");
 
-    /**
-     * Cloudflare obfuscation: data-cfemail="..."
-     */
+    /** Cloudflare obfuscation: data-cfemail="..." */
     private static final Pattern CLOUDFLARE_PATTERN =
             Pattern.compile("data-cfemail=\"([0-9a-fA-F]+)\"");
 
-    /**
-     * TLD allow-list.
-     */
+    /** TLD allow-list. */
     private static final Set<String> ALLOWED_TLDS = Set.of("de", "com", "net", "eu");
 
-    /**
-     * Lokalna część e-maila (przed @) – ASCII, 2–40.
-     */
+    /** Lokalna część e-maila (przed @) – ASCII, 2–40. */
     private static final Pattern LOCAL_PART_PATTERN =
             Pattern.compile("^[a-z0-9._%+-]{2,40}$");
 
-    /**
-     * Pseudo-unicode typu u00fc w local-part.
-     */
+    /** Pseudo-unicode typu u00fc w local-part. */
     private static final Pattern SUSPICIOUS_UNICODE_ESCAPE =
             Pattern.compile("u00[0-9a-fA-F]{2}");
+
+    /**
+     * FIX: telefon + mail sklejone: "... 68diegaertnerei@..." albo "0176...567mona@..."
+     * Ucinamy wiodące >=2 cyfry, jeśli zaraz po nich jest litera.
+     */
+    private static final Pattern LEADING_PHONE_DIGITS_BEFORE_LETTER =
+            Pattern.compile("^\\d{2,}(?=[a-z])");
+
+    /** Śmieci na końcu maila w HTML: ),.;:'"> itp. */
+    private static final Pattern TRAILING_JUNK =
+            Pattern.compile("[\\)\\]\\}\\.,;:'\"<>]+$");
 
     // =========================
     // Config (feature flags)
     // =========================
 
-    /**
-     * MX check on/off. Domyślnie true.
-     */
     @Value("${leadfinder.email.mx-check:true}")
     private boolean mxCheckEnabled;
 
-    /**
-     * Co robić, gdy MX check nie może być wykonany (timeout/błąd DNS)?
-     * ALLOW = przepuść (większy zasięg)
-     * DROP  = odrzuć (bardziej "twarda" jakość kosztem zasięgu)
-     */
     @Value("${leadfinder.email.mx-unknown-policy:ALLOW}")
     private String mxUnknownPolicy;
 
-    /**
-     * Timeout DNS (ms) dla JNDI.
-     */
     @Value("${leadfinder.email.mx-timeout-ms:2000}")
     private long mxTimeoutMs;
 
@@ -91,10 +79,7 @@ public class EmailExtractor {
 
     public Set<String> extractEmails(String html) {
         Set<String> results = new LinkedHashSet<>();
-
-        if (html == null || html.isBlank()) {
-            return results;
-        }
+        if (html == null || html.isBlank()) return results;
 
         // 0) Normalizacja (at)/(dot) na całym HTML
         String normalizedHtml = normalizeObfuscatedEmailsInText(html);
@@ -102,24 +87,21 @@ public class EmailExtractor {
         // 1) Cloudflare data-cfemail
         Matcher cf = CLOUDFLARE_PATTERN.matcher(normalizedHtml);
         while (cf.find()) {
-            String encoded = cf.group(1);
-            String decoded = CloudflareEmailDecoder.decode(encoded);
+            String decoded = CloudflareEmailDecoder.decode(cf.group(1));
             if (decoded == null) continue;
 
             String normalized = normalizeEmail(decoded);
             if (normalized != null) results.add(normalized);
         }
 
-        // 2) Mailto links (często kluczowe)
+        // 2) Mailto links
         Matcher mailto = MAILTO_PATTERN.matcher(normalizedHtml);
         while (mailto.find()) {
             String raw = mailto.group(1);
 
-            // usuń parametry po "?" np. ?subject=...
             int q = raw.indexOf('?');
             if (q >= 0) raw = raw.substring(0, q);
 
-            // po mailto też przejedź normalizacją obfuskacji (dla mailto:info(at)dom(dot)de)
             raw = normalizeObfuscatedEmailsInText(raw);
 
             String normalized = normalizeEmail(raw);
@@ -129,8 +111,7 @@ public class EmailExtractor {
         // 3) Zwykłe maile w tekście/HTML
         Matcher matcher = EMAIL_PATTERN.matcher(normalizedHtml);
         while (matcher.find()) {
-            String raw = matcher.group();
-            String normalized = normalizeEmail(raw);
+            String normalized = normalizeEmail(matcher.group());
             if (normalized != null) results.add(normalized);
         }
 
@@ -141,12 +122,6 @@ public class EmailExtractor {
     // Normalization helpers
     // =========================
 
-    /**
-     * Zamienia obfuskacje typu:
-     * - (at), [at], {at}, <at>  -> @
-     * - (dot), [dot], {dot}, <dot> -> .
-     * - " at " -> @, " dot " -> . (opcjonalne, ale częste)
-     */
     private String normalizeObfuscatedEmailsInText(String input) {
         if (input == null || input.isBlank()) return input;
 
@@ -162,21 +137,12 @@ public class EmailExtractor {
         return s;
     }
 
-    /**
-     * Normalize email:
-     * - URL decode
-     * - trim
-     * - clean prefix junk
-     * - split local@domain
-     * - local-part validation
-     * - known TLD extraction
-     * - optional MX check
-     */
     private String normalizeEmail(String raw) {
         if (raw == null) return null;
 
         String email = raw;
 
+        // URL decode
         try {
             email = URLDecoder.decode(email, StandardCharsets.UTF_8);
         } catch (IllegalArgumentException ignored) {}
@@ -184,13 +150,18 @@ public class EmailExtractor {
         email = email.trim();
         if (email.isEmpty()) return null;
 
+        // usuń śmieci z początku i końca (HTML)
         email = email.replaceAll("^[\"'<>()\\[\\];:,]+", "").trim();
+        email = TRAILING_JUNK.matcher(email).replaceAll("").trim();
+        if (email.isEmpty()) return null;
 
+        // usuń wiodące %xx
         while (email.matches("^%[0-9A-Fa-f]{2}.*")) {
             email = email.substring(3).trim();
         }
         if (email.isEmpty()) return null;
 
+        // start musi być alnum
         char first = email.charAt(0);
         if (!Character.isLetterOrDigit(first)) return null;
 
@@ -198,19 +169,25 @@ public class EmailExtractor {
         int lastDot = email.lastIndexOf('.');
         if (atIndex <= 0 || lastDot <= atIndex) return null;
 
+        // drugi '@' -> out
         if (email.indexOf('@', atIndex + 1) != -1) return null;
 
+        // --- split ---
         String localPart = email.substring(0, atIndex).trim().toLowerCase();
-
-        // FIX: telefon + mail sklejone: "0176...567mona@..." -> utnij cyfry przed literą
-        localPart = localPart.replaceFirst("^\\d{3,}(?=[a-z])", "");
-        if (localPart.isBlank()) return null;
-
-        if (!isLocalPartAllowed(localPart)) return null;
-
         String hostWithoutTld = email.substring(atIndex + 1, lastDot).trim();
         String tldPart = email.substring(lastDot + 1).trim();
 
+        // FIX: telefon + mail sklejone
+        localPart = LEADING_PHONE_DIGITS_BEFORE_LETTER.matcher(localPart).replaceFirst("");
+        if (localPart.isBlank()) return null;
+
+        // validate local
+        if (!isLocalPartAllowed(localPart)) return null;
+
+        // validate host (bez TLD)
+        if (!isHostWithoutTldAllowed(hostWithoutTld)) return null;
+
+        // known tld
         String tld = extractKnownTld(tldPart);
         if (tld == null) return null;
 
@@ -218,6 +195,7 @@ public class EmailExtractor {
 
         if (mxCheckEnabled) {
             MxStatus mx = domainMxStatus(domain);
+
             if (mx == MxStatus.INVALID) return null;
 
             if (mx == MxStatus.UNKNOWN) {
@@ -229,7 +207,6 @@ public class EmailExtractor {
 
         return localPart + "@" + domain;
     }
-
 
     private String extractKnownTld(String tldPart) {
         if (tldPart == null || tldPart.isEmpty()) return null;
@@ -252,6 +229,26 @@ public class EmailExtractor {
         return LOCAL_PART_PATTERN.matcher(local).matches();
     }
 
+    private boolean isHostWithoutTldAllowed(String hostWithoutTldRaw) {
+        if (hostWithoutTldRaw == null) return false;
+
+        String h = hostWithoutTldRaw.trim();
+        if (h.isBlank()) return false;
+
+        // Bez spacji i niedozwolonych znaków
+        // (host może mieć litery, cyfry, kropki i myślniki)
+        if (!h.matches("^[a-zA-Z0-9.-]+$")) return false;
+
+        // Nie zaczynaj / nie kończ kropką lub myślnikiem
+        if (h.startsWith(".") || h.endsWith(".")) return false;
+        if (h.startsWith("-") || h.endsWith("-")) return false;
+
+        // Bez podwójnych kropek
+        if (h.contains("..")) return false;
+
+        return true;
+    }
+
     // =========================
     // MX check (robust)
     // =========================
@@ -260,8 +257,6 @@ public class EmailExtractor {
         try {
             Hashtable<String, String> env = new Hashtable<>();
             env.put("java.naming.factory.initial", "com.sun.jndi.dns.DnsContextFactory");
-
-            // timeouts
             env.put("com.sun.jndi.dns.timeout.initial", String.valueOf(mxTimeoutMs));
             env.put("com.sun.jndi.dns.timeout.retries", "1");
 
