@@ -177,7 +177,6 @@ public class EmailExtractor {
 
         String email = raw;
 
-        // URL decode
         try {
             email = URLDecoder.decode(email, StandardCharsets.UTF_8);
         } catch (IllegalArgumentException ignored) {}
@@ -185,16 +184,13 @@ public class EmailExtractor {
         email = email.trim();
         if (email.isEmpty()) return null;
 
-        // usuń śmieci z początku
         email = email.replaceAll("^[\"'<>()\\[\\];:,]+", "").trim();
 
-        // usuń wiodące %xx
         while (email.matches("^%[0-9A-Fa-f]{2}.*")) {
             email = email.substring(3).trim();
         }
         if (email.isEmpty()) return null;
 
-        // start musi być alnum
         char first = email.charAt(0);
         if (!Character.isLetterOrDigit(first)) return null;
 
@@ -202,38 +198,38 @@ public class EmailExtractor {
         int lastDot = email.lastIndexOf('.');
         if (atIndex <= 0 || lastDot <= atIndex) return null;
 
-        // drugi '@' -> out
         if (email.indexOf('@', atIndex + 1) != -1) return null;
 
-        String localPart = email.substring(0, atIndex);
-        String hostWithoutTld = email.substring(atIndex + 1, lastDot);
-        String tldPart = email.substring(lastDot + 1);
+        String localPart = email.substring(0, atIndex).trim().toLowerCase();
+
+        // FIX: telefon + mail sklejone: "0176...567mona@..." -> utnij cyfry przed literą
+        localPart = localPart.replaceFirst("^\\d{3,}(?=[a-z])", "");
+        if (localPart.isBlank()) return null;
 
         if (!isLocalPartAllowed(localPart)) return null;
+
+        String hostWithoutTld = email.substring(atIndex + 1, lastDot).trim();
+        String tldPart = email.substring(lastDot + 1).trim();
 
         String tld = extractKnownTld(tldPart);
         if (tld == null) return null;
 
-        String normalizedLocal = localPart.toLowerCase();
-        String normalizedHost = hostWithoutTld.toLowerCase();
-        String domain = normalizedHost + "." + tld;
+        String domain = hostWithoutTld.toLowerCase() + "." + tld;
 
         if (mxCheckEnabled) {
             MxStatus mx = domainMxStatus(domain);
-
             if (mx == MxStatus.INVALID) return null;
 
             if (mx == MxStatus.UNKNOWN) {
                 boolean drop = "DROP".equalsIgnoreCase(mxUnknownPolicy);
                 if (drop) return null;
-
-                // ALLOW = przepuszczamy (maksymalny zasięg)
                 log.warn("MX check UNKNOWN for domain={}, email={}", domain, raw);
             }
         }
 
-        return normalizedLocal + "@" + domain;
+        return localPart + "@" + domain;
     }
+
 
     private String extractKnownTld(String tldPart) {
         if (tldPart == null || tldPart.isEmpty()) return null;
