@@ -47,6 +47,16 @@ leadcron:
   interval-millis: 1560000      # 26 min * 60 * 1000
 
 leadfinder:
+  agrarjobboerse:
+    enabled: true
+    dryRun: true
+    startUrl: "https://www.agrarjobboerse.de/boerse/stellenangebote?plz=&dist=10&bkz=501&bkz=109411&bkz=58540&bkz=520&bkz=491&bkz=538&bkz=739&bkz=590&bkz=625&bkz=90128&s=0"
+    maxPagesPerRun: 2
+    maxOffersPerRun: 25
+    minDelayMs: 800
+    maxDelayMs: 1400
+    pageTimeoutMs: 30000
+    clickTimeoutMs: 3000
   email:
     mx-check: true
     mx-timeout-ms: 2000
@@ -247,6 +257,7 @@ leadfinder:
 app:
   outreach:
     unsubscribe-base-url: "https://leadfarmfinder.onrender.com/unsubscribe/"
+  admin-token: ${ADMIN_TOKEN:local-dev-token}
 
 openai:
   api-key: ${OPENAI_API_KEY}
