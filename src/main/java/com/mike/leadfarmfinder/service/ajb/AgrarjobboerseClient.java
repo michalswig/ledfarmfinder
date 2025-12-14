@@ -32,41 +32,64 @@ public class AgrarjobboerseClient {
         Set<String> offerUrls = new LinkedHashSet<>();
 
         try (Playwright pw = Playwright.create()) {
-            Browser browser = pw.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
-            BrowserContext ctx = browser.newContext();
-            Page page = ctx.newPage();
-            page.setDefaultTimeout(props.getPageTimeoutMs());
+            Browser browser = pw.chromium().launch(
+                    new BrowserType.LaunchOptions()
+                            .setHeadless(true)
+                            // Render / Docker – wymagane
+                            .setArgs(java.util.List.of(
+                                    "--no-sandbox",
+                                    "--disable-dev-shm-usage"
+                            ))
+            );
 
-            page.navigate(props.getStartUrl(),
-                    new Page.NavigateOptions().setWaitUntil(com.microsoft.playwright.options.WaitUntilState.DOMCONTENTLOADED));
+            try (BrowserContext ctx = browser.newContext()) {
+                Page page = ctx.newPage();
+                page.setDefaultTimeout(props.getPageTimeoutMs());
 
-            // Jeśli startUrl ma bkz=... to zazwyczaj i tak już jest ustawione,
-            // ale selekcja po labelach "Helfer" nic nie psuje, więc zostawiamy (możesz wyłączyć warunkiem).
-            SelectStats stats = selectAllHelferFiltersByJs(page);
-            log.info("AJB: helfer selected={}, skipped={}", stats.selected(), stats.skipped());
+                page.navigate(
+                        props.getStartUrl(),
+                        new Page.NavigateOptions()
+                                .setWaitUntil(com.microsoft.playwright.options.WaitUntilState.DOMCONTENTLOADED)
+                );
 
-            clickApplyAnzeigen(page);
+                // Jeśli startUrl ma bkz=... to zazwyczaj i tak już jest ustawione,
+                // ale selekcja po labelach "Helfer" nic nie psuje
+                SelectStats stats = selectAllHelferFiltersByJs(page);
+                log.info("AJB: helfer selected={}, skipped={}", stats.selected(), stats.skipped());
 
-            int pagesVisited = 0;
-            while (pagesVisited < props.getMaxPagesPerRun() && offerUrls.size() < props.getMaxOffersPerRun()) {
-                pagesVisited++;
+                clickApplyAnzeigen(page);
 
-                Set<String> pageUrls = extractOfferLinksFromJoblist(page);
-                int before = offerUrls.size();
-                offerUrls.addAll(pageUrls);
+                int pagesVisited = 0;
+                while (pagesVisited < props.getMaxPagesPerRun()
+                        && offerUrls.size() < props.getMaxOffersPerRun()) {
 
-                log.info("AJB: page {} -> +{} urls (total={})",
-                        pagesVisited, (offerUrls.size() - before), offerUrls.size());
+                    pagesVisited++;
 
-                if (offerUrls.size() >= props.getMaxOffersPerRun()) break;
-                if (!goNextPage(page)) break;
+                    Set<String> pageUrls = extractOfferLinksFromJoblist(page);
+                    int before = offerUrls.size();
+                    offerUrls.addAll(pageUrls);
 
-                waitForJoblistRows(page);
-                sleepJitter();
+                    log.info(
+                            "AJB: page {} -> +{} urls (total={})",
+                            pagesVisited,
+                            (offerUrls.size() - before),
+                            offerUrls.size()
+                    );
+
+                    if (offerUrls.size() >= props.getMaxOffersPerRun()) break;
+                    if (!goNextPage(page)) break;
+
+                    waitForJoblistRows(page);
+                    sleepJitter();
+                }
+            } finally {
+                try {
+                    browser.close();
+                } catch (Exception ignored) {
+                }
             }
-
-            browser.close();
         }
+
 
         return offerUrls.stream()
                 .limit(props.getMaxOffersPerRun())
