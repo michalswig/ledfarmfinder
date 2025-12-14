@@ -1,6 +1,5 @@
 spring:
   datasource:
-    # PROD: URL, user i hasło z ENV (np. Render Postgres)
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
@@ -8,14 +7,14 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none          # schema zarządzane przez Liquibase
-    show-sql: false           # na prod wyłączamy logowanie SQL
+      ddl-auto: none
+    show-sql: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
   mail:
-    host: o1jobs.de           # zgodne z MX/SRV
+    host: o1jobs.de
     port: 587
     username: office@o1jobs.de
     password: ${MAIL_PASSWORD}
@@ -26,50 +25,44 @@ spring:
       mail.smtp.starttls.enable: true
       mail.smtp.starttls.required: true
 
-      # Envelope MAIL FROM – musi być z Twojej domeny
       mail.smtp.from: office@o1jobs.de
-
-      # Co podaje się w komendzie EHLO/HELO
       mail.smtp.localhost: o1jobs.de
 
-      # Time-outy dla bezpieczeństwa
-      mail.smtp.connectiontimeout: 5000
-      mail.smtp.timeout: 5000
-      mail.smtp.writetimeout: 5000
+      # chmura wolniejsza -> 15s
+      mail.smtp.connectiontimeout: ${MAIL_CONN_TIMEOUT_MS:15000}
+      mail.smtp.timeout: ${MAIL_TIMEOUT_MS:15000}
+      mail.smtp.writetimeout: ${MAIL_WRITE_TIMEOUT_MS:15000}
 
-      # Na prod raczej false, do debugowania możesz tymczasowo zmienić na true
       mail.debug: false
-
-# Scraping CRON – prod optymalnie pod limit 5000 hits/miesiąc
-leadcron:
-  enabled: true                 # jak będziesz gotów
-  max-urls-per-run: 100         # ile URL-i maksymalnie obrabiasz w jednym runie
-  interval-millis: 1560000      # 26 min * 60 * 1000
 
 leadfinder:
   agrarjobboerse:
-    enabled: true
-    dryRun: true
-    startUrl: "https://www.agrarjobboerse.de/boerse/stellenangebote?plz=&dist=10&bkz=501&bkz=109411&bkz=58540&bkz=520&bkz=491&bkz=538&bkz=739&bkz=590&bkz=625&bkz=90128&s=0"
-    maxPagesPerRun: 2
-    maxOffersPerRun: 25
-    minDelayMs: 800
-    maxDelayMs: 1400
-    pageTimeoutMs: 30000
-    clickTimeoutMs: 3000
-  email:
-    mx-check: true
-    mx-timeout-ms: 2000
-    mx-unknown-policy: ALLOW   # albo DROP
-  outreach:
-    enabled: true                # PROD: wysyłka włączona
-    from-address: "Patrycja Swigost <office@o1jobs.de>"
-    default-subject: "Zuverlässige polnische Arbeitskräfte – kurzfristig verfügbar"
-    max-emails-per-run: 10
-    simulate-only: false         # realne wysyłki
-    interval-millis: 1800000      # 30 min między batchami
-    delay-between-emails-millis: 3000  # 3 sekunda między mailami
+    enabled: ${AJB_ENABLED:false}
+    dryRun: ${AJB_DRY_RUN:false}
+    startUrl: ${AJB_START_URL:https://www.agrarjobboerse.de/boerse/stellenangebote?plz=&dist=10&bkz=501&bkz=109411&bkz=58540&bkz=520&bkz=491&bkz=538&bkz=739&bkz=590&bkz=625&bkz=90128&s=0}
+    maxPagesPerRun: ${AJB_MAX_PAGES:1}
+    maxOffersPerRun: ${AJB_MAX_OFFERS:25}
+    minDelayMs: ${AJB_MIN_DELAY_MS:900}
+    maxDelayMs: ${AJB_MAX_DELAY_MS:1800}
+    pageTimeoutMs: ${AJB_PAGE_TIMEOUT_MS:45000}
+    clickTimeoutMs: ${AJB_CLICK_TIMEOUT_MS:8000}
+    cron:
+      enabled: ${AJB_CRON_ENABLED:false}
+      expression: ${AJB_CRON_EXPRESSION:0 35 2 * * *}
 
+  email:
+    mx-check: ${EMAIL_MX_CHECK:true}
+    mx-timeout-ms: ${EMAIL_MX_TIMEOUT_MS:2000}
+    mx-unknown-policy: ${EMAIL_MX_UNKNOWN_POLICY:ALLOW}
+
+  outreach:
+    enabled: ${OUTREACH_ENABLED:false}
+    from-address: ${OUTREACH_FROM:Patrycja Swigost <office@o1jobs.de>}
+    default-subject: ${OUTREACH_SUBJECT:Zuverlässige polnische Arbeitskräfte – kurzfristig verfügbar}
+    max-emails-per-run: ${OUTREACH_MAX_PER_RUN:10}
+    simulate-only: ${OUTREACH_SIMULATE_ONLY:false}
+    interval-millis: ${OUTREACH_INTERVAL_MS:1800000}
+    delay-between-emails-millis: ${OUTREACH_DELAY_MS:3000}
     first-email-body-template: |
       Guten Tag
       
@@ -102,6 +95,7 @@ leadfinder:
       Telefon: +49 160 6328144
       E-Mail: office@o1jobs.de
       www.o1jobs.de
+
 
   scraper:
     min-hours-between-scrapes: 12
@@ -254,19 +248,29 @@ leadfinder:
 #      - Gemüsehof Erntehelfer Jobs Familienbetrieb Niedersachsen
 #      - Obsthof Saisonkräfte Feldarbeit Nordrhein Westfalen
 
+
+
+
+
+
 app:
   outreach:
-    unsubscribe-base-url: "https://leadfarmfinder.onrender.com/unsubscribe/"
+    unsubscribe-base-url: ${UNSUBSCRIBE_BASE_URL:https://leadfarmfinder.onrender.com/unsubscribe/}
   admin-token: ${ADMIN_TOKEN:local-dev-token}
 
 openai:
-  api-key: ${OPENAI_API_KEY}
+  api-key: ${OPENAI_API_KEY:}
   base-url: https://api.openai.com/v1
   model: gpt-5.1
 
 serpapi:
-  api-key: ${SERPAPI_API_KEY}
+  api-key: ${SERPAPI_API_KEY:}
   base-url: https://serpapi.com/search
   default-country: de
   default-language: de
   default-engine: google
+
+logging:
+  level:
+    com.mike.leadfarmfinder.service.ajb: INFO
+    com.mike.leadfarmfinder.bootstrap: INFO

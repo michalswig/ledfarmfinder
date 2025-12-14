@@ -11,8 +11,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import static com.microsoft.playwright.options.LoadState.NETWORKIDLE;
@@ -46,77 +48,106 @@ public class AgrarjobboerseScraperService {
 
         Set<String> uniqueRunEmails = new LinkedHashSet<>();
 
+        // Playwright - jeden browser na cały run (stabilniej, taniej)
         try (Playwright pw = Playwright.create()) {
-            Browser browser = pw.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
-            BrowserContext ctx = browser.newContext();
-            Page page = ctx.newPage();
-            page.setDefaultTimeout(props.getPageTimeoutMs());
+            Browser browser = pw.chromium().launch(
+                    new BrowserType.LaunchOptions()
+                            .setHeadless(true)
+                            // Render / Docker – wymagane flagi
+                            .setArgs(List.of(
+                                    "--no-sandbox",
+                                    "--disable-dev-shm-usage"
+                            ))
+            );
 
-            for (String offerUrl : offerUrls) {
-                offersVisited++;
+            try (BrowserContext ctx = browser.newContext()) {
+                Page page = ctx.newPage();
 
-                try {
-                    page.navigate(offerUrl,
-                            new Page.NavigateOptions()
-                                    .setWaitUntil(com.microsoft.playwright.options.WaitUntilState.DOMCONTENTLOADED));
+                // Timeouts pod prod (Render wolniejszy)
+                page.setDefaultTimeout(props.getPageTimeoutMs());
+                page.setDefaultNavigationTimeout(props.getPageTimeoutMs());
 
-                    // często treść kontaktowa ładuje się chwilę później
-                    page.waitForLoadState(NETWORKIDLE);
+                for (String offerUrl : offerUrls) {
+                    offersVisited++;
 
-                    String html = page.content();
+                    try {
+                        page.navigate(offerUrl,
+                                new Page.NavigateOptions()
+                                        .setWaitUntil(com.microsoft.playwright.options.WaitUntilState.DOMCONTENTLOADED));
 
-                    // diagnostyka: jakby znowu było "0 email", to wiesz czy HTML w ogóle ma treść
-                    if (offersVisited <= 3) {
-                        log.info("AJB: sample html length for {} -> {}", offerUrl, html == null ? 0 : html.length());
-                        log.info("AJB: page.url() after navigate -> {}", page.url());
-                    }
+                        // kontakt często ładuje się później
+                        try {
+                            page.waitForLoadState(NETWORKIDLE, new Page.WaitForLoadStateOptions()
+                                    .setTimeout((double) props.getPageTimeoutMs()));
+                        } catch (PlaywrightException ignored) {
+                            // NETWORKIDLE bywa kapryśne - nie blokuj całego runu
+                        }
 
-                    Set<String> emails = emailExtractor.extractEmails(html);
+                        String html = page.content();
 
-                    if (emails.isEmpty()) {
-                        log.info("AJB: offer {} -> no emails", offerUrl);
+                        // Diagnostyka tylko dla pierwszych 3 stron
+                        if (offersVisited <= 3) {
+                            log.info("AJB: sample html length for {} -> {}", offerUrl, html == null ? 0 : html.length());
+                            log.info("AJB: page.url() after navigate -> {}", page.url());
+                        }
+
+                        Set<String> emails = emailExtractor.extractEmails(html);
+
+                        if (emails.isEmpty()) {
+                            log.info("AJB: offer {} -> no emails", offerUrl);
+                            sleepJitter();
+                            continue;
+                        }
+
+                        offersWithEmails++;
+                        emailsExtracted += emails.size();
+
+                        for (String raw : emails) {
+                            if (raw == null || raw.isBlank()) continue;
+
+                            String email = raw.trim().toLowerCase();
+                            if (!uniqueRunEmails.add(email)) continue; // unikalność w runie
+                            emailsUnique++;
+
+                            if (farmLeadRepository.existsByEmailIgnoreCase(email)) {
+                                emailsAlreadyInDb++;
+                                continue;
+                            }
+
+                            if (props.isDryRun()) {
+                                log.info("AJB: DRY RUN new email: {} (source={})", email, offerUrl);
+                                continue;
+                            }
+
+                            FarmLead lead = FarmLead.builder()
+                                    .email(email)
+                                    .sourceUrl(offerUrl)
+                                    .createdAt(LocalDateTime.now())
+                                    .active(true)
+                                    .bounce(false) // <-- MUST dla outreach query
+                                    .unsubscribeToken(TokenGenerator.generateShortToken())
+                                    .build();
+
+                            farmLeadRepository.save(lead);
+                            leadsSaved++;
+                        }
+
                         sleepJitter();
-                        continue;
+
+                    } catch (PlaywrightException e) {
+                        log.warn("AJB: offer failed {} reason={}", offerUrl, e.getMessage());
+                        sleepJitter();
+                    } catch (Exception e) {
+                        log.warn("AJB: offer failed {} error={}", offerUrl, e.getMessage(), e);
+                        sleepJitter();
                     }
-
-                    offersWithEmails++;
-                    emailsExtracted += emails.size();
-
-                    for (String raw : emails) {
-                        if (raw == null || raw.isBlank()) continue;
-
-                        String email = raw.trim().toLowerCase();
-                        if (!uniqueRunEmails.add(email)) continue;
-                        emailsUnique++;
-
-                        if (farmLeadRepository.existsByEmailIgnoreCase(email)) {
-                            emailsAlreadyInDb++;
-                            continue;
-                        }
-
-                        if (props.isDryRun()) {
-                            log.info("AJB: DRY RUN new email: {} (source={})", email, offerUrl);
-                            continue;
-                        }
-
-                        farmLeadRepository.save(FarmLead.builder()
-                                .email(email)
-                                .sourceUrl(offerUrl)
-                                .createdAt(LocalDateTime.now())
-                                .active(true)
-                                .unsubscribeToken(TokenGenerator.generateShortToken())
-                                .build());
-                        leadsSaved++;
-                    }
-
-                    sleepJitter();
-
-                } catch (PlaywrightException e) {
-                    log.warn("AJB: offer failed {} reason={}", offerUrl, e.getMessage());
+                }
+            } finally {
+                try {
+                    browser.close();
+                } catch (Exception ignored) {
                 }
             }
-
-            browser.close();
         }
 
         AjbRunSummary summary = AjbRunSummary.builder()
@@ -138,7 +169,10 @@ public class AgrarjobboerseScraperService {
         int min = props.getMinDelayMs();
         int max = props.getMaxDelayMs();
         int delay = (max <= min) ? min : (min + (int) (Math.random() * (max - min + 1)));
-        try { Thread.sleep(delay); }
-        catch (InterruptedException ignored) { Thread.currentThread().interrupt(); }
+        try {
+            Thread.sleep(delay);
+        } catch (InterruptedException ignored) {
+            Thread.currentThread().interrupt();
+        }
     }
 }

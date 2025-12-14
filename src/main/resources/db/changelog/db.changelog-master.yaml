@@ -316,3 +316,27 @@ databaseChangeLog:
                   name: bounce
                   type: BOOLEAN
                   defaultValueBoolean: false
+
+  - changeSet:
+      id: 5-3-bounce-not-null-default
+      author: you
+      changes:
+        - addDefaultValue:
+            tableName: farm_leads
+            columnName: bounce
+            defaultValueBoolean: false
+
+        - update:
+            tableName: farm_leads
+            columns:
+              - column:
+                  name: bounce
+                  value: "false"
+            where: bounce IS NULL
+
+        - addNotNullConstraint:
+            tableName: farm_leads
+            columnName: bounce
+            columnDataType: BOOLEAN
+
+

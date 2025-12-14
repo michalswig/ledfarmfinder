@@ -16,11 +16,15 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class OutreachService {
+
+    private static final Pattern EMAIL_REGEX =
+            Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
 
     private final OutreachProperties outreachProperties;
     private final FarmLeadRepository farmLeadRepository;
@@ -31,47 +35,50 @@ public class OutreachService {
 
     public void sendFirstEmail(FarmLead lead) {
         if (!outreachProperties.isEnabled()) {
-            log.info("OutreachService: outreach disabled, skipping (leadId={}, email={})",
-                    lead != null ? lead.getId() : null,
-                    lead != null ? lead.getEmail() : null
-            );
+            log.info("OutreachService: outreach disabled, skipping");
             return;
         }
-
         if (lead == null) {
             log.warn("OutreachService: lead is null, skipping");
             return;
         }
-
         if (!lead.isActive()) {
-            log.info("OutreachService: lead {} is inactive, skipping", lead.getEmail());
+            log.info("OutreachService: lead inactive, skipping (id={}, email={})", lead.getId(), lead.getEmail());
+            return;
+        }
+        if (lead.isBounce()) {
+            log.info("OutreachService: lead bounce=true, skipping (id={}, email={})", lead.getId(), lead.getEmail());
             return;
         }
 
-        if (lead.isBounce()) {
-            log.info("OutreachService: lead {} is marked as bounce, skipping", lead.getEmail());
+        String to = normalizeEmail(lead.getEmail());
+        if (to.isBlank()) {
+            log.warn("OutreachService: empty email after normalize, deactivating lead (id={})", lead.getId());
+            deactivateAsInvalid(lead, "EMPTY_EMAIL");
+            return;
+        }
+
+        // 🔥 KRYTYCZNE: blokada na śmieciowe/sklejone adresy
+        if (!isValidEmail(to)) {
+            log.warn("OutreachService: invalid email format, deactivating lead (id={}, rawEmail={}, normalized={})",
+                    lead.getId(), lead.getEmail(), to);
+            deactivateAsInvalid(lead, "INVALID_EMAIL_FORMAT");
             return;
         }
 
         String from = outreachProperties.getFromAddress();
-        String to = lead.getEmail();
         String subject = outreachProperties.getDefaultSubject();
 
-        // 🔁 template + placeholdery
-        Map<String, String> vars = new HashMap<>();
-        vars.put("EMAIL", lead.getEmail());
+        String unsubscribeUrl = buildUnsubscribeUrl(lead);
 
-        String unsubscribeUrl = "";
-        if (unsubscribeBaseUrl != null && !unsubscribeBaseUrl.isBlank()
-                && lead.getUnsubscribeToken() != null && !lead.getUnsubscribeToken().isBlank()) {
-            unsubscribeUrl = unsubscribeBaseUrl + lead.getUnsubscribeToken();
-        }
+        Map<String, String> vars = new HashMap<>();
+        vars.put("EMAIL", to);
         vars.put("UNSUBSCRIBE_URL", unsubscribeUrl);
 
         String template = outreachProperties.getFirstEmailBodyTemplate();
         String body = renderTemplate(template, vars);
 
-        // 🧪 preview
+        // Preview (zostawione, ale bezpieczniej logować krócej w przyszłości)
         log.info("=== OUTREACH EMAIL PREVIEW ===");
         log.info("From: {}", from);
         log.info("To: {}", to);
@@ -84,10 +91,9 @@ public class OutreachService {
 
         if (outreachProperties.isSimulateOnly()) {
             log.info("OutreachService: simulate-only=true, skipping real SMTP send");
-            sent = true; // logicznie traktujemy jako "poszło" na potrzeby timestampów
+            sent = true;
         } else {
             try {
-                // ⬇️ tu dodaliśmy unsubscribeUrl
                 sendViaSmtp(from, to, subject, body, unsubscribeUrl);
                 log.info("OutreachService: email sent successfully to {}", to);
                 sent = true;
@@ -98,16 +104,14 @@ public class OutreachService {
                     hardBounce = true;
                     log.info("OutreachService: detected HARD BOUNCE (5xx) for {}", to);
                 } else {
-                    log.info("OutreachService: send failed for {}, but no hard-bounce (5xx) detected – leaving lead active", to);
+                    log.info("OutreachService: send failed, but no hard-bounce detected; leaving lead active (id={}, email={})",
+                            lead.getId(), to);
                 }
-
             } catch (Exception e) {
-                log.warn("OutreachService: FAILED to send email to {} (Exception): {}", to, e.getMessage());
-                // traktujemy jako problem techniczny po naszej stronie – bez bounce
+                log.warn("OutreachService: FAILED to send email to {} (Exception): {}", to, e.getMessage(), e);
             }
         }
 
-        // 🚫 Jeśli hard bounce (5xx) – oznaczamy lead i kończymy
         if (hardBounce) {
             lead.setBounce(true);
             lead.setActive(false);
@@ -115,23 +119,37 @@ public class OutreachService {
             return;
         }
 
-        // Jeśli nie wysłano (sent=false) i to nie była tylko symulacja → nie ruszamy timestampów
         if (!sent && !outreachProperties.isSimulateOnly()) {
-            log.info("OutreachService: email not sent to {} (no simulate, no hardBounce) – no timestamps update", to);
+            log.info("OutreachService: not sent (no simulate, no hardBounce) -> no timestamps update for {}", to);
             return;
         }
 
-        // ✅ Aktualizacja timestampów tylko gdy "wysłane" (realnie lub symulacja)
         LocalDateTime now = LocalDateTime.now();
         if (lead.getFirstEmailSentAt() == null) {
             lead.setFirstEmailSentAt(now);
         }
         lead.setLastEmailSentAt(now);
 
+        // zapisz też znormalizowany email (opcjonalnie, ale pomaga)
+        lead.setEmail(to);
+
         farmLeadRepository.save(lead);
     }
 
-    // ⬇️ Zmienione: dodany parametr unsubscribeUrl i nagłówki List-Unsubscribe
+    private void deactivateAsInvalid(FarmLead lead, String reason) {
+        // minimalny "quarantine"
+        lead.setActive(false);
+        lead.setBounce(true); // traktuj jak “nieużywalne”
+        farmLeadRepository.save(lead);
+        log.info("OutreachService: lead deactivated as invalid (id={}, reason={})", lead.getId(), reason);
+    }
+
+    private String buildUnsubscribeUrl(FarmLead lead) {
+        if (unsubscribeBaseUrl == null || unsubscribeBaseUrl.isBlank()) return "";
+        if (lead.getUnsubscribeToken() == null || lead.getUnsubscribeToken().isBlank()) return "";
+        return unsubscribeBaseUrl + lead.getUnsubscribeToken();
+    }
+
     private void sendViaSmtp(String from, String to, String subject, String body, String unsubscribeUrl) throws Exception {
         MimeMessage message = mailSender.createMimeMessage();
 
@@ -139,13 +157,10 @@ public class OutreachService {
         helper.setFrom(from);
         helper.setTo(to);
         helper.setSubject(subject);
-        helper.setText(body, false); // false = plain text
+        helper.setText(body, false);
 
-        // 🔥 List-Unsubscribe — tylko jeśli mamy sensowny URL
         if (unsubscribeUrl != null && !unsubscribeUrl.isBlank()) {
-            String headerValue = "<" + unsubscribeUrl + ">";
-            message.addHeader("List-Unsubscribe", headerValue);
-            // Gmail One-Click (opcjonalne, ale warto)
+            message.addHeader("List-Unsubscribe", "<" + unsubscribeUrl + ">");
             message.addHeader("List-Unsubscribe-Post", "List-Unsubscribe=One-Click");
         }
 
@@ -157,20 +172,38 @@ public class OutreachService {
         while (cause != null) {
             if (cause instanceof SMTPAddressFailedException smtpEx) {
                 int code = smtpEx.getReturnCode();
-                if (code >= 500 && code < 600) {
-                    log.debug("Detected SMTP hard bounce code {} for address {}", code, smtpEx.getAddress());
-                    return true;
-                }
+                return code >= 500 && code < 600;
             }
             cause = cause.getCause();
         }
         return false;
     }
 
-    private String renderTemplate(String template, Map<String, String> variables) {
-        if (template == null) {
-            return "";
+    private boolean isValidEmail(String email) {
+        return EMAIL_REGEX.matcher(email).matches();
+    }
+
+    private String normalizeEmail(String email) {
+        if (email == null) return "";
+        // usuń whitespace, niewidzialne znaki, typowe doklejki
+        String e = email.trim();
+
+        // bardzo częsty syf: "email@domena.dewww.domena.de"
+        // jeśli mamy "@" i potem "www." bez separatora, utnij od www
+        int at = e.indexOf('@');
+        int www = e.indexOf("www.");
+        if (at > 0 && www > at) {
+            e = e.substring(0, www);
         }
+
+        // usuń przecinki/średniki na końcu
+        e = e.replaceAll("[,;]+$", "");
+
+        return e.trim().toLowerCase();
+    }
+
+    private String renderTemplate(String template, Map<String, String> variables) {
+        if (template == null) return "";
         String result = template;
         for (var entry : variables.entrySet()) {
             String placeholder = "{{" + entry.getKey() + "}}";

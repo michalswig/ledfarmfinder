@@ -7,12 +7,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface FarmLeadRepository extends JpaRepository<FarmLead,Integer> {
+public interface FarmLeadRepository extends JpaRepository<FarmLead, Long> {
+
     boolean existsByEmailIgnoreCase(String email);
+
     Optional<FarmLead> findByEmailIgnoreCase(String email);
+
     Optional<FarmLead> findByUnsubscribeToken(String unsubscribeToken);
+
     Optional<FarmLead> findFirstByActiveTrueAndBounceFalseAndFirstEmailSentAtIsNullOrderByCreatedAtAsc();
-    List<FarmLead> findByActiveTrueAndBounceFalseAndFirstEmailSentAtIsNullOrderByCreatedAtAsc(
-            Pageable pageable
-    );
+
+    List<FarmLead> findByActiveTrueAndBounceFalseAndFirstEmailSentAtIsNullOrderByCreatedAtAsc(Pageable pageable);
 }
