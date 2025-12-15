@@ -37,6 +37,7 @@ spring:
 
 leadfinder:
   agrarjobboerse:
+    admin-token: ${AJB_ADMIN_TOKEN:}
     enabled: ${AJB_ENABLED:false}
     dryRun: ${AJB_DRY_RUN:false}
     startUrl: ${AJB_START_URL:https://www.agrarjobboerse.de/boerse/stellenangebote?plz=&dist=10&bkz=501&bkz=109411&bkz=58540&bkz=520&bkz=491&bkz=538&bkz=739&bkz=590&bkz=625&bkz=90128&s=0}
