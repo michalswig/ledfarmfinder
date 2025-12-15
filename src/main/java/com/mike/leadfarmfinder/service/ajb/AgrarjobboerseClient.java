@@ -19,6 +19,7 @@ public class AgrarjobboerseClient {
 
     private static final String BASE = "https://www.agrarjobboerse.de";
     private static final String BOERSE_PREFIX = "/boerse/";
+
     private static final Pattern HELFER_RX = Pattern.compile("Helfer", Pattern.CASE_INSENSITIVE);
 
     private static final String JOBLIST_TABLE = "table#joblist";
@@ -26,6 +27,9 @@ public class AgrarjobboerseClient {
 
     private static final String APPLY_BTN_FORM = "form#boerseFilter input[type='submit'][value='Anzeigen']";
     private static final String APPLY_BTN_INPUT = "input[type='submit'][value='Anzeigen']";
+
+    // ✅ zgodne z Twoim HTML: <div class="nav_page"><ul class="pagination"><a class="next" ...>
+    private static final String PAGINATION_NEXT = "div.nav_page ul.pagination a.next";
 
     private final AgrarjobboerseProperties props;
 
@@ -36,6 +40,7 @@ public class AgrarjobboerseClient {
             Browser browser = pw.chromium().launch(
                     new BrowserType.LaunchOptions()
                             .setHeadless(true)
+                            // Render / Docker
                             .setArgs(java.util.List.of(
                                     "--no-sandbox",
                                     "--disable-dev-shm-usage"
@@ -44,7 +49,6 @@ public class AgrarjobboerseClient {
 
             try (BrowserContext ctx = newContext(browser)) {
                 Page page = ctx.newPage();
-
                 page.setDefaultTimeout(props.getPageTimeoutMs());
                 page.setDefaultNavigationTimeout(props.getPageTimeoutMs());
 
@@ -69,12 +73,10 @@ public class AgrarjobboerseClient {
                     int before = offerUrls.size();
                     offerUrls.addAll(pageUrls);
 
-                    log.info(
-                            "AJB: page {} -> +{} urls (total={})",
+                    log.info("AJB: page {} -> +{} urls (total={})",
                             pagesVisited,
                             (offerUrls.size() - before),
-                            offerUrls.size()
-                    );
+                            offerUrls.size());
 
                     if (offerUrls.size() >= props.getMaxOffersPerRun()) break;
                     if (!goNextPageStable(page)) break;
@@ -112,16 +114,13 @@ public class AgrarjobboerseClient {
         }
 
         log.info("AJB: clicking anzeigen... urlBefore={}", page.url());
-
         clickBestEffort(btn);
 
-        // NETWORKIDLE bywa kapryśne / nieskończone — używamy tylko jako "bonus"
+        // bonus: nie blokujemy się na NETWORKIDLE (czasem “wisi”)
         try {
-            page.waitForLoadState(NETWORKIDLE,
-                    new Page.WaitForLoadStateOptions().setTimeout(7000));
+            page.waitForLoadState(NETWORKIDLE, new Page.WaitForLoadStateOptions().setTimeout(7000));
         } catch (PlaywrightException ignored) {}
 
-        // warunek gotowości: linki ofert (to jest Twój realny cel)
         waitForJoblistReady(page);
 
         int links = page.locator(JOBLIST_OFFER_LINKS).count();
@@ -173,6 +172,10 @@ public class AgrarjobboerseClient {
         return result;
     }
 
+    /**
+     * Najważniejsza poprawka: href bywa bez /boerse/
+     * np. "stellenangebote/231639_..." -> BASE + "/boerse/" + href
+     */
     private String normalizeOfferUrl(String href) {
         String h = href.trim();
 
@@ -197,24 +200,24 @@ public class AgrarjobboerseClient {
         return BASE + "/" + h;
     }
 
+    /**
+     * ✅ Paginacja po realnym HTML: a.next w div.nav_page ul.pagination
+     */
     private boolean goNextPageStable(Page page) {
-        Locator nextRel = page.locator("div.nav_page a[rel='next']");
-        if (nextRel.count() > 0) {
-            nextRel.first().click(new Locator.ClickOptions().setTimeout(props.getClickTimeoutMs()));
-        } else {
-            Locator next = page.locator("text=»");
-            if (next.count() == 0) next = page.locator("text=Weiter");
-            if (next.count() == 0) return false;
-
-            next.first().click(new Locator.ClickOptions().setTimeout(props.getClickTimeoutMs()));
+        Locator next = page.locator(PAGINATION_NEXT);
+        if (next.count() == 0) {
+            log.info("AJB: next page link not found -> stopping pagination");
+            return false;
         }
 
-        // opcjonalnie: krótkie NETWORKIDLE, ale nie blokujemy
+        String before = page.url();
+        next.first().click(new Locator.ClickOptions().setTimeout(props.getClickTimeoutMs()));
+
         try {
-            page.waitForLoadState(NETWORKIDLE,
-                    new Page.WaitForLoadStateOptions().setTimeout(7000));
+            page.waitForLoadState(NETWORKIDLE, new Page.WaitForLoadStateOptions().setTimeout(7000));
         } catch (PlaywrightException ignored) {}
 
+        log.info("AJB: after next -> urlBefore={} urlNow={}", before, page.url());
         return true;
     }
 
