@@ -22,9 +22,10 @@ public class AgrarjobboerseClient {
     private static final Pattern HELFER_RX = Pattern.compile("Helfer", Pattern.CASE_INSENSITIVE);
 
     private static final String JOBLIST_TABLE = "table#joblist";
-    private static final String JOBLIST_ROWS = "table#joblist tbody tr";
-    // UWAGA: na stronie href bywa "stellenangebote/231639_..." (bez /boerse/)
     private static final String JOBLIST_OFFER_LINKS = "table#joblist a[href*='stellenangebote/']";
+
+    private static final String APPLY_BTN_FORM = "form#boerseFilter input[type='submit'][value='Anzeigen']";
+    private static final String APPLY_BTN_INPUT = "input[type='submit'][value='Anzeigen']";
 
     private final AgrarjobboerseProperties props;
 
@@ -35,16 +36,17 @@ public class AgrarjobboerseClient {
             Browser browser = pw.chromium().launch(
                     new BrowserType.LaunchOptions()
                             .setHeadless(true)
-                            // Render / Docker – wymagane
                             .setArgs(java.util.List.of(
                                     "--no-sandbox",
                                     "--disable-dev-shm-usage"
                             ))
             );
 
-            try (BrowserContext ctx = browser.newContext()) {
+            try (BrowserContext ctx = newContext(browser)) {
                 Page page = ctx.newPage();
+
                 page.setDefaultTimeout(props.getPageTimeoutMs());
+                page.setDefaultNavigationTimeout(props.getPageTimeoutMs());
 
                 page.navigate(
                         props.getStartUrl(),
@@ -52,12 +54,10 @@ public class AgrarjobboerseClient {
                                 .setWaitUntil(com.microsoft.playwright.options.WaitUntilState.DOMCONTENTLOADED)
                 );
 
-                // Jeśli startUrl ma bkz=... to zazwyczaj i tak już jest ustawione,
-                // ale selekcja po labelach "Helfer" nic nie psuje
                 SelectStats stats = selectAllHelferFiltersByJs(page);
                 log.info("AJB: helfer selected={}, skipped={}", stats.selected(), stats.skipped());
 
-                clickApplyAnzeigen(page);
+                clickApplyAnzeigenStable(page);
 
                 int pagesVisited = 0;
                 while (pagesVisited < props.getMaxPagesPerRun()
@@ -77,60 +77,85 @@ public class AgrarjobboerseClient {
                     );
 
                     if (offerUrls.size() >= props.getMaxOffersPerRun()) break;
-                    if (!goNextPage(page)) break;
+                    if (!goNextPageStable(page)) break;
 
-                    waitForJoblistRows(page);
+                    waitForJoblistReady(page);
                     sleepJitter();
                 }
+
             } finally {
-                try {
-                    browser.close();
-                } catch (Exception ignored) {
-                }
+                try { browser.close(); } catch (Exception ignored) {}
             }
         }
-
 
         return offerUrls.stream()
                 .limit(props.getMaxOffersPerRun())
                 .collect(LinkedHashSet::new, Set::add, Set::addAll);
     }
 
-    private void clickApplyAnzeigen(Page page) {
-        Locator btn = page.locator("form#boerseFilter input[type='submit'][value='Anzeigen']");
-        if (btn.count() == 0) btn = page.locator("input[type='submit'][value='Anzeigen']");
-        if (btn.count() == 0) btn = page.getByText("Anzeigen", new Page.GetByTextOptions().setExact(true));
+    private BrowserContext newContext(Browser browser) {
+        return browser.newContext(new Browser.NewContextOptions()
+                .setUserAgent(
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
+                                "AppleWebKit/537.36 (KHTML, like Gecko) " +
+                                "Chrome/120.0.0.0 Safari/537.36"
+                )
+                .setLocale("de-DE")
+                .setTimezoneId("Europe/Berlin")
+        );
+    }
 
+    private void clickApplyAnzeigenStable(Page page) {
+        Locator btn = findApplyButton(page);
         if (btn.count() == 0) {
             throw new IllegalStateException("AJB: cannot find APPLY button 'Anzeigen'");
         }
 
-        log.info("AJB: clicking anzeigen...");
+        log.info("AJB: clicking anzeigen... urlBefore={}", page.url());
 
+        clickBestEffort(btn);
+
+        // NETWORKIDLE bywa kapryśne / nieskończone — używamy tylko jako "bonus"
         try {
-            btn.first().click(new Locator.ClickOptions().setTimeout(props.getClickTimeoutMs()));
-        } catch (PlaywrightException e1) {
-            btn.first().click(new Locator.ClickOptions().setTimeout(props.getClickTimeoutMs()).setForce(true));
-        }
+            page.waitForLoadState(NETWORKIDLE,
+                    new Page.WaitForLoadStateOptions().setTimeout(7000));
+        } catch (PlaywrightException ignored) {}
 
-        page.waitForLoadState(NETWORKIDLE);
-        waitForJoblistRows(page);
+        // warunek gotowości: linki ofert (to jest Twój realny cel)
+        waitForJoblistReady(page);
 
         int links = page.locator(JOBLIST_OFFER_LINKS).count();
-        log.info("AJB: after anzeigen -> joblist links={}", links);
+        log.info("AJB: after anzeigen -> urlAfter={} joblist links={}", page.url(), links);
     }
 
-    private void waitForJoblistRows(Page page) {
-        page.waitForSelector(JOBLIST_TABLE, new Page.WaitForSelectorOptions().setTimeout(props.getPageTimeoutMs()));
+    private Locator findApplyButton(Page page) {
+        Locator btn = page.locator(APPLY_BTN_FORM);
+        if (btn.count() == 0) btn = page.locator(APPLY_BTN_INPUT);
+        if (btn.count() == 0) btn = page.getByText("Anzeigen", new Page.GetByTextOptions().setExact(true));
+        return btn;
+    }
 
-        // Nie "visible", tylko "istnieją wiersze" – stabilniejsze w headless
-        String fn =
-                "() => {" +
-                        "  const rows = document.querySelectorAll('table#joblist tbody tr');" +
-                        "  return rows && rows.length > 0;" +
-                        "}";
+    private void clickBestEffort(Locator btn) {
+        try {
+            btn.first().click(new Locator.ClickOptions().setTimeout(props.getClickTimeoutMs()));
+        } catch (PlaywrightException e) {
+            btn.first().click(new Locator.ClickOptions()
+                    .setTimeout(props.getClickTimeoutMs())
+                    .setForce(true));
+        }
+    }
 
-        page.waitForFunction(fn, null, new Page.WaitForFunctionOptions().setTimeout(props.getPageTimeoutMs()));
+    private void waitForJoblistReady(Page page) {
+        try {
+            page.waitForSelector(JOBLIST_TABLE,
+                    new Page.WaitForSelectorOptions().setTimeout(props.getPageTimeoutMs()));
+
+            page.waitForSelector(JOBLIST_OFFER_LINKS,
+                    new Page.WaitForSelectorOptions().setTimeout(props.getPageTimeoutMs()));
+        } catch (PlaywrightException e) {
+            logAjbDebug(page, "waitForJoblistReady failed", e);
+            throw e;
+        }
     }
 
     private Set<String> extractOfferLinksFromJoblist(Page page) {
@@ -141,63 +166,55 @@ public class AgrarjobboerseClient {
         for (int i = 0; i < count; i++) {
             String href = links.nth(i).getAttribute("href");
             if (href == null || href.isBlank()) continue;
-
-            String normalized = normalizeOfferUrl(href);
-            result.add(normalized);
+            result.add(normalizeOfferUrl(href));
         }
 
         log.info("AJB: extracted offer links from joblist: {}", result.size());
         return result;
     }
 
-    /**
-     * Najważniejsza poprawka: href na stronie bywa "stellenangebote/231639_..."
-     * i wtedy poprawny URL to BASE + "/boerse/" + href
-     */
     private String normalizeOfferUrl(String href) {
         String h = href.trim();
 
-        // już absolutny
         if (h.startsWith("http://") || h.startsWith("https://")) {
-            // poprawka na przypadek, gdy absolutny ale bez /boerse/
             if (h.startsWith(BASE + "/stellenangebote/")) {
                 return BASE + BOERSE_PREFIX + h.substring((BASE + "/").length());
             }
             return h;
         }
 
-        // zaczyna się od /
         if (h.startsWith("/")) {
-            // /stellenangebote/... -> /boerse/stellenangebote/...
             if (h.startsWith("/stellenangebote/")) {
                 return BASE + BOERSE_PREFIX + h.substring(1);
             }
             return BASE + h;
         }
 
-        // względny typu "stellenangebote/..."
         if (h.startsWith("stellenangebote/")) {
             return BASE + BOERSE_PREFIX + h;
         }
 
-        // fallback
         return BASE + "/" + h;
     }
 
-    private boolean goNextPage(Page page) {
+    private boolean goNextPageStable(Page page) {
         Locator nextRel = page.locator("div.nav_page a[rel='next']");
         if (nextRel.count() > 0) {
             nextRel.first().click(new Locator.ClickOptions().setTimeout(props.getClickTimeoutMs()));
-            page.waitForLoadState(NETWORKIDLE);
-            return true;
+        } else {
+            Locator next = page.locator("text=»");
+            if (next.count() == 0) next = page.locator("text=Weiter");
+            if (next.count() == 0) return false;
+
+            next.first().click(new Locator.ClickOptions().setTimeout(props.getClickTimeoutMs()));
         }
 
-        Locator next = page.locator("text=»");
-        if (next.count() == 0) next = page.locator("text=Weiter");
-        if (next.count() == 0) return false;
+        // opcjonalnie: krótkie NETWORKIDLE, ale nie blokujemy
+        try {
+            page.waitForLoadState(NETWORKIDLE,
+                    new Page.WaitForLoadStateOptions().setTimeout(7000));
+        } catch (PlaywrightException ignored) {}
 
-        next.first().click(new Locator.ClickOptions().setTimeout(props.getClickTimeoutMs()));
-        page.waitForLoadState(NETWORKIDLE);
         return true;
     }
 
@@ -240,6 +257,26 @@ public class AgrarjobboerseClient {
         if (res == null) return false;
         if (res instanceof Boolean b) return b;
         return Boolean.parseBoolean(String.valueOf(res));
+    }
+
+    private void logAjbDebug(Page page, String msg, Exception e) {
+        try {
+            String title = safe(page::title);
+            String url = safe(page::url);
+            String html = safe(page::content);
+
+            int len = (html == null) ? 0 : html.length();
+            String head = (html == null) ? "" : html.substring(0, Math.min(800, len));
+
+            log.error("AJB DEBUG: {} | url={} | title='{}' | htmlLen={} | head={}",
+                    msg, url, title, len, head, e);
+        } catch (Exception ignored) {
+            log.error("AJB DEBUG: {} (and failed to read page state)", msg, e);
+        }
+    }
+
+    private String safe(java.util.concurrent.Callable<String> c) {
+        try { return c.call(); } catch (Exception e) { return "N/A"; }
     }
 
     private void sleepJitter() {
