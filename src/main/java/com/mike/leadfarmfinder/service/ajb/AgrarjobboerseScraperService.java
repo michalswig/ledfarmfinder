@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -26,6 +25,8 @@ public class AgrarjobboerseScraperService {
 
     private final AgrarjobboerseProperties props;
     private final AgrarjobboerseClient client;
+    private final AjbCursorService cursorService;
+
     private final EmailExtractor emailExtractor;
     private final FarmLeadRepository farmLeadRepository;
 
@@ -35,8 +36,13 @@ public class AgrarjobboerseScraperService {
             return AjbRunSummary.disabled();
         }
 
-        Set<String> offerUrls = client.collectOfferUrls();
-        log.info("AJB: total offer urls collected: {}", offerUrls.size());
+        // ✅ Cursor z DB: rezerwacja "okna stron" na ten run
+        int startPage = cursorService.allocateStartPage(props.getPagesPerRun(), props.getPageCap());
+        int pagesPerRun = Math.max(1, props.getPagesPerRun());
+
+        Set<String> offerUrls = client.collectOfferUrls(startPage, pagesPerRun);
+        log.info("AJB: total offer urls collected: {} (startPage={}, pagesPerRun={}, cap={})",
+                offerUrls.size(), startPage, pagesPerRun, props.getPageCap());
 
         int offersVisited = 0;
         int offersWithEmails = 0;
@@ -53,17 +59,12 @@ public class AgrarjobboerseScraperService {
             Browser browser = pw.chromium().launch(
                     new BrowserType.LaunchOptions()
                             .setHeadless(true)
-                            // Render / Docker – wymagane flagi
-                            .setArgs(List.of(
-                                    "--no-sandbox",
-                                    "--disable-dev-shm-usage"
-                            ))
+                            .setArgs(List.of("--no-sandbox", "--disable-dev-shm-usage"))
             );
 
             try (BrowserContext ctx = browser.newContext()) {
                 Page page = ctx.newPage();
 
-                // Timeouts pod prod (Render wolniejszy)
                 page.setDefaultTimeout(props.getPageTimeoutMs());
                 page.setDefaultNavigationTimeout(props.getPageTimeoutMs());
 
@@ -75,17 +76,13 @@ public class AgrarjobboerseScraperService {
                                 new Page.NavigateOptions()
                                         .setWaitUntil(com.microsoft.playwright.options.WaitUntilState.DOMCONTENTLOADED));
 
-                        // kontakt często ładuje się później
                         try {
-                            page.waitForLoadState(NETWORKIDLE, new Page.WaitForLoadStateOptions()
-                                    .setTimeout((double) props.getPageTimeoutMs()));
-                        } catch (PlaywrightException ignored) {
-                            // NETWORKIDLE bywa kapryśne - nie blokuj całego runu
-                        }
+                            page.waitForLoadState(NETWORKIDLE,
+                                    new Page.WaitForLoadStateOptions().setTimeout((double) props.getPageTimeoutMs()));
+                        } catch (PlaywrightException ignored) {}
 
                         String html = page.content();
 
-                        // Diagnostyka tylko dla pierwszych 3 stron
                         if (offersVisited <= 3) {
                             log.info("AJB: sample html length for {} -> {}", offerUrl, html == null ? 0 : html.length());
                             log.info("AJB: page.url() after navigate -> {}", page.url());
@@ -106,7 +103,7 @@ public class AgrarjobboerseScraperService {
                             if (raw == null || raw.isBlank()) continue;
 
                             String email = raw.trim().toLowerCase();
-                            if (!uniqueRunEmails.add(email)) continue; // unikalność w runie
+                            if (!uniqueRunEmails.add(email)) continue;
                             emailsUnique++;
 
                             if (farmLeadRepository.existsByEmailIgnoreCase(email)) {
@@ -124,7 +121,7 @@ public class AgrarjobboerseScraperService {
                                     .sourceUrl(offerUrl)
                                     .createdAt(LocalDateTime.now())
                                     .active(true)
-                                    .bounce(false) // <-- MUST dla outreach query
+                                    .bounce(false)
                                     .unsubscribeToken(TokenGenerator.generateShortToken())
                                     .build();
 
@@ -143,10 +140,7 @@ public class AgrarjobboerseScraperService {
                     }
                 }
             } finally {
-                try {
-                    browser.close();
-                } catch (Exception ignored) {
-                }
+                try { browser.close(); } catch (Exception ignored) {}
             }
         }
 
@@ -169,10 +163,7 @@ public class AgrarjobboerseScraperService {
         int min = props.getMinDelayMs();
         int max = props.getMaxDelayMs();
         int delay = (max <= min) ? min : (min + (int) (Math.random() * (max - min + 1)));
-        try {
-            Thread.sleep(delay);
-        } catch (InterruptedException ignored) {
-            Thread.currentThread().interrupt();
-        }
+        try { Thread.sleep(delay); }
+        catch (InterruptedException ignored) { Thread.currentThread().interrupt(); }
     }
 }

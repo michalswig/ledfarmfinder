@@ -33,7 +33,14 @@ public class AgrarjobboerseClient {
 
     private final AgrarjobboerseProperties props;
 
-    public Set<String> collectOfferUrls() {
+    /**
+     * Zbiera linki ofert z "okna stron":
+     * - startPage = strona początkowa (param s=)
+     * - pagesPerRun = ile stron listy przerobić w tym runie
+     */
+    public Set<String> collectOfferUrls(int startPage, int pagesPerRun) {
+        if (pagesPerRun <= 0) return Set.of();
+
         Set<String> offerUrls = new LinkedHashSet<>();
 
         try (Playwright pw = Playwright.create()) {
@@ -41,10 +48,7 @@ public class AgrarjobboerseClient {
                     new BrowserType.LaunchOptions()
                             .setHeadless(true)
                             // Render / Docker
-                            .setArgs(java.util.List.of(
-                                    "--no-sandbox",
-                                    "--disable-dev-shm-usage"
-                            ))
+                            .setArgs(java.util.List.of("--no-sandbox", "--disable-dev-shm-usage"))
             );
 
             try (BrowserContext ctx = newContext(browser)) {
@@ -63,24 +67,24 @@ public class AgrarjobboerseClient {
 
                 clickApplyAnzeigenStable(page);
 
-                int pagesVisited = 0;
-                while (pagesVisited < props.getMaxPagesPerRun()
-                        && offerUrls.size() < props.getMaxOffersPerRun()) {
+                // ✅ START OD CURSORA: skok na s=<startPage> (po zastosowaniu filtrów)
+                jumpToStartPage(page, startPage);
 
+                int pagesVisited = 0;
+                while (pagesVisited < pagesPerRun && offerUrls.size() < props.getMaxOffersPerRun()) {
                     pagesVisited++;
 
                     Set<String> pageUrls = extractOfferLinksFromJoblist(page);
                     int before = offerUrls.size();
                     offerUrls.addAll(pageUrls);
 
-                    log.info("AJB: page {} -> +{} urls (total={})",
-                            pagesVisited,
-                            (offerUrls.size() - before),
-                            offerUrls.size());
+                    log.info("AJB: window page {}/{} (startPage={}) -> +{} urls (total={})",
+                            pagesVisited, pagesPerRun, startPage, (offerUrls.size() - before), offerUrls.size());
 
                     if (offerUrls.size() >= props.getMaxOffersPerRun()) break;
-                    if (!goNextPageStable(page)) break;
+                    if (pagesVisited >= pagesPerRun) break;
 
+                    if (!goNextPageStable(page)) break;
                     waitForJoblistReady(page);
                     sleepJitter();
                 }
@@ -93,6 +97,40 @@ public class AgrarjobboerseClient {
         return offerUrls.stream()
                 .limit(props.getMaxOffersPerRun())
                 .collect(LinkedHashSet::new, Set::add, Set::addAll);
+    }
+
+    private void jumpToStartPage(Page page, int startPage) {
+        if (startPage <= 0) return;
+
+        String before = page.url();
+        String target = upsertQueryParam(before, "s", String.valueOf(startPage));
+
+        log.info("AJB: jumpToStartPage s={} urlBefore={} urlTarget={}", startPage, before, target);
+
+        page.navigate(target,
+                new Page.NavigateOptions()
+                        .setWaitUntil(com.microsoft.playwright.options.WaitUntilState.DOMCONTENTLOADED));
+
+        try {
+            page.waitForLoadState(NETWORKIDLE, new Page.WaitForLoadStateOptions().setTimeout(7000));
+        } catch (PlaywrightException ignored) {}
+
+        waitForJoblistReady(page);
+        log.info("AJB: after jumpToStartPage -> urlNow={}", page.url());
+    }
+
+    private String upsertQueryParam(String url, String key, String value) {
+        String k1 = "?" + key + "=";
+        String k2 = "&" + key + "=";
+
+        if (url.contains(k1)) {
+            return url.replaceAll("\\?" + Pattern.quote(key) + "=[^&]*", "?" + key + "=" + value);
+        }
+        if (url.contains(k2)) {
+            return url.replaceAll("&" + Pattern.quote(key) + "=[^&]*", "&" + key + "=" + value);
+        }
+
+        return url + (url.contains("?") ? "&" : "?") + key + "=" + value;
     }
 
     private BrowserContext newContext(Browser browser) {
@@ -109,14 +147,11 @@ public class AgrarjobboerseClient {
 
     private void clickApplyAnzeigenStable(Page page) {
         Locator btn = findApplyButton(page);
-        if (btn.count() == 0) {
-            throw new IllegalStateException("AJB: cannot find APPLY button 'Anzeigen'");
-        }
+        if (btn.count() == 0) throw new IllegalStateException("AJB: cannot find APPLY button 'Anzeigen'");
 
         log.info("AJB: clicking anzeigen... urlBefore={}", page.url());
         clickBestEffort(btn);
 
-        // bonus: nie blokujemy się na NETWORKIDLE (czasem “wisi”)
         try {
             page.waitForLoadState(NETWORKIDLE, new Page.WaitForLoadStateOptions().setTimeout(7000));
         } catch (PlaywrightException ignored) {}
@@ -145,16 +180,11 @@ public class AgrarjobboerseClient {
     }
 
     private void waitForJoblistReady(Page page) {
-        try {
-            page.waitForSelector(JOBLIST_TABLE,
-                    new Page.WaitForSelectorOptions().setTimeout(props.getPageTimeoutMs()));
+        page.waitForSelector(JOBLIST_TABLE,
+                new Page.WaitForSelectorOptions().setTimeout(props.getPageTimeoutMs()));
 
-            page.waitForSelector(JOBLIST_OFFER_LINKS,
-                    new Page.WaitForSelectorOptions().setTimeout(props.getPageTimeoutMs()));
-        } catch (PlaywrightException e) {
-            logAjbDebug(page, "waitForJoblistReady failed", e);
-            throw e;
-        }
+        page.waitForSelector(JOBLIST_OFFER_LINKS,
+                new Page.WaitForSelectorOptions().setTimeout(props.getPageTimeoutMs()));
     }
 
     private Set<String> extractOfferLinksFromJoblist(Page page) {
@@ -172,10 +202,6 @@ public class AgrarjobboerseClient {
         return result;
     }
 
-    /**
-     * Najważniejsza poprawka: href bywa bez /boerse/
-     * np. "stellenangebote/231639_..." -> BASE + "/boerse/" + href
-     */
     private String normalizeOfferUrl(String href) {
         String h = href.trim();
 
@@ -200,9 +226,6 @@ public class AgrarjobboerseClient {
         return BASE + "/" + h;
     }
 
-    /**
-     * ✅ Paginacja po realnym HTML: a.next w div.nav_page ul.pagination
-     */
     private boolean goNextPageStable(Page page) {
         Locator next = page.locator(PAGINATION_NEXT);
         if (next.count() == 0) {
@@ -260,26 +283,6 @@ public class AgrarjobboerseClient {
         if (res == null) return false;
         if (res instanceof Boolean b) return b;
         return Boolean.parseBoolean(String.valueOf(res));
-    }
-
-    private void logAjbDebug(Page page, String msg, Exception e) {
-        try {
-            String title = safe(page::title);
-            String url = safe(page::url);
-            String html = safe(page::content);
-
-            int len = (html == null) ? 0 : html.length();
-            String head = (html == null) ? "" : html.substring(0, Math.min(800, len));
-
-            log.error("AJB DEBUG: {} | url={} | title='{}' | htmlLen={} | head={}",
-                    msg, url, title, len, head, e);
-        } catch (Exception ignored) {
-            log.error("AJB DEBUG: {} (and failed to read page state)", msg, e);
-        }
-    }
-
-    private String safe(java.util.concurrent.Callable<String> c) {
-        try { return c.call(); } catch (Exception e) { return "N/A"; }
     }
 
     private void sleepJitter() {

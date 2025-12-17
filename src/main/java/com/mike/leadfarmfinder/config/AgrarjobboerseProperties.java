@@ -27,4 +27,9 @@ public class AgrarjobboerseProperties {
 
     /** timeout dla kliknięć (checkboxy, next, anzeigen) */
     private int clickTimeoutMs = 3000;
+
+    private int pagesPerRun = 2;
+
+    private int pageCap = 50;
+
 }

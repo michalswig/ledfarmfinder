@@ -339,4 +339,39 @@ databaseChangeLog:
             columnName: bounce
             columnDataType: BOOLEAN
 
+  - changeSet:
+      id: ajb-cursor-001
+      author: mike
+      changes:
+        - createTable:
+            tableName: ajb_cursor
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: next_page
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+
+        # Jeden rekord na stałe
+        - insert:
+            tableName: ajb_cursor
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: "1"
+              - column:
+                  name: next_page
+                  valueNumeric: "0"
+              - column:
+                  name: updated_at
+                  valueComputed: NOW()
 
