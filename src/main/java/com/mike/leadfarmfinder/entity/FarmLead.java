@@ -20,7 +20,7 @@ public class FarmLead {
     private Long id;
 
     // Uwaga: DB ma unique, ale to będzie case-sensitive. Jeśli chcesz case-insensitive, robimy oddzielnie (CITEXT / lower index).
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, updatable = false)
     private String email;
 
     private String sourceUrl;
