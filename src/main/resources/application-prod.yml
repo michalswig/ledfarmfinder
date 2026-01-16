@@ -112,228 +112,81 @@ leadfinder:
     queries:
 
       # ==================================================
-      # A. PRODUKCJA INTENSYWNA / SZKLARNIE
+      # NOWA PACZKA 50 QUERY (FARM-FOCUSED, bez ofert pracy)
       # ==================================================
-      - Gewächshausbetrieb Gemüse Nordrhein Westfalen
-      - Gemüsebau Gewächshaus Niedersachsen
-      - Tomaten Gewächshaus Betrieb NRW
-      - Gurken Gewächshaus Betrieb Niedersachsen
-      - Bio Gemüsebau Gewächshaus Nordrhein Westfalen
-      - Kräuter Gewächshaus Betrieb NRW
-      - Jungpflanzenbetrieb Gärtnerei Niedersachsen
 
-      # ==================================================
-      # B. OGRODNICTWO / ROŚLINY / SZKÓŁKI
-      # ==================================================
-      - Gärtnerei Betrieb Nordrhein Westfalen
-      - Zierpflanzenbetrieb Nordrhein Westfalen
-      - Topfpflanzen Gärtnerei Niedersachsen
-      - Staudenbetrieb Gärtnerei Niedersachsen
-      - Baumschule Betrieb Nordrhein Westfalen
-      - Weihnachtsstern Gärtnerei Betrieb NRW
+      # --- A. SZKLARNIE / GEMÜSE (bardziej „konkret” niż tylko Betrieb) ---
+      - Gemüsehof Gewächshaus Nordrhein Westfalen
+      - Gemüsehof Gewächshaus Niedersachsen
+      - Tomatenbetrieb Gewächshaus Nordrhein Westfalen
+      - Gurkenbetrieb Gewächshaus Niedersachsen
+      - Paprika Gewächshaus Betrieb Nordrhein Westfalen
+      - Salat Gewächshaus Betrieb Niedersachsen
+      - Kräuterbetrieb Gewächshaus Niedersachsen
+      - Bio Kräuter Gewächshaus Nordrhein Westfalen
+      - Jungpflanzenbetrieb Gemüse Niedersachsen
+      - Jungpflanzenbetrieb Kräuter Nordrhein Westfalen
 
-      # ==================================================
-      # C. PRODUKCJA SPECJALISTYCZNA
-      # ==================================================
-      - Pilzzuchtbetrieb Nordrhein Westfalen
-      - Champignonfarm Niedersachsen
-      - Speisepilze Betrieb NRW
-      - Pilzfarm Betrieb Niedersachsen
+      # --- B. OGRODNICTWO / PRODUKCJA ROŚLIN (więcej intencji „sprzedaż/hofladen”) ---
+      - Gärtnerei Hofverkauf Nordrhein Westfalen
+      - Gärtnerei Hofladen Niedersachsen
+      - Zierpflanzen Gärtnerei Hofverkauf Nordrhein Westfalen
+      - Topfpflanzen Hofverkauf Niedersachsen
+      - Stauden Gärtnerei Hofladen Nordrhein Westfalen
+      - Baumschule Hofverkauf Nordrhein Westfalen
+      - Baumschule Hofladen Niedersachsen
+      - Schnittblumen Gärtnerei Hofverkauf Niedersachsen
+      - Balkonpflanzen Gärtnerei Hofverkauf Nordrhein Westfalen
+      - Rosen Baumschule Betrieb Nordrhein Westfalen
 
-      # ==================================================
-      # D. ZAPLECZE / LOGISTYKA ROLNICZA
-      # ==================================================
-      - Gemüselager landwirtschaftlicher Betrieb NRW
-      - Kartoffellager landwirtschaftlicher Betrieb Niedersachsen
-      - Aufbereitung Gemüse landwirtschaftlicher Betrieb NRW
-      - Verpackung Gemüse landwirtschaftlicher Betrieb Niedersachsen
+      # --- C. PILZE / SPECJALISTYCZNE ---
+      - Champignon Betrieb Hofverkauf Niedersachsen
+      - Pilzzucht Hofverkauf Nordrhein Westfalen
+      - Bio Champignon Betrieb Niedersachsen
+      - Speisepilze Hofladen Nordrhein Westfalen
+      - Pilzfarm Hofverkauf Niedersachsen
 
-      # ==================================================
-      # E. WARZYWA / OWOCE – CORE FARMS
-      # ==================================================
-      - Erdbeerhof Niedersachsen
-      - Erdbeerhof Nordrhein Westfalen
-      - Himbeerhof Niedersachsen
-      - Beerenhof Nordrhein Westfalen
+      # --- D. MAGAZYNY / SORTOWANIE / PAKOWANIE (ale farmowe) ---
+      - Gemüse Aufbereitung Hofbetrieb Nordrhein Westfalen
+      - Gemüse Verpackung Hofbetrieb Niedersachsen
+      - Kartoffel Lager Hofbetrieb Niedersachsen
+      - Kartoffel Sortierung Hofbetrieb Nordrhein Westfalen
+      - Obst Verpackung Hofbetrieb Niedersachsen
 
-      - Gemüsehof Niedersachsen
-      - Gemüsebau Betrieb Nordrhein Westfalen
-      - Kartoffelhof Niedersachsen
-      - Kartoffelhof Nordrhein Westfalen
+      # --- E. OWOCE / JAGODY / SADY (bez „plantage” + bez jobów) ---
+      - Erdbeerhof Hofladen Niedersachsen
+      - Erdbeerhof Hofverkauf Nordrhein Westfalen
+      - Himbeerhof Hofladen Nordrhein Westfalen
+      - Heidelbeerhof Niedersachsen
+      - Heidelbeerhof Nordrhein Westfalen
+      - Brombeerhof Niedersachsen
+      - Beerenhof Hofverkauf Nordrhein Westfalen
+      - Obsthof Hofladen Niedersachsen
+      - Apfelhof Hofverkauf Nordrhein Westfalen
+      - Kirschhof Niedersachsen
+      - Pflaumenhof Niedersachsen
+      - Birnenhof Nordrhein Westfalen
 
-      - Obsthof Niedersachsen
-      - Apfelhof Nordrhein Westfalen
-      - Obstbau Betrieb Rheinland Pfalz
-      - Obsthof Baden Württemberg
+      # --- F. WARZYWA POLowe / KARTOFFEL / SPARGEL (sprzedaż bezpośrednia) ---
+      - Spargelhof Hofverkauf Nordrhein Westfalen
+      - Spargelhof Hofladen Niedersachsen
+      - Kartoffelhof Hofverkauf Niedersachsen
+      - Kartoffelhof Direktvermarktung Nordrhein Westfalen
+      - Gemüsehof Direktvermarktung Niedersachsen
+      - Hofverkauf Kartoffeln Nordrhein Westfalen
+      - Hofverkauf Gemüse Niedersachsen
 
-      # ==================================================
-      # F. HODOWLA ZWIERZĄT
-      # ==================================================
-      - Milchviehbetrieb Nordrhein Westfalen
-      - Milchviehbetrieb Niedersachsen
-      - Rinderhof Niedersachsen
-      - Geflügelhof Nordrhein Westfalen
-      - Eierpackstelle landwirtschaftlicher Betrieb Niedersachsen
+      # --- G. ZWIERZĘTA (bardziej „gospodarstwo” niż ogólne „Betrieb”) ---
+      - Milchviehbetrieb Hofladen Nordrhein Westfalen
+      - Milchhof Hofladen Niedersachsen
+      - Eier Hofverkauf Geflügelhof Niedersachsen
+      - Geflügelhof Hofladen Nordrhein Westfalen
+      - Rinderhof Direktvermarktung Nordrhein Westfalen
 
-      # ==================================================
-      # G. DIREKTVERMARKTUNG (NADAL FARMA)
-      # ==================================================
-      - Hofladen landwirtschaftlicher Betrieb Nordrhein Westfalen
-      - Direktvermarktung landwirtschaftlicher Betrieb Niedersachsen
-      - Hofverkauf Gemüse Betrieb Nordrhein Westfalen
-      - Hofverkauf Kartoffeln Betrieb Niedersachsen
-      - Obst und Gemüse Hofverkauf Niedersachsen
-
-      # ==================================================
-      # H. CHOINKI / PLANTACJE SEZONOWE
-      # ==================================================
-      - Weihnachtsbaumhof Niedersachsen
-      - Weihnachtsbaumhof Nordrhein Westfalen
-      - Weihnachtsbaumplantage Niedersachsen
-      - Tannenhof landwirtschaftlicher Betrieb NRW
-
-
-#    queries:
-#      # --- Szklarnie / Gewächshaus ---
-#      - Gewächshausbetrieb Gemüse Nordrhein Westfalen
-#      - Gemüsebau Gewächshaus Niedersachsen
-#      - Tomaten Gewächshaus Familienbetrieb NRW
-#      - Gurken Gewächshaus Betrieb Niedersachsen
-#      - Bio Gemüsebau Gewächshaus Nordrhein Westfalen
-#      - Kräuter Gewächshaus Betrieb NRW
-#      - Jungpflanzenbetrieb Gärtnerei Niedersachsen
-#
-#      # --- Gärtnerei / Zierpflanzen / Baumschule ---
-#      - Gärtnerei Familienbetrieb Nordrhein Westfalen
-#      - Zierpflanzenbetrieb NRW
-#      - Topfpflanzen Gärtnerei Niedersachsen
-#      - Weihnachtsstern Gärtnerei Betrieb NRW
-#      - Baumschule Familienbetrieb Nordrhein Westfalen
-#      - Staudenbetrieb Gärtnerei Niedersachsen
-#
-#      # --- Pilzarnie ---
-#      - Pilzzuchtbetrieb Nordrhein Westfalen
-#      - Champignonfarm Niedersachsen
-#      - Speisepilze Betrieb NRW
-#      - Pilzfarm Familienbetrieb Niedersachsen
-#
-#      # --- Magazyny / sortowanie ---
-#      - Gemüselager landwirtschaftlicher Betrieb NRW
-#      - Kartoffellager Bauernhof Niedersachsen
-#      - Aufbereitung Gemüse Betrieb Nordrhein Westfalen
-#      - Verpackung Gemüse Hofbetrieb Niedersachsen
-#
-#      # --- Hofladen / Direktvermarktung ---
-#      - Hofladen Bauernhof Nordrhein Westfalen
-#      - Direktvermarktung Hof Niedersachsen
-#      - Hofverkauf landwirtschaftlicher Betrieb NRW
-#      - Hofladen Familienbetrieb Niedersachsen
-#
-#      # --- Hodowla zwierząt ---
-#      - Milchviehbetrieb Familienbetrieb NRW
-#      - Rinderhof Niedersachsen
-#      - Geflügelhof Familienbetrieb Nordrhein Westfalen
-#      - Eierpackstelle landwirtschaftlicher Betrieb Niedersachsen
-#
-##    queries:
-#      - Erdbeerhof kleine Farm Niedersachsen
-#      - Erdbeerhof Familienbetrieb NRW
-#      - Himbeerhof Hofladen Niedersachsen
-#      - Beerenhof kleiner Bauernhof Nordrhein Westfalen
-#      - Erdbeerplantage Bauernhof Rheinland Pfalz
-#      - Beerenhof Saisonarbeit Baden Württemberg
-#
-#      - Gemüsehof kleiner Betrieb Niedersachsen
-#      - Gemüsebau Familienbetrieb NRW
-#      - Bauernhof Gemüseanbau kleine Farm Hessen
-#      - Gemüsehof Saisonarbeiter gesucht Niedersachsen
-#      - Kartoffelhof Hofladen Niedersachsen
-#      - Salat Gemüsehof Bauernhof Nordrhein Westfalen
-#
-#      - Obsthof Familienbetrieb Niedersachsen
-#      - Apfelhof kleiner Hof Nordrhein Westfalen
-#      - Obstbau kleine Farm Rheinland Pfalz
-#      - Kleiner Obsthof Baden Württemberg
-#      - Obsthof Saisonarbeit NRW
-#      - Apfelplantage kleiner Betrieb Niedersachsen
-#
-#      - Bauernhof kleiner Betrieb Niedersachsen
-#      - Kleiner Familienhof NRW
-#      - Bauernhof Hofladen Niedersachsen kleinbetrieb
-#      - Hofladen Bauernhof Rheinland Pfalz
-#      - Ackerbau kleiner Hof Nordrhein Westfalen
-#      - Familiengeführter Bauernhof Niedersachsen
-#
-#      - Kartoffelhof kleiner Bauernhof NRW
-#      - Kartoffelanbau kleiner Familienbetrieb Niedersachsen
-#      - Hofbetrieb Kartoffeln Niedersachsen
-#      - Bauernhof Getreide kleinere Betriebe NRW
-#      - Kartoffelernte Bauernhof Jobs Niedersachsen
-#      - Kartoffelhof Hofladen Nordrhein Westfalen
-#
-#      - Weihnachtsbaumhof kleiner Betrieb Niedersachsen
-#      - Tannenhof Familienbetrieb NRW
-#      - Weihnachtsbaum Plantage Bauernhof Niedersachsen
-#      - Tannenbaum Hof kleiner Betrieb Norddeutschland
-#      - Weihnachtsbaumverkauf Hofbetrieb NRW
-#
-#      - Milchhof kleiner Familienbetrieb Niedersachsen
-#      - Hofladen Milchprodukte kleiner Hof NRW
-#      - Rinderhof kleiner Hof Niedersachsen
-#      - Bauernhof Viehzucht kleiner Betrieb NRW
-#      - Milchviehbetrieb Familienbetrieb Niedersachsen
-#
-#      # ---- Nowe dodatkowe zapytania NRW ----
-#      - Erdbeerhof kleiner Betrieb Nordrhein Westfalen
-#      - Himbeerhof Familienbetrieb NRW
-#      - Beerenhof kleiner Hof Nordrhein Westfalen
-#      - Obsthof kleiner Familienbetrieb NRW
-#      - Apfelhof Saisonarbeit Nordrhein Westfalen
-#      - Streuobsthof kleiner Hof NRW
-#      - Beerenplantage Familienbetrieb Nordrhein Westfalen
-#      - Erdbeerhof Saisonarbeiter gesucht NRW
-#
-#      - Gemüsehof kleiner Familienbetrieb Nordrhein Westfalen
-#      - Gemüsebau kleiner Betrieb NRW
-#      - Kartoffelhof Familienbetrieb Nordrhein Westfalen
-#      - Salatanbau kleiner Hof NRW
-#      - Gemüsehof Erntehelfer gesucht Nordrhein Westfalen
-#      - Spargelhof kleiner Betrieb NRW
-#      - Spargelhof Saisonarbeit Nordrhein Westfalen
-#
-#      - Ackerbau Familienbetrieb NRW
-#      - Bauernhof Getreideanbau kleiner Betrieb Nordrhein Westfalen
-#      - Hofbetrieb Ackerbau NRW klein
-#      - Getreidehof kleiner Familienbetrieb Nordrhein Westfalen
-#
-#      - Milchviehbetrieb kleiner Hof NRW
-#      - Rinderhof Familienbetrieb Nordrhein Westfalen
-#      - Bauernhof Viehzucht kleiner Familienbetrieb NRW
-#      - Hofladen Milchprodukte Familienbetrieb NRW
-#
-#      - Weihnachtsbaumhof Familienbetrieb Nordrhein Westfalen
-#      - Tannenhof kleiner Betrieb NRW
-#      - Weihnachtsbaumplantage kleiner Hof Nordrhein Westfalen
-#      - Tannenbaumverkauf Familienbetrieb NRW
-#
-#      - Kleiner Bauernhof Familienbetrieb Nordrhein Westfalen
-#      - Bauernhof Hofladen kleiner Betrieb NRW
-#      - Landwirtschaftlicher Betrieb kleiner Hof NRW
-#      - Hofbetrieb Saisonarbeit Nordrhein Westfalen
-#
-#      - Blumenhof Gärtnerei kleiner Betrieb Nordrhein Westfalen
-#      - Schnittblumen Gärtnerei Familienbetrieb Niedersachsen
-#      - Stauden Gärtnerei Hof kleiner Betrieb NRW
-#      - Gemüse Gärtnerei Hofverkauf Niedersachsen
-#      - Hofverkauf Kartoffeln Gemüse kleiner Hof NRW
-#      - Direkt ab Hof Gemüseverkauf kleiner Betrieb Nordrhein Westfalen
-#      - Obst und Gemüse Hofverkauf Familienbetrieb Niedersachsen
-#
-#      - Erdbeerhof Erntehelfer gesucht kleiner Betrieb Niedersachsen
-#      - Spargelhof Saisonarbeit direkt auf dem Hof NRW
-#      - Gemüsehof Erntehelfer Jobs Familienbetrieb Niedersachsen
-#      - Obsthof Saisonkräfte Feldarbeit Nordrhein Westfalen
-
+      # --- H. SEZONOWE / CHOINKI (bez słów sprzedażowych typu „verkauf” na masę) ---
+      - Weihnachtsbaumhof Hofladen Niedersachsen
+      - Weihnachtsbaumplantage Nordrhein Westfalen
+      - Tannenhof Hofverkauf Nordrhein Westfalen
 
 app:
   outreach:
