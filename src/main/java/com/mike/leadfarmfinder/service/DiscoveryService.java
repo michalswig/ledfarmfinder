@@ -90,6 +90,27 @@ public class DiscoveryService {
             "milchvieh", "vieh", "rinder", "schwein", "gefluegel", "geflügel", "eier", "legehennen"
     );
 
+    // NEW: twarde negatywy w PATH (tanie odfiltrowanie content/spam przed OpenAI)
+    private static final List<String> HARD_NEGATIVE_PATH_TOKENS = List.of(
+            "/ratgeber",
+            "/blog",
+            "/magazin",
+            "/news",
+            "/presse",
+            "/artikel",
+            "/article",
+            "/report",
+            "/wiki",
+            "/lexikon",
+            "/kategorie",
+            "/category",
+            "/tag/",
+            "/tags/",
+            "/author/",
+            "/job", "/jobs", "/stellen", "/karriere"
+    );
+
+
     private static final List<String> HARD_NEGATIVE_KEYWORDS = List.of(
             "bundeskanzler",
             "bundesregierung",
@@ -379,9 +400,20 @@ public class DiscoveryService {
             );
 
             for (ScoredUrl scoredUrl : scored) {
+
                 if (accepted.size() >= limit) break;
 
                 String url = scoredUrl.url();
+
+                // NEW: cheap-skip content portals / blog posts / news / etc. BEFORE JSoup + OpenAI
+                if (isHardNegativePath(url)) {
+                    rejectedCount++;
+                    log.info("DiscoveryService: SKIP (hard-negative path) url={} score={}", url, scoredUrl.score());
+
+                    // opcja: zapisujemy do DB jako "not farm" bez OpenAI (żeby nie wracało)
+                    saveDiscoveredUrl(url, new FarmClassificationResult(false, false, null, "hard-negative-path-skip"));
+                    continue;
+                }
 
                 try {
                     String snippet = fetchTextSnippet(url);
@@ -459,6 +491,28 @@ public class DiscoveryService {
 
         return distinctAccepted;
     }
+
+    private boolean isHardNegativePath(String url) {
+        try {
+            URI uri = new URI(url);
+            String path = uri.getPath();
+            if (path == null) return false;
+
+            String p = path.toLowerCase(Locale.ROOT);
+
+            for (String token : HARD_NEGATIVE_PATH_TOKENS) {
+                if (p.contains(token)) {
+                    return true;
+                }
+            }
+            return false;
+
+        } catch (Exception e) {
+            // jeśli URL jest dziwny – nie blokuj na siłę
+            return false;
+        }
+    }
+
 
     private String normalizeUrl(String url) {
         try {
