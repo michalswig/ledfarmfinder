@@ -255,6 +255,10 @@ public class DiscoveryService {
 
     public List<String> findCandidateFarmUrls(int limit) {
 
+        int alreadySeenSkipped = 0;
+        int normalizedChanged = 0;
+        int openAiCandidates = 0;
+
         int resultsPerPage = leadFinderProperties.getDiscovery().getResultsPerPage();
         int maxPagesPerRun = leadFinderProperties.getDiscovery().getMaxPagesPerRun();
 
@@ -324,30 +328,32 @@ public class DiscoveryService {
             log.info("DiscoveryService: urls after domain filter (page={}) = {}", currentPage, cleaned.size());
 
             List<String> newUrlsOnly = new ArrayList<>();
+            Set<String> normalizedSeenThisPage = new HashSet<>();
 
             for (String url : cleaned) {
                 if (accepted.size() >= limit) break;
 
-                Optional<DiscoveredUrl> existingOpt = discoveredUrlRepository.findByUrl(url);
-                if (existingOpt.isEmpty()) {
-                    newUrlsOnly.add(url);
+                String normalized = normalizeUrl(url);
+
+                if (!normalized.equals(url)) {
+                    normalizedChanged++;
+                }
+
+                // dedupe w obrębie strony SERP po normalized
+                if (!normalizedSeenThisPage.add(normalized)) {
                     continue;
                 }
 
-                filteredAsAlreadyDiscovered++;
-
-                DiscoveredUrl existing = existingOpt.get();
-                boolean farm = Boolean.TRUE.equals(existing.isFarm());
-
-                if (farm) {
-                    accepted.add(url);
-                    acceptedCount++;
-                    log.info("DiscoveryService: REUSED (FARM) url={} from discovered_urls, skipping OpenAI", url);
-                } else {
-                    rejectedCount++;
-                    log.info("DiscoveryService: REUSED (NOT FARM) url={} from discovered_urls, skipping OpenAI", url);
+                if (discoveredUrlRepository.findByUrl(normalized).isPresent()) {
+                    filteredAsAlreadyDiscovered++;
+                    alreadySeenSkipped++;
+                    continue;
                 }
+
+                newUrlsOnly.add(normalized);
             }
+            openAiCandidates += newUrlsOnly.size();
+
 
             log.info("DiscoveryService: new urls for OpenAI after discovered filter (page={}) = {}",
                     currentPage, newUrlsOnly.size());
@@ -436,13 +442,52 @@ public class DiscoveryService {
         discoveryRunStatsRepository.save(stats);
 
         log.info(
-                "DiscoveryService: returning {} accepted urls (query='{}', startPage={}, endPage={}, pagesVisited={}, reusedFromDiscovered={}, distinctAccepted={})",
+                "DiscoveryService: returning {} accepted urls (query='{}', startPage={}, endPage={}, pagesVisited={}, alreadySeenSkipped={}, openAiCandidates={}, normalizedChanged={})",
                 distinctAccepted.size(), query, startPage, currentPage, pagesVisited,
-                filteredAsAlreadyDiscovered, distinctAccepted.size()
+                alreadySeenSkipped, openAiCandidates, normalizedChanged
         );
+
 
         return distinctAccepted;
     }
+
+    private String normalizeUrl(String url) {
+        try {
+            URI uri = new URI(url.trim());
+
+            String scheme = (uri.getScheme() == null) ? "https" : uri.getScheme().toLowerCase(Locale.ROOT);
+
+            String host = uri.getHost();
+            if (host == null) return url.trim();
+
+            host = host.toLowerCase(Locale.ROOT);
+            if (host.startsWith("www.")) host = host.substring(4);
+
+            String path = uri.getPath();
+            if (path == null || path.isBlank()) path = "/";
+
+            // usuń śmieci typu /index.html
+            String p = path.toLowerCase(Locale.ROOT);
+            if (p.endsWith("/index.html") || p.endsWith("/index.htm")) {
+                path = path.substring(0, path.lastIndexOf("/index."));
+                if (path.isBlank()) path = "/";
+            }
+
+            // utnij trailing slash (ale zostaw root "/")
+            if (path.length() > 1 && path.endsWith("/")) {
+                path = path.substring(0, path.length() - 1);
+            }
+
+            // usuń tracking paramy
+            // zamiast parsowania query - najprościej: wyrzucamy query całkowicie
+            // (dla farm to OK, bo landing pages rzadko wymagają query)
+            return new URI(scheme, host, path, null).toString();
+
+        } catch (Exception e) {
+            return url.trim();
+        }
+    }
+
 
     private SerpQueryCursor loadOrCreateCursor(String query) {
         return serpQueryCursorRepository.findByQuery(query)
