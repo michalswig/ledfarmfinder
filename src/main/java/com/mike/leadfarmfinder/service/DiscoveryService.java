@@ -591,8 +591,7 @@ public class DiscoveryService {
         }
 
         if (!looksLikeFarmDomain(d)) {
-            log.info("DiscoveryService: dropping url={} (domain does not look farm-related: {})", url, d);
-            return false;
+            log.debug("DiscoveryService: domain not farm-looking (soft allow), keeping for OpenAI: url={} domain={}", url, d);
         }
 
         return true;
