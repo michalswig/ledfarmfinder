@@ -255,6 +255,8 @@ public class DiscoveryService {
 
     public List<String> findCandidateFarmUrls(int limit) {
 
+        int skippedAlreadySeenDomain = 0;
+
         int alreadySeenSkipped = 0;
         int normalizedChanged = 0;
         int openAiCandidates = 0;
@@ -344,13 +346,21 @@ public class DiscoveryService {
                     continue;
                 }
 
-                if (discoveredUrlRepository.findByUrl(normalized).isPresent()) {
+                String domain = extractNormalizedDomain(normalized);
+                if (domain == null || domain.isBlank()) {
+                    continue;
+                }
+
+                SeenDecision seen = checkAlreadySeen(normalized, domain);
+                if (seen != SeenDecision.NOT_SEEN) {
                     filteredAsAlreadyDiscovered++;
-                    alreadySeenSkipped++;
+                    if (seen == SeenDecision.SEEN_BY_DOMAIN) skippedAlreadySeenDomain++;
+                    else alreadySeenSkipped++;
                     continue;
                 }
 
                 newUrlsOnly.add(normalized);
+
             }
             openAiCandidates += newUrlsOnly.size();
 
@@ -387,7 +397,6 @@ public class DiscoveryService {
                     if (result.isFarm()) {
                         String finalUrl = result.mainContactUrl() != null ? result.mainContactUrl() : url;
                         accepted.add(finalUrl);
-                        acceptedCount++;
 
                         log.info(
                                 "DiscoveryService: ACCEPTED (FARM) url={} score={} seasonalJobs={} reason={}",
@@ -442,9 +451,9 @@ public class DiscoveryService {
         discoveryRunStatsRepository.save(stats);
 
         log.info(
-                "DiscoveryService: returning {} accepted urls (query='{}', startPage={}, endPage={}, pagesVisited={}, alreadySeenSkipped={}, openAiCandidates={}, normalizedChanged={})",
+                "DiscoveryService: returning {} accepted urls (query='{}', startPage={}, endPage={}, pagesVisited={}, skippedAlreadySeenDomain={}, alreadySeenSkippedUrl={}, openAiCandidates={}, normalizedChanged={})",
                 distinctAccepted.size(), query, startPage, currentPage, pagesVisited,
-                alreadySeenSkipped, openAiCandidates, normalizedChanged
+                skippedAlreadySeenDomain, alreadySeenSkipped, openAiCandidates, normalizedChanged
         );
 
 
@@ -488,6 +497,31 @@ public class DiscoveryService {
         }
     }
 
+    private SeenDecision checkAlreadySeen(String normalizedUrl, String domain) {
+        if (domain != null && !domain.isBlank() && discoveredUrlRepository.existsByDomain(domain)) {
+            return SeenDecision.SEEN_BY_DOMAIN;
+        }
+        if (discoveredUrlRepository.existsByUrl(normalizedUrl)) {
+            return SeenDecision.SEEN_BY_URL;
+        }
+        return SeenDecision.NOT_SEEN;
+    }
+
+    private enum SeenDecision {
+        NOT_SEEN,
+        SEEN_BY_DOMAIN,
+        SEEN_BY_URL
+    }
+
+
+
+    private String extractNormalizedDomain(String url) {
+        String domain = extractDomain(url);
+        if (domain == null) return null;
+        return domain.toLowerCase(Locale.ROOT).trim();
+    }
+
+
 
     private SerpQueryCursor loadOrCreateCursor(String query) {
         return serpQueryCursorRepository.findByQuery(query)
@@ -511,6 +545,7 @@ public class DiscoveryService {
             boolean isNew = (entity.getId() == null);
 
             entity.setUrl(url);
+            entity.setDomain(extractNormalizedDomain(url));
             entity.setFarm(result.isFarm());
             entity.setSeasonalJobs(result.isSeasonalJobs());
             entity.setLastSeenAt(LocalDateTime.now());
@@ -534,31 +569,29 @@ public class DiscoveryService {
     }
 
     private boolean isAllowedDomain(String url) {
-        String domain = extractDomain(url);
-        if (domain == null) {
+        String d = extractNormalizedDomain(url);
+        if (d == null) {
             log.info("DiscoveryService: dropping url={} (no domain)", url);
             return false;
         }
 
-        String d = domain.toLowerCase(Locale.ROOT);
-
         if (BLOCKED_DOMAINS.contains(d)) {
-            log.info("DiscoveryService: dropping url={} (blocked domain={})", url, domain);
+            log.info("DiscoveryService: dropping url={} (blocked domain={})", url, d);
             return false;
         }
 
         if (isHardNegative(d)) {
-            log.info("DiscoveryService: dropping url={} (hard-negative domain={})", url, domain);
+            log.info("DiscoveryService: dropping url={} (hard-negative domain={})", url, d);
             return false;
         }
 
         if (d.contains("zeitung") || d.contains("news")) {
-            log.info("DiscoveryService: dropping url={} (looks like news/media domain={})", url, domain);
+            log.info("DiscoveryService: dropping url={} (looks like news/media domain={})", url, d);
             return false;
         }
 
-        if (!looksLikeFarmDomain(domain)) {
-            log.info("DiscoveryService: dropping url={} (domain does not look farm-related: {})", url, domain);
+        if (!looksLikeFarmDomain(d)) {
+            log.info("DiscoveryService: dropping url={} (domain does not look farm-related: {})", url, d);
             return false;
         }
 
@@ -579,10 +612,9 @@ public class DiscoveryService {
     }
 
     private int computeDomainPriorityScore(String url) {
-        String domain = extractDomain(url);
-        if (domain == null) return 0;
+        String d = extractNormalizedDomain(url);
+        if (d == null) return 0;
 
-        String d = domain.toLowerCase(Locale.ROOT);
         if (isHardNegative(d)) return -100;
 
         int score = 0;

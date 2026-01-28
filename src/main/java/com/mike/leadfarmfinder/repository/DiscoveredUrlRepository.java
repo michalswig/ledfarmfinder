@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface DiscoveredUrlRepository extends JpaRepository<DiscoveredUrl, Long> {
 
     boolean existsByUrl(String url);
-
+    boolean existsByDomain(String domain);
     Optional<DiscoveredUrl> findByUrl(String url);
 }

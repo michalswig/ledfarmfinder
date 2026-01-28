@@ -35,6 +35,9 @@ public class DiscoveredUrl {
     @Column(name = "url", nullable = false, length = 1000)
     private String url;
 
+    @Column(name = "domain", length = 255)
+    private String domain;
+
     @Column(name = "is_farm", nullable = false)
     private boolean farm;
 

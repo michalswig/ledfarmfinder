@@ -261,6 +261,38 @@ databaseChangeLog:
                   name: first_seen_at
 
   # -------------------------------------------------------
+  # 5b) discovered_urls: add domain (KROK 2)
+  # -------------------------------------------------------
+  - changeSet:
+      id: 2026-01-28-01-add-domain-to-discovered-urls
+      author: mike
+      changes:
+        - addColumn:
+            tableName: discovered_urls
+            columns:
+              - column:
+                  name: domain
+                  type: VARCHAR(255)
+
+        - createIndex:
+            tableName: discovered_urls
+            indexName: idx_discovered_urls_domain
+            columns:
+              - column:
+                  name: domain
+
+        # Backfill domain from url (works in Postgres + usually in H2 2.x with regexp_replace)
+        - sql:
+            splitStatements: false
+            sql: |
+              UPDATE discovered_urls
+              SET domain = LOWER(
+                  REGEXP_REPLACE(url, '^(https?://)?(www\.)?([^/]+).*$','\3')
+              )
+              WHERE domain IS NULL OR domain = '';
+
+
+  # -------------------------------------------------------
   # 6) Add filtered_already_discovered
   # -------------------------------------------------------
   - changeSet:
