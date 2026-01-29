@@ -251,8 +251,16 @@ public class DiscoveryService {
             "zeitarbeit", "zeitarbeitsfirma",
             "personalvermittlung", "personaldienstleister",
             "arbeitsagentur", "jobvermittlung",
-            "leiharbeit", "arbeitnehmerüberlassung"
-    );
+            "leiharbeit", "arbeitnehmerüberlassung",
+            "cylex",
+            "web2.cylex",
+            "11880",
+            "golocal",
+            "yelp",
+            "trustedshops",
+            "werliefertwas",
+            "sortiment"
+            );
 
     // NEW: odrzucamy pliki zanim w ogóle pójdą dalej
     private static final Set<String> BLOCKED_EXTENSIONS = Set.of(
@@ -282,7 +290,7 @@ public class DiscoveryService {
         int normalizedChanged = 0;
         int openAiCandidates = 0;
 
-        int resultsPerPage = leadFinderProperties.getDiscovery().getResultsPerPage();
+        int resultsPerPage = leadFinderProperties.getDiscovery().getResultsPerPage(); //zwykle to 10
         int maxPagesPerRun = leadFinderProperties.getDiscovery().getMaxPagesPerRun();
 
         List<String> queries = leadFinderProperties.getDiscovery().getQueries();
@@ -293,6 +301,8 @@ public class DiscoveryService {
         int currentQueryIndex = queryIndex;
         String query = queries.get(currentQueryIndex);
         queryIndex = (queryIndex + 1) % queries.size();
+//        queryIndex = które zapytanie wybierasz
+//        currentPage = którą stronę wyników czytasz dla tego zapytania
 
         LocalDateTime startedAt = LocalDateTime.now();
 
@@ -318,6 +328,10 @@ public class DiscoveryService {
         int acceptedCount = 0;
         int rejectedCount = 0;
         int errorsCount = 0;
+
+        int consecutiveEmptyNewUrls = 0;
+        int earlyExitAfterEmptyPages = 2; // próg startowy (2 jest bezpieczne)
+
 
         for (int i = 0; i < maxPagesPerRun && accepted.size() < limit; i++) {
             log.info("DiscoveryService: fetching SERP page={} (runPageIndex={}) for query='{}'",
@@ -380,6 +394,13 @@ public class DiscoveryService {
                     continue;
                 }
 
+                if (isHardNegativePath(normalized)) {
+                    // od razu zapis do DB żeby nie wracało i nie marnowało runów
+                    saveDiscoveredUrl(normalized, new FarmClassificationResult(false, false, null, "hard-negative-path-skip"));
+                    rejectedCount++;
+                    continue;
+                }
+
                 newUrlsOnly.add(normalized);
 
             }
@@ -388,6 +409,31 @@ public class DiscoveryService {
 
             log.info("DiscoveryService: new urls for OpenAI after discovered filter (page={}) = {}",
                     currentPage, newUrlsOnly.size());
+
+            if (newUrlsOnly.isEmpty()) {
+                consecutiveEmptyNewUrls++;
+
+                log.info("DiscoveryService: empty NEW candidates streak = {} (page={})",
+                        consecutiveEmptyNewUrls, currentPage);
+
+                if (consecutiveEmptyNewUrls >= earlyExitAfterEmptyPages) {
+                    log.info("DiscoveryService: early-exit after {} consecutive empty pages. query='{}', pageNow={}, pagesVisitedSoFar={}",
+                            consecutiveEmptyNewUrls, query, currentPage, pagesVisited);
+
+                    // ważne: przesuń kursor na następną stronę, żeby nie stać w miejscu
+                    currentPage++;
+                    if (currentPage > maxPage) currentPage = 1;
+                    break;
+                }
+
+                // idź do następnej strony SERP
+                currentPage++;
+                if (currentPage > maxPage) currentPage = 1;
+                continue;
+            } else {
+                consecutiveEmptyNewUrls = 0;
+            }
+
 
             List<ScoredUrl> scored = newUrlsOnly.stream()
                     .map(u -> new ScoredUrl(u, computeDomainPriorityScore(u)))
@@ -405,19 +451,18 @@ public class DiscoveryService {
 
                 String url = scoredUrl.url();
 
-                // NEW: cheap-skip content portals / blog posts / news / etc. BEFORE JSoup + OpenAI
-                if (isHardNegativePath(url)) {
-                    rejectedCount++;
-                    log.info("DiscoveryService: SKIP (hard-negative path) url={} score={}", url, scoredUrl.score());
-
-                    // opcja: zapisujemy do DB jako "not farm" bez OpenAI (żeby nie wracało)
-                    saveDiscoveredUrl(url, new FarmClassificationResult(false, false, null, "hard-negative-path-skip"));
-                    continue;
-                }
-
                 try {
                     String snippet = fetchTextSnippet(url);
                     if (snippet.isBlank()) {
+                        // jeśli i tak nie mamy treści, a URL nie wygląda na farmowy (score niski),
+                        // to nie ma sensu płacić OpenAI za “zgadywanie”
+                        if (scoredUrl.score() <= 5) {
+                            rejectedCount++;
+                            log.info("DiscoveryService: SKIP (empty snippet + low score) url={} score={}", url, scoredUrl.score());
+                            saveDiscoveredUrl(url, new FarmClassificationResult(false, false, null, "empty-snippet-low-score-skip"));
+                            continue;
+                        }
+
                         log.info("DiscoveryService: empty snippet for url={} (score={}), using URL as fallback snippet",
                                 url, scoredUrl.score());
                         snippet = url;
@@ -552,14 +597,15 @@ public class DiscoveryService {
     }
 
     private SeenDecision checkAlreadySeen(String normalizedUrl, String domain) {
-        if (domain != null && !domain.isBlank() && discoveredUrlRepository.existsByDomain(domain)) {
-            return SeenDecision.SEEN_BY_DOMAIN;
-        }
         if (discoveredUrlRepository.existsByUrl(normalizedUrl)) {
             return SeenDecision.SEEN_BY_URL;
         }
+        if (domain != null && !domain.isBlank() && discoveredUrlRepository.existsByDomain(domain)) {
+            return SeenDecision.SEEN_BY_DOMAIN;
+        }
         return SeenDecision.NOT_SEEN;
     }
+
 
     private enum SeenDecision {
         NOT_SEEN,

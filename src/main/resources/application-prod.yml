@@ -112,81 +112,81 @@ leadfinder:
     queries:
 
       # ==================================================
-      # NOWA PACZKA 50 QUERY (FARM-FOCUSED, bez ofert pracy)
+      # NIEDERSACHSEN — miasta rolnicze
       # ==================================================
+      - Gemüsehof Meppen Direktvermarktung
+      - Gemüsebau Betrieb Lingen Ems
+      - Kartoffelhof Haselünne Hofverkauf
+      - Spargelhof Papenburg Direktvermarktung
+      - Erdbeerhof Cloppenburg Hofladen
+      - Gemüsehof Vechta Direktvermarktung
+      - Jungpflanzenbetrieb Vechta
+      - Gewächshausbetrieb Cloppenburg Gemüse
+      - Tomaten Gewächshausbetrieb Papenburg
+      - Champignon Betrieb Cloppenburg
+      - Pilzzucht Betrieb Vechta
+      - Pilzzucht Betrieb Lingen
 
-      # --- A. SZKLARNIE / GEMÜSE (bardziej „konkret” niż tylko Betrieb) ---
-      - Gemüsehof Gewächshaus Nordrhein Westfalen
-      - Gemüsehof Gewächshaus Niedersachsen
-      - Tomatenbetrieb Gewächshaus Nordrhein Westfalen
-      - Gurkenbetrieb Gewächshaus Niedersachsen
-      - Paprika Gewächshaus Betrieb Nordrhein Westfalen
-      - Salat Gewächshaus Betrieb Niedersachsen
-      - Kräuterbetrieb Gewächshaus Niedersachsen
-      - Bio Kräuter Gewächshaus Nordrhein Westfalen
-      - Jungpflanzenbetrieb Gemüse Niedersachsen
-      - Jungpflanzenbetrieb Kräuter Nordrhein Westfalen
+      # ==================================================
+      # NRW — Niederrhein / Münsterland (miasta)
+      # ==================================================
+      - Gemüsehof Kleve Direktvermarktung
+      - Gemüsebau Betrieb Wesel Niederrhein
+      - Kartoffelhof Geldern Hofverkauf
+      - Spargelhof Straelen Direktvermarktung
+      - Erdbeerhof Kevelaer Hofladen
+      - Gemüsehof Coesfeld Direktvermarktung
+      - Gemüsebau Betrieb Warendorf
+      - Gewächshausbetrieb Straelen Gemüse
+      - Tomaten Gewächshausbetrieb Geldern
+      - Gurken Gewächshausbetrieb Kleve
+      - Champignon Betrieb Coesfeld
+      - Pilzzucht Betrieb Warendorf
 
-      # --- B. OGRODNICTWO / PRODUKCJA ROŚLIN (więcej intencji „sprzedaż/hofladen”) ---
-      - Gärtnerei Hofverkauf Nordrhein Westfalen
-      - Gärtnerei Hofladen Niedersachsen
-      - Zierpflanzen Gärtnerei Hofverkauf Nordrhein Westfalen
-      - Topfpflanzen Hofverkauf Niedersachsen
-      - Stauden Gärtnerei Hofladen Nordrhein Westfalen
-      - Baumschule Hofverkauf Nordrhein Westfalen
-      - Baumschule Hofladen Niedersachsen
-      - Schnittblumen Gärtnerei Hofverkauf Niedersachsen
-      - Balkonpflanzen Gärtnerei Hofverkauf Nordrhein Westfalen
-      - Rosen Baumschule Betrieb Nordrhein Westfalen
+      # ==================================================
+      # BADEN-WÜRTTEMBERG — Oberrhein / Bodensee
+      # ==================================================
+      - Obsthof Endingen Kaiserstuhl Direktvermarktung
+      - Gemüsehof Endingen Kaiserstuhl
+      - Erdbeerhof Breisach Hofverkauf
+      - Spargelhof Bad Krozingen
+      - Gemüsebau Betrieb Freiburg Land
+      - Gewächshausbetrieb Freiburg Gemüse
+      - Kräuter Gewächshausbetrieb Kaiserstuhl
+      - Champignon Betrieb Freiburg Land
+      - Pilzzucht Betrieb Breisgau
 
-      # --- C. PILZE / SPECJALISTYCZNE ---
-      - Champignon Betrieb Hofverkauf Niedersachsen
-      - Pilzzucht Hofverkauf Nordrhein Westfalen
-      - Bio Champignon Betrieb Niedersachsen
-      - Speisepilze Hofladen Nordrhein Westfalen
-      - Pilzfarm Hofverkauf Niedersachsen
+      - Obsthof Ravensburg Hofladen
+      - Gemüsehof Tettnang Direktvermarktung
+      - Apfelhof Friedrichshafen Hofverkauf
+      - Beerenhof Überlingen Direktvermarktung
+      - Gemüsebau Betrieb Bodenseekreis
+      - Gewächshausbetrieb Bodenseekreis
+      - Champignon Betrieb Bodenseekreis
+      - Pilzzucht Betrieb Ravensburg
 
-      # --- D. MAGAZYNY / SORTOWANIE / PAKOWANIE (ale farmowe) ---
-      - Gemüse Aufbereitung Hofbetrieb Nordrhein Westfalen
-      - Gemüse Verpackung Hofbetrieb Niedersachsen
-      - Kartoffel Lager Hofbetrieb Niedersachsen
-      - Kartoffel Sortierung Hofbetrieb Nordrhein Westfalen
-      - Obst Verpackung Hofbetrieb Niedersachsen
+      # ==================================================
+      # RHEINLAND-PFALZ — Pfalz / Rheinhessen (miasta)
+      # ==================================================
+      - Obsthof Neustadt Weinstraße Direktvermarktung
+      - Gemüsehof Neustadt Pfalz
+      - Erdbeerhof Bad Dürkheim Hofverkauf
+      - Spargelhof Schifferstadt Direktvermarktung
+      - Kartoffelhof Germersheim Hofverkauf
+      - Gemüsebau Betrieb Landau Pfalz
+      - Gewächshausbetrieb Landau Gemüse
+      - Champignon Betrieb Germersheim
+      - Pilzzucht Betrieb Landau
 
-      # --- E. OWOCE / JAGODY / SADY (bez „plantage” + bez jobów) ---
-      - Erdbeerhof Hofladen Niedersachsen
-      - Erdbeerhof Hofverkauf Nordrhein Westfalen
-      - Himbeerhof Hofladen Nordrhein Westfalen
-      - Heidelbeerhof Niedersachsen
-      - Heidelbeerhof Nordrhein Westfalen
-      - Brombeerhof Niedersachsen
-      - Beerenhof Hofverkauf Nordrhein Westfalen
-      - Obsthof Hofladen Niedersachsen
-      - Apfelhof Hofverkauf Nordrhein Westfalen
-      - Kirschhof Niedersachsen
-      - Pflaumenhof Niedersachsen
-      - Birnenhof Nordrhein Westfalen
-
-      # --- F. WARZYWA POLowe / KARTOFFEL / SPARGEL (sprzedaż bezpośrednia) ---
-      - Spargelhof Hofverkauf Nordrhein Westfalen
-      - Spargelhof Hofladen Niedersachsen
-      - Kartoffelhof Hofverkauf Niedersachsen
-      - Kartoffelhof Direktvermarktung Nordrhein Westfalen
-      - Gemüsehof Direktvermarktung Niedersachsen
-      - Hofverkauf Kartoffeln Nordrhein Westfalen
-      - Hofverkauf Gemüse Niedersachsen
-
-      # --- G. ZWIERZĘTA (bardziej „gospodarstwo” niż ogólne „Betrieb”) ---
-      - Milchviehbetrieb Hofladen Nordrhein Westfalen
-      - Milchhof Hofladen Niedersachsen
-      - Eier Hofverkauf Geflügelhof Niedersachsen
-      - Geflügelhof Hofladen Nordrhein Westfalen
-      - Rinderhof Direktvermarktung Nordrhein Westfalen
-
-      # --- H. SEZONOWE / CHOINKI (bez słów sprzedażowych typu „verkauf” na masę) ---
-      - Weihnachtsbaumhof Hofladen Niedersachsen
-      - Weihnachtsbaumplantage Nordrhein Westfalen
-      - Tannenhof Hofverkauf Nordrhein Westfalen
+      - Obsthof Worms Hofladen
+      - Gemüsehof Alzey Direktvermarktung
+      - Erdbeerhof Alzey Hofverkauf
+      - Spargelhof Bingen Direktvermarktung
+      - Gemüsebau Betrieb Mainz Land
+      - Gewächshausbetrieb Mainz Gemüse
+      - Jungpflanzenbetrieb Rheinhessen
+      - Champignon Betrieb Rheinhessen
+      - Pilzzucht Betrieb Worms
 
 app:
   outreach:
