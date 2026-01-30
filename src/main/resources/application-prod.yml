@@ -112,81 +112,78 @@ leadfinder:
     queries:
 
       # ==================================================
-      # NIEDERSACHSEN — miasta rolnicze
+      # NIEDERSACHSEN — Emsland / Oldenburger Münsterland
       # ==================================================
-      - Gemüsehof Meppen Direktvermarktung
-      - Gemüsebau Betrieb Lingen Ems
-      - Kartoffelhof Haselünne Hofverkauf
-      - Spargelhof Papenburg Direktvermarktung
-      - Erdbeerhof Cloppenburg Hofladen
-      - Gemüsehof Vechta Direktvermarktung
-      - Jungpflanzenbetrieb Vechta
-      - Gewächshausbetrieb Cloppenburg Gemüse
-      - Tomaten Gewächshausbetrieb Papenburg
-      - Champignon Betrieb Cloppenburg
-      - Pilzzucht Betrieb Vechta
-      - Pilzzucht Betrieb Lingen
+      - "Gemüsehof Meppen Kontakt"
+      - "Direktvermarkter Meppen Hofladen Kontakt"
+      - "Kartoffelhof Haselünne Impressum"
+      - "Spargelhof Papenburg Telefon"
+      - "Erdbeerhof Cloppenburg E-Mail"
+      - "Gärtnerei Vechta Kontakt"
+      - "Jungpflanzenbetrieb Vechta Impressum"
+      - "Gewächshausbetrieb Cloppenburg Gemüse Kontakt"
+      - "Tomaten Gewächshaus Papenburg Kontakt"
+      - "Champignon Betrieb Cloppenburg Kontakt"
+      - "Pilzzucht Betrieb Vechta Kontakt"
+      - "Landwirtschaftlicher Betrieb Lingen Direktvermarktung Kontakt"
 
       # ==================================================
-      # NRW — Niederrhein / Münsterland (miasta)
+      # NRW — Niederrhein / Münsterland
       # ==================================================
-      - Gemüsehof Kleve Direktvermarktung
-      - Gemüsebau Betrieb Wesel Niederrhein
-      - Kartoffelhof Geldern Hofverkauf
-      - Spargelhof Straelen Direktvermarktung
-      - Erdbeerhof Kevelaer Hofladen
-      - Gemüsehof Coesfeld Direktvermarktung
-      - Gemüsebau Betrieb Warendorf
-      - Gewächshausbetrieb Straelen Gemüse
-      - Tomaten Gewächshausbetrieb Geldern
-      - Gurken Gewächshausbetrieb Kleve
-      - Champignon Betrieb Coesfeld
-      - Pilzzucht Betrieb Warendorf
+      - "Gemüsehof Kleve Kontakt"
+      - "Direktvermarkter Kleve Hofladen Kontakt"
+      - "Kartoffelhof Geldern Impressum"
+      - "Spargelhof Straelen Telefon"
+      - "Erdbeerhof Kevelaer E-Mail"
+      - "Gemüsehof Coesfeld Kontakt"
+      - "Gemüsebau Betrieb Warendorf Kontakt"
+      - "Gewächshausbetrieb Straelen Gemüse Kontakt"
+      - "Tomaten Gewächshausbetrieb Geldern Kontakt"
+      - "Gurken Gewächshausbetrieb Kleve Kontakt"
+      - "Champignon Betrieb Coesfeld Kontakt"
+      - "Pilzzucht Betrieb Warendorf Kontakt"
 
       # ==================================================
-      # BADEN-WÜRTTEMBERG — Oberrhein / Bodensee
+      # BADEN-WÜRTTEMBERG — Kaiserstuhl / Freiburg / Bodensee
       # ==================================================
-      - Obsthof Endingen Kaiserstuhl Direktvermarktung
-      - Gemüsehof Endingen Kaiserstuhl
-      - Erdbeerhof Breisach Hofverkauf
-      - Spargelhof Bad Krozingen
-      - Gemüsebau Betrieb Freiburg Land
-      - Gewächshausbetrieb Freiburg Gemüse
-      - Kräuter Gewächshausbetrieb Kaiserstuhl
-      - Champignon Betrieb Freiburg Land
-      - Pilzzucht Betrieb Breisgau
+      - "Obsthof Endingen Kaiserstuhl Kontakt"
+      - "Erdbeerhof Breisach Hofverkauf Kontakt"
+      - "Spargelhof Bad Krozingen Kontakt"
+      - "Gemüsebau Betrieb Freiburg Kontakt"
+      - "Gewächshausbetrieb Freiburg Gemüse Kontakt"
+      - "Kräuter Betrieb Kaiserstuhl Direktvermarktung Kontakt"
+      - "Champignon Betrieb Breisgau Kontakt"
+      - "Pilzzucht Betrieb Breisgau Kontakt"
 
-      - Obsthof Ravensburg Hofladen
-      - Gemüsehof Tettnang Direktvermarktung
-      - Apfelhof Friedrichshafen Hofverkauf
-      - Beerenhof Überlingen Direktvermarktung
-      - Gemüsebau Betrieb Bodenseekreis
-      - Gewächshausbetrieb Bodenseekreis
-      - Champignon Betrieb Bodenseekreis
-      - Pilzzucht Betrieb Ravensburg
+      - "Obsthof Ravensburg Kontakt"
+      - "Gemüsehof Tettnang Kontakt"
+      - "Apfelhof Friedrichshafen Kontakt"
+      - "Beerenhof Überlingen Kontakt"
+      - "Gemüsebau Betrieb Bodenseekreis Kontakt"
+      - "Gewächshausbetrieb Bodenseekreis Kontakt"
+      - "Champignon Betrieb Bodenseekreis Kontakt"
+      - "Pilzzucht Betrieb Ravensburg Kontakt"
 
       # ==================================================
-      # RHEINLAND-PFALZ — Pfalz / Rheinhessen (miasta)
+      # RHEINLAND-PFALZ — Pfalz / Rheinhessen
       # ==================================================
-      - Obsthof Neustadt Weinstraße Direktvermarktung
-      - Gemüsehof Neustadt Pfalz
-      - Erdbeerhof Bad Dürkheim Hofverkauf
-      - Spargelhof Schifferstadt Direktvermarktung
-      - Kartoffelhof Germersheim Hofverkauf
-      - Gemüsebau Betrieb Landau Pfalz
-      - Gewächshausbetrieb Landau Gemüse
-      - Champignon Betrieb Germersheim
-      - Pilzzucht Betrieb Landau
+      - "Obsthof Neustadt Weinstraße Kontakt"
+      - "Erdbeerhof Bad Dürkheim Kontakt"
+      - "Spargelhof Schifferstadt Kontakt"
+      - "Kartoffelhof Germersheim Kontakt"
+      - "Gemüsebau Betrieb Landau Pfalz Kontakt"
+      - "Gewächshausbetrieb Landau Gemüse Kontakt"
+      - "Champignon Betrieb Germersheim Kontakt"
+      - "Pilzzucht Betrieb Landau Kontakt"
 
-      - Obsthof Worms Hofladen
-      - Gemüsehof Alzey Direktvermarktung
-      - Erdbeerhof Alzey Hofverkauf
-      - Spargelhof Bingen Direktvermarktung
-      - Gemüsebau Betrieb Mainz Land
-      - Gewächshausbetrieb Mainz Gemüse
-      - Jungpflanzenbetrieb Rheinhessen
-      - Champignon Betrieb Rheinhessen
-      - Pilzzucht Betrieb Worms
+      - "Obsthof Worms Kontakt"
+      - "Gemüsehof Alzey Kontakt"
+      - "Erdbeerhof Alzey Kontakt"
+      - "Spargelhof Bingen Kontakt"
+      - "Gemüsebau Betrieb Mainz Land Kontakt"
+      - "Gewächshausbetrieb Mainz Gemüse Kontakt"
+      - "Jungpflanzenbetrieb Rheinhessen Kontakt"
+      - "Pilzzucht Betrieb Worms Kontakt"
 
 app:
   outreach:
