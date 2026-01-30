@@ -8,10 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -31,6 +28,7 @@ public class DomainCrawler {
         try {
             crawl(startUrl, maxDepth, visited, result);
         } catch (IOException e) {
+            // w praktyce rzadko tu wejdziemy, bo w crawl() łapiemy soft-fail
             log.warn("Failed to crawl domain {}: {}", startUrl, e.toString());
         }
         return result;
@@ -41,49 +39,55 @@ public class DomainCrawler {
                        Set<String> visited,
                        Set<String> result) throws IOException {
 
-        if (maxDepth < 0 || visited.contains(startUrl)) {
+        if (maxDepth < 0) return;
+
+        // FIX C: visited po znormalizowanym URL (np. /kontakt vs /kontakt/)
+        String normalizedVisitedKey = normalizeUrlForVisited(startUrl);
+        if (normalizedVisitedKey == null || visited.contains(normalizedVisitedKey)) {
             return;
         }
-        visited.add(startUrl);
+        visited.add(normalizedVisitedKey);
 
-        Document doc = Jsoup.connect(startUrl)
-                .userAgent(USER_AGENT)
-                .referrer(REFERRER)
-                .timeout(10_000)
-                .get();
-
+        // FIX B: dodaj do result ZANIM fetchujesz (żeby 404/timeout nie dawał pustego wyniku)
         result.add(startUrl);
+
+        Document doc;
+        try {
+            doc = Jsoup.connect(startUrl)
+                    .userAgent(USER_AGENT)
+                    .referrer(REFERRER)
+                    .timeout(10_000)
+                    .followRedirects(true)
+                    .ignoreHttpErrors(true) // FIX B: nie wywalaj wyjątku na 404/500, często i tak jest menu/linki
+                    .get();
+        } catch (Exception e) {
+            log.warn("DomainCrawler: failed to fetch {} (depthLeft={}) reason={}", startUrl, maxDepth, e.toString());
+            return; // soft fail: wynik już ma startUrl
+        }
 
         if (maxDepth == 0) {
             return;
         }
 
         doc.select("a[href]").forEach(a -> {
-            String linkText = a.text().toLowerCase();
+            String linkText = safeLower(a.text());
             String href = a.attr("href");
+            String hrefLower = safeLower(href);
             String absUrl = a.absUrl("href");
 
-            if (absUrl.isBlank()) return;
+            if (absUrl == null || absUrl.isBlank()) return;
 
-            // Stay on same domain
+            // FIX A: nie porównuj host 1:1, tylko bazową domenę + subdomeny
             if (!isSameDomain(startUrl, absUrl)) return;
 
-            String hrefLower = href.toLowerCase();
-
-            boolean looksLikeContact =
-                    linkText.contains("kontakt") ||
-                            linkText.contains("impressum") ||
-                            linkText.contains("contact") ||
-                            hrefLower.contains("kontakt") ||
-                            hrefLower.contains("impressum") ||
-                            hrefLower.contains("contact");
+            boolean looksLikeContact = looksLikeContactLink(linkText, hrefLower);
 
             if (looksLikeContact) {
                 log.info("Contact-like link on {} -> text='{}', href='{}', abs='{}'",
                         startUrl, linkText, href, absUrl);
+            } else {
+                return;
             }
-
-            if (!looksLikeContact) return;
 
             try {
                 crawl(absUrl, maxDepth - 1, visited, result);
@@ -93,13 +97,62 @@ public class DomainCrawler {
         });
     }
 
+    private boolean looksLikeContactLink(String linkTextLower, String hrefLower) {
+        return (linkTextLower.contains("kontakt")
+                || linkTextLower.contains("impressum")
+                || linkTextLower.contains("contact")
+                || hrefLower.contains("kontakt")
+                || hrefLower.contains("impressum")
+                || hrefLower.contains("contact"));
+    }
+
+    private String safeLower(String s) {
+        return (s == null) ? "" : s.toLowerCase(Locale.ROOT);
+    }
+
     private boolean isSameDomain(String baseUrl, String otherUrl) {
         try {
             URI base = new URI(baseUrl);
             URI other = new URI(otherUrl);
-            return Objects.equals(base.getHost(), other.getHost());
+
+            String baseHost = normalizeHost(base.getHost());
+            String otherHost = normalizeHost(other.getHost());
+            if (baseHost == null || otherHost == null) return false;
+
+            String baseDomain = baseDomain(baseHost);
+            String otherDomain = baseDomain(otherHost);
+
+            if (baseDomain == null || otherDomain == null) return false;
+
+            // to samo "secondLevel.tld"
+            if (baseDomain.equalsIgnoreCase(otherDomain)) return true;
+
+            // subdomena tej samej bazy
+            return otherHost.endsWith("." + baseDomain);
+
         } catch (Exception e) {
             return false;
         }
+    }
+
+    private String normalizeHost(String host) {
+        if (host == null) return null;
+        host = host.toLowerCase(Locale.ROOT).trim();
+        if (host.startsWith("www.")) host = host.substring(4);
+        return host;
+    }
+
+    private String baseDomain(String host) {
+        String[] parts = host.split("\\.");
+        if (parts.length < 2) return host;
+        return parts[parts.length - 2] + "." + parts[parts.length - 1];
+    }
+
+    // FIX C: normalizacja klucza dla visited
+    private String normalizeUrlForVisited(String url) {
+        if (url == null) return null;
+        url = url.trim();
+        if (url.endsWith("/") && url.length() > 1) return url.substring(0, url.length() - 1);
+        return url;
     }
 }
