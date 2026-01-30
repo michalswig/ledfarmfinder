@@ -90,7 +90,7 @@ public class DiscoveryService {
             "milchvieh", "vieh", "rinder", "schwein", "gefluegel", "geflügel", "eier", "legehennen"
     );
 
-    // NEW: twarde negatywy w PATH (tanie odfiltrowanie content/spam przed OpenAI)
+    // twarde negatywy w PATH (tanie odfiltrowanie content/spam przed OpenAI)
     private static final List<String> HARD_NEGATIVE_PATH_TOKENS = List.of(
             "/ratgeber",
             "/blog",
@@ -109,7 +109,6 @@ public class DiscoveryService {
             "/author/",
             "/job", "/jobs", "/stellen", "/karriere"
     );
-
 
     private static final List<String> HARD_NEGATIVE_KEYWORDS = List.of(
             "bundeskanzler",
@@ -260,9 +259,9 @@ public class DiscoveryService {
             "trustedshops",
             "werliefertwas",
             "sortiment"
-            );
+    );
 
-    // NEW: odrzucamy pliki zanim w ogóle pójdą dalej
+    // odrzucamy pliki zanim w ogóle pójdą dalej
     private static final Set<String> BLOCKED_EXTENSIONS = Set.of(
             ".pdf", ".jpg", ".jpeg", ".png", ".gif", ".webp",
             ".zip", ".rar", ".7z",
@@ -270,7 +269,7 @@ public class DiscoveryService {
             ".ppt", ".pptx"
     );
 
-    // NEW: boost tylko jako "priorytet" dla URL-i na farmowych domenach
+    // boost tylko jako "priorytet" dla URL-i na farmowych domenach
     private static final List<String> URL_HINT_KEYWORDS = List.of(
             "/kontakt", "/contact",
             "/impressum",
@@ -282,15 +281,21 @@ public class DiscoveryService {
 
     private int queryIndex = 0;
 
+    /**
+     * NOWE ZACHOWANIE:
+     * - nie zawijamy currentPage do 1
+     * - gdy przekroczymy maxPage → ustawiamy currentPage = maxPage + 1 (sentinel "DONE")
+     * - wybór query pomija DONE
+     * - jeśli wszystkie są DONE → zwracamy pustą listę i discovery "nie działa"
+     */
     public List<String> findCandidateFarmUrls(int limit) {
 
         int skippedAlreadySeenDomain = 0;
-
         int alreadySeenSkipped = 0;
         int normalizedChanged = 0;
         int openAiCandidates = 0;
 
-        int resultsPerPage = leadFinderProperties.getDiscovery().getResultsPerPage(); //zwykle to 10
+        int resultsPerPage = leadFinderProperties.getDiscovery().getResultsPerPage(); // zwykle 10
         int maxPagesPerRun = leadFinderProperties.getDiscovery().getMaxPagesPerRun();
 
         List<String> queries = leadFinderProperties.getDiscovery().getQueries();
@@ -298,11 +303,16 @@ public class DiscoveryService {
             throw new IllegalStateException("Discovery queries are not configured! Add leadfinder.discovery.queries[]");
         }
 
-        int currentQueryIndex = queryIndex;
-        String query = queries.get(currentQueryIndex);
-        queryIndex = (queryIndex + 1) % queries.size();
-//        queryIndex = które zapytanie wybierasz
-//        currentPage = którą stronę wyników czytasz dla tego zapytania
+        Optional<QueryPick> pickOpt = pickNextNonExhaustedQuery(queries);
+        if (pickOpt.isEmpty()) {
+            log.info("DiscoveryService: all queries exhausted (all cursors DONE). Nothing to do.");
+            return List.of();
+        }
+
+        QueryPick pick = pickOpt.get();
+        int currentQueryIndex = pick.index();
+        String query = pick.query();
+        SerpQueryCursor cursor = pick.cursor();
 
         LocalDateTime startedAt = LocalDateTime.now();
 
@@ -311,10 +321,16 @@ public class DiscoveryService {
                 query, currentQueryIndex, limit, resultsPerPage, maxPagesPerRun
         );
 
-        SerpQueryCursor cursor = loadOrCreateCursor(query);
         int startPage = cursor.getCurrentPage();
         int currentPage = startPage;
         int maxPage = cursor.getMaxPage();
+
+        // safety: jeśli ktoś ręcznie ustawił > maxPage, to jest DONE
+        if (isExhausted(cursor)) {
+            log.info("DiscoveryService: picked query is already exhausted (DONE). query='{}', currentPage={}, maxPage={}",
+                    query, startPage, maxPage);
+            return List.of();
+        }
 
         log.info("DiscoveryService: starting SERP from page={} (maxPage={}) for query='{}'",
                 startPage, maxPage, query);
@@ -330,8 +346,7 @@ public class DiscoveryService {
         int errorsCount = 0;
 
         int consecutiveEmptyNewUrls = 0;
-        int earlyExitAfterEmptyPages = 2; // próg startowy (2 jest bezpieczne)
-
+        int earlyExitAfterEmptyPages = 2; // próg startowy
 
         for (int i = 0; i < maxPagesPerRun && accepted.size() < limit; i++) {
             log.info("DiscoveryService: fetching SERP page={} (runPageIndex={}) for query='{}'",
@@ -344,8 +359,7 @@ public class DiscoveryService {
 
             if (rawUrls.isEmpty()) {
                 log.info("DiscoveryService: no more results from SerpAPI for page={}, moving to next page", currentPage);
-                currentPage++;
-                if (currentPage > maxPage) currentPage = 1;
+                currentPage = advancePageOrExhaust(currentPage, maxPage);
                 break;
             }
 
@@ -355,7 +369,7 @@ public class DiscoveryService {
                     .filter(Objects::nonNull)
                     .map(String::trim)
                     .filter(s -> !s.isBlank())
-                    .filter(this::isNotFileUrl)  // NEW
+                    .filter(this::isNotFileUrl)
                     .filter(this::isAllowedDomain)
                     .distinct()
                     .collect(Collectors.toList());
@@ -395,17 +409,15 @@ public class DiscoveryService {
                 }
 
                 if (isHardNegativePath(normalized)) {
-                    // od razu zapis do DB żeby nie wracało i nie marnowało runów
                     saveDiscoveredUrl(normalized, new FarmClassificationResult(false, false, null, "hard-negative-path-skip"));
                     rejectedCount++;
                     continue;
                 }
 
                 newUrlsOnly.add(normalized);
-
             }
-            openAiCandidates += newUrlsOnly.size();
 
+            openAiCandidates += newUrlsOnly.size();
 
             log.info("DiscoveryService: new urls for OpenAI after discovered filter (page={}) = {}",
                     currentPage, newUrlsOnly.size());
@@ -420,20 +432,18 @@ public class DiscoveryService {
                     log.info("DiscoveryService: early-exit after {} consecutive empty pages. query='{}', pageNow={}, pagesVisitedSoFar={}",
                             consecutiveEmptyNewUrls, query, currentPage, pagesVisited);
 
-                    // ważne: przesuń kursor na następną stronę, żeby nie stać w miejscu
-                    currentPage++;
-                    if (currentPage > maxPage) currentPage = 1;
+                    currentPage = advancePageOrExhaust(currentPage, maxPage);
                     break;
                 }
 
-                // idź do następnej strony SERP
-                currentPage++;
-                if (currentPage > maxPage) currentPage = 1;
+                currentPage = advancePageOrExhaust(currentPage, maxPage);
+                if (currentPage > maxPage) {
+                    break; // DONE
+                }
                 continue;
             } else {
                 consecutiveEmptyNewUrls = 0;
             }
-
 
             List<ScoredUrl> scored = newUrlsOnly.stream()
                     .map(u -> new ScoredUrl(u, computeDomainPriorityScore(u)))
@@ -454,8 +464,6 @@ public class DiscoveryService {
                 try {
                     String snippet = fetchTextSnippet(url);
                     if (snippet.isBlank()) {
-                        // jeśli i tak nie mamy treści, a URL nie wygląda na farmowy (score niski),
-                        // to nie ma sensu płacić OpenAI za “zgadywanie”
                         if (scoredUrl.score() <= 5) {
                             rejectedCount++;
                             log.info("DiscoveryService: SKIP (empty snippet + low score) url={} score={}", url, scoredUrl.score());
@@ -494,11 +502,13 @@ public class DiscoveryService {
                 }
             }
 
-            currentPage++;
-            if (currentPage > maxPage) currentPage = 1;
+            currentPage = advancePageOrExhaust(currentPage, maxPage);
+            if (currentPage > maxPage) {
+                break; // DONE
+            }
         }
 
-        cursor.setCurrentPage(currentPage);
+        cursor.setCurrentPage(currentPage); // może być maxPage+1 (DONE)
         cursor.setLastRunAt(LocalDateTime.now());
         serpQueryCursorRepository.save(cursor);
 
@@ -516,7 +526,7 @@ public class DiscoveryService {
         stats.setStartedAt(startedAt);
         stats.setFinishedAt(LocalDateTime.now());
         stats.setStartPage(startPage);
-        stats.setEndPage(currentPage);
+        stats.setEndPage(currentPage); // UWAGA: to jest nextStartPage lub DONE sentinel
         stats.setPagesVisited(pagesVisited);
         stats.setRawUrls(rawUrlsTotal);
         stats.setCleanedUrls(cleanedUrlsTotal);
@@ -528,14 +538,48 @@ public class DiscoveryService {
         discoveryRunStatsRepository.save(stats);
 
         log.info(
-                "DiscoveryService: returning {} accepted urls (query='{}', startPage={}, endPage={}, pagesVisited={}, skippedAlreadySeenDomain={}, alreadySeenSkippedUrl={}, openAiCandidates={}, normalizedChanged={})",
-                distinctAccepted.size(), query, startPage, currentPage, pagesVisited,
+                "DiscoveryService: returning {} accepted urls (query='{}', startPage={}, endPage={}, done={}, pagesVisited={}, skippedAlreadySeenDomain={}, alreadySeenSkippedUrl={}, openAiCandidates={}, normalizedChanged={})",
+                distinctAccepted.size(), query, startPage, currentPage, (currentPage > maxPage), pagesVisited,
                 skippedAlreadySeenDomain, alreadySeenSkipped, openAiCandidates, normalizedChanged
         );
 
-
         return distinctAccepted;
     }
+
+    // ===== NEW helpers (DONE / selection) =====
+
+    private boolean isExhausted(SerpQueryCursor c) {
+        return c.getCurrentPage() > c.getMaxPage();
+    }
+
+    /**
+     * Zwraca next page; jeśli przekroczymy maxPage → zwraca maxPage+1 jako sentinel DONE.
+     */
+    private int advancePageOrExhaust(int currentPage, int maxPage) {
+        int next = currentPage + 1;
+        if (next > maxPage) {
+            return maxPage + 1; // DONE
+        }
+        return next;
+    }
+
+    private Optional<QueryPick> pickNextNonExhaustedQuery(List<String> queries) {
+        for (int attempts = 0; attempts < queries.size(); attempts++) {
+            int idx = queryIndex;
+            String q = queries.get(idx);
+            queryIndex = (queryIndex + 1) % queries.size();
+
+            SerpQueryCursor c = loadOrCreateCursor(q);
+            if (!isExhausted(c)) {
+                return Optional.of(new QueryPick(idx, q, c));
+            }
+        }
+        return Optional.empty();
+    }
+
+    private record QueryPick(int index, String query, SerpQueryCursor cursor) {}
+
+    // ===== rest unchanged =====
 
     private boolean isHardNegativePath(String url) {
         try {
@@ -557,7 +601,6 @@ public class DiscoveryService {
             return false;
         }
     }
-
 
     private String normalizeUrl(String url) {
         try {
@@ -586,9 +629,7 @@ public class DiscoveryService {
                 path = path.substring(0, path.length() - 1);
             }
 
-            // usuń tracking paramy
-            // zamiast parsowania query - najprościej: wyrzucamy query całkowicie
-            // (dla farm to OK, bo landing pages rzadko wymagają query)
+            // usuń tracking paramy (wyrzucamy query całkowicie)
             return new URI(scheme, host, path, null).toString();
 
         } catch (Exception e) {
@@ -606,22 +647,17 @@ public class DiscoveryService {
         return SeenDecision.NOT_SEEN;
     }
 
-
     private enum SeenDecision {
         NOT_SEEN,
         SEEN_BY_DOMAIN,
         SEEN_BY_URL
     }
 
-
-
     private String extractNormalizedDomain(String url) {
         String domain = extractDomain(url);
         if (domain == null) return null;
         return domain.toLowerCase(Locale.ROOT).trim();
     }
-
-
 
     private SerpQueryCursor loadOrCreateCursor(String query) {
         return serpQueryCursorRepository.findByQuery(query)
@@ -732,7 +768,7 @@ public class DiscoveryService {
         // podejrzane tokeny
         if (d.contains("shop") || d.contains("markt") || d.contains("portal")) score -= 5;
 
-        // NEW: boost tylko jeśli domena już jest "farmowa"
+        // boost tylko jeśli domena już jest "farmowa"
         if (hasFarmKeyword(d)) {
             String u = url.toLowerCase(Locale.ROOT);
             for (String hint : URL_HINT_KEYWORDS) {
