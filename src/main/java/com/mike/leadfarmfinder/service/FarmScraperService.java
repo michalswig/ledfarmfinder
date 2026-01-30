@@ -36,26 +36,25 @@ public class FarmScraperService {
 
     private static final String REFERRER = "https://www.google.com";
 
-    // NEW: standardowe ścieżki, gdy kontaktUrl jest 404 / crawler nic nie zwróci
+    // standardowe ścieżki, gdy kontaktUrl jest 404 / crawler nic nie zwróci / wszystko padnie
     private static final List<String> FALLBACK_PATHS = List.of(
             "/", // home
 
-            // FIX #2: DE - najpierw impressum
+            // DE - najpierw impressum
             "/impressum", "/impressum/",
             "/kontakt", "/kontakt/",
             "/contact", "/contact/",
 
-            // dodatkowe (często istnieją)
+            // dodatkowe (czasem istnieją)
             "/kontaktformular", "/kontakt-formular",
 
             // na końcu prywatność
             "/datenschutz", "/datenschutz/"
     );
 
-
     public Set<FarmLead> scrapeFarmLeads(String startUrl) {
 
-        // FIX #1: canonical start url (redirect + www/no-www)
+        // FIX #1: canonical start url (redirect + www/no-www + slash toggle)
         String resolvedStartUrl = resolveWorkingStartUrl(startUrl);
         if (!resolvedStartUrl.equals(startUrl)) {
             log.info("FarmScraperService: resolved startUrl {} -> {}", startUrl, resolvedStartUrl);
@@ -77,9 +76,12 @@ public class FarmScraperService {
         // 1) crawl
         Set<String> urlsToScrape = domainCrawler.crawlContacts(resolvedStartUrl, 1);
 
+        boolean usedFallbackAlready = false;
+
         // fallback jeśli crawler nic nie zwrócił
         if (urlsToScrape == null || urlsToScrape.isEmpty()) {
             urlsToScrape = buildFallbackUrls(resolvedStartUrl);
+            usedFallbackAlready = true;
             log.info("FarmScraperService: crawler returned 0 urls, using fallback urls for startUrl={} -> {}",
                     resolvedStartUrl, urlsToScrape.size());
         }
@@ -94,7 +96,40 @@ public class FarmScraperService {
 
         Set<FarmLead> newFarmLeads = new LinkedHashSet<>();
 
-        // NEW: warunek "czy był realny sukces HTTP" (żeby nie ustawiać lastScrapedAt po pustym runie)
+        // FIX #3: najpierw próbujemy crawler URLs; jeśli wszystko padnie -> fallback second pass
+        FetchResult firstPass = fetchAndExtractEmails(urlsToScrape, resolvedStartUrl, knownEmails, newFarmLeads);
+
+        // FIX #3: jeśli crawler coś dał, ale wszystkie fetch’e padły (404/timeout) i nie ma leadów -> fallback
+        if (!usedFallbackAlready && !firstPass.anyPageFetchedOk() && newFarmLeads.isEmpty()) {
+            Set<String> fallbackUrls = buildFallbackUrls(resolvedStartUrl);
+            log.info("FarmScraperService: all initial urls failed for startUrl={} -> trying fallback urls: {}",
+                    resolvedStartUrl, fallbackUrls);
+
+            FetchResult secondPass = fetchAndExtractEmails(fallbackUrls, resolvedStartUrl, knownEmails, newFarmLeads);
+
+            // scalamy flagi (dla lastScrapedAt)
+            firstPass = new FetchResult(
+                    firstPass.anyPageFetchedOk() || secondPass.anyPageFetchedOk()
+            );
+        }
+
+        // lastScrapedAt tylko jeśli miało sens (fetch OK lub znaleziono leady)
+        boolean successRun = firstPass.anyPageFetchedOk() || !newFarmLeads.isEmpty();
+        if (successRun) {
+            updateLastScrapedAt(domain);
+        } else {
+            log.info("FarmScraperService: NOT updating lastScrapedAt for domain={} because nothing was fetched and no leads were found",
+                    domain);
+        }
+
+        return newFarmLeads;
+    }
+
+    private FetchResult fetchAndExtractEmails(Set<String> urlsToScrape,
+                                              String resolvedStartUrl,
+                                              Set<String> knownEmails,
+                                              Set<FarmLead> newFarmLeads) {
+
         boolean anyPageFetchedOk = false;
 
         for (String url : urlsToScrape) {
@@ -107,7 +142,7 @@ public class FarmScraperService {
                         .timeout(10_000)
                         .get();
 
-                anyPageFetchedOk = true; // <<< NEW
+                anyPageFetchedOk = true;
 
             } catch (Exception e) {
                 log.warn("Failed to fetch {}, skipping. Reason: {}", url, e.toString());
@@ -157,23 +192,14 @@ public class FarmScraperService {
             }
         }
 
-        // NEW: lastScrapedAt tylko jeśli miało sens (fetch OK lub znaleziono leady)
-        boolean successRun = anyPageFetchedOk || !newFarmLeads.isEmpty();
-        if (successRun) {
-            updateLastScrapedAt(domain);
-        } else {
-            log.info("FarmScraperService: NOT updating lastScrapedAt for domain={} because nothing was fetched and no leads were found",
-                    domain);
-        }
-
-        return newFarmLeads;
+        return new FetchResult(anyPageFetchedOk);
     }
 
     private Set<String> buildFallbackUrls(String startUrl) {
         String root = rootUrl(startUrl);
         if (root == null) return Set.of();
 
-        int maxFallbackUrls = 6; // FIX #2: limit
+        int maxFallbackUrls = 6; // limit
 
         Set<String> urls = new LinkedHashSet<>();
         for (String path : FALLBACK_PATHS) {
@@ -182,7 +208,6 @@ public class FarmScraperService {
         }
         return urls;
     }
-
 
     private String rootUrl(String url) {
         try {
@@ -335,7 +360,7 @@ public class FarmScraperService {
         UrlProbeResult r1 = probeUrl(startUrl);
         if (r1.ok()) return r1.finalUrl();
 
-        // FIX: spróbuj dodać/zdjąć trailing slash (częsty przypadek 404)
+        // spróbuj dodać/zdjąć trailing slash (częsty przypadek 404)
         String slashToggled = toggleTrailingSlash(startUrl);
         if (slashToggled != null && !slashToggled.equals(startUrl)) {
             UrlProbeResult rSlash = probeUrl(slashToggled);
@@ -349,7 +374,7 @@ public class FarmScraperService {
                 UrlProbeResult r2 = probeUrl(toggledWww);
                 if (r2.ok()) return r2.finalUrl();
 
-                // i jeszcze www + slash toggle
+                // www + slash toggle
                 String toggledWwwSlash = toggleTrailingSlash(toggledWww);
                 if (toggledWwwSlash != null) {
                     UrlProbeResult r3 = probeUrl(toggledWwwSlash);
@@ -386,7 +411,6 @@ public class FarmScraperService {
         }
     }
 
-
     private UrlProbeResult probeUrl(String url) {
         try {
             var res = Jsoup.connect(url)
@@ -400,7 +424,7 @@ public class FarmScraperService {
             int status = res.statusCode();
             String finalUrl = (res.url() != null) ? res.url().toString() : url;
 
-            // FIX: 2xx i 3xx traktujemy jako OK
+            // 2xx i 3xx traktujemy jako OK
             boolean ok = status >= 200 && status < 400;
 
             return new UrlProbeResult(ok, status, finalUrl);
@@ -409,7 +433,6 @@ public class FarmScraperService {
             return new UrlProbeResult(false, -1, url);
         }
     }
-
 
     private String toggleWww(String url) {
         try {
@@ -427,5 +450,5 @@ public class FarmScraperService {
     }
 
     private record UrlProbeResult(boolean ok, int status, String finalUrl) {}
-
+    private record FetchResult(boolean anyPageFetchedOk) {}
 }
