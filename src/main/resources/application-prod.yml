@@ -104,8 +104,8 @@ leadfinder:
     min-hours-between-scrapes: 12
 
   discovery:
-    results-per-page: 10
-    max-pages-per-run: 3
+    results-per-page: 20
+    max-pages-per-run: 1
     default-max-serp-page: 5
     limit-per-run: 100
 
