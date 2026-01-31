@@ -2,7 +2,6 @@ package com.mike.leadfarmfinder.service;
 
 import com.mike.leadfarmfinder.config.LeadFinderProperties;
 import com.mike.leadfarmfinder.dto.FarmClassificationResult;
-import com.mike.leadfarmfinder.entity.DiscoveredUrl;
 import com.mike.leadfarmfinder.entity.DiscoveryRunStats;
 import com.mike.leadfarmfinder.entity.SerpQueryCursor;
 import com.mike.leadfarmfinder.repository.DiscoveredUrlRepository;
@@ -11,6 +10,7 @@ import com.mike.leadfarmfinder.repository.SerpQueryCursorRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
+import org.jsoup.UnsupportedMimeTypeException;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
@@ -107,7 +107,22 @@ public class DiscoveryService {
             "/tag/",
             "/tags/",
             "/author/",
-            "/job", "/jobs", "/stellen", "/karriere"
+            "/job", "/jobs", "/stellen", "/karriere",
+
+            // ✅ portale / listy / mapy / turystyka (wysoka szansa "listing many farms")
+            "/anbieter",
+            "/anbieterverzeichnis",
+            "/verzeichnis",
+            "/liste",
+            "/listen",
+            "/uebersicht",
+            "/übersicht",
+            "/karte",
+            "/map",
+            "/region",
+            "/tourismus",
+            "/urlaub",
+            "/freizeit"
     );
 
     /**
@@ -268,10 +283,13 @@ public class DiscoveryService {
 
     // odrzucamy pliki zanim w ogóle pójdą dalej
     private static final Set<String> BLOCKED_EXTENSIONS = Set.of(
-            ".pdf", ".jpg", ".jpeg", ".png", ".gif", ".webp",
+            ".pdf",
+            ".jpg", ".jpeg", ".png", ".gif", ".webp",
             ".zip", ".rar", ".7z",
-            ".doc", ".docx", ".xls", ".xlsx",
-            ".ppt", ".pptx"
+            ".doc", ".docx",
+            ".xls", ".xlsx", ".ods",
+            ".ppt", ".pptx",
+            ".csv", ".txt", ".xml"
     );
 
     // hinty w URL (kontakt/impressum/itd.)
@@ -318,11 +336,16 @@ public class DiscoveryService {
     private int queryIndex = 0;
 
     /**
-     * NOWE ZACHOWANIE:
+     * NOWE ZACHOWANIE (po refaktorze):
      * - nie zawijamy currentPage do 1
      * - gdy przekroczymy maxPage → ustawiamy currentPage = maxPage + 1 (sentinel "DONE")
      * - wybór query pomija DONE
      * - jeśli wszystkie są DONE → zwracamy pustą listę i discovery "nie działa"
+     *
+     * Dodatkowo (KLUCZOWE na wolumen maili):
+     * ✅ jeśli nie mamy treści HTML (snippet pusty / za krótki / unsupported mime / timeout):
+     *    - NIE wysyłamy do OpenAI
+     *    - NIE zapisujemy farm=false do DB (żeby nie spalić domeny na zawsze przez existsByDomain)
      */
     public List<String> findCandidateFarmUrls(int limit) {
 
@@ -350,7 +373,7 @@ public class DiscoveryService {
         String rawQuery = pick.query();
         SerpQueryCursor cursor = pick.cursor();
 
-        // 👇 dopinamy minusy do query (bez zmiany cursora; cursor jest per rawQuery)
+        // dopinamy minusy do query (bez zmiany cursora; cursor jest per rawQuery)
         String query = withQueryNegatives(rawQuery);
 
         LocalDateTime startedAt = LocalDateTime.now();
@@ -388,7 +411,7 @@ public class DiscoveryService {
 
         int consecutiveEmptyNewUrls = 0;
 
-        // ✅ było 2, teraz 4 (bardziej realistyczne)
+        // było 2, teraz 4 (bardziej realistyczne)
         int baseEarlyExitAfterEmptyPages = 4;
 
         for (int i = 0; i < maxPagesPerRun && accepted.size() < limit; i++) {
@@ -455,9 +478,10 @@ public class DiscoveryService {
                     continue;
                 }
 
+                // ✅ hard-negative path: SKIP bez zapisu do DB (żeby nie palić domeny na zawsze)
                 if (isHardNegativePath(normalized)) {
-                    saveDiscoveredUrl(normalized, new FarmClassificationResult(false, false, null, "hard-negative-path-skip"));
                     rejectedCount++;
+                    log.info("DiscoveryService: SKIP (hard-negative-path - no DB save) url={}", normalized);
                     continue;
                 }
 
@@ -510,17 +534,13 @@ public class DiscoveryService {
 
                 try {
                     String snippet = fetchTextSnippet(url);
-                    if (snippet.isBlank()) {
-                        if (scoredUrl.score() <= 5) {
-                            rejectedCount++;
-                            log.info("DiscoveryService: SKIP (empty snippet + low score) url={} score={}", url, scoredUrl.score());
-                            saveDiscoveredUrl(url, new FarmClassificationResult(false, false, null, "empty-snippet-low-score-skip"));
-                            continue;
-                        }
 
-                        log.info("DiscoveryService: empty snippet for url={} (score={}), using URL as fallback snippet",
+                    // ✅ HARD RULE: bez treści nie klasyfikujemy i nie zapisujemy (żeby nie spalić domeny)
+                    if (snippet == null || snippet.isBlank()) {
+                        rejectedCount++;
+                        log.info("DiscoveryService: SKIP (empty/low-quality snippet - no OpenAI, no DB save) url={} score={}",
                                 url, scoredUrl.score());
-                        snippet = url;
+                        continue;
                     }
 
                     FarmClassificationResult result = farmClassifier.classifyFarm(url, snippet);
@@ -738,8 +758,8 @@ public class DiscoveryService {
 
     private void saveDiscoveredUrl(String url, FarmClassificationResult result) {
         try {
-            DiscoveredUrl entity = discoveredUrlRepository.findByUrl(url)
-                    .orElseGet(DiscoveredUrl::new);
+            var entity = discoveredUrlRepository.findByUrl(url)
+                    .orElseGet(com.mike.leadfarmfinder.entity.DiscoveredUrl::new);
 
             boolean isNew = (entity.getId() == null);
 
@@ -831,14 +851,14 @@ public class DiscoveryService {
         // podejrzane tokeny domeny
         if (d.contains("shop") || d.contains("markt") || d.contains("portal")) score -= 5;
 
-        // ✅ SOFT negatives: tylko -score, nie blokada
+        // SOFT negatives: tylko -score, nie blokada
         for (String soft : SOFT_NEGATIVE_DOMAIN_TOKENS) {
             if (d.contains(soft)) {
                 score -= 3;
             }
         }
 
-        // ✅ KLUCZOWA ZMIANA: boost hintów URL ZAWSZE (niezależnie od domeny)
+        // boost hintów URL ZAWSZE (niezależnie od domeny)
         String u = url.toLowerCase(Locale.ROOT);
         for (String hint : URL_HINT_KEYWORDS) {
             if (u.contains(hint)) {
@@ -874,18 +894,35 @@ public class DiscoveryService {
         }
     }
 
+    /**
+     * Snippet tylko z HTML. Jeśli treść jest za krótka / nie-HTML / błąd -> zwracamy "".
+     * (Wyżej: "" => SKIP bez OpenAI i bez zapisu do DB)
+     */
     private String fetchTextSnippet(String url) {
         try {
             Document doc = Jsoup.connect(url)
                     .userAgent("Mozilla/5.0 (compatible; LeadFarmFinderBot/1.0)")
                     .timeout(10_000)
+                    .followRedirects(true)
                     .get();
+
+            // usuń boilerplate
+            doc.select("script,style,noscript").remove();
 
             String text = doc.text();
             if (text == null) return "";
 
+            text = text.trim();
+
+            // minimalny próg jakości: jak to ma 100–150 znaków, OpenAI i tak zgaduje
+            if (text.length() < 200) return "";
+
             int maxLen = 2000;
             return text.length() > maxLen ? text.substring(0, maxLen) : text;
+
+        } catch (UnsupportedMimeTypeException e) {
+            log.warn("DiscoveryService: failed to fetch text from {}: unsupported mime {}", url, e.getMimeType());
+            return "";
         } catch (Exception e) {
             log.warn("DiscoveryService: failed to fetch text from {}: {}", url, e.getMessage());
             return "";

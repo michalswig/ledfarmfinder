@@ -115,298 +115,66 @@ leadfinder:
       # NIEDERSACHSEN — Emsland / Oldenburger Münsterland
       # ==================================================
       # Warstwa 1
-      - "Obsthof Meppen Kontakt"
-      - "Hofladen Meppen Impressum"
-      - "Direktvermarktung Meppen E-Mail"
-      - "Gemüsebau Betrieb Meppen Telefon"
+      - "\"Meppen\" (Obsthof OR Obstbau OR Apfelhof) (inurl:kontakt OR inurl:impressum)"
+      - "\"Meppen\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
+      - "\"Meppen\" (Gemüsehof OR Gemüsebau OR Gärtnerei) (inurl:kontakt OR inurl:impressum)"
+      - "\"Meppen\" (Kartoffelhof OR Spargelhof OR Erdbeerhof) (inurl:kontakt OR inurl:impressum)"
 
-      - "Kartoffelhof Haselünne Kontakt"
-      - "Hofverkauf Haselünne Impressum"
-      - "Direktvermarktung Haselünne E-Mail"
-      - "Landwirtschaftlicher Betrieb Haselünne Telefon"
+      - "\"Haselünne\" (Kartoffelhof OR Landwirtschaft OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
+      - "\"Haselünne\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
+      - "\"Haselünne\" (Obsthof OR Gemüsehof) (inurl:kontakt OR inurl:impressum)"
+      - "\"Haselünne\" (Landwirtschaftlicher Betrieb OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
 
-      - "Spargelhof Papenburg Kontakt"
-      - "Hofladen Papenburg Impressum"
-      - "Direktvermarktung Papenburg E-Mail"
-      - "Spargelhof Papenburg Telefon"
+      - "\"Papenburg\" (Spargelhof OR Erdbeerhof OR Gemüsehof) (inurl:kontakt OR inurl:impressum)"
+      - "\"Papenburg\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
+      - "\"Papenburg\" (Obsthof OR Apfelhof) (inurl:kontakt OR inurl:impressum)"
+      - "\"Papenburg\" (Landwirtschaft OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
 
-      - "Erdbeerhof Cloppenburg Kontakt"
-      - "Hofladen Cloppenburg Impressum"
-      - "Direktvermarktung Cloppenburg E-Mail"
-      - "Gemüsebau Betrieb Cloppenburg Telefon"
+      - "\"Cloppenburg\" (Erdbeerhof OR Gemüsehof OR Obsthof) (inurl:kontakt OR inurl:impressum)"
+      - "\"Cloppenburg\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
+      - "\"Cloppenburg\" (Kartoffelhof OR Spargelhof) (inurl:kontakt OR inurl:impressum)"
+      - "\"Cloppenburg\" (Landwirtschaft OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
 
-      - "Gärtnerei Vechta Kontakt"
-      - "Hofladen Vechta Impressum"
-      - "Direktvermarktung Vechta E-Mail"
-      - "Jungpflanzenbetrieb Vechta Telefon"
+      - "\"Vechta\" (Gärtnerei OR Jungpflanzenbetrieb OR Gemüsehof) (inurl:kontakt OR inurl:impressum)"
+      - "\"Vechta\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
+      - "\"Vechta\" (Obsthof OR Beerenhof) (inurl:kontakt OR inurl:impressum)"
+      - "\"Vechta\" (Landwirtschaft OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
 
-      - "Gemüsebau Betrieb Lingen Kontakt"
-      - "Hofladen Lingen Impressum"
-      - "Direktvermarktung Lingen E-Mail"
-      - "Landwirtschaftlicher Betrieb Lingen Telefon"
+      - "\"Lingen\" (Gemüsehof OR Gemüsebau OR Gärtnerei) (inurl:kontakt OR inurl:impressum)"
+      - "\"Lingen\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
+      - "\"Lingen\" (Obsthof OR Beerenhof) (inurl:kontakt OR inurl:impressum)"
+      - "\"Lingen\" (Landwirtschaft OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
 
       # Warstwa 2
-      - "Bioland Betrieb Emsland Kontakt"
-      - "Demeter Hof Emsland Kontakt"
-      - "Gemüsebau Betrieb Landkreis Emsland Impressum"
-      - "Hofverkauf Landkreis Emsland Kontakt"
-
-      - "Bioland Betrieb Oldenburger Münsterland Kontakt"
-      - "Demeter Hof Oldenburger Münsterland Kontakt"
-      - "Gemüsebau Betrieb Landkreis Vechta Impressum"
-      - "Hofverkauf Landkreis Cloppenburg Kontakt"
+      - "\"Emsland\" (Hofladen OR Hofverkauf OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
+      - "\"Landkreis Emsland\" (Obsthof OR Spargelhof OR Erdbeerhof OR Kartoffelhof) (inurl:kontakt OR inurl:impressum)"
+      - "\"Oldenburger Münsterland\" (Hofladen OR Landwirtschaft) (inurl:kontakt OR inurl:impressum)"
+      - "\"Landkreis Vechta\" (Bauernhof OR Gemüsehof OR Obsthof) (inurl:kontakt OR inurl:impressum)"
 
 
       # ==================================================
       # NIEDERSACHSEN — Hannover / Heide / Harz
       # ==================================================
       # Warstwa 1
-      - "Obsthof Celle Kontakt"
-      - "Hofladen Celle Impressum"
-      - "Direktvermarktung Celle E-Mail"
-      - "Obsthof Celle Telefon"
+      - "\"Celle\" (Obsthof OR Apfelhof OR Beerenhof) (inurl:kontakt OR inurl:impressum)"
+      - "\"Celle\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
+      - "\"Celle\" (Landwirtschaft OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
 
-      - "Gemüsehof Gifhorn Kontakt"
-      - "Hofladen Gifhorn Impressum"
-      - "Direktvermarktung Gifhorn E-Mail"
-      - "Gemüsebau Betrieb Gifhorn Telefon"
+      - "\"Gifhorn\" (Gemüsehof OR Gemüsebau OR Gärtnerei) (inurl:kontakt OR inurl:impressum)"
+      - "\"Gifhorn\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
+      - "\"Gifhorn\" (Landwirtschaft OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
 
-      - "Kartoffelhof Peine Kontakt"
-      - "Hofverkauf Peine Impressum"
-      - "Direktvermarktung Peine E-Mail"
-      - "Kartoffelhof Peine Telefon"
+      - "\"Peine\" (Kartoffelhof OR Landwirtschaft OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
+      - "\"Peine\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
 
-      - "Spargelhof Uelzen Kontakt"
-      - "Hofladen Uelzen Impressum"
-      - "Direktvermarktung Uelzen E-Mail"
-      - "Spargelhof Uelzen Telefon"
+      - "\"Uelzen\" (Spargelhof OR Erdbeerhof OR Gemüsehof) (inurl:kontakt OR inurl:impressum)"
+      - "\"Uelzen\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
 
       # Warstwa 2
-      - "Bioland Betrieb Lüneburger Heide Kontakt"
-      - "Demeter Hof Lüneburger Heide Kontakt"
-      - "Gemüsebau Betrieb Landkreis Celle Impressum"
-      - "Hofverkauf Landkreis Uelzen Kontakt"
+      - "\"Lüneburger Heide\" (Hofladen OR Bauernhof OR Landwirtschaft) (inurl:kontakt OR inurl:impressum)"
+      - "\"Landkreis Celle\" (Obsthof OR Spargelhof OR Erdbeerhof) (inurl:kontakt OR inurl:impressum)"
+      - "\"Landkreis Uelzen\" (Kartoffelhof OR Gemüsehof) (inurl:kontakt OR inurl:impressum)"
 
-
-      # ==================================================
-      # NRW — Niederrhein / Münsterland
-      # ==================================================
-      # Warstwa 1
-      - "Obsthof Kleve Kontakt"
-      - "Hofladen Kleve Impressum"
-      - "Direktvermarktung Kleve E-Mail"
-      - "Gemüsebau Betrieb Kleve Telefon"
-
-      - "Kartoffelhof Geldern Kontakt"
-      - "Hofverkauf Geldern Impressum"
-      - "Direktvermarktung Geldern E-Mail"
-      - "Kartoffelhof Geldern Telefon"
-
-      - "Spargelhof Straelen Kontakt"
-      - "Hofladen Straelen Impressum"
-      - "Direktvermarktung Straelen E-Mail"
-      - "Spargelhof Straelen Telefon"
-
-      - "Erdbeerhof Kevelaer Kontakt"
-      - "Hofladen Kevelaer Impressum"
-      - "Direktvermarktung Kevelaer E-Mail"
-      - "Erdbeerhof Kevelaer Telefon"
-
-      - "Gemüsebau Betrieb Coesfeld Kontakt"
-      - "Hofladen Coesfeld Impressum"
-      - "Direktvermarktung Coesfeld E-Mail"
-      - "Gemüsebau Betrieb Coesfeld Telefon"
-
-      - "Gemüsebau Betrieb Warendorf Kontakt"
-      - "Hofladen Warendorf Impressum"
-      - "Direktvermarktung Warendorf E-Mail"
-      - "Gemüsebau Betrieb Warendorf Telefon"
-
-      # Warstwa 2
-      - "Bioland Betrieb Niederrhein Kontakt"
-      - "Demeter Hof Niederrhein Kontakt"
-      - "Gemüsebau Betrieb Kreis Kleve Impressum"
-      - "Hofverkauf Kreis Kleve Kontakt"
-
-      - "Bioland Betrieb Münsterland Kontakt"
-      - "Demeter Hof Münsterland Kontakt"
-      - "Gemüsebau Betrieb Kreis Coesfeld Impressum"
-      - "Hofverkauf Kreis Warendorf Kontakt"
-
-
-      # ==================================================
-      # NRW — Rhein-Erft / Rheinland
-      # ==================================================
-      # Warstwa 1
-      - "Obsthof Bergheim Kontakt"
-      - "Hofladen Bergheim Impressum"
-      - "Direktvermarktung Bergheim E-Mail"
-      - "Obsthof Bergheim Telefon"
-
-      - "Gemüsehof Kerpen Kontakt"
-      - "Hofladen Kerpen Impressum"
-      - "Direktvermarktung Kerpen E-Mail"
-      - "Gemüsebau Betrieb Kerpen Telefon"
-
-      - "Kartoffelhof Euskirchen Kontakt"
-      - "Hofverkauf Euskirchen Impressum"
-      - "Direktvermarktung Euskirchen E-Mail"
-      - "Kartoffelhof Euskirchen Telefon"
-
-      - "Spargelhof Brühl Kontakt"
-      - "Hofladen Brühl Impressum"
-      - "Direktvermarktung Brühl E-Mail"
-      - "Spargelhof Brühl Telefon"
-
-      # Warstwa 2
-      - "Bioland Betrieb Rhein-Erft-Kreis Kontakt"
-      - "Demeter Hof Rhein-Erft-Kreis Kontakt"
-      - "Gemüsebau Betrieb Rheinland Impressum"
-      - "Hofverkauf Rheinland Kontakt"
-
-
-      # ==================================================
-      # BADEN-WÜRTTEMBERG — Kaiserstuhl / Freiburg / Bodensee
-      # ==================================================
-      # Warstwa 1
-      - "Obsthof Endingen Kontakt"
-      - "Hofladen Endingen Impressum"
-      - "Direktvermarktung Endingen E-Mail"
-      - "Obsthof Kaiserstuhl Telefon"
-
-      - "Erdbeerhof Breisach Kontakt"
-      - "Hofverkauf Breisach Impressum"
-      - "Direktvermarktung Breisach E-Mail"
-      - "Erdbeerhof Breisach Telefon"
-
-      - "Gemüsebau Betrieb Freiburg Kontakt"
-      - "Hofladen Freiburg Impressum"
-      - "Direktvermarktung Freiburg E-Mail"
-      - "Gewächshausbetrieb Freiburg Telefon"
-
-      - "Obsthof Ravensburg Kontakt"
-      - "Hofladen Ravensburg Impressum"
-      - "Direktvermarktung Ravensburg E-Mail"
-      - "Obsthof Ravensburg Telefon"
-
-      - "Apfelhof Friedrichshafen Kontakt"
-      - "Hofverkauf Friedrichshafen Impressum"
-      - "Direktvermarktung Friedrichshafen E-Mail"
-      - "Apfelhof Friedrichshafen Telefon"
-
-      - "Beerenhof Überlingen Kontakt"
-      - "Hofladen Überlingen Impressum"
-      - "Direktvermarktung Überlingen E-Mail"
-      - "Beerenhof Überlingen Telefon"
-
-      # Warstwa 2
-      - "Bioland Betrieb Kaiserstuhl Kontakt"
-      - "Demeter Hof Kaiserstuhl Kontakt"
-      - "Gemüsebau Betrieb Breisgau Impressum"
-      - "Hofverkauf Breisgau Kontakt"
-
-      - "Bioland Betrieb Bodenseekreis Kontakt"
-      - "Demeter Hof Bodenseekreis Kontakt"
-      - "Gemüsebau Betrieb Bodenseekreis Impressum"
-      - "Hofverkauf Bodenseekreis Kontakt"
-
-
-      # ==================================================
-      # BADEN-WÜRTTEMBERG — Neckar / Hohenlohe
-      # ==================================================
-      # Warstwa 1
-      - "Obsthof Heilbronn Kontakt"
-      - "Hofladen Heilbronn Impressum"
-      - "Direktvermarktung Heilbronn E-Mail"
-      - "Obsthof Heilbronn Telefon"
-
-      - "Gemüsehof Öhringen Kontakt"
-      - "Hofladen Öhringen Impressum"
-      - "Direktvermarktung Öhringen E-Mail"
-      - "Gemüsebau Betrieb Öhringen Telefon"
-
-      - "Kartoffelhof Schwäbisch Hall Kontakt"
-      - "Hofverkauf Schwäbisch Hall Impressum"
-      - "Direktvermarktung Schwäbisch Hall E-Mail"
-      - "Kartoffelhof Schwäbisch Hall Telefon"
-
-      # Warstwa 2
-      - "Bioland Betrieb Hohenlohe Kontakt"
-      - "Demeter Hof Hohenlohe Kontakt"
-      - "Gemüsebau Betrieb Landkreis Heilbronn Impressum"
-      - "Hofverkauf Landkreis Schwäbisch Hall Kontakt"
-
-
-      # ==================================================
-      # RHEINLAND-PFALZ — Pfalz / Rheinhessen
-      # ==================================================
-      # Warstwa 1
-      - "Obsthof Neustadt an der Weinstraße Kontakt"
-      - "Hofladen Neustadt an der Weinstraße Impressum"
-      - "Direktvermarktung Neustadt Weinstraße E-Mail"
-      - "Obsthof Neustadt Weinstraße Telefon"
-
-      - "Erdbeerhof Bad Dürkheim Kontakt"
-      - "Hofverkauf Bad Dürkheim Impressum"
-      - "Direktvermarktung Bad Dürkheim E-Mail"
-      - "Erdbeerhof Bad Dürkheim Telefon"
-
-      - "Spargelhof Schifferstadt Kontakt"
-      - "Hofladen Schifferstadt Impressum"
-      - "Direktvermarktung Schifferstadt E-Mail"
-      - "Spargelhof Schifferstadt Telefon"
-
-      - "Kartoffelhof Germersheim Kontakt"
-      - "Hofverkauf Germersheim Impressum"
-      - "Direktvermarktung Germersheim E-Mail"
-      - "Kartoffelhof Germersheim Telefon"
-
-      - "Gemüsebau Betrieb Landau in der Pfalz Kontakt"
-      - "Hofladen Landau in der Pfalz Impressum"
-      - "Direktvermarktung Landau Pfalz E-Mail"
-      - "Gemüsebau Betrieb Landau Pfalz Telefon"
-
-      - "Obsthof Worms Kontakt"
-      - "Hofladen Worms Impressum"
-      - "Direktvermarktung Worms E-Mail"
-      - "Obsthof Worms Telefon"
-
-      # Warstwa 2
-      - "Bioland Betrieb Pfalz Kontakt"
-      - "Demeter Hof Pfalz Kontakt"
-      - "Gemüsebau Betrieb Landkreis Germersheim Impressum"
-      - "Hofverkauf Landkreis Germersheim Kontakt"
-
-      - "Bioland Betrieb Rheinhessen Kontakt"
-      - "Demeter Hof Rheinhessen Kontakt"
-      - "Gemüsebau Betrieb Rheinhessen Impressum"
-      - "Hofverkauf Rheinhessen Kontakt"
-
-
-      # ==================================================
-      # RHEINLAND-PFALZ — Mosel / Eifel
-      # ==================================================
-      # Warstwa 1
-      - "Obsthof Trier Kontakt"
-      - "Hofladen Trier Impressum"
-      - "Direktvermarktung Trier E-Mail"
-      - "Obsthof Trier Telefon"
-
-      - "Gemüsehof Wittlich Kontakt"
-      - "Hofladen Wittlich Impressum"
-      - "Direktvermarktung Wittlich E-Mail"
-      - "Gemüsebau Betrieb Wittlich Telefon"
-
-      - "Kartoffelhof Bitburg Kontakt"
-      - "Hofverkauf Bitburg Impressum"
-      - "Direktvermarktung Bitburg E-Mail"
-      - "Kartoffelhof Bitburg Telefon"
-
-      # Warstwa 2
-      - "Bioland Betrieb Mosel Kontakt"
-      - "Demeter Hof Mosel Kontakt"
-      - "Gemüsebau Betrieb Eifel Impressum"
-      - "Hofverkauf Eifel Kontakt"
 
 app:
   outreach:
