@@ -110,38 +110,44 @@ public class DiscoveryService {
             "/job", "/jobs", "/stellen", "/karriere"
     );
 
+    /**
+     * HARD NEGATIVE = coś, co niemal na pewno nie jest farmą (instytucje, media, katalogi, turystyka, pośrednictwo pracy).
+     * Usuwamy z hard-negative "wordpress/wix/ionos/jimdo..." bo to nie jest sygnał "nie-farma".
+     */
     private static final List<String> HARD_NEGATIVE_KEYWORDS = List.of(
+            // polityka / administracja / urzędy
             "bundeskanzler",
             "bundesregierung",
             "ministerium",
             "regierung",
             "landtag",
             "verwaltung",
-
+            "rathaus",
+            "stadt-",
             "gemeinde-",
             "kreis-",
             "landkreis",
-            "rathaus",
-            "stadt-",
 
+            // statystyka/uczelnie
             "destatis",
-            "hochschule",
             "statista",
             "statistik",
-            "fh-",
+            "hochschule",
             "uni-",
             "universitaet",
             "universität",
+            "fh-",
 
+            // NGO / instytucje publiczne / EU
             "greenpeace.",
             "nabu.",
+            "wwf.",
             "verbraucherzentrale",
             "verbraucherzentralen",
-            "wwf.",
-
             "ec.europa",
             "europa.eu",
 
+            // instytucje branżowe / izby / urzędy rolnicze (często katalogi/porady, nie lead)
             "bauernverband",
             "ble.de",
             "bzfe.de",
@@ -150,115 +156,114 @@ public class DiscoveryService {
             "landwirtschaft-bw.de",
             "lwk-niedersachsen.de",
 
-            "bild",
+            // media / news
             "dw.com",
             "deutschlandfunk",
             "deutsche-welle",
             "faz",
             "focus",
             "merkur",
-            "mdr",
             "morgenpost",
-            "ndr",
             "rbb",
             "sueddeutsche",
             "spiegel",
             "stern",
-            "swr",
             "t-online",
             "tagesschau",
             "tagesthemen",
             "welt",
-            "wdr",
             "zeit",
             "zdf",
+            "wdr",
+            "swr",
+            "ndr",
+            "mdr",
+            "hr",
+            "br",
+            "ard",
+            "bild",
 
-            "blog",
-            "gazette",
-            "journal",
-            "magazin",
-            "nachrichten",
-            "news",
-            "presse",
-            "press",
-            "report",
-            "zeitung",
-
-            "ausflug",
-            "erleben",
-            "freizeit",
-            "messe",
-            "reiseland",
-            "reisefuhrer",
-            "reiseführer",
-            "stadtmarketing",
-            "tonight",
+            // travel/tourism (często "hof" w kontekście urlopu, nie prac sezonowych)
             "tourism",
             "tourismus",
             "touristik",
+            "reiseland",
+            "reisefuhrer",
+            "reiseführer",
             "urlaub",
             "visit",
-            "anzeiger",
-            "kurier",
+            "freizeit",
+            "ausflug",
+            "erleben",
+            "stadtmarketing",
 
+            // katalogi / agregatory / marketplace
             "branchenbuch",
             "gelbeseiten",
             "marktplatz",
-            "portal",
             "verzeichnis",
-
-            "ionos",
-            "jimdo",
-            "joomla",
-            "strato",
-            "webnode",
-            "wix",
-            "wordpress",
-
-            "agentur",
-            "consulting",
-            "fotografie",
-            "hosting",
-            "marketing",
-            "seo",
-            "webdesign",
-            "werbung",
-
-            "media",
-            "stream",
-            "tv",
-            "video",
-
-            "hannover.de",
-            "brandenburg.de",
-
-            "agrobusiness",
-            "netzwerk",
-
-            "airbnb",
-            "booking",
-            "obstbaufachbetriebe",
-
-            "ferienwohnung", "ferienwohnungen",
-            "ferienhof", "bauernhofurlaub", "urlaub-auf-dem-bauernhof",
-            "ferienhaus", "ferienhaeuser", "ferienhäuser",
-            "pension", "gasthof", "hotel", "zimmer", "zimmervermietung",
-            "camping", "zeltplatz", "stellplatz", "wohnmobil",
-            "glamping", "tiny-house", "tiny-house-dorf",
-            "wellness", "sauna", "spa",
-
-            "zeitarbeit", "zeitarbeitsfirma",
-            "personalvermittlung", "personaldienstleister",
-            "arbeitsagentur", "jobvermittlung",
-            "leiharbeit", "arbeitnehmerüberlassung",
+            "portal",
             "cylex",
-            "web2.cylex",
-            "11880",
             "golocal",
             "yelp",
+            "11880",
             "trustedshops",
             "werliefertwas",
-            "sortiment"
+
+            // noclegi (wycinamy "Ferienhof" itd.)
+            "airbnb",
+            "booking",
+            "ferienwohnung",
+            "ferienwohnungen",
+            "ferienhof",
+            "bauernhofurlaub",
+            "urlaub-auf-dem-bauernhof",
+            "ferienhaus",
+            "ferienhaeuser",
+            "ferienhäuser",
+            "pension",
+            "gasthof",
+            "hotel",
+            "zimmer",
+            "zimmervermietung",
+            "camping",
+            "zeltplatz",
+            "stellplatz",
+            "wohnmobil",
+            "glamping",
+            "tiny-house",
+            "tiny-house-dorf",
+            "wellness",
+            "sauna",
+            "spa",
+
+            // pośrednictwo / HR
+            "zeitarbeit",
+            "zeitarbeitsfirma",
+            "personalvermittlung",
+            "personaldienstleister",
+            "arbeitsagentur",
+            "jobvermittlung",
+            "leiharbeit",
+            "arbeitnehmerüberlassung",
+
+            // domeny/specyficzne wykluczenia
+            "obstbaufachbetriebe"
+    );
+
+    /**
+     * SOFT NEGATIVE = podejrzane, ale nie blokujemy (tylko -score).
+     * Tu lądują typowe hosting/cms/szyldy, bo farmy często tego używają.
+     */
+    private static final List<String> SOFT_NEGATIVE_DOMAIN_TOKENS = List.of(
+            "wordpress",
+            "wix",
+            "jimdo",
+            "ionos",
+            "strato",
+            "webnode",
+            "joomla",
+            "hosting"
     );
 
     // odrzucamy pliki zanim w ogóle pójdą dalej
@@ -269,7 +274,7 @@ public class DiscoveryService {
             ".ppt", ".pptx"
     );
 
-    // boost tylko jako "priorytet" dla URL-i na farmowych domenach
+    // hinty w URL (kontakt/impressum/itd.)
     private static final List<String> URL_HINT_KEYWORDS = List.of(
             "/kontakt", "/contact",
             "/impressum",
@@ -277,6 +282,37 @@ public class DiscoveryService {
             "/ueber-uns", "/uber-uns", "/über-uns",
             "/betrieb", "/unternehmen",
             "/hofladen", "/hofverkauf"
+    );
+
+    /**
+     * Automatyczne "minusy" do query, żeby Serp/Google mniej zwracał katalogów i sociali.
+     * To jest proste i bardzo skuteczne.
+     */
+    private static final List<String> QUERY_NEGATIVE_TOKENS = List.of(
+            "-branchenbuch",
+            "-gelbeseiten",
+            "-11880",
+            "-cylex",
+            "-golocal",
+            "-meinestadt",
+            "-facebook",
+            "-instagram",
+            "-linkedin",
+            "-xing",
+            "-tiktok",
+            "-youtube",
+            "-stepstone",
+            "-indeed",
+            "-job",
+            "-jobs",
+            "-karriere",
+            "-stellenangebote",
+            "-zeitung",
+            "-news",
+            "-tourismus",
+            "-urlaub",
+            "-booking",
+            "-airbnb"
     );
 
     private int queryIndex = 0;
@@ -295,7 +331,7 @@ public class DiscoveryService {
         int normalizedChanged = 0;
         int openAiCandidates = 0;
 
-        int resultsPerPage = leadFinderProperties.getDiscovery().getResultsPerPage(); // zwykle 10
+        int resultsPerPage = leadFinderProperties.getDiscovery().getResultsPerPage();
         int maxPagesPerRun = leadFinderProperties.getDiscovery().getMaxPagesPerRun();
 
         List<String> queries = leadFinderProperties.getDiscovery().getQueries();
@@ -311,29 +347,34 @@ public class DiscoveryService {
 
         QueryPick pick = pickOpt.get();
         int currentQueryIndex = pick.index();
-        String query = pick.query();
+        String rawQuery = pick.query();
         SerpQueryCursor cursor = pick.cursor();
+
+        // 👇 dopinamy minusy do query (bez zmiany cursora; cursor jest per rawQuery)
+        String query = withQueryNegatives(rawQuery);
 
         LocalDateTime startedAt = LocalDateTime.now();
 
         log.info(
                 "DiscoveryService: searching farms for query='{}' (queryIndex={}), limit={}, resultsPerPage={}, maxPagesPerRun={}",
-                query, currentQueryIndex, limit, resultsPerPage, maxPagesPerRun
+                rawQuery, currentQueryIndex, limit, resultsPerPage, maxPagesPerRun
         );
+        if (!query.equals(rawQuery)) {
+            log.info("DiscoveryService: SERP query after negatives='{}'", query);
+        }
 
         int startPage = cursor.getCurrentPage();
         int currentPage = startPage;
         int maxPage = cursor.getMaxPage();
 
-        // safety: jeśli ktoś ręcznie ustawił > maxPage, to jest DONE
         if (isExhausted(cursor)) {
             log.info("DiscoveryService: picked query is already exhausted (DONE). query='{}', currentPage={}, maxPage={}",
-                    query, startPage, maxPage);
+                    rawQuery, startPage, maxPage);
             return List.of();
         }
 
         log.info("DiscoveryService: starting SERP from page={} (maxPage={}) for query='{}'",
-                startPage, maxPage, query);
+                startPage, maxPage, rawQuery);
 
         List<String> accepted = new ArrayList<>();
 
@@ -346,11 +387,17 @@ public class DiscoveryService {
         int errorsCount = 0;
 
         int consecutiveEmptyNewUrls = 0;
-        int earlyExitAfterEmptyPages = 2; // próg startowy
+
+        // ✅ było 2, teraz 4 (bardziej realistyczne)
+        int baseEarlyExitAfterEmptyPages = 4;
 
         for (int i = 0; i < maxPagesPerRun && accepted.size() < limit; i++) {
+
+            // lekko adaptacyjnie: jak jesteś już głęboko, 2 puste strony pod rząd wystarczą, żeby iść dalej
+            int earlyExitAfterEmptyPages = (currentPage >= 6) ? 2 : baseEarlyExitAfterEmptyPages;
+
             log.info("DiscoveryService: fetching SERP page={} (runPageIndex={}) for query='{}'",
-                    currentPage, i, query);
+                    currentPage, i, rawQuery);
 
             List<String> rawUrls = serpApiService.searchUrls(query, resultsPerPage, currentPage);
             rawUrlsTotal += rawUrls.size();
@@ -390,7 +437,6 @@ public class DiscoveryService {
                     normalizedChanged++;
                 }
 
-                // dedupe w obrębie strony SERP po normalized
                 if (!normalizedSeenThisPage.add(normalized)) {
                     continue;
                 }
@@ -400,6 +446,7 @@ public class DiscoveryService {
                     continue;
                 }
 
+                // ✅ zostaje: jak domena była już widziana (nawet not-farm) -> nie wracamy do niej
                 SeenDecision seen = checkAlreadySeen(normalized, domain);
                 if (seen != SeenDecision.NOT_SEEN) {
                     filteredAsAlreadyDiscovered++;
@@ -429,8 +476,8 @@ public class DiscoveryService {
                         consecutiveEmptyNewUrls, currentPage);
 
                 if (consecutiveEmptyNewUrls >= earlyExitAfterEmptyPages) {
-                    log.info("DiscoveryService: early-exit after {} consecutive empty pages. query='{}', pageNow={}, pagesVisitedSoFar={}",
-                            consecutiveEmptyNewUrls, query, currentPage, pagesVisited);
+                    log.info("DiscoveryService: early-exit after {} consecutive empty pages (threshold={}). query='{}', pageNow={}, pagesVisitedSoFar={}",
+                            consecutiveEmptyNewUrls, earlyExitAfterEmptyPages, rawQuery, currentPage, pagesVisited);
 
                     currentPage = advancePageOrExhaust(currentPage, maxPage);
                     break;
@@ -438,7 +485,7 @@ public class DiscoveryService {
 
                 currentPage = advancePageOrExhaust(currentPage, maxPage);
                 if (currentPage > maxPage) {
-                    break; // DONE
+                    break;
                 }
                 continue;
             } else {
@@ -504,11 +551,11 @@ public class DiscoveryService {
 
             currentPage = advancePageOrExhaust(currentPage, maxPage);
             if (currentPage > maxPage) {
-                break; // DONE
+                break;
             }
         }
 
-        cursor.setCurrentPage(currentPage); // może być maxPage+1 (DONE)
+        cursor.setCurrentPage(currentPage);
         cursor.setLastRunAt(LocalDateTime.now());
         serpQueryCursorRepository.save(cursor);
 
@@ -522,11 +569,11 @@ public class DiscoveryService {
         acceptedCount = distinctAccepted.size();
 
         DiscoveryRunStats stats = new DiscoveryRunStats();
-        stats.setQuery(query);
+        stats.setQuery(rawQuery);
         stats.setStartedAt(startedAt);
         stats.setFinishedAt(LocalDateTime.now());
         stats.setStartPage(startPage);
-        stats.setEndPage(currentPage); // UWAGA: to jest nextStartPage lub DONE sentinel
+        stats.setEndPage(currentPage);
         stats.setPagesVisited(pagesVisited);
         stats.setRawUrls(rawUrlsTotal);
         stats.setCleanedUrls(cleanedUrlsTotal);
@@ -539,7 +586,7 @@ public class DiscoveryService {
 
         log.info(
                 "DiscoveryService: returning {} accepted urls (query='{}', startPage={}, endPage={}, done={}, pagesVisited={}, skippedAlreadySeenDomain={}, alreadySeenSkippedUrl={}, openAiCandidates={}, normalizedChanged={})",
-                distinctAccepted.size(), query, startPage, currentPage, (currentPage > maxPage), pagesVisited,
+                distinctAccepted.size(), rawQuery, startPage, currentPage, (currentPage > maxPage), pagesVisited,
                 skippedAlreadySeenDomain, alreadySeenSkipped, openAiCandidates, normalizedChanged
         );
 
@@ -552,9 +599,6 @@ public class DiscoveryService {
         return c.getCurrentPage() > c.getMaxPage();
     }
 
-    /**
-     * Zwraca next page; jeśli przekroczymy maxPage → zwraca maxPage+1 jako sentinel DONE.
-     */
     private int advancePageOrExhaust(int currentPage, int maxPage) {
         int next = currentPage + 1;
         if (next > maxPage) {
@@ -579,6 +623,28 @@ public class DiscoveryService {
 
     private record QueryPick(int index, String query, SerpQueryCursor cursor) {}
 
+    // ===== Query negatives =====
+
+    private String withQueryNegatives(String rawQuery) {
+        String q = rawQuery == null ? "" : rawQuery.trim();
+        if (q.isBlank()) return q;
+
+        // jeśli już ktoś ręcznie dopisał minusy, nie dublujemy agresywnie
+        String lower = q.toLowerCase(Locale.ROOT);
+        boolean hasAnyMinus = lower.contains(" -branchenbuch")
+                || lower.contains(" -gelbeseiten")
+                || lower.contains(" -11880")
+                || lower.contains(" -cylex");
+
+        if (hasAnyMinus) return q;
+
+        StringBuilder sb = new StringBuilder(q);
+        for (String neg : QUERY_NEGATIVE_TOKENS) {
+            sb.append(' ').append(neg);
+        }
+        return sb.toString();
+    }
+
     // ===== rest unchanged =====
 
     private boolean isHardNegativePath(String url) {
@@ -597,7 +663,6 @@ public class DiscoveryService {
             return false;
 
         } catch (Exception e) {
-            // jeśli URL jest dziwny – nie blokuj na siłę
             return false;
         }
     }
@@ -617,19 +682,16 @@ public class DiscoveryService {
             String path = uri.getPath();
             if (path == null || path.isBlank()) path = "/";
 
-            // usuń śmieci typu /index.html
             String p = path.toLowerCase(Locale.ROOT);
             if (p.endsWith("/index.html") || p.endsWith("/index.htm")) {
                 path = path.substring(0, path.lastIndexOf("/index."));
                 if (path.isBlank()) path = "/";
             }
 
-            // utnij trailing slash (ale zostaw root "/")
             if (path.length() > 1 && path.endsWith("/")) {
                 path = path.substring(0, path.length() - 1);
             }
 
-            // usuń tracking paramy (wyrzucamy query całkowicie)
             return new URI(scheme, host, path, null).toString();
 
         } catch (Exception e) {
@@ -641,6 +703,7 @@ public class DiscoveryService {
         if (discoveredUrlRepository.existsByUrl(normalizedUrl)) {
             return SeenDecision.SEEN_BY_URL;
         }
+        // ✅ zostaje twardo: domena raz widziana = skip (nie robimy drugich podejść)
         if (domain != null && !domain.isBlank() && discoveredUrlRepository.existsByDomain(domain)) {
             return SeenDecision.SEEN_BY_DOMAIN;
         }
@@ -765,16 +828,21 @@ public class DiscoveryService {
         // krótsze domeny lekko na plus
         if (d.length() <= 15) score += 5;
 
-        // podejrzane tokeny
+        // podejrzane tokeny domeny
         if (d.contains("shop") || d.contains("markt") || d.contains("portal")) score -= 5;
 
-        // boost tylko jeśli domena już jest "farmowa"
-        if (hasFarmKeyword(d)) {
-            String u = url.toLowerCase(Locale.ROOT);
-            for (String hint : URL_HINT_KEYWORDS) {
-                if (u.contains(hint)) {
-                    score += 8;
-                }
+        // ✅ SOFT negatives: tylko -score, nie blokada
+        for (String soft : SOFT_NEGATIVE_DOMAIN_TOKENS) {
+            if (d.contains(soft)) {
+                score -= 3;
+            }
+        }
+
+        // ✅ KLUCZOWA ZMIANA: boost hintów URL ZAWSZE (niezależnie od domeny)
+        String u = url.toLowerCase(Locale.ROOT);
+        for (String hint : URL_HINT_KEYWORDS) {
+            if (u.contains(hint)) {
+                score += 8;
             }
         }
 
