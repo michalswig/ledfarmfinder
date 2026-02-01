@@ -116,46 +116,46 @@ leadfinder:
       # ==================================================
 
       # --- Meppen (mocniej “farm intent”, mniej śmieci)
-      - Meppen (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (kontakt OR impressum)
-      - Meppen (Hofladen OR Hofverkauf OR Direktvermarktung) (kontakt OR impressum)
-      - Meppen (Obsthof OR Apfelhof OR Beerenhof OR Erdbeerhof) (kontakt OR impressum)
-      - Meppen (Gemüsehof OR Gemüsebau OR Gärtnerei OR Gewächshaus) (kontakt OR impressum)
-      - Meppen (Kartoffelhof OR Spargelhof) (kontakt OR impressum)
+      - Meppen (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
+      - Meppen (Hofladen OR Hofverkauf OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
+      - Meppen (Obsthof OR Apfelhof OR Beerenhof OR Erdbeerhof) (Hof OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
+      - Meppen (Gemüsehof OR Gemüsebau OR Gärtnerei OR Gewächshaus OR Baumschule) (inurl:kontakt OR inurl:impressum)
+      - Meppen (Kartoffelhof OR Spargelhof) (Hof OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
 
       # --- Haselünne
-      - Haselünne (Hof OR Bauernhof OR landwirtschaftlicher Betrieb) (kontakt OR impressum)
-      - Haselünne (Hofladen OR Hofverkauf OR Direktvermarktung) (kontakt OR impressum)
-      - Haselünne (Kartoffelhof OR Spargelhof OR Erdbeerhof OR Obsthof) (kontakt OR impressum)
+      - Haselünne (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
+      - Haselünne (Hofladen OR Hofverkauf OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
+      - Haselünne (Kartoffelhof OR Spargelhof OR Erdbeerhof OR Obsthof OR Baumschule) (Hof OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
 
       # --- Papenburg
-      - Papenburg (Hof OR Bauernhof OR landwirtschaftlicher Betrieb) (kontakt OR impressum)
-      - Papenburg (Hofladen OR Hofverkauf OR Direktvermarktung) (kontakt OR impressum)
-      - Papenburg (Spargelhof OR Erdbeerhof OR Obsthof OR Gemüsehof) (kontakt OR impressum)
+      - Papenburg (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
+      - Papenburg (Hofladen OR Hofverkauf OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
+      - Papenburg (Spargelhof OR Erdbeerhof OR Obsthof OR Gemüsehof OR Gemüsebau OR Gärtnerei OR Gewächshaus OR Baumschule) (inurl:kontakt OR inurl:impressum)
 
       # --- Cloppenburg
-      - Cloppenburg (Hof OR Bauernhof OR landwirtschaftlicher Betrieb) (kontakt OR impressum)
-      - Cloppenburg (Hofladen OR Hofverkauf OR Direktvermarktung) (kontakt OR impressum)
-      - Cloppenburg (Kartoffelhof OR Spargelhof OR Erdbeerhof OR Gemüsehof OR Obsthof) (kontakt OR impressum)
+      - Cloppenburg (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
+      - Cloppenburg (Hofladen OR Hofverkauf OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
+      - Cloppenburg (Kartoffelhof OR Spargelhof OR Erdbeerhof OR Gemüsehof OR Obsthof OR Baumschule) (Hof OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
 
       # --- Vechta
-      - Vechta (Hof OR Bauernhof OR landwirtschaftlicher Betrieb) (kontakt OR impressum)
-      - Vechta (Hofladen OR Direktvermarktung) (kontakt OR impressum)
-      - Vechta (Gemüsebau OR Gemüsehof OR Gärtnerei OR Gewächshaus) (kontakt OR impressum)
+      - Vechta (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
+      - Vechta (Hofladen OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
+      - Vechta (Gemüsebau OR Gemüsehof OR Gärtnerei OR Gewächshaus OR Baumschule) (inurl:kontakt OR inurl:impressum)
 
       # --- Lingen
-      - Lingen (Hof OR Bauernhof OR landwirtschaftlicher Betrieb) (kontakt OR impressum)
-      - Lingen (Hofladen OR Hofverkauf OR Direktvermarktung) (kontakt OR impressum)
-      - Lingen (Gemüsehof OR Obsthof OR Kartoffelhof OR Spargelhof) (kontakt OR impressum)
+      - Lingen (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
+      - Lingen (Hofladen OR Hofverkauf OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
+      - Lingen (Gemüsehof OR Obsthof OR Kartoffelhof OR Spargelhof OR Gemüsebau OR Gärtnerei OR Gewächshaus OR Baumschule) (inurl:kontakt OR inurl:impressum)
 
 
       # ==================================================
       # REGIONY — większy wolumen (broad layer dla dopływu domen)
       # ==================================================
 
-      - Emsland (Hof OR Bauernhof OR Direktvermarktung OR Hofladen) (kontakt OR impressum)
-      - Landkreis Emsland (Spargelhof OR Erdbeerhof OR Obsthof OR Kartoffelhof OR Gemüsehof) (kontakt OR impressum)
-      - Oldenburger Münsterland (Hof OR Bauernhof OR Direktvermarktung OR Hofladen) (kontakt OR impressum)
-      - Landkreis Vechta (Hof OR Bauernhof OR Direktvermarktung) (kontakt OR impressum)
+      - Emsland (Hof OR Bauernhof OR Direktvermarktung OR Hofladen OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
+      - Landkreis Emsland (Spargelhof OR Erdbeerhof OR Obsthof OR Kartoffelhof OR Gemüsehof OR Gemüsebau OR Gärtnerei OR Gewächshaus OR Baumschule) (inurl:kontakt OR inurl:impressum)
+      - Oldenburger Münsterland (Hof OR Bauernhof OR Direktvermarktung OR Hofladen OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
+      - Landkreis Vechta (Hof OR Bauernhof OR Direktvermarktung OR Hofladen) (inurl:kontakt OR inurl:impressum)
 
 
       # ==================================================
@@ -163,43 +163,43 @@ leadfinder:
       # ==================================================
 
       # --- Celle
-      - Celle (Hof OR Bauernhof OR landwirtschaftlicher Betrieb) (kontakt OR impressum)
-      - Celle (Hofladen OR Direktvermarktung) (kontakt OR impressum)
-      - Celle (Obsthof OR Apfelhof OR Beerenhof OR Erdbeerhof) (kontakt OR impressum)
+      - Celle (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
+      - Celle (Hofladen OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
+      - Celle (Obsthof OR Apfelhof OR Beerenhof OR Erdbeerhof) (Hof OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
 
       # --- Gifhorn
-      - Gifhorn (Hof OR Bauernhof OR landwirtschaftlicher Betrieb) (kontakt OR impressum)
-      - Gifhorn (Hofladen OR Direktvermarktung) (kontakt OR impressum)
-      - Gifhorn (Gemüsehof OR Gemüsebau OR Gärtnerei OR Gewächshaus) (kontakt OR impressum)
+      - Gifhorn (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
+      - Gifhorn (Hofladen OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
+      - Gifhorn (Gemüsehof OR Gemüsebau OR Gärtnerei OR Gewächshaus OR Baumschule) (inurl:kontakt OR inurl:impressum)
 
       # --- Peine
-      - Peine (Hof OR Bauernhof OR landwirtschaftlicher Betrieb) (kontakt OR impressum)
-      - Peine (Kartoffelhof OR Spargelhof OR Gemüsehof) (kontakt OR impressum)
-      - Peine (Hofladen OR Direktvermarktung) (kontakt OR impressum)
+      - Peine (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
+      - Peine (Kartoffelhof OR Spargelhof OR Gemüsehof) (Hof OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
+      - Peine (Hofladen OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
 
       # --- Uelzen
-      - Uelzen (Hof OR Bauernhof OR landwirtschaftlicher Betrieb) (kontakt OR impressum)
-      - Uelzen (Spargelhof OR Erdbeerhof OR Obsthof OR Gemüsehof) (kontakt OR impressum)
-      - Uelzen (Hofladen OR Direktvermarktung) (kontakt OR impressum)
+      - Uelzen (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
+      - Uelzen (Spargelhof OR Erdbeerhof OR Obsthof OR Gemüsehof OR Gemüsebau OR Gärtnerei OR Gewächshaus OR Baumschule) (inurl:kontakt OR inurl:impressum)
+      - Uelzen (Hofladen OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
 
 
       # ==================================================
       # OBSZARY / MAKRO
       # ==================================================
 
-      - Lüneburger Heide (Hof OR Bauernhof OR Direktvermarktung OR Hofladen) (kontakt OR impressum)
-      - Landkreis Celle (Hof OR Bauernhof OR Direktvermarktung) (kontakt OR impressum)
-      - Landkreis Uelzen (Hof OR Bauernhof OR Direktvermarktung) (kontakt OR impressum)
+      - Lüneburger Heide (Hof OR Bauernhof OR Direktvermarktung OR Hofladen OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
+      - Landkreis Celle (Hof OR Bauernhof OR Direktvermarktung OR Hofladen) (inurl:kontakt OR inurl:impressum)
+      - Landkreis Uelzen (Hof OR Bauernhof OR Direktvermarktung OR Hofladen) (inurl:kontakt OR inurl:impressum)
 
 
       # ==================================================
       # GLOBAL FALLBACK — gdy lokal się kończy (cel: “farm websites”)
       # ==================================================
 
-      - (Hofladen OR Hofverkauf OR Direktvermarktung) (kontakt OR impressum)
-      - (Spargelhof OR Erdbeerhof OR Obsthof OR Apfelhof OR Beerenhof) (kontakt OR impressum)
-      - (Gemüsehof OR Gemüsebau OR Gewächshaus OR Gärtnerei) (kontakt OR impressum)
-      - (Kartoffelhof OR landwirtschaftlicher Betrieb OR Biohof) (kontakt OR impressum)
+      - (Hofladen OR Hofverkauf OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
+      - (Spargelhof OR Erdbeerhof OR Obsthof OR Apfelhof OR Beerenhof) (Hof OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
+      - (Gemüsehof OR Gemüsebau OR Gewächshaus OR Gärtnerei OR Baumschule) (inurl:kontakt OR inurl:impressum)
+      - (Kartoffelhof OR landwirtschaftlicher Betrieb OR Biohof) (Hof OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
 
 
 
