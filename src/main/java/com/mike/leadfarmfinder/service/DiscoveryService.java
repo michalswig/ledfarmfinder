@@ -109,7 +109,7 @@ public class DiscoveryService {
             "/author/",
             "/job", "/jobs", "/stellen", "/karriere",
 
-            // ✅ portale / listy / mapy / turystyka (wysoka szansa "listing many farms")
+            // portale / listy / mapy / turystyka (wysoka szansa "listing many farms")
             "/anbieter",
             "/anbieterverzeichnis",
             "/verzeichnis",
@@ -127,7 +127,6 @@ public class DiscoveryService {
 
     /**
      * HARD NEGATIVE = coś, co niemal na pewno nie jest farmą (instytucje, media, katalogi, turystyka, pośrednictwo pracy).
-     * Usuwamy z hard-negative "wordpress/wix/ionos/jimdo..." bo to nie jest sygnał "nie-farma".
      */
     private static final List<String> HARD_NEGATIVE_KEYWORDS = List.of(
             // polityka / administracja / urzędy
@@ -198,7 +197,7 @@ public class DiscoveryService {
             "ard",
             "bild",
 
-            // travel/tourism (często "hof" w kontekście urlopu, nie prac sezonowych)
+            // travel/tourism (często "hof" w kontekście urlopu)
             "tourism",
             "tourismus",
             "touristik",
@@ -225,7 +224,7 @@ public class DiscoveryService {
             "trustedshops",
             "werliefertwas",
 
-            // noclegi (wycinamy "Ferienhof" itd.)
+            // noclegi
             "airbnb",
             "booking",
             "ferienwohnung",
@@ -262,13 +261,12 @@ public class DiscoveryService {
             "leiharbeit",
             "arbeitnehmerüberlassung",
 
-            // domeny/specyficzne wykluczenia
+            // specyficzne wykluczenia
             "obstbaufachbetriebe"
     );
 
     /**
      * SOFT NEGATIVE = podejrzane, ale nie blokujemy (tylko -score).
-     * Tu lądują typowe hosting/cms/szyldy, bo farmy często tego używają.
      */
     private static final List<String> SOFT_NEGATIVE_DOMAIN_TOKENS = List.of(
             "wordpress",
@@ -281,7 +279,6 @@ public class DiscoveryService {
             "hosting"
     );
 
-    // odrzucamy pliki zanim w ogóle pójdą dalej
     private static final Set<String> BLOCKED_EXTENSIONS = Set.of(
             ".pdf",
             ".jpg", ".jpeg", ".png", ".gif", ".webp",
@@ -292,7 +289,6 @@ public class DiscoveryService {
             ".csv", ".txt", ".xml"
     );
 
-    // hinty w URL (kontakt/impressum/itd.)
     private static final List<String> URL_HINT_KEYWORDS = List.of(
             "/kontakt", "/contact",
             "/impressum",
@@ -302,10 +298,6 @@ public class DiscoveryService {
             "/hofladen", "/hofverkauf"
     );
 
-    /**
-     * Automatyczne "minusy" do query, żeby Serp/Google mniej zwracał katalogów i sociali.
-     * To jest proste i bardzo skuteczne.
-     */
     private static final List<String> QUERY_NEGATIVE_TOKENS = List.of(
             "-branchenbuch",
             "-gelbeseiten",
@@ -336,20 +328,13 @@ public class DiscoveryService {
     private int queryIndex = 0;
 
     /**
-     * NOWE ZACHOWANIE (po refaktorze):
-     * - nie zawijamy currentPage do 1
-     * - gdy przekroczymy maxPage → ustawiamy currentPage = maxPage + 1 (sentinel "DONE")
-     * - wybór query pomija DONE
-     * - jeśli wszystkie są DONE → zwracamy pustą listę i discovery "nie działa"
-     *
-     * Dodatkowo (KLUCZOWE na wolumen maili):
-     * ✅ jeśli nie mamy treści HTML (snippet pusty / za krótki / unsupported mime / timeout):
-     *    - NIE wysyłamy do OpenAI
-     *    - NIE zapisujemy farm=false do DB (żeby nie spalić domeny na zawsze przez existsByDomain)
+     * Minimalny, stabilny flow:
+     * - cursor DONE (currentPage > maxPage) -> pomijamy query
+     * - jeśli brak HTML/snippet -> SKIP bez OpenAI i bez zapisu (nie palimy domen)
+     * - deduplikacja: tylko po URL (nie blokujemy domeny na zawsze)
      */
     public List<String> findCandidateFarmUrls(int limit) {
 
-        int skippedAlreadySeenDomain = 0;
         int alreadySeenSkipped = 0;
         int normalizedChanged = 0;
         int openAiCandidates = 0;
@@ -405,18 +390,15 @@ public class DiscoveryService {
         int rawUrlsTotal = 0;
         int cleanedUrlsTotal = 0;
         int filteredAsAlreadyDiscovered = 0;
-        int acceptedCount = 0;
         int rejectedCount = 0;
         int errorsCount = 0;
 
         int consecutiveEmptyNewUrls = 0;
 
-        // było 2, teraz 4 (bardziej realistyczne)
         int baseEarlyExitAfterEmptyPages = 4;
 
         for (int i = 0; i < maxPagesPerRun && accepted.size() < limit; i++) {
 
-            // lekko adaptacyjnie: jak jesteś już głęboko, 2 puste strony pod rząd wystarczą, żeby iść dalej
             int earlyExitAfterEmptyPages = (currentPage >= 6) ? 2 : baseEarlyExitAfterEmptyPages;
 
             log.info("DiscoveryService: fetching SERP page={} (runPageIndex={}) for query='{}'",
@@ -464,21 +446,14 @@ public class DiscoveryService {
                     continue;
                 }
 
-                String domain = extractNormalizedDomain(normalized);
-                if (domain == null || domain.isBlank()) {
-                    continue;
-                }
-
-                // ✅ zostaje: jak domena była już widziana (nawet not-farm) -> nie wracamy do niej
-                SeenDecision seen = checkAlreadySeen(normalized, domain);
-                if (seen != SeenDecision.NOT_SEEN) {
+                // ✅ DEDUP: tylko po URL (nie blokujemy domeny na zawsze)
+                if (checkAlreadySeen(normalized) != SeenDecision.NOT_SEEN) {
                     filteredAsAlreadyDiscovered++;
-                    if (seen == SeenDecision.SEEN_BY_DOMAIN) skippedAlreadySeenDomain++;
-                    else alreadySeenSkipped++;
+                    alreadySeenSkipped++;
                     continue;
                 }
 
-                // ✅ hard-negative path: SKIP bez zapisu do DB (żeby nie palić domeny na zawsze)
+                // hard-negative path: SKIP bez DB save
                 if (isHardNegativePath(normalized)) {
                     rejectedCount++;
                     log.info("DiscoveryService: SKIP (hard-negative-path - no DB save) url={}", normalized);
@@ -535,7 +510,7 @@ public class DiscoveryService {
                 try {
                     String snippet = fetchTextSnippet(url);
 
-                    // ✅ HARD RULE: bez treści nie klasyfikujemy i nie zapisujemy (żeby nie spalić domeny)
+                    // HARD RULE: bez treści -> SKIP (bez OpenAI, bez DB save)
                     if (snippet == null || snippet.isBlank()) {
                         rejectedCount++;
                         log.info("DiscoveryService: SKIP (empty/low-quality snippet - no OpenAI, no DB save) url={} score={}",
@@ -547,13 +522,25 @@ public class DiscoveryService {
                     saveDiscoveredUrl(url, result);
 
                     if (result.isFarm()) {
-                        String finalUrl = result.mainContactUrl() != null ? result.mainContactUrl() : url;
-                        accepted.add(finalUrl);
+                        // =========================
+                        // FIX #1: nie gubimy URL-a źródłowego (często to impressum z mailem)
+                        // - zawsze dodaj url
+                        // - dodatkowo dodaj contactUrl, jeśli jest
+                        // =========================
 
+                        accepted.add(url);
+
+                        String contactUrl = result.mainContactUrl();
+                        if (contactUrl != null && !contactUrl.isBlank()) {
+                            accepted.add(contactUrl);
+                        }
+
+                        // FIX #2: logujemy oba, żeby widać było routing do scrapera
                         log.info(
-                                "DiscoveryService: ACCEPTED (FARM) url={} score={} seasonalJobs={} reason={}",
-                                finalUrl, scoredUrl.score(), result.isSeasonalJobs(), result.reason()
+                                "DiscoveryService: ACCEPTED (FARM) sourceUrl={} contactUrl={} score={} seasonalJobs={} reason={}",
+                                url, contactUrl, scoredUrl.score(), result.isSeasonalJobs(), result.reason()
                         );
+
                     } else {
                         rejectedCount++;
                         log.info(
@@ -586,8 +573,6 @@ public class DiscoveryService {
                 .distinct()
                 .toList();
 
-        acceptedCount = distinctAccepted.size();
-
         DiscoveryRunStats stats = new DiscoveryRunStats();
         stats.setQuery(rawQuery);
         stats.setStartedAt(startedAt);
@@ -597,7 +582,7 @@ public class DiscoveryService {
         stats.setPagesVisited(pagesVisited);
         stats.setRawUrls(rawUrlsTotal);
         stats.setCleanedUrls(cleanedUrlsTotal);
-        stats.setAcceptedUrls(acceptedCount);
+        stats.setAcceptedUrls(distinctAccepted.size());
         stats.setRejectedUrls(rejectedCount);
         stats.setErrors(errorsCount);
         stats.setFilteredAlreadyDiscovered(filteredAsAlreadyDiscovered);
@@ -605,9 +590,9 @@ public class DiscoveryService {
         discoveryRunStatsRepository.save(stats);
 
         log.info(
-                "DiscoveryService: returning {} accepted urls (query='{}', startPage={}, endPage={}, done={}, pagesVisited={}, skippedAlreadySeenDomain={}, alreadySeenSkippedUrl={}, openAiCandidates={}, normalizedChanged={})",
+                "DiscoveryService: returning {} accepted urls (query='{}', startPage={}, endPage={}, done={}, pagesVisited={}, alreadySeenSkippedUrl={}, openAiCandidates={}, normalizedChanged={})",
                 distinctAccepted.size(), rawQuery, startPage, currentPage, (currentPage > maxPage), pagesVisited,
-                skippedAlreadySeenDomain, alreadySeenSkipped, openAiCandidates, normalizedChanged
+                alreadySeenSkipped, openAiCandidates, normalizedChanged
         );
 
         return distinctAccepted;
@@ -649,7 +634,6 @@ public class DiscoveryService {
         String q = rawQuery == null ? "" : rawQuery.trim();
         if (q.isBlank()) return q;
 
-        // jeśli już ktoś ręcznie dopisał minusy, nie dublujemy agresywnie
         String lower = q.toLowerCase(Locale.ROOT);
         boolean hasAnyMinus = lower.contains(" -branchenbuch")
                 || lower.contains(" -gelbeseiten")
@@ -719,20 +703,15 @@ public class DiscoveryService {
         }
     }
 
-    private SeenDecision checkAlreadySeen(String normalizedUrl, String domain) {
+    private SeenDecision checkAlreadySeen(String normalizedUrl) {
         if (discoveredUrlRepository.existsByUrl(normalizedUrl)) {
             return SeenDecision.SEEN_BY_URL;
-        }
-        // ✅ zostaje twardo: domena raz widziana = skip (nie robimy drugich podejść)
-        if (domain != null && !domain.isBlank() && discoveredUrlRepository.existsByDomain(domain)) {
-            return SeenDecision.SEEN_BY_DOMAIN;
         }
         return SeenDecision.NOT_SEEN;
     }
 
     private enum SeenDecision {
         NOT_SEEN,
-        SEEN_BY_DOMAIN,
         SEEN_BY_URL
     }
 
@@ -764,7 +743,7 @@ public class DiscoveryService {
             boolean isNew = (entity.getId() == null);
 
             entity.setUrl(url);
-            entity.setDomain(extractNormalizedDomain(url));
+            entity.setDomain(extractNormalizedDomain(url)); // dalej zapisujemy domain jako info/history
             entity.setFarm(result.isFarm());
             entity.setSeasonalJobs(result.isSeasonalJobs());
             entity.setLastSeenAt(LocalDateTime.now());
@@ -837,28 +816,22 @@ public class DiscoveryService {
 
         int score = 0;
 
-        // baza: keywordy w domenie
         for (String kw : FARM_KEYWORDS) {
             if (d.contains(kw)) score += 20;
         }
 
-        // lokalność
         if (d.endsWith(".de")) score += 10;
 
-        // krótsze domeny lekko na plus
         if (d.length() <= 15) score += 5;
 
-        // podejrzane tokeny domeny
         if (d.contains("shop") || d.contains("markt") || d.contains("portal")) score -= 5;
 
-        // SOFT negatives: tylko -score, nie blokada
         for (String soft : SOFT_NEGATIVE_DOMAIN_TOKENS) {
             if (d.contains(soft)) {
                 score -= 3;
             }
         }
 
-        // boost hintów URL ZAWSZE (niezależnie od domeny)
         String u = url.toLowerCase(Locale.ROOT);
         for (String hint : URL_HINT_KEYWORDS) {
             if (u.contains(hint)) {
@@ -906,7 +879,6 @@ public class DiscoveryService {
                     .followRedirects(true)
                     .get();
 
-            // usuń boilerplate
             doc.select("script,style,noscript").remove();
 
             String text = doc.text();
@@ -914,8 +886,8 @@ public class DiscoveryService {
 
             text = text.trim();
 
-            // minimalny próg jakości: jak to ma 100–150 znaków, OpenAI i tak zgaduje
-            if (text.length() < 200) return "";
+            // ✅ próg jakości: 200 -> 120 (żeby nie ucinać realnych farm z krótszą treścią)
+            if (text.length() < 120) return "";
 
             int maxLen = 2000;
             return text.length() > maxLen ? text.substring(0, maxLen) : text;
