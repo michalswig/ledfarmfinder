@@ -114,66 +114,99 @@ leadfinder:
       # ==================================================
       # NIEDERSACHSEN — Emsland / Oldenburger Münsterland
       # ==================================================
-      # Warstwa 1
-      - "\"Meppen\" (Obsthof OR Obstbau OR Apfelhof) (inurl:kontakt OR inurl:impressum)"
-      - "\"Meppen\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
-      - "\"Meppen\" (Gemüsehof OR Gemüsebau OR Gärtnerei) (inurl:kontakt OR inurl:impressum)"
-      - "\"Meppen\" (Kartoffelhof OR Spargelhof OR Erdbeerhof) (inurl:kontakt OR inurl:impressum)"
 
-      - "\"Haselünne\" (Kartoffelhof OR Landwirtschaft OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
-      - "\"Haselünne\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
-      - "\"Haselünne\" (Obsthof OR Gemüsehof) (inurl:kontakt OR inurl:impressum)"
-      - "\"Haselünne\" (Landwirtschaftlicher Betrieb OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
+      # --- Meppen
+      - Meppen Bauernhof kontakt
+      - Meppen Landwirtschaft impressum
+      - Meppen Obsthof kontakt
+      - Meppen Gemüsehof kontakt
+      - Meppen Kartoffelhof impressum
 
-      - "\"Papenburg\" (Spargelhof OR Erdbeerhof OR Gemüsehof) (inurl:kontakt OR inurl:impressum)"
-      - "\"Papenburg\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
-      - "\"Papenburg\" (Obsthof OR Apfelhof) (inurl:kontakt OR inurl:impressum)"
-      - "\"Papenburg\" (Landwirtschaft OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
+      # --- Haselünne
+      - Haselünne Bauernhof kontakt
+      - Haselünne Landwirtschaft impressum
+      - Haselünne Hofladen kontakt
 
-      - "\"Cloppenburg\" (Erdbeerhof OR Gemüsehof OR Obsthof) (inurl:kontakt OR inurl:impressum)"
-      - "\"Cloppenburg\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
-      - "\"Cloppenburg\" (Kartoffelhof OR Spargelhof) (inurl:kontakt OR inurl:impressum)"
-      - "\"Cloppenburg\" (Landwirtschaft OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
+      # --- Papenburg
+      - Papenburg Bauernhof kontakt
+      - Papenburg Landwirtschaft impressum
+      - Papenburg Spargelhof kontakt
+      - Papenburg Erdbeerhof kontakt
 
-      - "\"Vechta\" (Gärtnerei OR Jungpflanzenbetrieb OR Gemüsehof) (inurl:kontakt OR inurl:impressum)"
-      - "\"Vechta\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
-      - "\"Vechta\" (Obsthof OR Beerenhof) (inurl:kontakt OR inurl:impressum)"
-      - "\"Vechta\" (Landwirtschaft OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
+      # --- Cloppenburg
+      - Cloppenburg Bauernhof kontakt
+      - Cloppenburg Landwirtschaft impressum
+      - Cloppenburg Gemüsehof kontakt
 
-      - "\"Lingen\" (Gemüsehof OR Gemüsebau OR Gärtnerei) (inurl:kontakt OR inurl:impressum)"
-      - "\"Lingen\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
-      - "\"Lingen\" (Obsthof OR Beerenhof) (inurl:kontakt OR inurl:impressum)"
-      - "\"Lingen\" (Landwirtschaft OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
+      # --- Vechta
+      - Vechta Bauernhof kontakt
+      - Vechta Landwirtschaft impressum
+      - Vechta Gemüsebau kontakt
 
-      # Warstwa 2
-      - "\"Emsland\" (Hofladen OR Hofverkauf OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
-      - "\"Landkreis Emsland\" (Obsthof OR Spargelhof OR Erdbeerhof OR Kartoffelhof) (inurl:kontakt OR inurl:impressum)"
-      - "\"Oldenburger Münsterland\" (Hofladen OR Landwirtschaft) (inurl:kontakt OR inurl:impressum)"
-      - "\"Landkreis Vechta\" (Bauernhof OR Gemüsehof OR Obsthof) (inurl:kontakt OR inurl:impressum)"
+      # --- Lingen
+      - Lingen Bauernhof kontakt
+      - Lingen Landwirtschaft impressum
+      - Lingen Gemüsehof kontakt
+
+
+      # ==================================================
+      # REGIONY — większy wolumen
+      # ==================================================
+
+      - Emsland Bauernhof kontakt
+      - Emsland Landwirtschaft impressum
+      - Landkreis Emsland Gemüsehof kontakt
+
+      - Oldenburger Münsterland Landwirtschaft kontakt
+      - Landkreis Vechta Bauernhof impressum
 
 
       # ==================================================
       # NIEDERSACHSEN — Hannover / Heide / Harz
       # ==================================================
-      # Warstwa 1
-      - "\"Celle\" (Obsthof OR Apfelhof OR Beerenhof) (inurl:kontakt OR inurl:impressum)"
-      - "\"Celle\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
-      - "\"Celle\" (Landwirtschaft OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
 
-      - "\"Gifhorn\" (Gemüsehof OR Gemüsebau OR Gärtnerei) (inurl:kontakt OR inurl:impressum)"
-      - "\"Gifhorn\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
-      - "\"Gifhorn\" (Landwirtschaft OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
+      # --- Celle
+      - Celle Bauernhof kontakt
+      - Celle Landwirtschaft impressum
+      - Celle Obsthof kontakt
 
-      - "\"Peine\" (Kartoffelhof OR Landwirtschaft OR Bauernhof) (inurl:kontakt OR inurl:impressum)"
-      - "\"Peine\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
+      # --- Gifhorn
+      - Gifhorn Bauernhof kontakt
+      - Gifhorn Landwirtschaft impressum
+      - Gifhorn Gemüsehof kontakt
 
-      - "\"Uelzen\" (Spargelhof OR Erdbeerhof OR Gemüsehof) (inurl:kontakt OR inurl:impressum)"
-      - "\"Uelzen\" (Hofladen OR Hofverkauf) (inurl:kontakt OR inurl:impressum)"
+      # --- Peine
+      - Peine Bauernhof kontakt
+      - Peine Landwirtschaft impressum
+      - Peine Kartoffelhof kontakt
 
-      # Warstwa 2
-      - "\"Lüneburger Heide\" (Hofladen OR Bauernhof OR Landwirtschaft) (inurl:kontakt OR inurl:impressum)"
-      - "\"Landkreis Celle\" (Obsthof OR Spargelhof OR Erdbeerhof) (inurl:kontakt OR inurl:impressum)"
-      - "\"Landkreis Uelzen\" (Kartoffelhof OR Gemüsehof) (inurl:kontakt OR inurl:impressum)"
+      # --- Uelzen
+      - Uelzen Bauernhof kontakt
+      - Uelzen Landwirtschaft impressum
+      - Uelzen Spargelhof kontakt
+
+
+      # ==================================================
+      # OBSZARY / MAKRO
+      # ==================================================
+
+      - Lüneburger Heide Bauernhof kontakt
+      - Lüneburger Heide Landwirtschaft impressum
+      - Landkreis Celle Bauernhof kontakt
+      - Landkreis Uelzen Landwirtschaft impressum
+
+
+      # ==================================================
+      # GLOBAL FALLBACK — gdy lokal się kończy
+      # ==================================================
+
+      - Bauernhof kontakt
+      - Landwirtschaft impressum
+      - Gemüsehof kontakt
+      - Obsthof impressum
+      - Kartoffelhof kontakt
+      - Spargelhof impressum
+
 
 
 app:
