@@ -112,177 +112,159 @@ leadfinder:
     queries:
 
       # =========================
-      # NIEDERSACHSEN (15)
+      # NIEDERSACHSEN
       # =========================
-      - Niedersachsen Bauernhof kontakt
-      - Niedersachsen Bauernhof impressum
-      - Niedersachsen Hof kontakt
-      - Niedersachsen Hof impressum
-      - Niedersachsen Landwirtschaft kontakt
-      - Niedersachsen Landwirtschaft impressum
-      - Niedersachsen Obsthof kontakt
-      - Niedersachsen Gemüsehof kontakt
-      - Niedersachsen Spargelhof kontakt
-      - Niedersachsen Erdbeerhof kontakt
-      - Niedersachsen Kartoffelhof kontakt
-      - Niedersachsen Apfelhof kontakt
-      - Niedersachsen Beerenhof kontakt
-      - Niedersachsen Gärtnerei kontakt
-      - Niedersachsen Direktvermarktung kontakt
+      - Niedersachsen Obsthof Kontakt
+      - Niedersachsen Obsthof Impressum
+      - Niedersachsen Spargelhof Kontakt
+      - Niedersachsen Erdbeerhof Kontakt
+      - Niedersachsen Kartoffelhof Kontakt
+      - Niedersachsen Gemüsebau Betrieb Kontakt
+      - Niedersachsen Beerenhof Kontakt
+      - Niedersachsen Apfelhof Kontakt
+      - Niedersachsen Hofladen Kontakt
+      - Niedersachsen Direktvermarkter Kontakt
+      - Niedersachsen Bauernhof Ferienhof Kontakt
+      - Niedersachsen Hof Kontakt
 
       # =========================
-      # NORDRHEIN-WESTFALEN (15)
+      # NORDRHEIN-WESTFALEN
       # =========================
-      - Nordrhein-Westfalen Bauernhof kontakt
-      - Nordrhein-Westfalen Bauernhof impressum
-      - Nordrhein-Westfalen Hof kontakt
-      - Nordrhein-Westfalen Hof impressum
-      - Nordrhein-Westfalen Landwirtschaft kontakt
-      - Nordrhein-Westfalen Landwirtschaft impressum
-      - Nordrhein-Westfalen Obsthof kontakt
-      - Nordrhein-Westfalen Gemüsehof kontakt
-      - Nordrhein-Westfalen Spargelhof kontakt
-      - Nordrhein-Westfalen Erdbeerhof kontakt
-      - Nordrhein-Westfalen Kartoffelhof kontakt
-      - Nordrhein-Westfalen Apfelhof kontakt
-      - Nordrhein-Westfalen Beerenhof kontakt
-      - Nordrhein-Westfalen Gärtnerei kontakt
-      - Nordrhein-Westfalen Direktvermarktung kontakt
+      - Nordrhein-Westfalen Obsthof Kontakt
+      - Nordrhein-Westfalen Obsthof Impressum
+      - Nordrhein-Westfalen Spargelhof Kontakt
+      - Nordrhein-Westfalen Erdbeerhof Kontakt
+      - Nordrhein-Westfalen Kartoffelhof Kontakt
+      - Nordrhein-Westfalen Gemüsebau Betrieb Kontakt
+      - Nordrhein-Westfalen Beerenhof Kontakt
+      - Nordrhein-Westfalen Apfelhof Kontakt
+      - Nordrhein-Westfalen Hofladen Kontakt
+      - Nordrhein-Westfalen Direktvermarkter Kontakt
+      - Nordrhein-Westfalen Bauernhof Ferienhof Kontakt
+      - Nordrhein-Westfalen Hof Kontakt
 
       # =========================
-      # BAYERN (15)
+      # BAYERN
       # =========================
-      - Bayern Bauernhof kontakt
-      - Bayern Bauernhof impressum
-      - Bayern Hof kontakt
-      - Bayern Hof impressum
-      - Bayern Landwirtschaft kontakt
-      - Bayern Landwirtschaft impressum
-      - Bayern Obsthof kontakt
-      - Bayern Gemüsehof kontakt
-      - Bayern Spargelhof kontakt
-      - Bayern Erdbeerhof kontakt
-      - Bayern Kartoffelhof kontakt
-      - Bayern Apfelhof kontakt
-      - Bayern Beerenhof kontakt
-      - Bayern Gärtnerei kontakt
-      - Bayern Direktvermarktung kontakt
+      - Bayern Obsthof Kontakt
+      - Bayern Obsthof Impressum
+      - Bayern Spargelhof Kontakt
+      - Bayern Erdbeerhof Kontakt
+      - Bayern Kartoffelhof Kontakt
+      - Bayern Gemüsebau Betrieb Kontakt
+      - Bayern Beerenhof Kontakt
+      - Bayern Apfelhof Kontakt
+      - Bayern Hofladen Kontakt
+      - Bayern Direktvermarkter Kontakt
+      - Bayern Bauernhof Ferienhof Kontakt
+      - Bayern Hof Kontakt
 
       # =========================
-      # BADEN-WÜRTTEMBERG (10)
+      # BADEN-WÜRTTEMBERG
       # =========================
-      - Baden-Württemberg Bauernhof kontakt
-      - Baden-Württemberg Hof kontakt
-      - Baden-Württemberg Landwirtschaft kontakt
-      - Baden-Württemberg Obsthof kontakt
-      - Baden-Württemberg Gemüsehof kontakt
-      - Baden-Württemberg Spargelhof kontakt
-      - Baden-Württemberg Erdbeerhof kontakt
-      - Baden-Württemberg Kartoffelhof kontakt
-      - Baden-Württemberg Gärtnerei kontakt
-      - Baden-Württemberg Direktvermarktung kontakt
+      - Baden-Württemberg Obsthof Kontakt
+      - Baden-Württemberg Spargelhof Kontakt
+      - Baden-Württemberg Erdbeerhof Kontakt
+      - Baden-Württemberg Kartoffelhof Kontakt
+      - Baden-Württemberg Gemüsebau Betrieb Kontakt
+      - Baden-Württemberg Beerenhof Kontakt
+      - Baden-Württemberg Apfelhof Kontakt
+      - Baden-Württemberg Hofladen Kontakt
+      - Baden-Württemberg Direktvermarkter Kontakt
+      - Baden-Württemberg Hof Kontakt
 
       # =========================
-      # SCHLESWIG-HOLSTEIN (10)
+      # SCHLESWIG-HOLSTEIN
       # =========================
-      - Schleswig-Holstein Bauernhof kontakt
-      - Schleswig-Holstein Hof kontakt
-      - Schleswig-Holstein Landwirtschaft kontakt
-      - Schleswig-Holstein Obsthof kontakt
-      - Schleswig-Holstein Gemüsehof kontakt
-      - Schleswig-Holstein Spargelhof kontakt
-      - Schleswig-Holstein Erdbeerhof kontakt
-      - Schleswig-Holstein Kartoffelhof kontakt
-      - Schleswig-Holstein Gärtnerei kontakt
-      - Schleswig-Holstein Direktvermarktung kontakt
-
-      # =========================
-      # MECKLENBURG-VORPOMMERN (10)
-      # =========================
-      - Mecklenburg-Vorpommern Bauernhof kontakt
-      - Mecklenburg-Vorpommern Hof kontakt
-      - Mecklenburg-Vorpommern Landwirtschaft kontakt
-      - Mecklenburg-Vorpommern Obsthof kontakt
-      - Mecklenburg-Vorpommern Gemüsehof kontakt
-      - Mecklenburg-Vorpommern Spargelhof kontakt
-      - Mecklenburg-Vorpommern Erdbeerhof kontakt
-      - Mecklenburg-Vorpommern Kartoffelhof kontakt
-      - Mecklenburg-Vorpommern Gärtnerei kontakt
-      - Mecklenburg-Vorpommern Direktvermarktung kontakt
+      - Schleswig-Holstein Obsthof Kontakt
+      - Schleswig-Holstein Spargelhof Kontakt
+      - Schleswig-Holstein Erdbeerhof Kontakt
+      - Schleswig-Holstein Kartoffelhof Kontakt
+      - Schleswig-Holstein Gemüsebau Betrieb Kontakt
+      - Schleswig-Holstein Beerenhof Kontakt
+      - Schleswig-Holstein Apfelhof Kontakt
+      - Schleswig-Holstein Hofladen Kontakt
+      - Schleswig-Holstein Direktvermarkter Kontakt
+      - Schleswig-Holstein Hof Kontakt
 
       # =========================
-      # BRANDENBURG (10)
+      # MECKLENBURG-VORPOMMERN
       # =========================
-      - Brandenburg Bauernhof kontakt
-      - Brandenburg Hof kontakt
-      - Brandenburg Landwirtschaft kontakt
-      - Brandenburg Obsthof kontakt
-      - Brandenburg Gemüsehof kontakt
-      - Brandenburg Spargelhof kontakt
-      - Brandenburg Erdbeerhof kontakt
-      - Brandenburg Kartoffelhof kontakt
-      - Brandenburg Gärtnerei kontakt
-      - Brandenburg Direktvermarktung kontakt
-
-      # =========================
-      # SACHSEN (5)
-      # =========================
-      - Sachsen Bauernhof kontakt
-      - Sachsen Landwirtschaft kontakt
-      - Sachsen Obsthof kontakt
-      - Sachsen Gemüsehof kontakt
-      - Sachsen Direktvermarktung kontakt
+      - Mecklenburg-Vorpommern Obsthof Kontakt
+      - Mecklenburg-Vorpommern Spargelhof Kontakt
+      - Mecklenburg-Vorpommern Erdbeerhof Kontakt
+      - Mecklenburg-Vorpommern Kartoffelhof Kontakt
+      - Mecklenburg-Vorpommern Gemüsebau Betrieb Kontakt
+      - Mecklenburg-Vorpommern Beerenhof Kontakt
+      - Mecklenburg-Vorpommern Apfelhof Kontakt
+      - Mecklenburg-Vorpommern Hofladen Kontakt
+      - Mecklenburg-Vorpommern Direktvermarkter Kontakt
+      - Mecklenburg-Vorpommern Hof Kontakt
 
       # =========================
-      # SZKLARNIE / PRODUKCJA POD OSŁONAMI (40)
+      # BRANDENBURG
       # =========================
+      - Brandenburg Obsthof Kontakt
+      - Brandenburg Spargelhof Kontakt
+      - Brandenburg Erdbeerhof Kontakt
+      - Brandenburg Kartoffelhof Kontakt
+      - Brandenburg Gemüsebau Betrieb Kontakt
+      - Brandenburg Beerenhof Kontakt
+      - Brandenburg Apfelhof Kontakt
+      - Brandenburg Hofladen Kontakt
+      - Brandenburg Direktvermarkter Kontakt
+      - Brandenburg Hof Kontakt
 
-      # --- GLOBAL / OGÓLNE
-      - Gewächshaus Betrieb kontakt
-      - Gewächshaus Landwirtschaft kontakt
-      - Gewächshaus Gemüse kontakt
-      - Gemüseanbau Gewächshaus kontakt
-      - Gemüseproduktion Gewächshaus kontakt
-      - Tomaten Gewächshaus kontakt
-      - Gurken Gewächshaus kontakt
-      - Paprika Gewächshaus kontakt
-      - Salat Gewächshaus kontakt
-      - Jungpflanzen Gewächshaus kontakt
+      # =========================
+      # SACHSEN
+      # =========================
+      - Sachsen Obsthof Kontakt
+      - Sachsen Spargelhof Kontakt
+      - Sachsen Erdbeerhof Kontakt
+      - Sachsen Kartoffelhof Kontakt
+      - Sachsen Gemüsebau Betrieb Kontakt
+      - Sachsen Beerenhof Kontakt
+      - Sachsen Hofladen Kontakt
+      - Sachsen Direktvermarkter Kontakt
 
-      # --- NIEDERSACHSEN
-      - Niedersachsen Gewächshaus kontakt
-      - Niedersachsen Gemüse Gewächshaus kontakt
-      - Niedersachsen Tomaten Gewächshaus kontakt
-      - Niedersachsen Gurken Gewächshaus kontakt
-      - Niedersachsen Jungpflanzen Betrieb kontakt
+      # =========================
+      # GEWÄCHSHAUS / UNTER GLAS
+      # =========================
+      - Gewächshausbetrieb Kontakt
+      - Gemüsebau unter Glas Betrieb Kontakt
+      - Gemüseproduktion Gewächshausbetrieb Kontakt
+      - Jungpflanzenbetrieb Kontakt
+      - Zierpflanzen Gewächshausbetrieb Kontakt
+      - Tomatenbetrieb Gewächshaus Kontakt
+      - Gurkenbetrieb Gewächshaus Kontakt
+      - Paprikabetrieb Gewächshaus Kontakt
+      - Salatbetrieb Gewächshaus Kontakt
+      - Hydrokultur Gewächshausbetrieb Kontakt
 
-      # --- NRW
-      - Nordrhein-Westfalen Gewächshaus kontakt
-      - Nordrhein-Westfalen Gemüse Gewächshaus kontakt
-      - Nordrhein-Westfalen Tomaten Gewächshaus kontakt
-      - Nordrhein-Westfalen Gurken Gewächshaus kontakt
-      - Nordrhein-Westfalen Jungpflanzen Betrieb kontakt
+      - Niedersachsen Gewächshausbetrieb Kontakt
+      - Niedersachsen Gemüsebau unter Glas Kontakt
+      - Niedersachsen Jungpflanzenbetrieb Kontakt
+      - Niedersachsen Tomatenbetrieb Gewächshaus Kontakt
 
-      # --- BAYERN
-      - Bayern Gewächshaus kontakt
-      - Bayern Gemüse Gewächshaus kontakt
-      - Bayern Tomaten Gewächshaus kontakt
-      - Bayern Gurken Gewächshaus kontakt
-      - Bayern Jungpflanzen Betrieb kontakt
+      - Nordrhein-Westfalen Gewächshausbetrieb Kontakt
+      - Nordrhein-Westfalen Gemüsebau unter Glas Kontakt
+      - Nordrhein-Westfalen Jungpflanzenbetrieb Kontakt
+      - Nordrhein-Westfalen Tomatenbetrieb Gewächshaus Kontakt
 
-      # --- BADEN-WÜRTTEMBERG
-      - Baden-Württemberg Gewächshaus kontakt
-      - Baden-Württemberg Gemüse Gewächshaus kontakt
-      - Baden-Württemberg Tomaten Gewächshaus kontakt
-      - Baden-Württemberg Gurken Gewächshaus kontakt
-      - Baden-Württemberg Jungpflanzen Betrieb kontakt
+      - Bayern Gewächshausbetrieb Kontakt
+      - Bayern Gemüsebau unter Glas Kontakt
+      - Bayern Jungpflanzenbetrieb Kontakt
+      - Bayern Tomatenbetrieb Gewächshaus Kontakt
 
-      # --- NORD / OST
-      - Schleswig-Holstein Gewächshaus kontakt
-      - Mecklenburg-Vorpommern Gewächshaus kontakt
-      - Brandenburg Gewächshaus kontakt
-      - Sachsen Gewächshaus kontakt
-      - Sachsen-Anhalt Gewächshaus kontakt
+      - Baden-Württemberg Gewächshausbetrieb Kontakt
+      - Baden-Württemberg Gemüsebau unter Glas Kontakt
+      - Baden-Württemberg Jungpflanzenbetrieb Kontakt
+      - Baden-Württemberg Tomatenbetrieb Gewächshaus Kontakt
+
+      - Schleswig-Holstein Gewächshausbetrieb Kontakt
+      - Mecklenburg-Vorpommern Gewächshausbetrieb Kontakt
+      - Brandenburg Gewächshausbetrieb Kontakt
+      - Sachsen Gewächshausbetrieb Kontakt
 
 app:
   outreach:
