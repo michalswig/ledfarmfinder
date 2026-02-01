@@ -111,98 +111,178 @@ leadfinder:
 
     queries:
 
-      # ==================================================
-      # NIEDERSACHSEN — Emsland / Oldenburger Münsterland
-      # ==================================================
+      # =========================
+      # NIEDERSACHSEN (15)
+      # =========================
+      - Niedersachsen Bauernhof kontakt
+      - Niedersachsen Bauernhof impressum
+      - Niedersachsen Hof kontakt
+      - Niedersachsen Hof impressum
+      - Niedersachsen Landwirtschaft kontakt
+      - Niedersachsen Landwirtschaft impressum
+      - Niedersachsen Obsthof kontakt
+      - Niedersachsen Gemüsehof kontakt
+      - Niedersachsen Spargelhof kontakt
+      - Niedersachsen Erdbeerhof kontakt
+      - Niedersachsen Kartoffelhof kontakt
+      - Niedersachsen Apfelhof kontakt
+      - Niedersachsen Beerenhof kontakt
+      - Niedersachsen Gärtnerei kontakt
+      - Niedersachsen Direktvermarktung kontakt
 
-      # --- Meppen (mocniej “farm intent”, mniej śmieci)
-      - Meppen (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
-      - Meppen (Hofladen OR Hofverkauf OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
-      - Meppen (Obsthof OR Apfelhof OR Beerenhof OR Erdbeerhof) (Hof OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
-      - Meppen (Gemüsehof OR Gemüsebau OR Gärtnerei OR Gewächshaus OR Baumschule) (inurl:kontakt OR inurl:impressum)
-      - Meppen (Kartoffelhof OR Spargelhof) (Hof OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
+      # =========================
+      # NORDRHEIN-WESTFALEN (15)
+      # =========================
+      - Nordrhein-Westfalen Bauernhof kontakt
+      - Nordrhein-Westfalen Bauernhof impressum
+      - Nordrhein-Westfalen Hof kontakt
+      - Nordrhein-Westfalen Hof impressum
+      - Nordrhein-Westfalen Landwirtschaft kontakt
+      - Nordrhein-Westfalen Landwirtschaft impressum
+      - Nordrhein-Westfalen Obsthof kontakt
+      - Nordrhein-Westfalen Gemüsehof kontakt
+      - Nordrhein-Westfalen Spargelhof kontakt
+      - Nordrhein-Westfalen Erdbeerhof kontakt
+      - Nordrhein-Westfalen Kartoffelhof kontakt
+      - Nordrhein-Westfalen Apfelhof kontakt
+      - Nordrhein-Westfalen Beerenhof kontakt
+      - Nordrhein-Westfalen Gärtnerei kontakt
+      - Nordrhein-Westfalen Direktvermarktung kontakt
 
-      # --- Haselünne
-      - Haselünne (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
-      - Haselünne (Hofladen OR Hofverkauf OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
-      - Haselünne (Kartoffelhof OR Spargelhof OR Erdbeerhof OR Obsthof OR Baumschule) (Hof OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
+      # =========================
+      # BAYERN (15)
+      # =========================
+      - Bayern Bauernhof kontakt
+      - Bayern Bauernhof impressum
+      - Bayern Hof kontakt
+      - Bayern Hof impressum
+      - Bayern Landwirtschaft kontakt
+      - Bayern Landwirtschaft impressum
+      - Bayern Obsthof kontakt
+      - Bayern Gemüsehof kontakt
+      - Bayern Spargelhof kontakt
+      - Bayern Erdbeerhof kontakt
+      - Bayern Kartoffelhof kontakt
+      - Bayern Apfelhof kontakt
+      - Bayern Beerenhof kontakt
+      - Bayern Gärtnerei kontakt
+      - Bayern Direktvermarktung kontakt
 
-      # --- Papenburg
-      - Papenburg (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
-      - Papenburg (Hofladen OR Hofverkauf OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
-      - Papenburg (Spargelhof OR Erdbeerhof OR Obsthof OR Gemüsehof OR Gemüsebau OR Gärtnerei OR Gewächshaus OR Baumschule) (inurl:kontakt OR inurl:impressum)
+      # =========================
+      # BADEN-WÜRTTEMBERG (10)
+      # =========================
+      - Baden-Württemberg Bauernhof kontakt
+      - Baden-Württemberg Hof kontakt
+      - Baden-Württemberg Landwirtschaft kontakt
+      - Baden-Württemberg Obsthof kontakt
+      - Baden-Württemberg Gemüsehof kontakt
+      - Baden-Württemberg Spargelhof kontakt
+      - Baden-Württemberg Erdbeerhof kontakt
+      - Baden-Württemberg Kartoffelhof kontakt
+      - Baden-Württemberg Gärtnerei kontakt
+      - Baden-Württemberg Direktvermarktung kontakt
 
-      # --- Cloppenburg
-      - Cloppenburg (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
-      - Cloppenburg (Hofladen OR Hofverkauf OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
-      - Cloppenburg (Kartoffelhof OR Spargelhof OR Erdbeerhof OR Gemüsehof OR Obsthof OR Baumschule) (Hof OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
+      # =========================
+      # SCHLESWIG-HOLSTEIN (10)
+      # =========================
+      - Schleswig-Holstein Bauernhof kontakt
+      - Schleswig-Holstein Hof kontakt
+      - Schleswig-Holstein Landwirtschaft kontakt
+      - Schleswig-Holstein Obsthof kontakt
+      - Schleswig-Holstein Gemüsehof kontakt
+      - Schleswig-Holstein Spargelhof kontakt
+      - Schleswig-Holstein Erdbeerhof kontakt
+      - Schleswig-Holstein Kartoffelhof kontakt
+      - Schleswig-Holstein Gärtnerei kontakt
+      - Schleswig-Holstein Direktvermarktung kontakt
 
-      # --- Vechta
-      - Vechta (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
-      - Vechta (Hofladen OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
-      - Vechta (Gemüsebau OR Gemüsehof OR Gärtnerei OR Gewächshaus OR Baumschule) (inurl:kontakt OR inurl:impressum)
+      # =========================
+      # MECKLENBURG-VORPOMMERN (10)
+      # =========================
+      - Mecklenburg-Vorpommern Bauernhof kontakt
+      - Mecklenburg-Vorpommern Hof kontakt
+      - Mecklenburg-Vorpommern Landwirtschaft kontakt
+      - Mecklenburg-Vorpommern Obsthof kontakt
+      - Mecklenburg-Vorpommern Gemüsehof kontakt
+      - Mecklenburg-Vorpommern Spargelhof kontakt
+      - Mecklenburg-Vorpommern Erdbeerhof kontakt
+      - Mecklenburg-Vorpommern Kartoffelhof kontakt
+      - Mecklenburg-Vorpommern Gärtnerei kontakt
+      - Mecklenburg-Vorpommern Direktvermarktung kontakt
 
-      # --- Lingen
-      - Lingen (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
-      - Lingen (Hofladen OR Hofverkauf OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
-      - Lingen (Gemüsehof OR Obsthof OR Kartoffelhof OR Spargelhof OR Gemüsebau OR Gärtnerei OR Gewächshaus OR Baumschule) (inurl:kontakt OR inurl:impressum)
+      # =========================
+      # BRANDENBURG (10)
+      # =========================
+      - Brandenburg Bauernhof kontakt
+      - Brandenburg Hof kontakt
+      - Brandenburg Landwirtschaft kontakt
+      - Brandenburg Obsthof kontakt
+      - Brandenburg Gemüsehof kontakt
+      - Brandenburg Spargelhof kontakt
+      - Brandenburg Erdbeerhof kontakt
+      - Brandenburg Kartoffelhof kontakt
+      - Brandenburg Gärtnerei kontakt
+      - Brandenburg Direktvermarktung kontakt
 
+      # =========================
+      # SACHSEN (5)
+      # =========================
+      - Sachsen Bauernhof kontakt
+      - Sachsen Landwirtschaft kontakt
+      - Sachsen Obsthof kontakt
+      - Sachsen Gemüsehof kontakt
+      - Sachsen Direktvermarktung kontakt
 
-      # ==================================================
-      # REGIONY — większy wolumen (broad layer dla dopływu domen)
-      # ==================================================
+      # =========================
+      # SZKLARNIE / PRODUKCJA POD OSŁONAMI (40)
+      # =========================
 
-      - Emsland (Hof OR Bauernhof OR Direktvermarktung OR Hofladen OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
-      - Landkreis Emsland (Spargelhof OR Erdbeerhof OR Obsthof OR Kartoffelhof OR Gemüsehof OR Gemüsebau OR Gärtnerei OR Gewächshaus OR Baumschule) (inurl:kontakt OR inurl:impressum)
-      - Oldenburger Münsterland (Hof OR Bauernhof OR Direktvermarktung OR Hofladen OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
-      - Landkreis Vechta (Hof OR Bauernhof OR Direktvermarktung OR Hofladen) (inurl:kontakt OR inurl:impressum)
+      # --- GLOBAL / OGÓLNE
+      - Gewächshaus Betrieb kontakt
+      - Gewächshaus Landwirtschaft kontakt
+      - Gewächshaus Gemüse kontakt
+      - Gemüseanbau Gewächshaus kontakt
+      - Gemüseproduktion Gewächshaus kontakt
+      - Tomaten Gewächshaus kontakt
+      - Gurken Gewächshaus kontakt
+      - Paprika Gewächshaus kontakt
+      - Salat Gewächshaus kontakt
+      - Jungpflanzen Gewächshaus kontakt
 
+      # --- NIEDERSACHSEN
+      - Niedersachsen Gewächshaus kontakt
+      - Niedersachsen Gemüse Gewächshaus kontakt
+      - Niedersachsen Tomaten Gewächshaus kontakt
+      - Niedersachsen Gurken Gewächshaus kontakt
+      - Niedersachsen Jungpflanzen Betrieb kontakt
 
-      # ==================================================
-      # NIEDERSACHSEN — Hannover / Heide / Harz
-      # ==================================================
+      # --- NRW
+      - Nordrhein-Westfalen Gewächshaus kontakt
+      - Nordrhein-Westfalen Gemüse Gewächshaus kontakt
+      - Nordrhein-Westfalen Tomaten Gewächshaus kontakt
+      - Nordrhein-Westfalen Gurken Gewächshaus kontakt
+      - Nordrhein-Westfalen Jungpflanzen Betrieb kontakt
 
-      # --- Celle
-      - Celle (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
-      - Celle (Hofladen OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
-      - Celle (Obsthof OR Apfelhof OR Beerenhof OR Erdbeerhof) (Hof OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
+      # --- BAYERN
+      - Bayern Gewächshaus kontakt
+      - Bayern Gemüse Gewächshaus kontakt
+      - Bayern Tomaten Gewächshaus kontakt
+      - Bayern Gurken Gewächshaus kontakt
+      - Bayern Jungpflanzen Betrieb kontakt
 
-      # --- Gifhorn
-      - Gifhorn (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
-      - Gifhorn (Hofladen OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
-      - Gifhorn (Gemüsehof OR Gemüsebau OR Gärtnerei OR Gewächshaus OR Baumschule) (inurl:kontakt OR inurl:impressum)
+      # --- BADEN-WÜRTTEMBERG
+      - Baden-Württemberg Gewächshaus kontakt
+      - Baden-Württemberg Gemüse Gewächshaus kontakt
+      - Baden-Württemberg Tomaten Gewächshaus kontakt
+      - Baden-Württemberg Gurken Gewächshaus kontakt
+      - Baden-Württemberg Jungpflanzen Betrieb kontakt
 
-      # --- Peine
-      - Peine (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
-      - Peine (Kartoffelhof OR Spargelhof OR Gemüsehof) (Hof OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
-      - Peine (Hofladen OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
-
-      # --- Uelzen
-      - Uelzen (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
-      - Uelzen (Spargelhof OR Erdbeerhof OR Obsthof OR Gemüsehof OR Gemüsebau OR Gärtnerei OR Gewächshaus OR Baumschule) (inurl:kontakt OR inurl:impressum)
-      - Uelzen (Hofladen OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
-
-
-      # ==================================================
-      # OBSZARY / MAKRO
-      # ==================================================
-
-      - Lüneburger Heide (Hof OR Bauernhof OR Direktvermarktung OR Hofladen OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
-      - Landkreis Celle (Hof OR Bauernhof OR Direktvermarktung OR Hofladen) (inurl:kontakt OR inurl:impressum)
-      - Landkreis Uelzen (Hof OR Bauernhof OR Direktvermarktung OR Hofladen) (inurl:kontakt OR inurl:impressum)
-
-
-      # ==================================================
-      # GLOBAL FALLBACK — gdy lokal się kończy (cel: “farm websites”)
-      # ==================================================
-
-      - (Hofladen OR Hofverkauf OR Direktvermarktung OR Ab-Hof-Verkauf) (inurl:kontakt OR inurl:impressum)
-      - (Spargelhof OR Erdbeerhof OR Obsthof OR Apfelhof OR Beerenhof) (Hof OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
-      - (Gemüsehof OR Gemüsebau OR Gewächshaus OR Gärtnerei OR Baumschule) (inurl:kontakt OR inurl:impressum)
-      - (Kartoffelhof OR landwirtschaftlicher Betrieb OR Biohof) (Hof OR Direktvermarktung) (inurl:kontakt OR inurl:impressum)
-
-
-
+      # --- NORD / OST
+      - Schleswig-Holstein Gewächshaus kontakt
+      - Mecklenburg-Vorpommern Gewächshaus kontakt
+      - Brandenburg Gewächshaus kontakt
+      - Sachsen Gewächshaus kontakt
+      - Sachsen-Anhalt Gewächshaus kontakt
 
 app:
   outreach:
