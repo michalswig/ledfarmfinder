@@ -115,50 +115,47 @@ leadfinder:
       # NIEDERSACHSEN — Emsland / Oldenburger Münsterland
       # ==================================================
 
-      # --- Meppen
-      - Meppen Bauernhof kontakt
-      - Meppen Landwirtschaft impressum
-      - Meppen Obsthof kontakt
-      - Meppen Gemüsehof kontakt
-      - Meppen Kartoffelhof impressum
+      # --- Meppen (mocniej “farm intent”, mniej śmieci)
+      - Meppen (Hof OR Bauernhof OR landwirtschaftlicher Betrieb OR Direktvermarktung) (kontakt OR impressum)
+      - Meppen (Hofladen OR Hofverkauf OR Direktvermarktung) (kontakt OR impressum)
+      - Meppen (Obsthof OR Apfelhof OR Beerenhof OR Erdbeerhof) (kontakt OR impressum)
+      - Meppen (Gemüsehof OR Gemüsebau OR Gärtnerei OR Gewächshaus) (kontakt OR impressum)
+      - Meppen (Kartoffelhof OR Spargelhof) (kontakt OR impressum)
 
       # --- Haselünne
-      - Haselünne Bauernhof kontakt
-      - Haselünne Landwirtschaft impressum
-      - Haselünne Hofladen kontakt
+      - Haselünne (Hof OR Bauernhof OR landwirtschaftlicher Betrieb) (kontakt OR impressum)
+      - Haselünne (Hofladen OR Hofverkauf OR Direktvermarktung) (kontakt OR impressum)
+      - Haselünne (Kartoffelhof OR Spargelhof OR Erdbeerhof OR Obsthof) (kontakt OR impressum)
 
       # --- Papenburg
-      - Papenburg Bauernhof kontakt
-      - Papenburg Landwirtschaft impressum
-      - Papenburg Spargelhof kontakt
-      - Papenburg Erdbeerhof kontakt
+      - Papenburg (Hof OR Bauernhof OR landwirtschaftlicher Betrieb) (kontakt OR impressum)
+      - Papenburg (Hofladen OR Hofverkauf OR Direktvermarktung) (kontakt OR impressum)
+      - Papenburg (Spargelhof OR Erdbeerhof OR Obsthof OR Gemüsehof) (kontakt OR impressum)
 
       # --- Cloppenburg
-      - Cloppenburg Bauernhof kontakt
-      - Cloppenburg Landwirtschaft impressum
-      - Cloppenburg Gemüsehof kontakt
+      - Cloppenburg (Hof OR Bauernhof OR landwirtschaftlicher Betrieb) (kontakt OR impressum)
+      - Cloppenburg (Hofladen OR Hofverkauf OR Direktvermarktung) (kontakt OR impressum)
+      - Cloppenburg (Kartoffelhof OR Spargelhof OR Erdbeerhof OR Gemüsehof OR Obsthof) (kontakt OR impressum)
 
       # --- Vechta
-      - Vechta Bauernhof kontakt
-      - Vechta Landwirtschaft impressum
-      - Vechta Gemüsebau kontakt
+      - Vechta (Hof OR Bauernhof OR landwirtschaftlicher Betrieb) (kontakt OR impressum)
+      - Vechta (Hofladen OR Direktvermarktung) (kontakt OR impressum)
+      - Vechta (Gemüsebau OR Gemüsehof OR Gärtnerei OR Gewächshaus) (kontakt OR impressum)
 
       # --- Lingen
-      - Lingen Bauernhof kontakt
-      - Lingen Landwirtschaft impressum
-      - Lingen Gemüsehof kontakt
+      - Lingen (Hof OR Bauernhof OR landwirtschaftlicher Betrieb) (kontakt OR impressum)
+      - Lingen (Hofladen OR Hofverkauf OR Direktvermarktung) (kontakt OR impressum)
+      - Lingen (Gemüsehof OR Obsthof OR Kartoffelhof OR Spargelhof) (kontakt OR impressum)
 
 
       # ==================================================
-      # REGIONY — większy wolumen
+      # REGIONY — większy wolumen (broad layer dla dopływu domen)
       # ==================================================
 
-      - Emsland Bauernhof kontakt
-      - Emsland Landwirtschaft impressum
-      - Landkreis Emsland Gemüsehof kontakt
-
-      - Oldenburger Münsterland Landwirtschaft kontakt
-      - Landkreis Vechta Bauernhof impressum
+      - Emsland (Hof OR Bauernhof OR Direktvermarktung OR Hofladen) (kontakt OR impressum)
+      - Landkreis Emsland (Spargelhof OR Erdbeerhof OR Obsthof OR Kartoffelhof OR Gemüsehof) (kontakt OR impressum)
+      - Oldenburger Münsterland (Hof OR Bauernhof OR Direktvermarktung OR Hofladen) (kontakt OR impressum)
+      - Landkreis Vechta (Hof OR Bauernhof OR Direktvermarktung) (kontakt OR impressum)
 
 
       # ==================================================
@@ -166,46 +163,44 @@ leadfinder:
       # ==================================================
 
       # --- Celle
-      - Celle Bauernhof kontakt
-      - Celle Landwirtschaft impressum
-      - Celle Obsthof kontakt
+      - Celle (Hof OR Bauernhof OR landwirtschaftlicher Betrieb) (kontakt OR impressum)
+      - Celle (Hofladen OR Direktvermarktung) (kontakt OR impressum)
+      - Celle (Obsthof OR Apfelhof OR Beerenhof OR Erdbeerhof) (kontakt OR impressum)
 
       # --- Gifhorn
-      - Gifhorn Bauernhof kontakt
-      - Gifhorn Landwirtschaft impressum
-      - Gifhorn Gemüsehof kontakt
+      - Gifhorn (Hof OR Bauernhof OR landwirtschaftlicher Betrieb) (kontakt OR impressum)
+      - Gifhorn (Hofladen OR Direktvermarktung) (kontakt OR impressum)
+      - Gifhorn (Gemüsehof OR Gemüsebau OR Gärtnerei OR Gewächshaus) (kontakt OR impressum)
 
       # --- Peine
-      - Peine Bauernhof kontakt
-      - Peine Landwirtschaft impressum
-      - Peine Kartoffelhof kontakt
+      - Peine (Hof OR Bauernhof OR landwirtschaftlicher Betrieb) (kontakt OR impressum)
+      - Peine (Kartoffelhof OR Spargelhof OR Gemüsehof) (kontakt OR impressum)
+      - Peine (Hofladen OR Direktvermarktung) (kontakt OR impressum)
 
       # --- Uelzen
-      - Uelzen Bauernhof kontakt
-      - Uelzen Landwirtschaft impressum
-      - Uelzen Spargelhof kontakt
+      - Uelzen (Hof OR Bauernhof OR landwirtschaftlicher Betrieb) (kontakt OR impressum)
+      - Uelzen (Spargelhof OR Erdbeerhof OR Obsthof OR Gemüsehof) (kontakt OR impressum)
+      - Uelzen (Hofladen OR Direktvermarktung) (kontakt OR impressum)
 
 
       # ==================================================
       # OBSZARY / MAKRO
       # ==================================================
 
-      - Lüneburger Heide Bauernhof kontakt
-      - Lüneburger Heide Landwirtschaft impressum
-      - Landkreis Celle Bauernhof kontakt
-      - Landkreis Uelzen Landwirtschaft impressum
+      - Lüneburger Heide (Hof OR Bauernhof OR Direktvermarktung OR Hofladen) (kontakt OR impressum)
+      - Landkreis Celle (Hof OR Bauernhof OR Direktvermarktung) (kontakt OR impressum)
+      - Landkreis Uelzen (Hof OR Bauernhof OR Direktvermarktung) (kontakt OR impressum)
 
 
       # ==================================================
-      # GLOBAL FALLBACK — gdy lokal się kończy
+      # GLOBAL FALLBACK — gdy lokal się kończy (cel: “farm websites”)
       # ==================================================
 
-      - Bauernhof kontakt
-      - Landwirtschaft impressum
-      - Gemüsehof kontakt
-      - Obsthof impressum
-      - Kartoffelhof kontakt
-      - Spargelhof impressum
+      - (Hofladen OR Hofverkauf OR Direktvermarktung) (kontakt OR impressum)
+      - (Spargelhof OR Erdbeerhof OR Obsthof OR Apfelhof OR Beerenhof) (kontakt OR impressum)
+      - (Gemüsehof OR Gemüsebau OR Gewächshaus OR Gärtnerei) (kontakt OR impressum)
+      - (Kartoffelhof OR landwirtschaftlicher Betrieb OR Biohof) (kontakt OR impressum)
+
 
 
 
