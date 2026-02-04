@@ -325,6 +325,11 @@ public class DiscoveryService {
             "-airbnb"
     );
 
+    // 🔴 WARUNEK A: “puste strony” => DONE
+    private static final int EXHAUST_AFTER_EMPTY_NEW_URL_PAGES = 2;
+    // opcjonalnie: SerpAPI zwraca 0 organic -> DONE
+    private static final int EXHAUST_AFTER_EMPTY_SERP_PAGES = 1;
+
     private int queryIndex = 0;
 
     /**
@@ -332,6 +337,7 @@ public class DiscoveryService {
      * - cursor DONE (currentPage > maxPage) -> pomijamy query
      * - jeśli brak HTML/snippet -> SKIP bez OpenAI i bez zapisu (nie palimy domen)
      * - deduplikacja: tylko po URL (nie blokujemy domeny na zawsze)
+     * - 🔴 query kończy się tylko WARUNKIEM A (puste strony) / pusty SERP -> DONE w DB
      */
     public List<String> findCandidateFarmUrls(int limit) {
 
@@ -394,12 +400,9 @@ public class DiscoveryService {
         int errorsCount = 0;
 
         int consecutiveEmptyNewUrls = 0;
-
-        int baseEarlyExitAfterEmptyPages = 4;
+        int consecutiveEmptySerpPages = 0;
 
         for (int i = 0; i < maxPagesPerRun && accepted.size() < limit; i++) {
-
-            int earlyExitAfterEmptyPages = (currentPage >= 6) ? 2 : baseEarlyExitAfterEmptyPages;
 
             log.info("DiscoveryService: fetching SERP page={} (runPageIndex={}) for query='{}'",
                     currentPage, i, rawQuery);
@@ -409,8 +412,20 @@ public class DiscoveryService {
 
             log.info("DiscoveryService: raw urls from SerpAPI (page={}) = {}", currentPage, rawUrls.size());
 
+            // 🔴 SERP puste -> to też jest mocny sygnał “koniec”
             if (rawUrls.isEmpty()) {
-                log.info("DiscoveryService: no more results from SerpAPI for page={}, moving to next page", currentPage);
+                consecutiveEmptySerpPages++;
+
+                log.info("DiscoveryService: empty SERP page streak = {} (page={})",
+                        consecutiveEmptySerpPages, currentPage);
+
+                if (consecutiveEmptySerpPages >= EXHAUST_AFTER_EMPTY_SERP_PAGES) {
+                    currentPage = maxPage + 1; // DONE
+                    log.info("DiscoveryService: marking query as DONE due to empty SERP response. query='{}', pageNow={}",
+                            rawQuery, currentPage);
+                    break;
+                }
+
                 currentPage = advancePageOrExhaust(currentPage, maxPage);
                 break;
             }
@@ -468,27 +483,26 @@ public class DiscoveryService {
             log.info("DiscoveryService: new urls for OpenAI after discovered filter (page={}) = {}",
                     currentPage, newUrlsOnly.size());
 
+            // 🔴 WARUNEK A: puste “NEW candidates” => po N stronach DONE
             if (newUrlsOnly.isEmpty()) {
                 consecutiveEmptyNewUrls++;
 
                 log.info("DiscoveryService: empty NEW candidates streak = {} (page={})",
                         consecutiveEmptyNewUrls, currentPage);
 
-                if (consecutiveEmptyNewUrls >= earlyExitAfterEmptyPages) {
-                    log.info("DiscoveryService: early-exit after {} consecutive empty pages (threshold={}). query='{}', pageNow={}, pagesVisitedSoFar={}",
-                            consecutiveEmptyNewUrls, earlyExitAfterEmptyPages, rawQuery, currentPage, pagesVisited);
-
-                    currentPage = advancePageOrExhaust(currentPage, maxPage);
+                if (consecutiveEmptyNewUrls >= EXHAUST_AFTER_EMPTY_NEW_URL_PAGES) {
+                    currentPage = maxPage + 1; // DONE
+                    log.info("DiscoveryService: marking query as DONE after {} empty NEW pages. query='{}', pageNow={}",
+                            consecutiveEmptyNewUrls, rawQuery, currentPage);
                     break;
                 }
 
                 currentPage = advancePageOrExhaust(currentPage, maxPage);
-                if (currentPage > maxPage) {
-                    break;
-                }
+                if (currentPage > maxPage) break;
                 continue;
             } else {
                 consecutiveEmptyNewUrls = 0;
+                consecutiveEmptySerpPages = 0;
             }
 
             List<ScoredUrl> scored = newUrlsOnly.stream()
@@ -522,12 +536,6 @@ public class DiscoveryService {
                     saveDiscoveredUrl(url, result);
 
                     if (result.isFarm()) {
-                        // =========================
-                        // FIX #1: nie gubimy URL-a źródłowego (często to impressum z mailem)
-                        // - zawsze dodaj url
-                        // - dodatkowo dodaj contactUrl, jeśli jest
-                        // =========================
-
                         accepted.add(url);
 
                         String contactUrl = result.mainContactUrl();
@@ -535,7 +543,6 @@ public class DiscoveryService {
                             accepted.add(contactUrl);
                         }
 
-                        // FIX #2: logujemy oba, żeby widać było routing do scrapera
                         log.info(
                                 "DiscoveryService: ACCEPTED (FARM) sourceUrl={} contactUrl={} score={} seasonalJobs={} reason={}",
                                 url, contactUrl, scoredUrl.score(), result.isSeasonalJobs(), result.reason()
@@ -598,7 +605,7 @@ public class DiscoveryService {
         return distinctAccepted;
     }
 
-    // ===== NEW helpers (DONE / selection) =====
+    // ===== helpers (DONE / selection) =====
 
     private boolean isExhausted(SerpQueryCursor c) {
         return c.getCurrentPage() > c.getMaxPage();
