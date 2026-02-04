@@ -115,14 +115,10 @@ leadfinder:
       # NIEDERSACHSEN
       # =========================
       - Niedersachsen Hofladen Kontakt
-      - Niedersachsen Direktvermarkter Kontakt
       - Niedersachsen Spargelhof Kontakt
       - Niedersachsen Erdbeerhof Kontakt
       - Niedersachsen Kartoffelhof Kontakt
-      - Niedersachsen Gemüsebau Betrieb Kontakt
       - Niedersachsen Beerenhof Kontakt
-      - Niedersachsen Gewächshausbetrieb Kontakt
-      - Niedersachsen Gemüsebau unter Glas Kontakt
       - Niedersachsen Tomatenbetrieb Gewächshaus Kontakt
       - Niedersachsen Gurkenbetrieb Gewächshaus Kontakt
       - Niedersachsen Paprikabetrieb Gewächshaus Kontakt
@@ -131,14 +127,10 @@ leadfinder:
       # NORDRHEIN-WESTFALEN
       # =========================
       - Nordrhein-Westfalen Hofladen Kontakt
-      - Nordrhein-Westfalen Direktvermarkter Kontakt
       - Nordrhein-Westfalen Spargelhof Kontakt
       - Nordrhein-Westfalen Erdbeerhof Kontakt
       - Nordrhein-Westfalen Kartoffelhof Kontakt
-      - Nordrhein-Westfalen Gemüsebau Betrieb Kontakt
       - Nordrhein-Westfalen Beerenhof Kontakt
-      - Nordrhein-Westfalen Gewächshausbetrieb Kontakt
-      - Nordrhein-Westfalen Gemüsebau unter Glas Kontakt
       - Nordrhein-Westfalen Tomatenbetrieb Gewächshaus Kontakt
       - Nordrhein-Westfalen Gurkenbetrieb Gewächshaus Kontakt
       - Nordrhein-Westfalen Paprikabetrieb Gewächshaus Kontakt
@@ -147,14 +139,10 @@ leadfinder:
       # BAYERN
       # =========================
       - Bayern Hofladen Kontakt
-      - Bayern Direktvermarkter Kontakt
       - Bayern Spargelhof Kontakt
       - Bayern Erdbeerhof Kontakt
       - Bayern Kartoffelhof Kontakt
-      - Bayern Gemüsebau Betrieb Kontakt
       - Bayern Beerenhof Kontakt
-      - Bayern Gewächshausbetrieb Kontakt
-      - Bayern Gemüsebau unter Glas Kontakt
       - Bayern Tomatenbetrieb Gewächshaus Kontakt
       - Bayern Gurkenbetrieb Gewächshaus Kontakt
       - Bayern Paprikabetrieb Gewächshaus Kontakt
@@ -163,14 +151,10 @@ leadfinder:
       # BADEN-WÜRTTEMBERG
       # =========================
       - Baden-Württemberg Hofladen Kontakt
-      - Baden-Württemberg Direktvermarkter Kontakt
       - Baden-Württemberg Spargelhof Kontakt
       - Baden-Württemberg Erdbeerhof Kontakt
       - Baden-Württemberg Kartoffelhof Kontakt
-      - Baden-Württemberg Gemüsebau Betrieb Kontakt
       - Baden-Württemberg Beerenhof Kontakt
-      - Baden-Württemberg Gewächshausbetrieb Kontakt
-      - Baden-Württemberg Gemüsebau unter Glas Kontakt
       - Baden-Württemberg Tomatenbetrieb Gewächshaus Kontakt
       - Baden-Württemberg Gurkenbetrieb Gewächshaus Kontakt
       - Baden-Württemberg Paprikabetrieb Gewächshaus Kontakt
@@ -179,14 +163,10 @@ leadfinder:
       # SCHLESWIG-HOLSTEIN
       # =========================
       - Schleswig-Holstein Hofladen Kontakt
-      - Schleswig-Holstein Direktvermarkter Kontakt
       - Schleswig-Holstein Spargelhof Kontakt
       - Schleswig-Holstein Erdbeerhof Kontakt
       - Schleswig-Holstein Kartoffelhof Kontakt
-      - Schleswig-Holstein Gemüsebau Betrieb Kontakt
       - Schleswig-Holstein Beerenhof Kontakt
-      - Schleswig-Holstein Gewächshausbetrieb Kontakt
-      - Schleswig-Holstein Gemüsebau unter Glas Kontakt
       - Schleswig-Holstein Tomatenbetrieb Gewächshaus Kontakt
       - Schleswig-Holstein Gurkenbetrieb Gewächshaus Kontakt
       - Schleswig-Holstein Paprikabetrieb Gewächshaus Kontakt
@@ -195,14 +175,10 @@ leadfinder:
       # MECKLENBURG-VORPOMMERN
       # =========================
       - Mecklenburg-Vorpommern Hofladen Kontakt
-      - Mecklenburg-Vorpommern Direktvermarkter Kontakt
       - Mecklenburg-Vorpommern Spargelhof Kontakt
       - Mecklenburg-Vorpommern Erdbeerhof Kontakt
       - Mecklenburg-Vorpommern Kartoffelhof Kontakt
-      - Mecklenburg-Vorpommern Gemüsebau Betrieb Kontakt
       - Mecklenburg-Vorpommern Beerenhof Kontakt
-      - Mecklenburg-Vorpommern Gewächshausbetrieb Kontakt
-      - Mecklenburg-Vorpommern Gemüsebau unter Glas Kontakt
       - Mecklenburg-Vorpommern Tomatenbetrieb Gewächshaus Kontakt
       - Mecklenburg-Vorpommern Gurkenbetrieb Gewächshaus Kontakt
       - Mecklenburg-Vorpommern Paprikabetrieb Gewächshaus Kontakt
@@ -211,14 +187,10 @@ leadfinder:
       # BRANDENBURG
       # =========================
       - Brandenburg Hofladen Kontakt
-      - Brandenburg Direktvermarkter Kontakt
       - Brandenburg Spargelhof Kontakt
       - Brandenburg Erdbeerhof Kontakt
       - Brandenburg Kartoffelhof Kontakt
-      - Brandenburg Gemüsebau Betrieb Kontakt
       - Brandenburg Beerenhof Kontakt
-      - Brandenburg Gewächshausbetrieb Kontakt
-      - Brandenburg Gemüsebau unter Glas Kontakt
       - Brandenburg Tomatenbetrieb Gewächshaus Kontakt
       - Brandenburg Gurkenbetrieb Gewächshaus Kontakt
       - Brandenburg Paprikabetrieb Gewächshaus Kontakt
@@ -227,26 +199,14 @@ leadfinder:
       # SACHSEN
       # =========================
       - Sachsen Hofladen Kontakt
-      - Sachsen Direktvermarkter Kontakt
       - Sachsen Spargelhof Kontakt
       - Sachsen Erdbeerhof Kontakt
       - Sachsen Kartoffelhof Kontakt
-      - Sachsen Gemüsebau Betrieb Kontakt
       - Sachsen Beerenhof Kontakt
-      - Sachsen Gewächshausbetrieb Kontakt
-      - Sachsen Gemüsebau unter Glas Kontakt
       - Sachsen Tomatenbetrieb Gewächshaus Kontakt
       - Sachsen Gurkenbetrieb Gewächshaus Kontakt
       - Sachsen Paprikabetrieb Gewächshaus Kontakt
 
-      # =========================
-      # GEWÄCHSHAUS / UNTER GLAS (OGÓLNE, BEZ LANDA)
-      # =========================
-      - Gewächshausbetrieb Kontakt
-      - Gemüsebau unter Glas Betrieb Kontakt
-      - Tomatenbetrieb Gewächshaus Kontakt
-      - Gurkenbetrieb Gewächshaus Kontakt
-      - Paprikabetrieb Gewächshaus Kontakt
 
 app:
   outreach:
