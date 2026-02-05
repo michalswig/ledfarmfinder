@@ -112,100 +112,100 @@ leadfinder:
     queries:
 
       # =========================
-      # NIEDERSACHSEN
+      # PRODUKTOWE – BEZ REGIONÓW
       # =========================
-      - Niedersachsen Hofladen Kontakt
-      - Niedersachsen Spargelhof Kontakt
-      - Niedersachsen Erdbeerhof Kontakt
-      - Niedersachsen Kartoffelhof Kontakt
-      - Niedersachsen Beerenhof Kontakt
-      - Niedersachsen Tomatenbetrieb Gewächshaus Kontakt
-      - Niedersachsen Gurkenbetrieb Gewächshaus Kontakt
-      - Niedersachsen Paprikabetrieb Gewächshaus Kontakt
+      - Hof Kontakt
+      - Bauernhof Kontakt
+      - Bio Hof Kontakt
+      - Landwirtschaft Betrieb Kontakt
+      - Familienbetrieb Landwirtschaft Kontakt
+      - Direktvermarktung Hof Kontakt
+      - Hofverkauf Kontakt
+      - Erzeugerbetrieb Kontakt
+      - Landwirtschaft Betrieb E-Mail
+      - Bauernhof E-Mail Kontakt
 
       # =========================
-      # NORDRHEIN-WESTFALEN
+      # KARTOFFELN
       # =========================
-      - Nordrhein-Westfalen Hofladen Kontakt
-      - Nordrhein-Westfalen Spargelhof Kontakt
-      - Nordrhein-Westfalen Erdbeerhof Kontakt
-      - Nordrhein-Westfalen Kartoffelhof Kontakt
-      - Nordrhein-Westfalen Beerenhof Kontakt
-      - Nordrhein-Westfalen Tomatenbetrieb Gewächshaus Kontakt
-      - Nordrhein-Westfalen Gurkenbetrieb Gewächshaus Kontakt
-      - Nordrhein-Westfalen Paprikabetrieb Gewächshaus Kontakt
+      - Kartoffelhof Kontakt
+      - Kartoffelanbau Betrieb Kontakt
+      - Kartoffel Direktvermarktung Kontakt
+      - Bio Kartoffelhof Kontakt
+      - Kartoffel Erzeuger Kontakt
+      - Kartoffelbetrieb E-Mail
+      - Landwirtschaft Kartoffeln Kontakt
 
       # =========================
-      # BAYERN
+      # ERDBEEREN / BEEREN
       # =========================
-      - Bayern Hofladen Kontakt
-      - Bayern Spargelhof Kontakt
-      - Bayern Erdbeerhof Kontakt
-      - Bayern Kartoffelhof Kontakt
-      - Bayern Beerenhof Kontakt
-      - Bayern Tomatenbetrieb Gewächshaus Kontakt
-      - Bayern Gurkenbetrieb Gewächshaus Kontakt
-      - Bayern Paprikabetrieb Gewächshaus Kontakt
+      - Erdbeerhof Kontakt
+      - Erdbeeranbau Betrieb Kontakt
+      - Erdbeeren Direktvermarktung Kontakt
+      - Beerenhof Kontakt
+      - Himbeerhof Kontakt
+      - Heidelbeerhof Kontakt
+      - Bio Erdbeerhof Kontakt
+      - Erdbeerbetrieb E-Mail
 
       # =========================
-      # BADEN-WÜRTTEMBERG
+      # GEMÜSE
       # =========================
-      - Baden-Württemberg Hofladen Kontakt
-      - Baden-Württemberg Spargelhof Kontakt
-      - Baden-Württemberg Erdbeerhof Kontakt
-      - Baden-Württemberg Kartoffelhof Kontakt
-      - Baden-Württemberg Beerenhof Kontakt
-      - Baden-Württemberg Tomatenbetrieb Gewächshaus Kontakt
-      - Baden-Württemberg Gurkenbetrieb Gewächshaus Kontakt
-      - Baden-Württemberg Paprikabetrieb Gewächshaus Kontakt
+      - Gemüsehof Kontakt
+      - Gemüseanbau Betrieb Kontakt
+      - Bio Gemüsehof Kontakt
+      - Gemüse Direktvermarktung Kontakt
+      - Gemüsebetrieb E-Mail
+      - Landwirtschaft Gemüse Kontakt
 
       # =========================
-      # SCHLESWIG-HOLSTEIN
+      # TOMATEN
       # =========================
-      - Schleswig-Holstein Hofladen Kontakt
-      - Schleswig-Holstein Spargelhof Kontakt
-      - Schleswig-Holstein Erdbeerhof Kontakt
-      - Schleswig-Holstein Kartoffelhof Kontakt
-      - Schleswig-Holstein Beerenhof Kontakt
-      - Schleswig-Holstein Tomatenbetrieb Gewächshaus Kontakt
-      - Schleswig-Holstein Gurkenbetrieb Gewächshaus Kontakt
-      - Schleswig-Holstein Paprikabetrieb Gewächshaus Kontakt
+      - Tomatenhof Kontakt
+      - Tomatenanbau Betrieb Kontakt
+      - Tomaten Gewächshaus Kontakt
+      - Bio Tomatenhof Kontakt
+      - Tomatenbetrieb E-Mail
+      - Tomaten Direktvermarktung Kontakt
 
       # =========================
-      # MECKLENBURG-VORPOMMERN
+      # GURKEN
       # =========================
-      - Mecklenburg-Vorpommern Hofladen Kontakt
-      - Mecklenburg-Vorpommern Spargelhof Kontakt
-      - Mecklenburg-Vorpommern Erdbeerhof Kontakt
-      - Mecklenburg-Vorpommern Kartoffelhof Kontakt
-      - Mecklenburg-Vorpommern Beerenhof Kontakt
-      - Mecklenburg-Vorpommern Tomatenbetrieb Gewächshaus Kontakt
-      - Mecklenburg-Vorpommern Gurkenbetrieb Gewächshaus Kontakt
-      - Mecklenburg-Vorpommern Paprikabetrieb Gewächshaus Kontakt
+      - Gurkenhof Kontakt
+      - Gurkenanbau Betrieb Kontakt
+      - Gurken Gewächshaus Kontakt
+      - Bio Gurkenhof Kontakt
+      - Gurkenbetrieb E-Mail
 
       # =========================
-      # BRANDENBURG
+      # PAPRIKA / CHILI
       # =========================
-      - Brandenburg Hofladen Kontakt
-      - Brandenburg Spargelhof Kontakt
-      - Brandenburg Erdbeerhof Kontakt
-      - Brandenburg Kartoffelhof Kontakt
-      - Brandenburg Beerenhof Kontakt
-      - Brandenburg Tomatenbetrieb Gewächshaus Kontakt
-      - Brandenburg Gurkenbetrieb Gewächshaus Kontakt
-      - Brandenburg Paprikabetrieb Gewächshaus Kontakt
+      - Paprikahof Kontakt
+      - Paprikaanbau Betrieb Kontakt
+      - Paprika Gewächshaus Kontakt
+      - Bio Paprikahof Kontakt
+      - Paprikabetrieb E-Mail
+      - Chilianbau Betrieb Kontakt
 
       # =========================
-      # SACHSEN
+      # BIO / ÖKO
       # =========================
-      - Sachsen Hofladen Kontakt
-      - Sachsen Spargelhof Kontakt
-      - Sachsen Erdbeerhof Kontakt
-      - Sachsen Kartoffelhof Kontakt
-      - Sachsen Beerenhof Kontakt
-      - Sachsen Tomatenbetrieb Gewächshaus Kontakt
-      - Sachsen Gurkenbetrieb Gewächshaus Kontakt
-      - Sachsen Paprikabetrieb Gewächshaus Kontakt
+      - Bio Landwirtschaft Betrieb Kontakt
+      - Ökologischer Betrieb Kontakt
+      - Bio Erzeuger Kontakt
+      - Demeter Betrieb Kontakt
+      - Bioland Betrieb Kontakt
+      - Naturland Betrieb Kontakt
+
+      # =========================
+      # PODSTRONY (EMAIL-KILLER)
+      # =========================
+      - Bauernhof Kontakt Impressum
+      - Bauernhof Über uns
+      - Unser Hof Landwirtschaft
+      - Direktvermarktung Hof Über uns
+      - Hof Website Kontakt
+
 
 
 app:
