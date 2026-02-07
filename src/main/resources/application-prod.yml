@@ -111,102 +111,157 @@ leadfinder:
 
     queries:
 
-      # =========================
-      # PRODUKTOWE – BEZ REGIONÓW
-      # =========================
-      - Hof Kontakt
-      - Bauernhof Kontakt
-      - Bio Hof Kontakt
-      - Landwirtschaft Betrieb Kontakt
-      - Familienbetrieb Landwirtschaft Kontakt
-      - Direktvermarktung Hof Kontakt
-      - Hofverkauf Kontakt
-      - Erzeugerbetrieb Kontakt
-      - Landwirtschaft Betrieb E-Mail
-      - Bauernhof E-Mail Kontakt
+    # =========================
+    # OGÓLNE – FARMA / BETRIEB
+    # =========================
+    - Landwirtschaftlicher Betrieb Kontakt
+    - Landwirtschaftlicher Familienbetrieb Kontakt
+    - Landwirtschaftlicher Erzeuger Kontakt
+    - Agrarbetrieb Kontakt
+    - Agrarbetrieb E-Mail
+    - Hofbetrieb Landwirtschaft Kontakt
+    - Regionaler Landwirtschaftsbetrieb Kontakt
+    - Landwirtschaft Unternehmen Kontakt
+    - Landwirtschaft Firma Kontakt
+    - Landwirtschaft Hof E-Mail
 
-      # =========================
-      # KARTOFFELN
-      # =========================
-      - Kartoffelhof Kontakt
-      - Kartoffelanbau Betrieb Kontakt
-      - Kartoffel Direktvermarktung Kontakt
-      - Bio Kartoffelhof Kontakt
-      - Kartoffel Erzeuger Kontakt
-      - Kartoffelbetrieb E-Mail
-      - Landwirtschaft Kartoffeln Kontakt
+    # =========================
+    # SPARGEL (SZPARAGI)
+    # =========================
+    - Spargelhof Kontakt
+    - Spargelanbau Betrieb Kontakt
+    - Spargel Direktvermarktung Kontakt
+    - Spargel Erzeuger Kontakt
+    - Spargelbetrieb E-Mail
+    - Bio Spargelhof Kontakt
+    - Spargelbauernhof Kontakt
+    - Spargel Verkauf Hof Kontakt
 
-      # =========================
-      # ERDBEEREN / BEEREN
-      # =========================
-      - Erdbeerhof Kontakt
-      - Erdbeeranbau Betrieb Kontakt
-      - Erdbeeren Direktvermarktung Kontakt
-      - Beerenhof Kontakt
-      - Himbeerhof Kontakt
-      - Heidelbeerhof Kontakt
-      - Bio Erdbeerhof Kontakt
-      - Erdbeerbetrieb E-Mail
+    # =========================
+    # PILZE / GRZYBY
+    # =========================
+    - Pilzfarm Kontakt
+    - Pilzanbau Betrieb Kontakt
+    - Champignonfarm Kontakt
+    - Bio Pilzfarm Kontakt
+    - Pilze Direktvermarktung Kontakt
+    - Pilzbetrieb E-Mail
+    - Speisepilze Erzeuger Kontakt
+    - Pilzzucht Betrieb Kontakt
 
-      # =========================
-      # GEMÜSE
-      # =========================
-      - Gemüsehof Kontakt
-      - Gemüseanbau Betrieb Kontakt
-      - Bio Gemüsehof Kontakt
-      - Gemüse Direktvermarktung Kontakt
-      - Gemüsebetrieb E-Mail
-      - Landwirtschaft Gemüse Kontakt
+    # =========================
+    # HOPFEN / CHMIEL
+    # =========================
+    - Hopfenhof Kontakt
+    - Hopfenanbau Betrieb Kontakt
+    - Hopfen Erzeuger Kontakt
+    - Hopfenbetrieb E-Mail
+    - Bio Hopfenhof Kontakt
+    - Hopfen Landwirtschaft Betrieb Kontakt
+    - Hopfen Direktvermarktung Kontakt
 
-      # =========================
-      # TOMATEN
-      # =========================
-      - Tomatenhof Kontakt
-      - Tomatenanbau Betrieb Kontakt
-      - Tomaten Gewächshaus Kontakt
-      - Bio Tomatenhof Kontakt
-      - Tomatenbetrieb E-Mail
-      - Tomaten Direktvermarktung Kontakt
+    # =========================
+    # WEIN / WEINBAU
+    # =========================
+    - Weingut Kontakt
+    - Weinbaubetrieb Kontakt
+    - Winzerbetrieb Kontakt
+    - Bio Weingut Kontakt
+    - Weingut Direktvermarktung Kontakt
+    - Wein Erzeuger Betrieb Kontakt
+    - Weinbaubetrieb E-Mail
+    - Familienweingut Kontakt
 
-      # =========================
-      # GURKEN
-      # =========================
-      - Gurkenhof Kontakt
-      - Gurkenanbau Betrieb Kontakt
-      - Gurken Gewächshaus Kontakt
-      - Bio Gurkenhof Kontakt
-      - Gurkenbetrieb E-Mail
+    # =========================
+    # TRUSKAWKI / ERDBEEREN
+    # =========================
+    - Erdbeer Direktverkauf Hof Kontakt
+    - Erdbeer Selbstpflücke Hof Kontakt
+    - Erdbeer Erzeuger Betrieb Kontakt
+    - Bio Erdbeeranbau Betrieb Kontakt
+    - Erdbeer Familienbetrieb Kontakt
 
-      # =========================
-      # PAPRIKA / CHILI
-      # =========================
-      - Paprikahof Kontakt
-      - Paprikaanbau Betrieb Kontakt
-      - Paprika Gewächshaus Kontakt
-      - Bio Paprikahof Kontakt
-      - Paprikabetrieb E-Mail
-      - Chilianbau Betrieb Kontakt
+    # =========================
+    # KWIATY / BLUMEN
+    # =========================
+    - Blumenhof Kontakt
+    - Blumenanbau Betrieb Kontakt
+    - Zierpflanzen Betrieb Kontakt
+    - Schnittblumen Betrieb Kontakt
+    - Bio Blumenhof Kontakt
+    - Blumen Direktvermarktung Kontakt
+    - Blumenbetrieb E-Mail
 
-      # =========================
-      # BIO / ÖKO
-      # =========================
-      - Bio Landwirtschaft Betrieb Kontakt
-      - Ökologischer Betrieb Kontakt
-      - Bio Erzeuger Kontakt
-      - Demeter Betrieb Kontakt
-      - Bioland Betrieb Kontakt
-      - Naturland Betrieb Kontakt
+    # =========================
+    # SZKLARNIE / GEWÄCHSHAUS
+    # =========================
+    - Gewächshausbetrieb Kontakt
+    - Gewächshaus Landwirtschaft Kontakt
+    - Gemüse Gewächshaus Betrieb Kontakt
+    - Tomaten Gewächshaus Betrieb Kontakt
+    - Gurken Gewächshaus Betrieb Kontakt
+    - Bio Gewächshausbetrieb Kontakt
+    - Gewächshausbetrieb E-Mail
 
-      # =========================
-      # PODSTRONY (EMAIL-KILLER)
-      # =========================
-      - Bauernhof Kontakt Impressum
-      - Bauernhof Über uns
-      - Unser Hof Landwirtschaft
-      - Direktvermarktung Hof Über uns
-      - Hof Website Kontakt
+    # =========================
+    # KARTOFFELN – ROZSZERZENIE
+    # =========================
+    - Kartoffelanbau Familienbetrieb Kontakt
+    - Kartoffel Erzeugergemeinschaft Kontakt
+    - Kartoffelhof Direktverkauf Kontakt
+    - Bio Kartoffelanbau Betrieb Kontakt
+    - Kartoffel Landwirtschaft Betrieb Kontakt
 
+    # =========================
+    # REGIONAL / STRUKTURALNE
+    # =========================
+    - Regionaler Bauernhof Kontakt
+    - Landwirtschaft Betrieb Direktverkauf Kontakt
+    - Hofladen Landwirtschaft Kontakt
+    - Landwirtschaft Hofladen E-Mail
+    - Direktvermarkter Landwirtschaft Kontakt
 
+    # =========================
+    # PODSTRONY (EMAIL-KILLER)
+    # =========================
+    - Landwirtschaft Betrieb Impressum
+    - Agrarbetrieb Impressum
+    - Weingut Impressum
+    - Spargelhof Impressum
+    - Gemüsebetrieb Impressum
+
+    # =========================
+    # EKO / JAKOŚĆ
+    # =========================
+    - Öko Landwirtschaft Betrieb Kontakt
+    - Biohof Direktvermarktung Kontakt
+    - Nachhaltiger Landwirtschaftsbetrieb Kontakt
+    - Regionaler Bio Erzeuger Kontakt
+
+    # =========================
+    # HIGH INTENT / LONG TAIL
+    # =========================
+    - Landwirtschaft Betrieb Kontakt E-Mail
+    - Hof Betrieb E-Mail Adresse
+    - Bauernhof Direktkontakt
+    - Landwirtschaft Betrieb Ansprechpartner
+    - Landwirtschaft Betrieb Mail
+    - Familienbetrieb Landwirtschaft E-Mail
+    - Regionaler Erzeuger Betrieb Kontakt
+    - Landwirtschaft Produktionsbetrieb Kontakt
+    - Landwirtschaft Lebensmittel Erzeuger Kontakt
+    - Hof Lebensmittel Direktvermarktung Kontakt
+    - Bio Lebensmittel Erzeuger Betrieb Kontakt
+    - Agrar Lebensmittel Betrieb Kontakt
+    - Landwirtschaft Pflanzenbau Betrieb Kontakt
+    - Landwirtschaft Sonderkulturen Kontakt
+    - Landwirtschaft Gemüsebau Betrieb Kontakt
+    - Landwirtschaft Obstbau Betrieb Kontakt
+    - Landwirtschaft Feldanbau Betrieb Kontakt
+    - Landwirtschaft Gartenbau Betrieb Kontakt
+    - Landwirtschaft Mischbetrieb Kontakt
+    - Landwirtschaft Produktionshof Kontakt
+    - Landwirtschaft Hofbetrieb E-Mail
 
 app:
   outreach:
