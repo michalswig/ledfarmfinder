@@ -1,0 +1,104 @@
+package com.mike.leadfarmfinder.bootstrap;
+
+import com.mike.leadfarmfinder.config.OutreachProperties;
+import com.mike.leadfarmfinder.entity.FarmLead;
+import com.mike.leadfarmfinder.repository.FarmLeadRepository;
+import com.mike.leadfarmfinder.service.OutreachService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+@Component
+@RequiredArgsConstructor
+@Slf4j
+public class FollowUpCronJob {
+
+    private final FarmLeadRepository farmLeadRepository;
+    private final OutreachService outreachService;
+    private final OutreachProperties outreachProperties;
+
+    private final AtomicBoolean running = new AtomicBoolean(false);
+
+    @Scheduled(fixedDelayString = "${leadfinder.outreach.interval-millis:1800000}")
+    public void runFollowUpBatch() {
+        if (!outreachProperties.isEnabled()) {
+            log.info("FollowUpCronJob: outreach disabled, skipping");
+            return;
+        }
+
+        if (!running.compareAndSet(false, true)) {
+            log.info("FollowUpCronJob: already running, skipping");
+            return;
+        }
+
+        try {
+            int batchSize = outreachProperties.getMaxEmailsPerRun();
+            if (batchSize <= 0) {
+                log.warn("FollowUpCronJob: maxEmailsPerRun <= 0, nothing to do");
+                return;
+            }
+
+            int minDays = outreachProperties.getFollowUpMinDaysSinceLastEmail(); // domyślnie 60
+            LocalDateTime cutoff = LocalDateTime.now().minusDays(minDays);
+
+            LocalDateTime start = LocalDateTime.now();
+            log.info("FollowUpCronJob: started batch run at {}, batchSize={}, cutoff={}", start, batchSize, cutoff);
+
+            Pageable pageable = PageRequest.of(0, batchSize);
+
+            List<FarmLead> leads = farmLeadRepository
+                    .findByActiveTrueAndBounceFalseAndFirstEmailSentAtIsNotNullAndLastEmailSentAtBeforeOrderByLastEmailSentAtAsc(
+                            cutoff, pageable
+                    );
+
+            if (leads.isEmpty()) {
+                log.info("FollowUpCronJob: no eligible leads for follow-up (cutoff={})", cutoff);
+                return;
+            }
+
+            log.info("FollowUpCronJob: processing {} leads (limit={})", leads.size(), batchSize);
+
+            int successCount = 0;
+            int errorCount = 0;
+
+            long delayMs = outreachProperties.getDelayBetweenEmailsMillis();
+
+            for (int i = 0; i < leads.size(); i++) {
+                FarmLead lead = leads.get(i);
+
+                try {
+                    outreachService.sendFollowUpEmail(lead);
+                    successCount++;
+                } catch (Exception e) {
+                    errorCount++;
+                    log.warn("FollowUpCronJob: error while sending follow-up to leadId={}, email={}: {}",
+                            lead.getId(), lead.getEmail(), e.getMessage());
+                }
+
+                boolean isLast = (i == leads.size() - 1);
+                if (delayMs > 0 && !isLast) {
+                    try {
+                        Thread.sleep(delayMs);
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        log.warn("FollowUpCronJob: interrupted during delay, stopping batch");
+                        break;
+                    }
+                }
+            }
+
+            log.info("FollowUpCronJob: finished at {}, processed={}, success={}, errors={}",
+                    LocalDateTime.now(), leads.size(), successCount, errorCount);
+
+        } finally {
+            running.set(false);
+        }
+    }
+}

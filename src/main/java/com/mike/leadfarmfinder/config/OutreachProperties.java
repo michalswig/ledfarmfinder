@@ -38,6 +38,15 @@ public class OutreachProperties {
      */
     private String firstEmailBodyTemplate;
 
+    // temat follow-up
+    private String followUpSubject;
+
+    // template follow-up
+    private String followUpEmailBodyTemplate;
+
+    // ile dni od ostatniego maila min. (domyślnie 60)
+    private int followUpMinDaysSinceLastEmail = 60;
+
     /**
      * Jeśli true – nie wysyłamy realnych maili, tylko logujemy.
      * Na produkcji ustawisz false.

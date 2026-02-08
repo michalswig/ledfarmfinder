@@ -4,6 +4,7 @@ import com.mike.leadfarmfinder.entity.FarmLead;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,4 +19,7 @@ public interface FarmLeadRepository extends JpaRepository<FarmLead, Long> {
     Optional<FarmLead> findFirstByActiveTrueAndBounceFalseAndFirstEmailSentAtIsNullOrderByCreatedAtAsc();
 
     List<FarmLead> findByActiveTrueAndBounceFalseAndFirstEmailSentAtIsNullOrderByCreatedAtAsc(Pageable pageable);
+
+    List<FarmLead> findByActiveTrueAndBounceFalseAndFirstEmailSentAtIsNotNullAndLastEmailSentAtBeforeOrderByLastEmailSentAtAsc(
+            LocalDateTime cutoff, Pageable pageable);
 }

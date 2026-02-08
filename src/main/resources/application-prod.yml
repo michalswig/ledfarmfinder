@@ -99,6 +99,34 @@ leadfinder:
       E-Mail: office@o1jobs.de
       www.o1jobs.de
 
+    follow-up-subject: ${OUTREACH_FOLLOWUP_SUBJECT:Zuverlässige polnische Arbeitskräfte – kurzfristig verfügbar}
+
+    follow-up-min-days-since-last-email: ${OUTREACH_FOLLOWUP_MIN_DAYS:60}
+
+    follow-up-email-body-template: |
+      Guten Tag,
+    
+      in der Landwirtschaft ist im Grunde das ganze Jahr Saison –
+      und damit gibt es fast immer irgendwo personelle Engpässe
+      oder kurzfristigen Bedarf auf dem Hof oder im Betrieb.
+    
+      Falls Sie in den kommenden Wochen oder Monaten Unterstützung benötigen,
+      vermitteln wir zuverlässige Arbeitskräfte aus Polen – schnell, sicher
+      und ohne komplizierte Abläufe.
+      Die Vermittlung ist bereits ab 280 Euro pro Arbeitskraft möglich.
+    
+      Wenn das Thema aktuell nicht relevant ist, betrachten Sie diese Nachricht
+      bitte einfach als kurze Information.
+    
+      Falls Sie kein Interesse haben, können Sie sich über den folgenden Link abmelden:
+      {{UNSUBSCRIBE_URL}}
+    
+      Mit freundlichen Grüßen
+      Patrycja Swigost
+      o1jobs
+      Telefon: +49 160 6328144
+      E-Mail: office@o1jobs.de
+      www.o1jobs.de
 
   scraper:
     min-hours-between-scrapes: 12
