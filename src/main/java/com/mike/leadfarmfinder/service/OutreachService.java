@@ -189,8 +189,32 @@ public class OutreachService {
             return null;
         }
 
+        // tymczasowa blokada Telekom (T-Online/T-Mobile) – 550 5.7.0 IP reputation
+        if (isBlockedProviderDomain(to)) {
+            log.info("OutreachService: skipping blocked provider domain (Telekom) for now: {}", to);
+            return null;
+        }
+
         return to;
     }
+
+    private static final String[] TELEKOM_DOMAINS = {
+            "@t-online.de",
+            "@t-mobile.de",
+            "@magenta.de",
+            "@telekom.de"
+            // opcjonalnie: "@telekom.de"
+    };
+
+    private boolean isBlockedProviderDomain(String email) {
+        if (email == null) return false;
+        String e = email.toLowerCase();
+        for (String d : TELEKOM_DOMAINS) {
+            if (e.endsWith(d)) return true;
+        }
+        return false;
+    }
+
 
     private Map<String, String> buildTemplateVars(String email, String unsubscribeUrl) {
         Map<String, String> vars = new HashMap<>();

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-//@Component
+@Component
 @RequiredArgsConstructor
 @Slf4j
 public class FollowUpCronJob {
