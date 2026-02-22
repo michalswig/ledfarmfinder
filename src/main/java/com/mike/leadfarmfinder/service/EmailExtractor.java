@@ -122,7 +122,7 @@ public class EmailExtractor {
     // Normalization helpers
     // =========================
 
-    private String normalizeObfuscatedEmailsInText(String input) {
+    public String normalizeObfuscatedEmailsInText(String input) {
         if (input == null || input.isBlank()) return input;
 
         String s = input;
