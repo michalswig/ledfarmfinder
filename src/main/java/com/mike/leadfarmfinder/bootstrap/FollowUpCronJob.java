@@ -26,6 +26,9 @@ public class FollowUpCronJob {
 
     private final AtomicBoolean running = new AtomicBoolean(false);
 
+    private static final String BLOCKED_D1 = "t-online.de";
+    private static final String BLOCKED_D2 = "telekom.de";
+
     @Scheduled(fixedDelayString = "${leadfinder.outreach.interval-millis:1800000}")
     public void runFollowUpBatch() {
         if (!outreachProperties.isEnabled()) {
@@ -53,13 +56,12 @@ public class FollowUpCronJob {
 
             Pageable pageable = PageRequest.of(0, batchSize);
 
+            // ✅ CHANGE: exclude Telekom already at DB level (prevents starvation)
             List<FarmLead> leads = farmLeadRepository
-                    .findByActiveTrueAndBounceFalseAndFirstEmailSentAtIsNotNullAndLastEmailSentAtBeforeOrderByLastEmailSentAtAsc(
-                            cutoff, pageable
-                    );
+                    .findFollowUpCandidatesExcludingDomains(cutoff, BLOCKED_D1, BLOCKED_D2, pageable);
 
             if (leads.isEmpty()) {
-                log.info("FollowUpCronJob: no eligible leads for follow-up (cutoff={})", cutoff);
+                log.info("FollowUpCronJob: no eligible leads for follow-up (after Telekom filter, cutoff={})", cutoff);
                 return;
             }
 
