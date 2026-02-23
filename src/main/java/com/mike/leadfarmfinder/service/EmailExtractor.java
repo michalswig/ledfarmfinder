@@ -5,11 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.naming.NamingException;
-import javax.naming.directory.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Hashtable;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -20,30 +17,40 @@ import java.util.regex.Pattern;
 @Slf4j
 public class EmailExtractor {
 
-    // =========================
-    // Patterns
-    // =========================
+    private final MxLookUp mxLookUp;
 
-    /** Prosty regex na "normalne" maile (po normalizacji obfuskacji). */
+    /**
+     * Prosty regex na "normalne" maile (po normalizacji obfuskacji).
+     */
     private static final Pattern EMAIL_PATTERN =
             Pattern.compile("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}");
 
-    /** Mailto: mailto:info@domain.de lub mailto:info(at)domain(dot)de?subject=... */
+    /**
+     * Mailto: mailto:info@domain.de lub mailto:info(at)domain(dot)de?subject=...
+     */
     private static final Pattern MAILTO_PATTERN =
             Pattern.compile("(?i)mailto:([^\"'\\s>]+)");
 
-    /** Cloudflare obfuscation: data-cfemail="..." */
+    /**
+     * Cloudflare obfuscation: data-cfemail="..."
+     */
     private static final Pattern CLOUDFLARE_PATTERN =
             Pattern.compile("data-cfemail=\"([0-9a-fA-F]+)\"");
 
-    /** TLD allow-list. */
+    /**
+     * TLD allow-list.
+     */
     private static final Set<String> ALLOWED_TLDS = Set.of("de", "com", "net", "eu");
 
-    /** Lokalna część e-maila (przed @) – ASCII, 2–40. */
+    /**
+     * Lokalna część e-maila (przed @) – ASCII, 2–40.
+     */
     private static final Pattern LOCAL_PART_PATTERN =
             Pattern.compile("^[a-z0-9._%+-]{2,40}$");
 
-    /** Pseudo-unicode typu u00fc w local-part. */
+    /**
+     * Pseudo-unicode typu u00fc w local-part.
+     */
     private static final Pattern SUSPICIOUS_UNICODE_ESCAPE =
             Pattern.compile("u00[0-9a-fA-F]{2}");
 
@@ -54,7 +61,9 @@ public class EmailExtractor {
     private static final Pattern LEADING_PHONE_DIGITS_BEFORE_LETTER =
             Pattern.compile("^\\d{2,}(?=[a-z])");
 
-    /** Śmieci na końcu maila w HTML: ),.;:'"> itp. */
+    /**
+     * Śmieci na końcu maila w HTML: ),.;:'"> itp.
+     */
     private static final Pattern TRAILING_JUNK =
             Pattern.compile("[\\)\\]\\}\\.,;:'\"<>]+$");
 
@@ -67,11 +76,6 @@ public class EmailExtractor {
 
     @Value("${leadfinder.email.mx-unknown-policy:ALLOW}")
     private String mxUnknownPolicy;
-
-    @Value("${leadfinder.email.mx-timeout-ms:2000}")
-    private long mxTimeoutMs;
-
-    private enum MxStatus { VALID, INVALID, UNKNOWN }
 
     // =========================
     // Public API
@@ -122,7 +126,7 @@ public class EmailExtractor {
     // Normalization helpers
     // =========================
 
-    public String normalizeObfuscatedEmailsInText(String input) {
+    String normalizeObfuscatedEmailsInText(String input) {
         if (input == null || input.isBlank()) return input;
 
         String s = input;
@@ -137,7 +141,7 @@ public class EmailExtractor {
         return s;
     }
 
-    private String normalizeEmail(String raw) {
+    String normalizeEmail(String raw) {
         if (raw == null) return null;
 
         String email = raw;
@@ -145,7 +149,8 @@ public class EmailExtractor {
         // URL decode
         try {
             email = URLDecoder.decode(email, StandardCharsets.UTF_8);
-        } catch (IllegalArgumentException ignored) {}
+        } catch (IllegalArgumentException ignored) {
+        }
 
         email = email.trim();
         if (email.isEmpty()) return null;
@@ -194,17 +199,16 @@ public class EmailExtractor {
         String domain = hostWithoutTld.toLowerCase() + "." + tld;
 
         if (mxCheckEnabled) {
-            MxStatus mx = domainMxStatus(domain);
+            MxLookUp.MxStatus mx = mxLookUp.checkDomain(domain);
 
-            if (mx == MxStatus.INVALID) return null;
+            if (mx == MxLookUp.MxStatus.INVALID) return null;
 
-            if (mx == MxStatus.UNKNOWN) {
+            if (mx == MxLookUp.MxStatus.UNKNOWN) {
                 boolean drop = "DROP".equalsIgnoreCase(mxUnknownPolicy);
                 if (drop) return null;
                 log.warn("MX check UNKNOWN for domain={}, email={}", domain, raw);
             }
         }
-
         return localPart + "@" + domain;
     }
 
@@ -249,24 +253,4 @@ public class EmailExtractor {
         return true;
     }
 
-    // =========================
-    // MX check (robust)
-    // =========================
-
-    private MxStatus domainMxStatus(String domain) {
-        try {
-            Hashtable<String, String> env = new Hashtable<>();
-            env.put("java.naming.factory.initial", "com.sun.jndi.dns.DnsContextFactory");
-            env.put("com.sun.jndi.dns.timeout.initial", String.valueOf(mxTimeoutMs));
-            env.put("com.sun.jndi.dns.timeout.retries", "1");
-
-            DirContext ctx = new InitialDirContext(env);
-            Attributes attrs = ctx.getAttributes(domain, new String[]{"MX"});
-            Attribute attr = attrs.get("MX");
-
-            return (attr != null && attr.size() > 0) ? MxStatus.VALID : MxStatus.INVALID;
-        } catch (NamingException e) {
-            return MxStatus.UNKNOWN;
-        }
-    }
 }
