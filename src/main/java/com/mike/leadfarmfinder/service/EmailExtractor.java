@@ -1,8 +1,8 @@
 package com.mike.leadfarmfinder.service;
 
+import com.mike.leadfarmfinder.config.EmailExtractorProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.net.URLDecoder;
@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 public class EmailExtractor {
 
     private final MxLookUp mxLookUp;
+    private final EmailExtractorProperties props;
 
     /**
      * Prosty regex na "normalne" maile (po normalizacji obfuskacji).
@@ -66,16 +67,6 @@ public class EmailExtractor {
      */
     private static final Pattern TRAILING_JUNK =
             Pattern.compile("[\\)\\]\\}\\.,;:'\"<>]+$");
-
-    // =========================
-    // Config (feature flags)
-    // =========================
-
-    @Value("${leadfinder.email.mx-check:true}")
-    private boolean mxCheckEnabled;
-
-    @Value("${leadfinder.email.mx-unknown-policy:ALLOW}")
-    private String mxUnknownPolicy;
 
     // =========================
     // Public API
@@ -198,13 +189,13 @@ public class EmailExtractor {
 
         String domain = hostWithoutTld.toLowerCase() + "." + tld;
 
-        if (mxCheckEnabled) {
+        if (props.mxCheck()) {
             MxLookUp.MxStatus mx = mxLookUp.checkDomain(domain);
 
             if (mx == MxLookUp.MxStatus.INVALID) return null;
 
             if (mx == MxLookUp.MxStatus.UNKNOWN) {
-                boolean drop = "DROP".equalsIgnoreCase(mxUnknownPolicy);
+                boolean drop = "DROP".equalsIgnoreCase(props.mxUnknownPolicy());
                 if (drop) return null;
                 log.warn("MX check UNKNOWN for domain={}, email={}", domain, raw);
             }

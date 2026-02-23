@@ -102,7 +102,7 @@ class EmailExtractorTest {
     }
 
     @Nested
-    @DisplayName("normalizeObfuscatedEmailsInText")
+    @DisplayName("normalizeEmail")
     class normalizeEmail {
 
     }
