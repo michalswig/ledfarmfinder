@@ -22,8 +22,6 @@ class EmailExtractorTest {
     EmailExtractorProperties props;
     @InjectMocks
     EmailExtractor emailExtractor;
-//    private final MxLookUp mxLookUpStub = domain -> MxLookUp.MxStatus.VALID;
-//    EmailExtractor emailExtractor = new EmailExtractor(mxLookUpStub);
 
     @Nested
     @DisplayName("normalizeObfuscatedEmailsInText")
@@ -140,7 +138,7 @@ class EmailExtractorTest {
         @DisplayName("trailing junk -> valid email")
         void normalize_when_trailing_junk_returns_valid_email() {
             //Arrange
-            when(props.mxCheck()).thenReturn(false);
+            when(props.mxCheckEnabled()).thenReturn(false);
 //            when(props.mxCheck()).thenReturn(true);
 //            when(mxLookUp.checkDomain("domain.com")).thenReturn(MxLookUp.MxStatus.VALID);
             String input = "<email@domain.com>";
@@ -148,7 +146,7 @@ class EmailExtractorTest {
             String result = emailExtractor.normalizeEmail(input);
             //Assert
             assertEquals("email@domain.com",  result);
-            verify(props).mxCheck();
+            verify(props).mxCheckEnabled();
             verifyNoInteractions(mxLookUp);
 //            verify(mxLookUp).checkDomain("domain.com");
         }
@@ -157,12 +155,12 @@ class EmailExtractorTest {
         @DisplayName("leading %xx is removed -> valid email")
         void normalize_when_leading_returns_valid_email() {
             //Arrange
-            when(props.mxCheck()).thenReturn(false);
+            when(props.mxCheckEnabled()).thenReturn(false);
             String result =  emailExtractor.normalizeEmail("%3Cinfo@example.de");
 
             //Act Assert
             assertEquals("info@example.de",  result);
-            verify(props).mxCheck();
+            verify(props).mxCheckEnabled();
             verifyNoInteractions(mxLookUp);
         }
 
@@ -209,10 +207,10 @@ class EmailExtractorTest {
         @Test
         @DisplayName("splits + validates -> valid email")
         void splits_when_validates_returns_valid_email() {
-            when(props.mxCheck()).thenReturn(false);
+            when(props.mxCheckEnabled()).thenReturn(false);
             String result = emailExtractor.normalizeEmail("INFO@Example.com");
             assertEquals("info@example.com", result);
-            verify(props).mxCheck();
+            verify(props).mxCheckEnabled();
             verifyNoInteractions(mxLookUp);
             verifyNoMoreInteractions(props);
         }
@@ -220,10 +218,10 @@ class EmailExtractorTest {
         @Test
         @DisplayName("splits + validates glued phone digits -> valid email")
         void splits_when_validates_phoneFix_returns_valid_email() {
-            when(props.mxCheck()).thenReturn(false);
+            when(props.mxCheckEnabled()).thenReturn(false);
             String result = emailExtractor.normalizeEmail("0176123456mona@example.de");
             assertEquals("mona@example.de", result);
-            verify(props).mxCheck();
+            verify(props).mxCheckEnabled();
             verifyNoInteractions(mxLookUp);
             verifyNoMoreInteractions(props);
         }
@@ -231,10 +229,10 @@ class EmailExtractorTest {
         @Test
         @DisplayName("host with subdomains is accepted")
         void splits_when_validates_subdomain_returns_valid_email() {
-            when(props.mxCheck()).thenReturn(false);
+            when(props.mxCheckEnabled()).thenReturn(false);
             String result = emailExtractor.normalizeEmail("john@mail.sub.example.de");
             assertEquals("john@mail.sub.example.de", result);
-            verify(props).mxCheck();
+            verify(props).mxCheckEnabled();
             verifyNoInteractions(mxLookUp);
             verifyNoMoreInteractions(props);
         }
@@ -242,13 +240,13 @@ class EmailExtractorTest {
         @Test
         @DisplayName("MX check enabled + VALID -> valid email")
         void mxCheck_enabled_valid_email() {
-            when(props.mxCheck()).thenReturn(true);
+            when(props.mxCheckEnabled()).thenReturn(true);
             when(mxLookUp.checkDomain("example.de")).thenReturn(MxLookUp.MxStatus.VALID);
 
             String result = emailExtractor.normalizeEmail("INFO@EXAMPLE.DE");
 
             assertEquals("info@example.de", result);
-            verify(props).mxCheck();
+            verify(props).mxCheckEnabled();
             verify(mxLookUp).checkDomain("example.de");
             verifyNoMoreInteractions(props, mxLookUp);
         }
@@ -269,12 +267,12 @@ class EmailExtractorTest {
         @Test
         @DisplayName("tld case-insensitive: DE -> de")
         void tld_caseInsensitive_match() {
-            when(props.mxCheck()).thenReturn(false);
+            when(props.mxCheckEnabled()).thenReturn(false);
 
             String result = emailExtractor.normalizeEmail("info@example.DE");
 
             assertEquals("info@example.de", result);
-            verify(props).mxCheck();
+            verify(props).mxCheckEnabled();
             verifyNoMoreInteractions(props);
             verifyNoInteractions(mxLookUp);
         }
@@ -381,12 +379,12 @@ class EmailExtractorTest {
         @Test
         @DisplayName("host with subdomain and dash -> valid")
         void host_valid_subdomainAndDash() {
-            when(props.mxCheck()).thenReturn(false);
+            when(props.mxCheckEnabled()).thenReturn(false);
 
             String result = emailExtractor.normalizeEmail("info@mail-1.sub.example.de");
 
             assertEquals("info@mail-1.sub.example.de", result);
-            verify(props).mxCheck();
+            verify(props).mxCheckEnabled();
             verifyNoMoreInteractions(props);
             verifyNoInteractions(mxLookUp);
         }
