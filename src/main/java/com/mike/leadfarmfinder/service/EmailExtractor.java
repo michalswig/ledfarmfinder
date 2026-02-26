@@ -156,11 +156,13 @@ public class EmailExtractor {
         if (raw == null) return null;
 
         String email = raw;
-
-        // URL decode (ignore invalid percent-encoding)
-        try {
-            email = URLDecoder.decode(email, StandardCharsets.UTF_8);
-        } catch (IllegalArgumentException ignored) {
+        if (raw.contains("%")) {
+            try {
+                email = URLDecoder.decode(raw, StandardCharsets.UTF_8);
+            } catch (IllegalArgumentException ex) {
+                log.debug("URL decode failed for email candidate: '{}'", raw, ex);
+                email = raw;
+            }
         }
 
         email = email.trim();
