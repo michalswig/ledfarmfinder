@@ -4,6 +4,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "leadfinder.email")
 public record EmailExtractorProperties(
-        boolean mxCheck,
+        boolean mxCheckEnabled,
         String mxUnknownPolicy
 ) {}

@@ -212,7 +212,7 @@ public class EmailExtractor {
         String domain = hostWithoutTld.toLowerCase() + "." + tld;
 
         // Optional MX check
-        if (props.mxCheck()) {
+        if (props.mxCheckEnabled()) {
             MxLookUp.MxStatus mx = mxLookUp.checkDomain(domain);
 
             if (mx == MxLookUp.MxStatus.INVALID) return null;
