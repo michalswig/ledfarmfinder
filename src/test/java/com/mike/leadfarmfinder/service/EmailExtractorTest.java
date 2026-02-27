@@ -6,6 +6,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
@@ -21,8 +23,9 @@ class EmailExtractorTest {
         mxLookUp = mock(MxLookUp.class);
         props = new EmailExtractorProperties(
                 false,
-                "WARN",    // mxUnknownPolicy
-                2000       // mxTimeoutMs
+                "WARN",
+                2000,
+                Set.of("de", "com")
         );
         emailExtractor = new EmailExtractor(mxLookUp, props);
     }
@@ -30,80 +33,95 @@ class EmailExtractorTest {
     @Nested
     @DisplayName("normalizeObfuscatedEmailsInText")
     class NormalizeObfuscatedEmailsInText {
+
         @Test
         @DisplayName("null -> null")
-        void normalize_when_null_returns_null() {
-            //Arrange
+        void shouldReturnNull_whenInputIsNull() {
+            // Arrange
             String input = null;
-            //Act
+
+            // Act
             String result = emailExtractor.normalizeObfuscatedEmailsInText(input);
-            //Assert
+
+            // Assert
             assertNull(result);
         }
 
         @Test
         @DisplayName("blank -> unchanged")
-        void normalize_when_blank_returns_unchanged() {
-            //Arrange
+        void shouldReturnInputUnchanged_whenInputIsBlank() {
+            // Arrange
             String input = " ";
-            //Act
+
+            // Act
             String result = emailExtractor.normalizeObfuscatedEmailsInText(input);
-            //Assert
+
+            // Assert
             assertEquals(" ", result);
         }
 
         @Test
         @DisplayName("(at) and (dot) -> @ and .")
-        void normalize_parentheses_at_dot() {
-            //Arrange
+        void shouldReplaceParenthesizedAtAndDot_whenObfuscatedEmailUsesParentheses() {
+            // Arrange
             String input = "kontakt: info(at)example(dot)de";
-            //Act
+
+            // Act
             String result = emailExtractor.normalizeObfuscatedEmailsInText(input);
-            //Assert
+
+            // Assert
             assertEquals("kontakt: info@example.de", result);
         }
 
         @Test
         @DisplayName("( at ) and ( dot ) with spaces -> @ and .")
-        void normalize_parentheses_at_dot_with_spaces() {
-            //Arrange
+        void shouldReplaceParenthesizedAtAndDot_whenParenthesesContainSpaces() {
+            // Arrange
             String input = "kontakt: info ( at ) example ( dot ) de";
-            //Act
+
+            // Act
             String result = emailExtractor.normalizeObfuscatedEmailsInText(input);
-            //Assert
+
+            // Assert
             assertEquals("kontakt: info@example.de", result);
         }
 
         @Test
         @DisplayName("at and dot -> @ and .")
-        void normalize_parentheses_at_dot_words() {
-            //Arrange
+        void shouldReplaceAtAndDotWords_whenObfuscationUsesWords() {
+            // Arrange
             String input = "kontakt: info at example dot de";
-            //Act
+
+            // Act
             String result = emailExtractor.normalizeObfuscatedEmailsInText(input);
-            //Assert
+
+            // Assert
             assertEquals("kontakt: info@example.de", result);
         }
 
         @Test
-        @DisplayName("case sensitive")
-        void normalize_case_sensitive() {
-            //Arrange
+        @DisplayName("case insensitive")
+        void shouldReplaceAtAndDotWords_caseInsensitive() {
+            // Arrange
             String input = "KONTAKT: INFO AT EXAMPLE DOT DE";
-            //Act
+
+            // Act
             String result = emailExtractor.normalizeObfuscatedEmailsInText(input);
-            //Assert
+
+            // Assert
             assertEquals("KONTAKT: INFO@EXAMPLE.DE", result);
         }
 
         @Test
         @DisplayName("should not change normal email")
-        void normalize_should_not_change_normal_email() {
-            //Arrange
+        void shouldNotModifyText_whenEmailIsAlreadyNormal() {
+            // Arrange
             String input = "kontakt: info@example.de";
-            //Act
+
+            // Act
             String result = emailExtractor.normalizeObfuscatedEmailsInText(input);
-            //Assert
+
+            // Assert
             assertEquals("kontakt: info@example.de", result);
         }
     }
@@ -114,103 +132,112 @@ class EmailExtractorTest {
 
         @Test
         @DisplayName("null -> null")
-        void normalize_when_null_returns_null() {
-            //Arrange
+        void shouldReturnNull_whenEmailIsNull() {
+            // Arrange
             String input = null;
-            //Act
+
+            // Act
             String result = emailExtractor.normalizeEmail(input);
-            //Assert
+
+            // Assert
             assertNull(result);
         }
 
         @Test
         @DisplayName("blank after trim -> null")
-        void normalize_when_empty_returns_null() {
-            //Arrange
+        void shouldReturnNull_whenEmailIsBlankAfterTrim() {
+            // Arrange
             String input = " ";
-            //Act
+
+            // Act
             String result = emailExtractor.normalizeEmail(input);
-            //Assert
+
+            // Assert
             assertNull(result);
         }
 
         @Test
         @DisplayName("trailing junk -> valid email")
-        void normalize_when_trailing_junk_returns_valid_email() {
-            //Arrange
+        void shouldStripWrappingCharacters_whenEmailIsSurroundedByAngleBrackets() {
+            // Arrange
             String input = "<email@domain.com>";
-            //Act
+
+            // Act
             String result = emailExtractor.normalizeEmail(input);
-            //Assert
+
+            // Assert
             assertEquals("email@domain.com", result);
         }
 
         @Test
         @DisplayName("leading %xx is removed -> valid email")
-        void normalize_when_leading_returns_valid_email() {
-            //Arrange
-            String result = emailExtractor.normalizeEmail("%3Cinfo@example.de");
-            //Act Assert
+        void shouldUrlDecodeAndStripLeadingGarbage_whenEmailStartsWithPercentEncoding() {
+            // Arrange
+            String input = "%3Cinfo@example.de";
+
+            // Act
+            String result = emailExtractor.normalizeEmail(input);
+
+            // Assert
             assertEquals("info@example.de", result);
         }
 
         @Test
         @DisplayName("first char must be alfanum: starts with '*' -> null")
-        void normalize_when_first_char_not_alfanum_returns_null() {
+        void shouldReturnNull_whenEmailStartsWithNonAlphanumeric() {
             assertNull(emailExtractor.normalizeEmail("*info@example.com"));
         }
 
         @Test
         @DisplayName("atIndex <= 0: '@' at beginning -> null")
-        void atAtBeginning_returnsNull() {
+        void shouldReturnNull_whenAtSignIsFirstCharacter() {
             assertNull(emailExtractor.normalizeEmail("@example.de"));
         }
 
         @Test
         @DisplayName("missing dot after '@': info@example -> null")
-        void missingDotAfterAt_returnsNull() {
+        void shouldReturnNull_whenDomainHasNoDotAfterAt() {
             assertNull(emailExtractor.normalizeEmail("info@example"));
         }
 
         @Test
         @DisplayName("dot before '@': info.example@de -> null")
-        void dotBeforeAt_returnsNull() {
+        void shouldReturnNull_whenDotAppearsBeforeAtSign() {
             assertNull(emailExtractor.normalizeEmail("info.example@de"));
         }
 
         @Test
         @DisplayName("second '@' -> null")
-        void doubleAt_returnsNull() {
+        void shouldReturnNull_whenEmailContainsMultipleAtSigns() {
             assertNull(emailExtractor.normalizeEmail("examp@le@dot.com"));
         }
 
         @Test
         @DisplayName("splits + validates -> valid email")
-        void splits_when_validates_returns_valid_email() {
+        void shouldLowercaseAndValidate_whenEmailIsValid() {
             String result = emailExtractor.normalizeEmail("INFO@Example.com");
             assertEquals("info@example.com", result);
-
         }
 
         @Test
         @DisplayName("splits + validates glued phone digits -> valid email")
-        void splits_when_validates_phoneFix_returns_valid_email() {
+        void shouldExtractEmail_whenPhoneDigitsAreGluedBeforeLocalPart() {
             String result = emailExtractor.normalizeEmail("0176123456mona@example.de");
             assertEquals("mona@example.de", result);
         }
 
         @Test
         @DisplayName("host with subdomains is accepted")
-        void splits_when_validates_subdomain_returns_valid_email() {
+        void shouldAcceptSubdomains_whenDomainContainsMultipleLabels() {
             String result = emailExtractor.normalizeEmail("john@mail.sub.example.de");
             assertEquals("john@mail.sub.example.de", result);
         }
 
         @Test
         @DisplayName("MX check enabled + VALID -> valid email")
-        void mxCheck_enabled_valid_email() {
+        void shouldReturnEmail_whenMxCheckEnabledAndDomainMxIsValid() {
             // Arrange
-            EmailExtractorProperties mxOn = new EmailExtractorProperties(true, "WARN", 2000);
+            EmailExtractorProperties mxOn = new EmailExtractorProperties(true, "WARN", 2000, Set.of("de"));
             EmailExtractor sut = new EmailExtractor(mxLookUp, mxOn);
             when(mxLookUp.checkDomain("example.de")).thenReturn(MxLookUp.MxStatus.VALID);
 
@@ -225,104 +252,103 @@ class EmailExtractorTest {
 
     @Nested
     @DisplayName("extractKnownTld")
-    class extractKnownTld {
+    class ExtractKnownTld {
 
         @Test
         @DisplayName("empty tldPart (email ends with '.') -> null")
-        void tldPart_empty_returnsNull() {
+        void shouldReturnNull_whenTldPartIsEmpty() {
             assertNull(emailExtractor.normalizeEmail("info@example."));
         }
 
         @Test
         @DisplayName("tld case-insensitive: DE -> de")
-        void tld_caseInsensitive_match() {
+        void shouldNormalizeTldToLowercase_whenTldIsUppercase() {
             String result = emailExtractor.normalizeEmail("info@example.DE");
             assertEquals("info@example.de", result);
         }
 
         @Test
         @DisplayName("unknown TLD -> null")
-        void unknownTld_returnsNull() {
+        void shouldReturnNull_whenTldIsUnknown() {
             assertNull(emailExtractor.normalizeEmail("info@example.xyz"));
         }
     }
 
     @Nested
     @DisplayName("isLocalPartAllowed")
-    class isLocalPartAllowed {
+    class IsLocalPartAllowed {
 
         @Test
         @DisplayName("local-part too short (1) -> null")
-        void localPart_tooShort_returnsNull() {
+        void shouldReturnNull_whenLocalPartTooShort() {
             assertNull(emailExtractor.normalizeEmail("a@example.de"));
         }
 
         @Test
         @DisplayName("local-part too long (>40) -> null")
-        void localPart_tooLong_returnsNull() {
+        void shouldReturnNull_whenLocalPartTooLong() {
             String longLocal = "a".repeat(41);
             assertNull(emailExtractor.normalizeEmail(longLocal + "@example.de"));
         }
 
         @Test
         @DisplayName("local-part illegal char '!' -> null")
-        void localPart_illegalChar_returnsNull() {
+        void shouldReturnNull_whenLocalPartContainsIllegalCharacter() {
             assertNull(emailExtractor.normalizeEmail("ab!cd@example.de"));
         }
 
         @Test
         @DisplayName("local-part unicode u00fc -> null")
-        void localPart_suspiciousUnicodeEscape_returnsNull() {
+        void shouldReturnNull_whenLocalPartLooksLikeUnicodeEscapeSequence() {
             assertNull(emailExtractor.normalizeEmail("u00fcmail@example.de"));
         }
     }
 
     @Nested
     @DisplayName("isHostWithoutTldAllowed")
-    class isHostWithoutTldAllowed {
+    class IsHostWithoutTldAllowed {
 
         @Test
         @DisplayName("host extra space -> null")
-        void host_containsSpace_returnsNull() {
+        void shouldReturnNull_whenHostContainsSpace() {
             assertNull(emailExtractor.normalizeEmail("info@ex ample.de"));
         }
 
         @Test
         @DisplayName("host contains '_' -> null")
-        void host_containsUnderscore_returnsNull() {
+        void shouldReturnNull_whenHostContainsUnderscore() {
             assertNull(emailExtractor.normalizeEmail("info@ex_ample.de"));
         }
 
         @Test
         @DisplayName("host starts with '.' -> null")
-        void host_startsWithDot_returnsNull() {
+        void shouldReturnNull_whenHostStartsWithDot() {
             assertNull(emailExtractor.normalizeEmail("info@.example.de"));
         }
 
         @Test
         @DisplayName("host starts with '-' -> null")
-        void host_startsWithDash_returnsNull() {
+        void shouldReturnNull_whenHostStartsWithDash() {
             assertNull(emailExtractor.normalizeEmail("info@-example.de"));
         }
 
         @Test
         @DisplayName("host ends with '-' -> null")
-        void host_endsWithDash_returnsNull() {
+        void shouldReturnNull_whenHostEndsWithDashBeforeTld() {
             assertNull(emailExtractor.normalizeEmail("info@example-.de"));
         }
 
         @Test
         @DisplayName("host contains '..' -> null")
-        void host_doubleDot_returnsNull() {
+        void shouldReturnNull_whenHostContainsDoubleDot() {
             assertNull(emailExtractor.normalizeEmail("info@ex..ample.de"));
         }
 
         @Test
         @DisplayName("host with subdomain and dash -> valid")
-        void host_valid_subdomainAndDash() {
+        void shouldAcceptHost_whenContainsSubdomainAndDash() {
             String result = emailExtractor.normalizeEmail("info@mail-1.sub.example.de");
             assertEquals("info@mail-1.sub.example.de", result);
         }
     }
-
 }

@@ -45,12 +45,6 @@ public class EmailExtractor {
             Pattern.compile("data-cfemail=\"([0-9a-fA-F]+)\"");
 
     /**
-     * Allowed top-level domains (TLD allow-list).
-     * Keeps only emails ending with one of these TLDs.
-     */
-    private static final Set<String> ALLOWED_TLDS = Set.of("de", "com", "net", "eu");
-
-    /**
      * Email local-part (before '@') validation:
      * - ASCII only
      * - length 2–40
@@ -231,7 +225,7 @@ public class EmailExtractor {
         if (tldPart == null || tldPart.isEmpty()) return null;
 
         String lower = tldPart.toLowerCase();
-        for (String allowed : ALLOWED_TLDS) {
+        for (String allowed : props.knownTlds()) {
             if (lower.equals(allowed) || lower.startsWith(allowed)) {
                 return allowed;
             }
