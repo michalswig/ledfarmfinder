@@ -63,7 +63,7 @@ leadfinder:
     enabled: ${OUTREACH_ENABLED:true}
     from-address: ${OUTREACH_FROM:Patrycja Swigost <office@o1jobs.de>}
     default-subject: ${OUTREACH_SUBJECT:Zuverlässige polnische Arbeitskräfte – kurzfristig verfügbar}
-    max-emails-per-run: ${OUTREACH_MAX_PER_RUN:3}
+    max-emails-per-run: ${OUTREACH_MAX_PER_RUN:10}
     simulate-only: ${OUTREACH_SIMULATE_ONLY:false}
     interval-millis: ${OUTREACH_INTERVAL_MS:3600000}
     delay-between-emails-millis: ${OUTREACH_DELAY_MS:15000}
