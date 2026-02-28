@@ -65,7 +65,7 @@ leadfinder:
     default-subject: ${OUTREACH_SUBJECT:Zuverlässige polnische Arbeitskräfte – kurzfristig verfügbar}
     max-emails-per-run: ${OUTREACH_MAX_PER_RUN:10}
     simulate-only: ${OUTREACH_SIMULATE_ONLY:false}
-    interval-millis: ${OUTREACH_INTERVAL_MS:3600000}
+    interval-millis: ${OUTREACH_INTERVAL_MS:900000}
     delay-between-emails-millis: ${OUTREACH_DELAY_MS:15000}
     first-email-body-template: |
       Guten Tag
