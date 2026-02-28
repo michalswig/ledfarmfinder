@@ -20,6 +20,7 @@ public class EmailExtractor {
     private final MxLookUp mxLookUp;
     private final EmailExtractorProperties props;
 
+
     /**
      * Simple regex for "normal" emails (after de-obfuscation / normalization).
      */
@@ -212,9 +213,11 @@ public class EmailExtractor {
             if (mx == MxLookUp.MxStatus.INVALID) return null;
 
             if (mx == MxLookUp.MxStatus.UNKNOWN) {
-                boolean drop = "DROP".equalsIgnoreCase(props.mxUnknownPolicy());
-                if (drop) return null;
-                log.warn("MX check UNKNOWN for domain={}, email={}", domain, raw);
+                switch (props.mxUnknownPolicy()){
+                    case DROP -> {return null;}
+                    case WARN -> log.warn("MX check UNKNOWN for domain '{}', email {}", domain, raw);
+                    case ALLOW -> { /* nothing */}
+                }
             }
         }
 
