@@ -57,6 +57,7 @@ leadfinder:
     mx-check: ${EMAIL_MX_CHECK:true}
     mx-timeout-ms: ${EMAIL_MX_TIMEOUT_MS:2000}
     mx-unknown-policy: ${EMAIL_MX_UNKNOWN_POLICY:ALLOW}
+    known-tlds: [de,com,net,eu]
 
   outreach:
     enabled: ${OUTREACH_ENABLED:true}
