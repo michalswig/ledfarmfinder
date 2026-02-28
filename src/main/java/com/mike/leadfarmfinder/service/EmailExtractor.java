@@ -1,6 +1,7 @@
 package com.mike.leadfarmfinder.service;
 
 import com.mike.leadfarmfinder.config.EmailExtractorProperties;
+import com.mike.leadfarmfinder.service.emailextractor.TextObfuscationNormalizer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ public class EmailExtractor {
 
     private final MxLookUp mxLookUp;
     private final EmailExtractorProperties props;
+    private final TextObfuscationNormalizer  obfuscationNormalizer;
 
 
     /**
@@ -92,7 +94,7 @@ public class EmailExtractor {
         if (html == null || html.isBlank()) return results;
 
         // 0) Normalize common obfuscations like (at)/(dot) across the whole HTML
-        String normalizedHtml = normalizeObfuscatedEmailsInText(html);
+        String normalizedHtml = obfuscationNormalizer.normalize(html);
 
         // 1) Cloudflare data-cfemail
         Matcher cf = CLOUDFLARE_PATTERN.matcher(normalizedHtml);
@@ -112,7 +114,7 @@ public class EmailExtractor {
             int q = raw.indexOf('?');
             if (q >= 0) raw = raw.substring(0, q);
 
-            raw = normalizeObfuscatedEmailsInText(raw);
+            raw = obfuscationNormalizer.normalize(raw);
 
             String normalized = normalizeEmail(raw);
             if (normalized != null) results.add(normalized);
@@ -126,25 +128,6 @@ public class EmailExtractor {
         }
 
         return results;
-    }
-
-    // =========================
-    // Normalization helpers
-    // =========================
-
-    String normalizeObfuscatedEmailsInText(String input) {
-        if (input == null || input.isBlank()) return input;
-
-        String s = input;
-
-        s = s.replaceAll("(?i)\\s*[\\(\\[\\{<]\\s*at\\s*[\\)\\]\\}>]\\s*", "@");
-        s = s.replaceAll("(?i)\\s*[\\(\\[\\{<]\\s*dot\\s*[\\)\\]\\}>]\\s*", ".");
-
-        // Variants like " at " / " dot "
-        s = s.replaceAll("(?i)\\s+at\\s+", "@");
-        s = s.replaceAll("(?i)\\s+dot\\s+", ".");
-
-        return s;
     }
 
     String normalizeEmail(String raw) {
