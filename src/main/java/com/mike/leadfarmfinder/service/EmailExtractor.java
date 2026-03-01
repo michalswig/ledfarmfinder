@@ -1,14 +1,13 @@
 package com.mike.leadfarmfinder.service;
 
 import com.mike.leadfarmfinder.config.EmailExtractorProperties;
+import com.mike.leadfarmfinder.service.emailextractor.EmailNormalizer;
 import com.mike.leadfarmfinder.service.emailextractor.EmailSourceExtractor;
 import com.mike.leadfarmfinder.service.emailextractor.TextObfuscationNormalizer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +24,7 @@ public class EmailExtractor {
     private final EmailExtractorProperties props;
     private final TextObfuscationNormalizer obfuscationNormalizer;
     private final List<EmailSourceExtractor> sources;
+    private final EmailNormalizer emailNormalizer;
 
     /**
      * Email local-part (before '@') validation:
@@ -45,25 +45,6 @@ public class EmailExtractor {
     private static final Pattern SUSPICIOUS_UNICODE_ESCAPE =
             Pattern.compile("u00[0-9a-fA-F]{2}");
 
-    /**
-     * FIX: phone number glued to an email, e.g.:
-     * - "... 68diegaertnerei@..."
-     * - "0176...567mona@..."
-     * <p>
-     * Removes leading 2+ digits if they are immediately followed by a letter.
-     */
-    private static final Pattern LEADING_PHONE_DIGITS_BEFORE_LETTER =
-            Pattern.compile("^\\d{2,}(?=[a-z])");
-
-    /**
-     * Trailing junk characters commonly found in HTML/text scraping, e.g.:
-     * ), . , ; : ' " < >
-     * <p>
-     * Strips these from the end of a candidate email string.
-     */
-    private static final Pattern TRAILING_JUNK =
-            Pattern.compile("[\\)\\]\\}\\.,;:'\"<>]+$");
-
     public Set<String> extractEmails(String html) {
 
         if (html == null || html.isBlank()) return new LinkedHashSet<>();
@@ -78,35 +59,9 @@ public class EmailExtractor {
     }
 
     String normalizeEmail(String raw) {
-        if (raw == null) return null;
 
-        String email = raw;
-        if (raw.contains("%")) {
-            try {
-                email = URLDecoder.decode(raw, StandardCharsets.UTF_8);
-            } catch (IllegalArgumentException ex) {
-                log.debug("URL decode failed for email candidate: '{}'", raw, ex);
-                email = raw;
-            }
-        }
-
-        email = email.trim();
-        if (email.isEmpty()) return null;
-
-        // Strip common HTML/text junk from start/end
-        email = email.replaceAll("^[\"'<>()\\[\\];:,]+", "").trim();
-        email = TRAILING_JUNK.matcher(email).replaceAll("").trim();
-        if (email.isEmpty()) return null;
-
-        // Strip leading %xx sequences (leftovers from broken URL encoding)
-        while (email.matches("^%[0-9A-Fa-f]{2}.*")) {
-            email = email.substring(3).trim();
-        }
-        if (email.isEmpty()) return null;
-
-        // Must start with an alphanumeric character
-        char first = email.charAt(0);
-        if (!Character.isLetterOrDigit(first)) return null;
+        String email = emailNormalizer.normalizeRawCandidate(raw);
+        if (email == null) return null;
 
         int atIndex = email.indexOf('@');
         int lastDot = email.lastIndexOf('.');
@@ -116,13 +71,11 @@ public class EmailExtractor {
         if (email.indexOf('@', atIndex + 1) != -1) return null;
 
         // --- split ---
-        String localPart = email.substring(0, atIndex).trim().toLowerCase();
+        String localPart = emailNormalizer.normalizeLocalPart(email.substring(0, atIndex));
+        if (localPart == null) return null;
+
         String hostWithoutTld = email.substring(atIndex + 1, lastDot).trim();
         String tldPart = email.substring(lastDot + 1).trim();
-
-        // FIX: phone number glued to email
-        localPart = LEADING_PHONE_DIGITS_BEFORE_LETTER.matcher(localPart).replaceFirst("");
-        if (localPart.isBlank()) return null;
 
         // Validate local-part
         if (!isLocalPartAllowed(localPart)) return null;
