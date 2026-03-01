@@ -1,10 +1,6 @@
 package com.mike.leadfarmfinder.service;
 
-import com.mike.leadfarmfinder.config.EmailExtractorProperties;
-import com.mike.leadfarmfinder.service.emailextractor.EmailNormalizer;
-import com.mike.leadfarmfinder.service.emailextractor.EmailSourceExtractor;
-import com.mike.leadfarmfinder.service.emailextractor.EmailValidator;
-import com.mike.leadfarmfinder.service.emailextractor.TextObfuscationNormalizer;
+import com.mike.leadfarmfinder.service.emailextractor.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -20,12 +16,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public class EmailExtractor {
 
-    private final MxLookUp mxLookUp;
-    private final EmailExtractorProperties props;
     private final TextObfuscationNormalizer obfuscationNormalizer;
     private final List<EmailSourceExtractor> sources;
     private final EmailNormalizer emailNormalizer;
     private final EmailValidator emailValidator;
+    private final DomainMxVerifier domainMxVerifier;
 
     public Set<String> extractEmails(String html) {
 
@@ -66,21 +61,8 @@ public class EmailExtractor {
 
         String domain = hostWithoutTld.toLowerCase() + "." + tld;
 
-        if (props.mxCheckEnabled()) {
-            MxLookUp.MxStatus mx = mxLookUp.checkDomain(domain);
+        if (!domainMxVerifier.isDomainAllowed(domain, raw)) return null;
 
-            if (mx == MxLookUp.MxStatus.INVALID) return null;
-
-            if (mx == MxLookUp.MxStatus.UNKNOWN) {
-                switch (props.mxUnknownPolicy()) {
-                    case DROP -> {
-                        return null;
-                    }
-                    case WARN -> log.warn("MX check UNKNOWN for domain '{}', email {}", domain, raw);
-                    case ALLOW -> { /* nothing */}
-                }
-            }
-        }
         return localPart + "@" + domain;
     }
 
