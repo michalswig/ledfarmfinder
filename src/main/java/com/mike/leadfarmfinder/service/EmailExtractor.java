@@ -37,20 +37,20 @@ public class EmailExtractor {
 
     String toValidEmailOrNull(String raw) {
 
-        String email = emailNormalizer.normalizeRawCandidate(raw);
-        if (email == null) return null;
+        String emailCandidate = emailNormalizer.normalizeRawCandidate(raw);
+        if (emailCandidate == null) return null;
 
-        int atIndex = email.indexOf('@');
-        int lastDot = email.lastIndexOf('.');
+        int atIndex = emailCandidate.indexOf('@');
+        int lastDot = emailCandidate.lastIndexOf('.');
         if (atIndex <= 0 || lastDot <= atIndex) return null;
 
-        if (email.indexOf('@', atIndex + 1) != -1) return null;
+        if (emailCandidate.indexOf('@', atIndex + 1) != -1) return null;
 
-        String localPart = emailNormalizer.normalizeLocalPart(email.substring(0, atIndex));
+        String localPart = emailNormalizer.normalizeLocalPart(emailCandidate.substring(0, atIndex));
         if (localPart == null) return null;
 
-        String hostWithoutTld = email.substring(atIndex + 1, lastDot).trim();
-        String tldPart = email.substring(lastDot + 1).trim();
+        String hostWithoutTld = emailCandidate.substring(atIndex + 1, lastDot).trim();
+        String tldPart = emailCandidate.substring(lastDot + 1).trim();
 
         if (!emailValidator.isLocalPartAllowed(localPart)) return null;
 
