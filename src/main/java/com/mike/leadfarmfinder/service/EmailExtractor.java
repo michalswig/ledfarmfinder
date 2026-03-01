@@ -1,6 +1,7 @@
 package com.mike.leadfarmfinder.service;
 
 import com.mike.leadfarmfinder.config.EmailExtractorProperties;
+import com.mike.leadfarmfinder.service.emailextractor.EmailSourceExtractor;
 import com.mike.leadfarmfinder.service.emailextractor.TextObfuscationNormalizer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,9 +10,11 @@ import org.springframework.stereotype.Component;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -20,39 +23,15 @@ public class EmailExtractor {
 
     private final MxLookUp mxLookUp;
     private final EmailExtractorProperties props;
-    private final TextObfuscationNormalizer  obfuscationNormalizer;
-
-
-    /**
-     * Simple regex for "normal" emails (after de-obfuscation / normalization).
-     */
-    private static final Pattern EMAIL_PATTERN =
-            Pattern.compile("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}");
-
-    /**
-     * Matches mailto links, e.g.:
-     * - mailto:info@domain.de
-     * - mailto:info(at)domain(dot)de?subject=...
-     *
-     * Captures everything after "mailto:" up to a quote/whitespace/> character.
-     * The (?i) flag makes it case-insensitive (MAILTO, Mailto, etc.).
-     */
-    private static final Pattern MAILTO_PATTERN =
-            Pattern.compile("(?i)mailto:([^\"'\\s>]+)");
-
-    /**
-     * Cloudflare email obfuscation attribute: data-cfemail="..."
-     * The group captures the hex payload which can be decoded to a real email address.
-     */
-    private static final Pattern CLOUDFLARE_PATTERN =
-            Pattern.compile("data-cfemail=\"([0-9a-fA-F]+)\"");
+    private final TextObfuscationNormalizer obfuscationNormalizer;
+    private final List<EmailSourceExtractor> sources;
 
     /**
      * Email local-part (before '@') validation:
      * - ASCII only
      * - length 2–40
      * - allowed chars: a-z, 0-9, dot, underscore, percent, plus, minus
-     *
+     * <p>
      * NOTE: This is intentionally strict (not fully RFC 5322-compliant),
      * optimized for lead extraction quality.
      */
@@ -70,7 +49,7 @@ public class EmailExtractor {
      * FIX: phone number glued to an email, e.g.:
      * - "... 68diegaertnerei@..."
      * - "0176...567mona@..."
-     *
+     * <p>
      * Removes leading 2+ digits if they are immediately followed by a letter.
      */
     private static final Pattern LEADING_PHONE_DIGITS_BEFORE_LETTER =
@@ -79,55 +58,23 @@ public class EmailExtractor {
     /**
      * Trailing junk characters commonly found in HTML/text scraping, e.g.:
      * ), . , ; : ' " < >
-     *
+     * <p>
      * Strips these from the end of a candidate email string.
      */
     private static final Pattern TRAILING_JUNK =
             Pattern.compile("[\\)\\]\\}\\.,;:'\"<>]+$");
 
-    // =========================
-    // Public API
-    // =========================
-
     public Set<String> extractEmails(String html) {
-        Set<String> results = new LinkedHashSet<>();
-        if (html == null || html.isBlank()) return results;
 
-        // 0) Normalize common obfuscations like (at)/(dot) across the whole HTML
+        if (html == null || html.isBlank()) return new LinkedHashSet<>();
+
         String normalizedHtml = obfuscationNormalizer.normalize(html);
 
-        // 1) Cloudflare data-cfemail
-        Matcher cf = CLOUDFLARE_PATTERN.matcher(normalizedHtml);
-        while (cf.find()) {
-            String decoded = CloudflareEmailDecoder.decode(cf.group(1));
-            if (decoded == null) continue;
-
-            String normalized = normalizeEmail(decoded);
-            if (normalized != null) results.add(normalized);
-        }
-
-        // 2) Mailto links
-        Matcher mailto = MAILTO_PATTERN.matcher(normalizedHtml);
-        while (mailto.find()) {
-            String raw = mailto.group(1);
-
-            int q = raw.indexOf('?');
-            if (q >= 0) raw = raw.substring(0, q);
-
-            raw = obfuscationNormalizer.normalize(raw);
-
-            String normalized = normalizeEmail(raw);
-            if (normalized != null) results.add(normalized);
-        }
-
-        // 3) Plain emails found inside text/HTML
-        Matcher matcher = EMAIL_PATTERN.matcher(normalizedHtml);
-        while (matcher.find()) {
-            String normalized = normalizeEmail(matcher.group());
-            if (normalized != null) results.add(normalized);
-        }
-
-        return results;
+        return sources.stream()
+                .flatMap(s -> s.extractCandidates(normalizedHtml))
+                .map(this::normalizeEmail)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     String normalizeEmail(String raw) {
@@ -196,8 +143,10 @@ public class EmailExtractor {
             if (mx == MxLookUp.MxStatus.INVALID) return null;
 
             if (mx == MxLookUp.MxStatus.UNKNOWN) {
-                switch (props.mxUnknownPolicy()){
-                    case DROP -> {return null;}
+                switch (props.mxUnknownPolicy()) {
+                    case DROP -> {
+                        return null;
+                    }
                     case WARN -> log.warn("MX check UNKNOWN for domain '{}', email {}", domain, raw);
                     case ALLOW -> { /* nothing */}
                 }
