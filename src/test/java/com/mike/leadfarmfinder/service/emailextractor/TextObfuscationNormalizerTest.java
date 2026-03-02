@@ -1,6 +1,5 @@
 package com.mike.leadfarmfinder.service.emailextractor;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -11,13 +10,6 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TextObfuscationNormalizerTest {
-
-    private TextObfuscationNormalizer textObfuscationNormalizer;
-
-    @BeforeEach
-    void setUp() {
-        textObfuscationNormalizer = new TextObfuscationNormalizer();
-    }
 
     static Stream<Arguments> getTestData() {
         return Stream.of(
@@ -35,6 +27,7 @@ class TextObfuscationNormalizerTest {
     @MethodSource("getTestData")
     @DisplayName("TextObfuscationNormalizer.normalize: replaces (at)/(dot) variants with @ and .")
     void should_return_null_when_passing_null_parameter(String input, String expected) {
+        TextObfuscationNormalizer textObfuscationNormalizer = new TextObfuscationNormalizer();
         assertEquals(expected, textObfuscationNormalizer.normalize(input));
     }
 
