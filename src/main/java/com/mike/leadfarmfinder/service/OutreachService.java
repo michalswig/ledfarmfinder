@@ -3,16 +3,14 @@ package com.mike.leadfarmfinder.service;
 import com.mike.leadfarmfinder.config.OutreachProperties;
 import com.mike.leadfarmfinder.entity.FarmLead;
 import com.mike.leadfarmfinder.repository.FarmLeadRepository;
+import com.mike.leadfarmfinder.service.outreach.MailSenderGateway;
 import com.mike.leadfarmfinder.service.outreach.OutreachMailPreviewLogger;
 import com.mike.leadfarmfinder.service.outreach.PreparedMail;
-import jakarta.mail.internet.MimeMessage;
+import com.mike.leadfarmfinder.service.outreach.SendResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.angus.mail.smtp.SMTPAddressFailedException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,6 +30,7 @@ public class OutreachService {
     private final FarmLeadRepository farmLeadRepository;
     private final JavaMailSender mailSender;
     private final OutreachMailPreviewLogger previewLogger;
+    private final MailSenderGateway mailSenderGateway;
 
     @Value("${app.outreach.unsubscribe-base-url:}")
     private String unsubscribeBaseUrl;
@@ -147,7 +146,6 @@ public class OutreachService {
     }
 
 
-
     // =========================
     // WSPÓLNE KROKI (pod follow-up)
     // =========================
@@ -227,33 +225,14 @@ public class OutreachService {
     }
 
     private SendResult sendOrSimulate(String from, String to, String subject, String body, String unsubscribeUrl) {
-        boolean hardBounce = false;
-        boolean sent = false;
 
         if (outreachProperties.isSimulateOnly()) {
             log.info("OutreachService: simulate-only=true, skipping real SMTP send");
-            sent = true;
-            return new SendResult(sent, hardBounce);
+            return new SendResult(true, false);
         }
 
-        try {
-            sendViaSmtp(from, to, subject, body, unsubscribeUrl);
-            log.info("OutreachService: email sent successfully to {}", to);
-            sent = true;
-        } catch (MailException e) {
-            log.warn("OutreachService: FAILED to send email to {} (MailException): {}", to, e.getMessage());
-
-            if (isHardBounce(e)) {
-                hardBounce = true;
-                log.info("OutreachService: detected HARD BOUNCE (5xx) for {}", to);
-            } else {
-                log.info("OutreachService: send failed, but no hard-bounce detected; leaving lead active (email={})", to);
-            }
-        } catch (Exception e) {
-            log.warn("OutreachService: FAILED to send email to {} (Exception): {}", to, e.getMessage(), e);
-        }
-
-        return new SendResult(sent, hardBounce);
+        PreparedMail mail = new PreparedMail(from, to, subject, body, unsubscribeUrl);
+        return mailSenderGateway.send(mail);
     }
 
     private void markHardBounce(FarmLead lead) {
@@ -284,35 +263,6 @@ public class OutreachService {
         if (unsubscribeBaseUrl == null || unsubscribeBaseUrl.isBlank()) return "";
         if (lead.getUnsubscribeToken() == null || lead.getUnsubscribeToken().isBlank()) return "";
         return unsubscribeBaseUrl + lead.getUnsubscribeToken();
-    }
-
-    private void sendViaSmtp(String from, String to, String subject, String body, String unsubscribeUrl) throws Exception {
-        MimeMessage message = mailSender.createMimeMessage();
-
-        MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
-        helper.setFrom(from);
-        helper.setTo(to);
-        helper.setSubject(subject);
-        helper.setText(body, false);
-
-        if (unsubscribeUrl != null && !unsubscribeUrl.isBlank()) {
-            message.addHeader("List-Unsubscribe", "<" + unsubscribeUrl + ">");
-            message.addHeader("List-Unsubscribe-Post", "List-Unsubscribe=One-Click");
-        }
-
-        mailSender.send(message);
-    }
-
-    private boolean isHardBounce(Throwable ex) {
-        Throwable cause = ex;
-        while (cause != null) {
-            if (cause instanceof SMTPAddressFailedException smtpEx) {
-                int code = smtpEx.getReturnCode();
-                return code >= 500 && code < 600;
-            }
-            cause = cause.getCause();
-        }
-        return false;
     }
 
     private boolean isValidEmail(String email) {
@@ -348,5 +298,4 @@ public class OutreachService {
         return result;
     }
 
-    private record SendResult(boolean sent, boolean hardBounce) {}
 }
