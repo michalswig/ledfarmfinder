@@ -3,13 +3,9 @@ package com.mike.leadfarmfinder.service;
 import com.mike.leadfarmfinder.config.OutreachProperties;
 import com.mike.leadfarmfinder.entity.FarmLead;
 import com.mike.leadfarmfinder.repository.FarmLeadRepository;
-import com.mike.leadfarmfinder.service.outreach.MailSenderGateway;
-import com.mike.leadfarmfinder.service.outreach.OutreachMailPreviewLogger;
-import com.mike.leadfarmfinder.service.outreach.PreparedMail;
-import com.mike.leadfarmfinder.service.outreach.SendResult;
+import com.mike.leadfarmfinder.service.outreach.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +27,7 @@ public class OutreachService {
     private final JavaMailSender mailSender;
     private final OutreachMailPreviewLogger previewLogger;
     private final MailSenderGateway mailSenderGateway;
-
-    @Value("${app.outreach.unsubscribe-base-url:}")
-    private String unsubscribeBaseUrl;
+    private final UnsubscribeUrlBuilder unsubscribeUrlBuilder;
 
     public void sendFirstEmail(FarmLead lead) {
         if (!isOutreachEnabledOrLog()) return;
@@ -49,7 +43,7 @@ public class OutreachService {
         String from = outreachProperties.getFromAddress();
         String subject = outreachProperties.getDefaultSubject();
 
-        String unsubscribeUrl = buildUnsubscribeUrl(lead);
+        String unsubscribeUrl = unsubscribeUrlBuilder.build(lead);
         Map<String, String> vars = buildTemplateVars(to, unsubscribeUrl);
 
         String template = outreachProperties.getFirstEmailBodyTemplate();
@@ -98,7 +92,7 @@ public class OutreachService {
         String subject = outreachProperties.getFollowUpSubject();
         String template = outreachProperties.getFollowUpEmailBodyTemplate();
 
-        String unsubscribeUrl = buildUnsubscribeUrl(lead);
+        String unsubscribeUrl = unsubscribeUrlBuilder.build(lead);
         Map<String, String> vars = buildTemplateVars(to, unsubscribeUrl);
         String body = renderTemplate(template, vars);
 
@@ -257,12 +251,6 @@ public class OutreachService {
         lead.setBounce(true); // traktuj jak “nieużywalne”
         farmLeadRepository.save(lead);
         log.info("OutreachService: lead deactivated as invalid (id={}, reason={})", lead.getId(), reason);
-    }
-
-    private String buildUnsubscribeUrl(FarmLead lead) {
-        if (unsubscribeBaseUrl == null || unsubscribeBaseUrl.isBlank()) return "";
-        if (lead.getUnsubscribeToken() == null || lead.getUnsubscribeToken().isBlank()) return "";
-        return unsubscribeBaseUrl + lead.getUnsubscribeToken();
     }
 
     private boolean isValidEmail(String email) {
