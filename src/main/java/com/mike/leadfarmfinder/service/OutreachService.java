@@ -3,6 +3,8 @@ package com.mike.leadfarmfinder.service;
 import com.mike.leadfarmfinder.config.OutreachProperties;
 import com.mike.leadfarmfinder.entity.FarmLead;
 import com.mike.leadfarmfinder.repository.FarmLeadRepository;
+import com.mike.leadfarmfinder.service.outreach.OutreachMailPreviewLogger;
+import com.mike.leadfarmfinder.service.outreach.PreparedMail;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,7 @@ public class OutreachService {
     private final OutreachProperties outreachProperties;
     private final FarmLeadRepository farmLeadRepository;
     private final JavaMailSender mailSender;
+    private final OutreachMailPreviewLogger previewLogger;
 
     @Value("${app.outreach.unsubscribe-base-url:}")
     private String unsubscribeBaseUrl;
@@ -53,7 +56,7 @@ public class OutreachService {
         String template = outreachProperties.getFirstEmailBodyTemplate();
         String body = renderTemplate(template, vars);
 
-        previewEmail(from, to, subject, body);
+        previewLogger.logPreview(new PreparedMail(from, to, subject, body, unsubscribeUrl));
 
         SendResult result = sendOrSimulate(from, to, subject, body, unsubscribeUrl);
 
@@ -100,7 +103,7 @@ public class OutreachService {
         Map<String, String> vars = buildTemplateVars(to, unsubscribeUrl);
         String body = renderTemplate(template, vars);
 
-        previewEmail(from, to, subject, body);
+        previewLogger.logPreview(new PreparedMail(from, to, subject, body, unsubscribeUrl));
 
         SendResult result = sendOrSimulate(from, to, subject, body, unsubscribeUrl);
 
@@ -221,15 +224,6 @@ public class OutreachService {
         vars.put("EMAIL", email);
         vars.put("UNSUBSCRIBE_URL", unsubscribeUrl);
         return vars;
-    }
-
-    private void previewEmail(String from, String to, String subject, String body) {
-        log.info("=== OUTREACH EMAIL PREVIEW ===");
-        log.info("From: {}", from);
-        log.info("To: {}", to);
-        log.info("Subject: {}", subject);
-        log.info("Body:\n{}", body);
-        log.info("=== END OUTREACH EMAIL PREVIEW ===");
     }
 
     private SendResult sendOrSimulate(String from, String to, String subject, String body, String unsubscribeUrl) {
