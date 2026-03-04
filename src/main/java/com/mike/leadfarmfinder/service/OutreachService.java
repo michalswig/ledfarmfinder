@@ -12,15 +12,11 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class OutreachService {
-
-    private static final Pattern EMAIL_REGEX =
-            Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
 
     private final OutreachProperties outreachProperties;
     private final FarmLeadRepository farmLeadRepository;
@@ -28,6 +24,7 @@ public class OutreachService {
     private final OutreachMailPreviewLogger previewLogger;
     private final MailSenderGateway mailSenderGateway;
     private final UnsubscribeUrlBuilder unsubscribeUrlBuilder;
+    private final LeadEmailNormalizer leadEmailNormalizer;
 
     public void sendFirstEmail(FarmLead lead) {
         if (!isOutreachEnabledOrLog()) return;
@@ -37,7 +34,7 @@ public class OutreachService {
         }
         if (!isEligibleLeadOrLog(lead)) return;
 
-        String to = normalizeAndValidateOrDeactivate(lead);
+        String to = leadEmailNormalizer.normalizeAndValidateOrDeactivate(lead);
         if (to == null) return;
 
         String from = outreachProperties.getFromAddress();
@@ -85,7 +82,7 @@ public class OutreachService {
         LocalDateTime now = LocalDateTime.now();
         if (isLastEmailTooRecent(lead, now)) return;
 
-        String to = normalizeAndValidateOrDeactivate(lead);
+        String to = leadEmailNormalizer.normalizeAndValidateOrDeactivate(lead);
         if (to == null) return;
 
         String from = outreachProperties.getFromAddress();
@@ -139,7 +136,6 @@ public class OutreachService {
         return false;
     }
 
-
     // =========================
     // WSPÓLNE KROKI (pod follow-up)
     // =========================
@@ -163,53 +159,6 @@ public class OutreachService {
         }
         return true;
     }
-
-    /**
-     * Zwraca znormalizowany email jeśli OK.
-     * Jeśli email pusty/niepoprawny -> deaktywuje lead i zwraca null.
-     */
-    private String normalizeAndValidateOrDeactivate(FarmLead lead) {
-        String to = normalizeEmail(lead.getEmail());
-        if (to.isBlank()) {
-            log.warn("OutreachService: empty email after normalize, deactivating lead (id={})", lead.getId());
-            deactivateAsInvalid(lead, "EMPTY_EMAIL");
-            return null;
-        }
-
-        // blokada na śmieciowe/sklejone adresy
-        if (!isValidEmail(to)) {
-            log.warn("OutreachService: invalid email format, deactivating lead (id={}, rawEmail={}, normalized={})",
-                    lead.getId(), lead.getEmail(), to);
-            deactivateAsInvalid(lead, "INVALID_EMAIL_FORMAT");
-            return null;
-        }
-
-        // tymczasowa blokada Telekom (T-Online/T-Mobile) – 550 5.7.0 IP reputation
-        if (isBlockedProviderDomain(to)) {
-            log.info("OutreachService: skipping blocked provider domain (Telekom) for now: {}", to);
-            return null;
-        }
-
-        return to;
-    }
-
-    private static final String[] TELEKOM_DOMAINS = {
-            "@t-online.de",
-            "@t-mobile.de",
-            "@magenta.de",
-            "@telekom.de"
-            // opcjonalnie: "@telekom.de"
-    };
-
-    private boolean isBlockedProviderDomain(String email) {
-        if (email == null) return false;
-        String e = email.toLowerCase();
-        for (String d : TELEKOM_DOMAINS) {
-            if (e.endsWith(d)) return true;
-        }
-        return false;
-    }
-
 
     private Map<String, String> buildTemplateVars(String email, String unsubscribeUrl) {
         Map<String, String> vars = new HashMap<>();
@@ -245,35 +194,6 @@ public class OutreachService {
     // =========================
     // ISTNIEJĄCE METODY (bez zmian logiki)
     // =========================
-
-    private void deactivateAsInvalid(FarmLead lead, String reason) {
-        lead.setActive(false);
-        lead.setBounce(true); // traktuj jak “nieużywalne”
-        farmLeadRepository.save(lead);
-        log.info("OutreachService: lead deactivated as invalid (id={}, reason={})", lead.getId(), reason);
-    }
-
-    private boolean isValidEmail(String email) {
-        return EMAIL_REGEX.matcher(email).matches();
-    }
-
-    private String normalizeEmail(String email) {
-        if (email == null) return "";
-
-        String e = email.trim();
-
-        // "email@domena.dewww.domena.de" -> utnij od www
-        int at = e.indexOf('@');
-        int www = e.indexOf("www.");
-        if (at > 0 && www > at) {
-            e = e.substring(0, www);
-        }
-
-        // usuń przecinki/średniki na końcu
-        e = e.replaceAll("[,;]+$", "");
-
-        return e.trim().toLowerCase();
-    }
 
     private String renderTemplate(String template, Map<String, String> variables) {
         if (template == null) return "";
