@@ -25,14 +25,12 @@ public class OutreachService {
     private final MailSenderGateway mailSenderGateway;
     private final UnsubscribeUrlBuilder unsubscribeUrlBuilder;
     private final LeadEmailNormalizer leadEmailNormalizer;
+    private final LeadEligibilityPolicy leadEligibilityPolicy;
 
     public void sendFirstEmail(FarmLead lead) {
         if (!isOutreachEnabledOrLog()) return;
-        if (lead == null) {
-            log.warn("OutreachService: lead is null, skipping");
-            return;
-        }
-        if (!isEligibleLeadOrLog(lead)) return;
+
+        if (!leadEligibilityPolicy.isEligibleOrLog(lead, EmailType.FIRST, LocalDateTime.now())) return;
 
         String to = leadEmailNormalizer.normalizeAndValidateOrDeactivate(lead);
         if (to == null) return;
@@ -60,10 +58,8 @@ public class OutreachService {
             return;
         }
 
-        LocalDateTime now = LocalDateTime.now();
-        applyFirstEmailTimestamps(lead, now);
+        applyFirstEmailTimestamps(lead, LocalDateTime.now());
 
-        // opcjonalnie: zapis normalizacji email
         lead.setEmail(to);
 
         farmLeadRepository.save(lead);
@@ -75,12 +71,9 @@ public class OutreachService {
             log.warn("OutreachService: lead is null, skipping");
             return;
         }
-        if (!isEligibleLeadOrLog(lead)) return;
-
-        if (!hasFirstEmailOrLog(lead)) return;
 
         LocalDateTime now = LocalDateTime.now();
-        if (isLastEmailTooRecent(lead, now)) return;
+        if (!leadEligibilityPolicy.isEligibleOrLog(lead, EmailType.FOLLOW_UP, now)) return;
 
         String to = leadEmailNormalizer.normalizeAndValidateOrDeactivate(lead);
         if (to == null) return;
@@ -112,49 +105,9 @@ public class OutreachService {
         farmLeadRepository.save(lead);
     }
 
-    private boolean hasFirstEmailOrLog(FarmLead lead) {
-        if (lead.getFirstEmailSentAt() != null) return true;
-
-        log.info("OutreachService: follow-up skipped, firstEmailSentAt is null (id={}, email={})",
-                lead.getId(), lead.getEmail());
-        return false;
-    }
-
-    private boolean isLastEmailTooRecent(FarmLead lead, LocalDateTime now) {
-        LocalDateTime last = lead.getLastEmailSentAt();
-        if (last == null) return false;
-
-        int minDays = outreachProperties.getFollowUpMinDaysSinceLastEmail();
-        LocalDateTime cutoff = now.minusDays(minDays);
-
-        if (last.isAfter(cutoff)) {
-            log.info("OutreachService: follow-up skipped, lastEmailSentAt={} is younger than {} days (id={}, email={})",
-                    last, minDays, lead.getId(), lead.getEmail());
-            return true;
-        }
-
-        return false;
-    }
-
-    // =========================
-    // WSPÓLNE KROKI (pod follow-up)
-    // =========================
-
     private boolean isOutreachEnabledOrLog() {
         if (!outreachProperties.isEnabled()) {
             log.info("OutreachService: outreach disabled, skipping");
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isEligibleLeadOrLog(FarmLead lead) {
-        if (!lead.isActive()) {
-            log.info("OutreachService: lead inactive, skipping (id={}, email={})", lead.getId(), lead.getEmail());
-            return false;
-        }
-        if (lead.isBounce()) {
-            log.info("OutreachService: lead bounce=true, skipping (id={}, email={})", lead.getId(), lead.getEmail());
             return false;
         }
         return true;
@@ -191,10 +144,6 @@ public class OutreachService {
         lead.setLastEmailSentAt(now);
     }
 
-    // =========================
-    // ISTNIEJĄCE METODY (bez zmian logiki)
-    // =========================
-
     private String renderTemplate(String template, Map<String, String> variables) {
         if (template == null) return "";
         String result = template;
@@ -205,5 +154,4 @@ public class OutreachService {
         }
         return result;
     }
-
 }
