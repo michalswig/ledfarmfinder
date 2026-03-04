@@ -28,23 +28,43 @@ public class OutreachService {
     private final LeadEligibilityPolicy leadEligibilityPolicy;
 
     public void sendFirstEmail(FarmLead lead) {
+        send(lead, EmailType.FIRST);
+    }
+
+    public void sendFollowUpEmail(FarmLead lead) {
+        send(lead, EmailType.FOLLOW_UP);
+    }
+
+    private void send(FarmLead lead, EmailType type) {
         if (!isOutreachEnabledOrLog()) return;
 
-        if (!leadEligibilityPolicy.isEligibleOrLog(lead, EmailType.FIRST, LocalDateTime.now())) return;
+        LocalDateTime now = LocalDateTime.now();
+
+        if (!leadEligibilityPolicy.isEligibleOrLog(lead, type, LocalDateTime.now())) return;
 
         String to = leadEmailNormalizer.normalizeAndValidateOrDeactivate(lead);
         if (to == null) return;
 
         String from = outreachProperties.getFromAddress();
-        String subject = outreachProperties.getDefaultSubject();
 
         String unsubscribeUrl = unsubscribeUrlBuilder.build(lead);
         Map<String, String> vars = buildTemplateVars(to, unsubscribeUrl);
 
-        String template = outreachProperties.getFirstEmailBodyTemplate();
+        String subject;
+        String template;
+
+        if (type == EmailType.FIRST) {
+            subject = outreachProperties.getDefaultSubject();
+            template = outreachProperties.getFirstEmailBodyTemplate();
+        } else {
+            subject = outreachProperties.getFollowUpSubject();
+            template = outreachProperties.getFollowUpEmailBodyTemplate();
+        }
+
         String body = renderTemplate(template, vars);
 
-        previewLogger.logPreview(new PreparedMail(from, to, subject, body, unsubscribeUrl));
+        PreparedMail mail = new PreparedMail(from, to, subject, body, unsubscribeUrl);
+        previewLogger.logPreview(mail);
 
         SendResult result = sendOrSimulate(from, to, subject, body, unsubscribeUrl);
 
@@ -58,49 +78,12 @@ public class OutreachService {
             return;
         }
 
-        applyFirstEmailTimestamps(lead, LocalDateTime.now());
-
-        lead.setEmail(to);
-
-        farmLeadRepository.save(lead);
-    }
-
-    public void sendFollowUpEmail(FarmLead lead) {
-        if (!isOutreachEnabledOrLog()) return;
-        if (lead == null) {
-            log.warn("OutreachService: lead is null, skipping");
-            return;
+        if (type == EmailType.FIRST) {
+            applyFirstEmailTimestamps(lead, now);
+        } else {
+            lead.setLastEmailSentAt(now);
         }
 
-        LocalDateTime now = LocalDateTime.now();
-        if (!leadEligibilityPolicy.isEligibleOrLog(lead, EmailType.FOLLOW_UP, now)) return;
-
-        String to = leadEmailNormalizer.normalizeAndValidateOrDeactivate(lead);
-        if (to == null) return;
-
-        String from = outreachProperties.getFromAddress();
-        String subject = outreachProperties.getFollowUpSubject();
-        String template = outreachProperties.getFollowUpEmailBodyTemplate();
-
-        String unsubscribeUrl = unsubscribeUrlBuilder.build(lead);
-        Map<String, String> vars = buildTemplateVars(to, unsubscribeUrl);
-        String body = renderTemplate(template, vars);
-
-        previewLogger.logPreview(new PreparedMail(from, to, subject, body, unsubscribeUrl));
-
-        SendResult result = sendOrSimulate(from, to, subject, body, unsubscribeUrl);
-
-        if (result.hardBounce()) {
-            markHardBounce(lead);
-            return;
-        }
-
-        if (!result.sent() && !outreachProperties.isSimulateOnly()) {
-            log.info("OutreachService: follow-up not sent -> no timestamps update for {}", to);
-            return;
-        }
-
-        lead.setLastEmailSentAt(now);
         lead.setEmail(to);
         farmLeadRepository.save(lead);
     }
@@ -121,12 +104,10 @@ public class OutreachService {
     }
 
     private SendResult sendOrSimulate(String from, String to, String subject, String body, String unsubscribeUrl) {
-
         if (outreachProperties.isSimulateOnly()) {
             log.info("OutreachService: simulate-only=true, skipping real SMTP send");
             return new SendResult(true, false);
         }
-
         PreparedMail mail = new PreparedMail(from, to, subject, body, unsubscribeUrl);
         return mailSenderGateway.send(mail);
     }
