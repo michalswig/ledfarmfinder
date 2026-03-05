@@ -29,7 +29,7 @@ public class EmailExtractor {
         String normalizedHtml = obfuscationNormalizer.normalize(html);
 
         return sources.stream()
-                .flatMap(s -> s.extractCandidates(normalizedHtml))
+                .flatMap(s -> s.extractCandidates(normalizedHtml).stream())
                 .map(this::toValidEmailOrNull)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toCollection(LinkedHashSet::new));

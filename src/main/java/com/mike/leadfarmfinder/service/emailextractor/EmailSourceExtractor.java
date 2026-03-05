@@ -1,7 +1,7 @@
 package com.mike.leadfarmfinder.service.emailextractor;
 
-import java.util.stream.Stream;
+import java.util.List;
 
 public interface EmailSourceExtractor {
-    Stream<String> extractCandidates(String html);
+    List<String> extractCandidates(String html);
 }

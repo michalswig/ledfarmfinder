@@ -3,9 +3,10 @@ package com.mike.leadfarmfinder.service.emailextractor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
@@ -17,19 +18,19 @@ public class MailToExtractor implements EmailSourceExtractor {
             Pattern.compile("(?i)mailto:([^\"'\\s>]+)");
 
     @Override
-    public Stream<String> extractCandidates(String html) {
-        if (html == null || html.isBlank()) return Stream.empty();
+    public List<String> extractCandidates(String html) {
+        if (html == null || html.isBlank()) return List.of();
 
         Matcher matcher = MAILTO_PATTERN.matcher(html);
 
-        Stream.Builder<String> builder = Stream.builder();
+        List<String> candidates = new ArrayList<>();
         while (matcher.find()) {
             String raw = matcher.group(1);
             int q = raw.indexOf('?');
             if (q >= 0) raw = raw.substring(0, q);
             raw = obfuscationNormalizer.normalize(raw);
-            if (!raw.isBlank()) builder.add(raw);
+            if (!raw.isBlank()) candidates.add(raw);
         }
-        return builder.build();
+        return candidates;
     }
 }
