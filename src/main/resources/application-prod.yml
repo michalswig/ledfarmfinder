@@ -54,7 +54,7 @@ leadfinder:
       expression: ${AJB_CRON_EXPRESSION:0 35 2 * * *}
 
   email:
-    mx-check: ${EMAIL_MX_CHECK:true}
+    mx-check-enabled: ${EMAIL_MX_CHECK:true}
     mx-timeout-ms: ${EMAIL_MX_TIMEOUT_MS:2000}
     mx-unknown-policy: ${EMAIL_MX_UNKNOWN_POLICY:ALLOW}
     known-tlds: [de,com,net,eu]

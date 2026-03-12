@@ -7,7 +7,11 @@ import java.util.Set;
 @ConfigurationProperties(prefix = "leadfinder.email")
 public record EmailExtractorProperties(
         boolean mxCheckEnabled,
-        String mxUnknownPolicy,
+        MxUnknownPolicy mxUnknownPolicy,
         long mxTimeoutMs,
         Set<String> knownTlds
-) {}
+) {
+    public enum MxUnknownPolicy {
+        WARN, DROP, ALLOW
+    }
+}
