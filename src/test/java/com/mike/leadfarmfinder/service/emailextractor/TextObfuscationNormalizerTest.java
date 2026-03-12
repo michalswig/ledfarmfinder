@@ -13,9 +13,10 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 class TextObfuscationNormalizerTest {
 
+    private final TextObfuscationNormalizer normalizer = new TextObfuscationNormalizer();
+
     static Stream<Arguments> getTestData() {
         return Stream.of(
-                Arguments.of(null, null),
                 Arguments.of(" ", " "),
                 Arguments.of("kontakt: info(at)example(dot)de", "kontakt: info@example.de"),
                 Arguments.of("kontakt: info ( at ) example ( dot ) de", "kontakt: info@example.de"),
@@ -26,18 +27,15 @@ class TextObfuscationNormalizerTest {
     }
 
     @Test
-    @DisplayName("normalize: return null when input null")
-    void normalize_null() {
-        TextObfuscationNormalizer textObfuscationNormalizer = new TextObfuscationNormalizer();
-        assertNull(textObfuscationNormalizer.normalize(null));
+    @DisplayName("normalize should return null when input is null")
+    void shouldReturnNullWhenInputIsNull() {
+        assertNull(normalizer.normalize(null));
     }
 
     @ParameterizedTest
     @MethodSource("getTestData")
-    @DisplayName("normalize: replaces obfuscated at/dot variants")
-    void should_normalize_obfuscated_email_parts(String input, String expected) {
-        TextObfuscationNormalizer textObfuscationNormalizer = new TextObfuscationNormalizer();
-        assertEquals(expected, textObfuscationNormalizer.normalize(input));
+    @DisplayName("normalize should replace obfuscated at and dot variants")
+    void shouldNormalizeObfuscatedEmailParts(String input, String expected) {
+        assertEquals(expected, normalizer.normalize(input));
     }
-
 }
