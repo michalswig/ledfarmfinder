@@ -1,3 +1,9 @@
+aws:
+  ses:
+    region: ${AWS_REGION:eu-central-1}
+    configuration-set: ${AWS_SES_CONFIGURATION_SET:leadfarmfinder-main}
+
+
 spring:
   datasource:
     url: ${SPRING_DATASOURCE_URL}
@@ -54,7 +60,8 @@ leadfinder:
       expression: ${AJB_CRON_EXPRESSION:0 35 2 * * *}
 
   email:
-    mx-check: ${EMAIL_MX_CHECK:true}
+    provider: ${APP_MAIL_PROVIDER:smtp}
+    mx-check-enabled: ${EMAIL_MX_CHECK:true}
     mx-timeout-ms: ${EMAIL_MX_TIMEOUT_MS:2000}
     mx-unknown-policy: ${EMAIL_MX_UNKNOWN_POLICY:ALLOW}
     known-tlds: [de,com,net,eu]

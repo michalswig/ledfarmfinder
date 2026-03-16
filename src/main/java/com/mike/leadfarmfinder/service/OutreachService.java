@@ -76,7 +76,7 @@ public class OutreachService {
 
     private SendResult sendOrSimulate(PreparedMail mail) {
         if (outreachProperties.isSimulateOnly()) {
-            log.info("OutreachService: simulate-only=true, skipping real SMTP send");
+            log.info("OutreachService: simulate-only=true, skipping real mail send");
             return new SendResult(true, false);
         }
         return mailSenderGateway.send(mail);

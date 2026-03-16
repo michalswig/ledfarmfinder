@@ -1,9 +1,6 @@
 package com.mike.leadfarmfinder;
 
-import com.mike.leadfarmfinder.config.AgrarjobboerseProperties;
-import com.mike.leadfarmfinder.config.EmailExtractorProperties;
-import com.mike.leadfarmfinder.config.LeadFinderProperties;
-import com.mike.leadfarmfinder.config.OutreachProperties;
+import com.mike.leadfarmfinder.config.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -14,7 +11,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableConfigurationProperties({LeadFinderProperties.class,
         OutreachProperties.class,
         AgrarjobboerseProperties.class,
-        EmailExtractorProperties.class})
+        EmailProperties.class,
+        AwsSesProperties.class})
 public class LeadfarmfinderApplication {
 
     public static void main(String[] args) {

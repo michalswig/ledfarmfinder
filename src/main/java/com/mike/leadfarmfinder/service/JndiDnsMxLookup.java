@@ -1,9 +1,8 @@
 package com.mike.leadfarmfinder.service;
 
-import com.mike.leadfarmfinder.config.EmailExtractorProperties;
+import com.mike.leadfarmfinder.config.EmailProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.naming.NamingException;
@@ -18,7 +17,7 @@ import java.util.Hashtable;
 @Slf4j
 public class JndiDnsMxLookup implements MxLookUp {
 
-    private final EmailExtractorProperties props;
+    private final EmailProperties props;
 
     @Override
     public MxStatus checkDomain(String domain) {

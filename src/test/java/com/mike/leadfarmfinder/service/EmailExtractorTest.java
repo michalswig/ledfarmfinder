@@ -1,6 +1,6 @@
 package com.mike.leadfarmfinder.service;
 
-import com.mike.leadfarmfinder.config.EmailExtractorProperties;
+import com.mike.leadfarmfinder.config.EmailProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -15,13 +15,14 @@ import static org.mockito.Mockito.*;
 class EmailExtractorTest {
 
     private MxLookUp mxLookUp;
-    private EmailExtractorProperties props;
+    private EmailProperties props;
     private EmailExtractor emailExtractor;
 
     @BeforeEach
     void setUp() {
         mxLookUp = mock(MxLookUp.class);
-        props = new EmailExtractorProperties(
+        props = new EmailProperties(
+                "smtp",
                 false,
                 "WARN",
                 2000,
@@ -237,7 +238,7 @@ class EmailExtractorTest {
         @DisplayName("MX check enabled + VALID -> valid email")
         void shouldReturnEmail_whenMxCheckEnabledAndDomainMxIsValid() {
             // Arrange
-            EmailExtractorProperties mxOn = new EmailExtractorProperties(true, "WARN", 2000, Set.of("de"));
+            EmailProperties mxOn = new EmailProperties("smtp", true, "WARN", 2000, Set.of("de"));
             EmailExtractor sut = new EmailExtractor(mxLookUp, mxOn);
             when(mxLookUp.checkDomain("example.de")).thenReturn(MxLookUp.MxStatus.VALID);
 

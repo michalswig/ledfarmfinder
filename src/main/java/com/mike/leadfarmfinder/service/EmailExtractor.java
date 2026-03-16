@@ -1,6 +1,6 @@
 package com.mike.leadfarmfinder.service;
 
-import com.mike.leadfarmfinder.config.EmailExtractorProperties;
+import com.mike.leadfarmfinder.config.EmailProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 public class EmailExtractor {
 
     private final MxLookUp mxLookUp;
-    private final EmailExtractorProperties props;
+    private final EmailProperties props;
 
     /**
      * Simple regex for "normal" emails (after de-obfuscation / normalization).

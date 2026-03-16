@@ -26,7 +26,15 @@ public class DefaultMailComposer implements MailComposer {
         String template = resolveBodyTemplate(type);
         String body = renderTemplate(template, vars);
 
-        return new PreparedMail(from, normalizeTo, subject, body, unsubscribeUrl);
+        return new PreparedMail(
+                from,
+                normalizeTo,
+                subject,
+                body,
+                unsubscribeUrl,
+                lead.getId(),
+                type.name()
+        );
     }
 
     private Map<String, String> buildTemplateVars(String email, String unsubscribeUrl) {
@@ -58,5 +66,4 @@ public class DefaultMailComposer implements MailComposer {
         }
         return result;
     }
-
 }
