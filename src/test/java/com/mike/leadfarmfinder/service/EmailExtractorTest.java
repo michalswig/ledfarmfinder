@@ -1,262 +1,355 @@
 package com.mike.leadfarmfinder.service;
 
-import com.mike.leadfarmfinder.service.emailextractor.DomainMxVerifier;
-import com.mike.leadfarmfinder.service.emailextractor.EmailNormalizer;
-import com.mike.leadfarmfinder.service.emailextractor.EmailSourceExtractor;
-import com.mike.leadfarmfinder.service.emailextractor.EmailValidator;
-import com.mike.leadfarmfinder.service.emailextractor.TextObfuscationNormalizer;
+import com.mike.leadfarmfinder.config.EmailProperties;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
 class EmailExtractorTest {
 
-    @Test
-    void should_return_empty_set_when_html_is_null() {
-        EmailExtractor emailExtractor = new EmailExtractor(
-                mock(TextObfuscationNormalizer.class),
-                List.of(),
-                mock(EmailNormalizer.class),
-                mock(EmailValidator.class),
-                mock(DomainMxVerifier.class)
+    private MxLookUp mxLookUp;
+    private EmailProperties props;
+    private EmailExtractor emailExtractor;
+
+    @BeforeEach
+    void setUp() {
+        mxLookUp = mock(MxLookUp.class);
+        props = new EmailProperties(
+                "smtp",
+                false,
+                "WARN",
+                2000,
+                Set.of("de", "com")
         );
-
-        Set<String> result = emailExtractor.extractEmails(null);
-
-        assertEquals(Set.of(), result);
+        emailExtractor = new EmailExtractor(mxLookUp, props);
     }
 
-    @Test
-    void should_return_empty_set_when_html_is_blank() {
-        EmailExtractor emailExtractor = new EmailExtractor(
-                mock(TextObfuscationNormalizer.class),
-                List.of(),
-                mock(EmailNormalizer.class),
-                mock(EmailValidator.class),
-                mock(DomainMxVerifier.class)
-        );
+    @Nested
+    @DisplayName("normalizeObfuscatedEmailsInText")
+    class NormalizeObfuscatedEmailsInText {
 
-        Set<String> result = emailExtractor.extractEmails("   ");
+        @Test
+        @DisplayName("null -> null")
+        void shouldReturnNull_whenInputIsNull() {
+            // Arrange
+            String input = null;
 
-        assertEquals(Set.of(), result);
+            // Act
+            String result = emailExtractor.normalizeObfuscatedEmailsInText(input);
+
+            // Assert
+            assertNull(result);
+        }
+
+        @Test
+        @DisplayName("blank -> unchanged")
+        void shouldReturnInputUnchanged_whenInputIsBlank() {
+            // Arrange
+            String input = " ";
+
+            // Act
+            String result = emailExtractor.normalizeObfuscatedEmailsInText(input);
+
+            // Assert
+            assertEquals(" ", result);
+        }
+
+        @Test
+        @DisplayName("(at) and (dot) -> @ and .")
+        void shouldReplaceParenthesizedAtAndDot_whenObfuscatedEmailUsesParentheses() {
+            // Arrange
+            String input = "kontakt: info(at)example(dot)de";
+
+            // Act
+            String result = emailExtractor.normalizeObfuscatedEmailsInText(input);
+
+            // Assert
+            assertEquals("kontakt: info@example.de", result);
+        }
+
+        @Test
+        @DisplayName("( at ) and ( dot ) with spaces -> @ and .")
+        void shouldReplaceParenthesizedAtAndDot_whenParenthesesContainSpaces() {
+            // Arrange
+            String input = "kontakt: info ( at ) example ( dot ) de";
+
+            // Act
+            String result = emailExtractor.normalizeObfuscatedEmailsInText(input);
+
+            // Assert
+            assertEquals("kontakt: info@example.de", result);
+        }
+
+        @Test
+        @DisplayName("at and dot -> @ and .")
+        void shouldReplaceAtAndDotWords_whenObfuscationUsesWords() {
+            // Arrange
+            String input = "kontakt: info at example dot de";
+
+            // Act
+            String result = emailExtractor.normalizeObfuscatedEmailsInText(input);
+
+            // Assert
+            assertEquals("kontakt: info@example.de", result);
+        }
+
+        @Test
+        @DisplayName("case insensitive")
+        void shouldReplaceAtAndDotWords_caseInsensitive() {
+            // Arrange
+            String input = "KONTAKT: INFO AT EXAMPLE DOT DE";
+
+            // Act
+            String result = emailExtractor.normalizeObfuscatedEmailsInText(input);
+
+            // Assert
+            assertEquals("KONTAKT: INFO@EXAMPLE.DE", result);
+        }
+
+        @Test
+        @DisplayName("should not change normal email")
+        void shouldNotModifyText_whenEmailIsAlreadyNormal() {
+            // Arrange
+            String input = "kontakt: info@example.de";
+
+            // Act
+            String result = emailExtractor.normalizeObfuscatedEmailsInText(input);
+
+            // Assert
+            assertEquals("kontakt: info@example.de", result);
+        }
     }
 
-    @Test
-    void should_normalize_html_before_passing_it_to_sources() {
-        TextObfuscationNormalizer obfuscationNormalizer = mock(TextObfuscationNormalizer.class);
-        EmailSourceExtractor source = mock(EmailSourceExtractor.class);
-        EmailNormalizer emailNormalizer = mock(EmailNormalizer.class);
-        EmailValidator emailValidator = mock(EmailValidator.class);
-        DomainMxVerifier domainMxVerifier = mock(DomainMxVerifier.class);
+    @Nested
+    @DisplayName("normalizeEmail")
+    class NormalizeEmail {
 
-        when(obfuscationNormalizer.normalize("kontakt: info(at)company(dot)com"))
-                .thenReturn("kontakt: info@company.com");
+        @Test
+        @DisplayName("null -> null")
+        void shouldReturnNull_whenEmailIsNull() {
+            // Arrange
+            String input = null;
 
-        when(source.extractCandidates("kontakt: info@company.com"))
-                .thenReturn(List.of("info@company.com"));
+            // Act
+            String result = emailExtractor.normalizeEmail(input);
 
-        when(emailNormalizer.normalizeRawCandidate("info@company.com"))
-                .thenReturn("info@company.com");
+            // Assert
+            assertNull(result);
+        }
 
-        when(emailNormalizer.normalizeLocalPart("info"))
-                .thenReturn("info");
+        @Test
+        @DisplayName("blank after trim -> null")
+        void shouldReturnNull_whenEmailIsBlankAfterTrim() {
+            // Arrange
+            String input = " ";
 
-        when(emailValidator.isLocalPartAllowed("info"))
-                .thenReturn(true);
+            // Act
+            String result = emailExtractor.normalizeEmail(input);
 
-        when(emailValidator.isHostWithoutTldAllowed("company"))
-                .thenReturn(true);
+            // Assert
+            assertNull(result);
+        }
 
-        when(emailValidator.extractKnownTld("com"))
-                .thenReturn("com");
+        @Test
+        @DisplayName("trailing junk -> valid email")
+        void shouldStripWrappingCharacters_whenEmailIsSurroundedByAngleBrackets() {
+            // Arrange
+            String input = "<email@domain.com>";
 
-        when(domainMxVerifier.isDomainAllowed("company.com", "info@company.com"))
-                .thenReturn(true);
+            // Act
+            String result = emailExtractor.normalizeEmail(input);
 
-        EmailExtractor emailExtractor = new EmailExtractor(
-                obfuscationNormalizer,
-                List.of(source),
-                emailNormalizer,
-                emailValidator,
-                domainMxVerifier
-        );
+            // Assert
+            assertEquals("email@domain.com", result);
+        }
 
-        Set<String> result = emailExtractor.extractEmails("kontakt: info(at)company(dot)com");
+        @Test
+        @DisplayName("leading %xx is removed -> valid email")
+        void shouldUrlDecodeAndStripLeadingGarbage_whenEmailStartsWithPercentEncoding() {
+            // Arrange
+            String input = "%3Cinfo@example.de";
 
-        assertEquals(Set.of("info@company.com"), result);
-        verify(obfuscationNormalizer).normalize("kontakt: info(at)company(dot)com");
-        verify(source).extractCandidates("kontakt: info@company.com");
+            // Act
+            String result = emailExtractor.normalizeEmail(input);
+
+            // Assert
+            assertEquals("info@example.de", result);
+        }
+
+        @Test
+        @DisplayName("first char must be alfanum: starts with '*' -> null")
+        void shouldReturnNull_whenEmailStartsWithNonAlphanumeric() {
+            assertNull(emailExtractor.normalizeEmail("*info@example.com"));
+        }
+
+        @Test
+        @DisplayName("atIndex <= 0: '@' at beginning -> null")
+        void shouldReturnNull_whenAtSignIsFirstCharacter() {
+            assertNull(emailExtractor.normalizeEmail("@example.de"));
+        }
+
+        @Test
+        @DisplayName("missing dot after '@': info@example -> null")
+        void shouldReturnNull_whenDomainHasNoDotAfterAt() {
+            assertNull(emailExtractor.normalizeEmail("info@example"));
+        }
+
+        @Test
+        @DisplayName("dot before '@': info.example@de -> null")
+        void shouldReturnNull_whenDotAppearsBeforeAtSign() {
+            assertNull(emailExtractor.normalizeEmail("info.example@de"));
+        }
+
+        @Test
+        @DisplayName("second '@' -> null")
+        void shouldReturnNull_whenEmailContainsMultipleAtSigns() {
+            assertNull(emailExtractor.normalizeEmail("examp@le@dot.com"));
+        }
+
+        @Test
+        @DisplayName("splits + validates -> valid email")
+        void shouldLowercaseAndValidate_whenEmailIsValid() {
+            String result = emailExtractor.normalizeEmail("INFO@Example.com");
+            assertEquals("info@example.com", result);
+        }
+
+        @Test
+        @DisplayName("splits + validates glued phone digits -> valid email")
+        void shouldExtractEmail_whenPhoneDigitsAreGluedBeforeLocalPart() {
+            String result = emailExtractor.normalizeEmail("0176123456mona@example.de");
+            assertEquals("mona@example.de", result);
+        }
+
+        @Test
+        @DisplayName("host with subdomains is accepted")
+        void shouldAcceptSubdomains_whenDomainContainsMultipleLabels() {
+            String result = emailExtractor.normalizeEmail("john@mail.sub.example.de");
+            assertEquals("john@mail.sub.example.de", result);
+        }
+
+        @Test
+        @DisplayName("MX check enabled + VALID -> valid email")
+        void shouldReturnEmail_whenMxCheckEnabledAndDomainMxIsValid() {
+            // Arrange
+            EmailProperties mxOn = new EmailProperties("smtp", true, "WARN", 2000, Set.of("de"));
+            EmailExtractor sut = new EmailExtractor(mxLookUp, mxOn);
+            when(mxLookUp.checkDomain("example.de")).thenReturn(MxLookUp.MxStatus.VALID);
+
+            // Act
+            String result = sut.normalizeEmail("INFO@EXAMPLE.DE");
+
+            // Assert
+            assertEquals("info@example.de", result);
+            verify(mxLookUp).checkDomain("example.de");
+        }
     }
 
-    @Test
-    void should_return_valid_email_when_candidate_passes_full_pipeline() {
-        TextObfuscationNormalizer obfuscationNormalizer = mock(TextObfuscationNormalizer.class);
-        EmailSourceExtractor source = mock(EmailSourceExtractor.class);
-        EmailNormalizer emailNormalizer = mock(EmailNormalizer.class);
-        EmailValidator emailValidator = mock(EmailValidator.class);
-        DomainMxVerifier domainMxVerifier = mock(DomainMxVerifier.class);
+    @Nested
+    @DisplayName("extractKnownTld")
+    class ExtractKnownTld {
 
-        when(obfuscationNormalizer.normalize("irrelevant")).thenReturn("irrelevant");
-        when(source.extractCandidates("irrelevant")).thenReturn(List.of("Info@Company.com"));
+        @Test
+        @DisplayName("empty tldPart (email ends with '.') -> null")
+        void shouldReturnNull_whenTldPartIsEmpty() {
+            assertNull(emailExtractor.normalizeEmail("info@example."));
+        }
 
-        when(emailNormalizer.normalizeRawCandidate("Info@Company.com"))
-                .thenReturn("Info@Company.com");
-        when(emailNormalizer.normalizeLocalPart("Info"))
-                .thenReturn("info");
-        when(emailValidator.isLocalPartAllowed("info"))
-                .thenReturn(true);
-        when(emailValidator.isHostWithoutTldAllowed("Company"))
-                .thenReturn(true);
-        when(emailValidator.extractKnownTld("com"))
-                .thenReturn("com");
-        when(domainMxVerifier.isDomainAllowed("company.com", "Info@Company.com"))
-                .thenReturn(true);
+        @Test
+        @DisplayName("tld case-insensitive: DE -> de")
+        void shouldNormalizeTldToLowercase_whenTldIsUppercase() {
+            String result = emailExtractor.normalizeEmail("info@example.DE");
+            assertEquals("info@example.de", result);
+        }
 
-        EmailExtractor emailExtractor = new EmailExtractor(
-                obfuscationNormalizer,
-                List.of(source),
-                emailNormalizer,
-                emailValidator,
-                domainMxVerifier
-        );
-
-        Set<String> result = emailExtractor.extractEmails("irrelevant");
-
-        assertEquals(Set.of("info@company.com"), result);
+        @Test
+        @DisplayName("unknown TLD -> null")
+        void shouldReturnNull_whenTldIsUnknown() {
+            assertNull(emailExtractor.normalizeEmail("info@example.xyz"));
+        }
     }
 
-    @Test
-    void should_skip_candidate_when_raw_candidate_normalization_returns_null() {
-        TextObfuscationNormalizer obfuscationNormalizer = mock(TextObfuscationNormalizer.class);
-        EmailSourceExtractor source = mock(EmailSourceExtractor.class);
-        EmailNormalizer emailNormalizer = mock(EmailNormalizer.class);
-        EmailValidator emailValidator = mock(EmailValidator.class);
-        DomainMxVerifier domainMxVerifier = mock(DomainMxVerifier.class);
+    @Nested
+    @DisplayName("isLocalPartAllowed")
+    class IsLocalPartAllowed {
 
-        when(obfuscationNormalizer.normalize("irrelevant")).thenReturn("irrelevant");
-        when(source.extractCandidates("irrelevant")).thenReturn(List.of("%%%"));
-        when(emailNormalizer.normalizeRawCandidate("%%%")).thenReturn(null);
+        @Test
+        @DisplayName("local-part too short (1) -> null")
+        void shouldReturnNull_whenLocalPartTooShort() {
+            assertNull(emailExtractor.normalizeEmail("a@example.de"));
+        }
 
-        EmailExtractor emailExtractor = new EmailExtractor(
-                obfuscationNormalizer,
-                List.of(source),
-                emailNormalizer,
-                emailValidator,
-                domainMxVerifier
-        );
+        @Test
+        @DisplayName("local-part too long (>40) -> null")
+        void shouldReturnNull_whenLocalPartTooLong() {
+            String longLocal = "a".repeat(41);
+            assertNull(emailExtractor.normalizeEmail(longLocal + "@example.de"));
+        }
 
-        Set<String> result = emailExtractor.extractEmails("irrelevant");
+        @Test
+        @DisplayName("local-part illegal char '!' -> null")
+        void shouldReturnNull_whenLocalPartContainsIllegalCharacter() {
+            assertNull(emailExtractor.normalizeEmail("ab!cd@example.de"));
+        }
 
-        assertEquals(Set.of(), result);
-        verify(emailNormalizer).normalizeRawCandidate("%%%");
-        verifyNoInteractions(emailValidator, domainMxVerifier);
+        @Test
+        @DisplayName("local-part unicode u00fc -> null")
+        void shouldReturnNull_whenLocalPartLooksLikeUnicodeEscapeSequence() {
+            assertNull(emailExtractor.normalizeEmail("u00fcmail@example.de"));
+        }
     }
 
-    @Test
-    void should_skip_candidate_when_local_part_is_invalid() {
-        TextObfuscationNormalizer obfuscationNormalizer = mock(TextObfuscationNormalizer.class);
-        EmailSourceExtractor source = mock(EmailSourceExtractor.class);
-        EmailNormalizer emailNormalizer = mock(EmailNormalizer.class);
-        EmailValidator emailValidator = mock(EmailValidator.class);
-        DomainMxVerifier domainMxVerifier = mock(DomainMxVerifier.class);
+    @Nested
+    @DisplayName("isHostWithoutTldAllowed")
+    class IsHostWithoutTldAllowed {
 
-        when(obfuscationNormalizer.normalize("irrelevant")).thenReturn("irrelevant");
-        when(source.extractCandidates("irrelevant")).thenReturn(List.of("bad@company.com"));
-        when(emailNormalizer.normalizeRawCandidate("bad@company.com")).thenReturn("bad@company.com");
-        when(emailNormalizer.normalizeLocalPart("bad")).thenReturn("bad");
-        when(emailValidator.isLocalPartAllowed("bad")).thenReturn(false);
+        @Test
+        @DisplayName("host extra space -> null")
+        void shouldReturnNull_whenHostContainsSpace() {
+            assertNull(emailExtractor.normalizeEmail("info@ex ample.de"));
+        }
 
-        EmailExtractor emailExtractor = new EmailExtractor(
-                obfuscationNormalizer,
-                List.of(source),
-                emailNormalizer,
-                emailValidator,
-                domainMxVerifier
-        );
+        @Test
+        @DisplayName("host contains '_' -> null")
+        void shouldReturnNull_whenHostContainsUnderscore() {
+            assertNull(emailExtractor.normalizeEmail("info@ex_ample.de"));
+        }
 
-        Set<String> result = emailExtractor.extractEmails("irrelevant");
+        @Test
+        @DisplayName("host starts with '.' -> null")
+        void shouldReturnNull_whenHostStartsWithDot() {
+            assertNull(emailExtractor.normalizeEmail("info@.example.de"));
+        }
 
-        assertEquals(Set.of(), result);
-        verify(emailValidator).isLocalPartAllowed("bad");
-        verify(emailValidator, never()).isHostWithoutTldAllowed(anyString());
-        verifyNoInteractions(domainMxVerifier);
-    }
+        @Test
+        @DisplayName("host starts with '-' -> null")
+        void shouldReturnNull_whenHostStartsWithDash() {
+            assertNull(emailExtractor.normalizeEmail("info@-example.de"));
+        }
 
-    @Test
-    void should_skip_candidate_when_domain_has_invalid_mx() {
-        TextObfuscationNormalizer obfuscationNormalizer = mock(TextObfuscationNormalizer.class);
-        EmailSourceExtractor source = mock(EmailSourceExtractor.class);
-        EmailNormalizer emailNormalizer = mock(EmailNormalizer.class);
-        EmailValidator emailValidator = mock(EmailValidator.class);
-        DomainMxVerifier domainMxVerifier = mock(DomainMxVerifier.class);
+        @Test
+        @DisplayName("host ends with '-' -> null")
+        void shouldReturnNull_whenHostEndsWithDashBeforeTld() {
+            assertNull(emailExtractor.normalizeEmail("info@example-.de"));
+        }
 
-        when(obfuscationNormalizer.normalize("irrelevant")).thenReturn("irrelevant");
-        when(source.extractCandidates("irrelevant")).thenReturn(List.of("info@company.com"));
-        when(emailNormalizer.normalizeRawCandidate("info@company.com")).thenReturn("info@company.com");
-        when(emailNormalizer.normalizeLocalPart("info")).thenReturn("info");
-        when(emailValidator.isLocalPartAllowed("info")).thenReturn(true);
-        when(emailValidator.isHostWithoutTldAllowed("company")).thenReturn(true);
-        when(emailValidator.extractKnownTld("com")).thenReturn("com");
-        when(domainMxVerifier.isDomainAllowed("company.com", "info@company.com")).thenReturn(false);
+        @Test
+        @DisplayName("host contains '..' -> null")
+        void shouldReturnNull_whenHostContainsDoubleDot() {
+            assertNull(emailExtractor.normalizeEmail("info@ex..ample.de"));
+        }
 
-        EmailExtractor emailExtractor = new EmailExtractor(
-                obfuscationNormalizer,
-                List.of(source),
-                emailNormalizer,
-                emailValidator,
-                domainMxVerifier
-        );
-
-        Set<String> result = emailExtractor.extractEmails("irrelevant");
-
-        assertEquals(Set.of(), result);
-        verify(domainMxVerifier).isDomainAllowed("company.com", "info@company.com");
-    }
-
-    @Test
-    void should_merge_and_deduplicate_emails_from_multiple_sources_preserving_order() {
-        TextObfuscationNormalizer obfuscationNormalizer = mock(TextObfuscationNormalizer.class);
-        EmailSourceExtractor source1 = mock(EmailSourceExtractor.class);
-        EmailSourceExtractor source2 = mock(EmailSourceExtractor.class);
-        EmailNormalizer emailNormalizer = mock(EmailNormalizer.class);
-        EmailValidator emailValidator = mock(EmailValidator.class);
-        DomainMxVerifier domainMxVerifier = mock(DomainMxVerifier.class);
-
-        when(obfuscationNormalizer.normalize("irrelevant")).thenReturn("irrelevant");
-
-        when(source1.extractCandidates("irrelevant"))
-                .thenReturn(List.of("info@company.com", "sales@company.com"));
-        when(source2.extractCandidates("irrelevant"))
-                .thenReturn(List.of("info@company.com"));
-
-        when(emailNormalizer.normalizeRawCandidate(anyString()))
-                .thenAnswer(invocation -> invocation.getArgument(0));
-
-        when(emailNormalizer.normalizeLocalPart("info")).thenReturn("info");
-        when(emailNormalizer.normalizeLocalPart("sales")).thenReturn("sales");
-
-        when(emailValidator.isLocalPartAllowed(anyString())).thenReturn(true);
-        when(emailValidator.isHostWithoutTldAllowed("company")).thenReturn(true);
-        when(emailValidator.extractKnownTld("com")).thenReturn("com");
-
-        when(domainMxVerifier.isDomainAllowed(eq("company.com"), anyString())).thenReturn(true);
-
-        EmailExtractor emailExtractor = new EmailExtractor(
-                obfuscationNormalizer,
-                List.of(source1, source2),
-                emailNormalizer,
-                emailValidator,
-                domainMxVerifier
-        );
-
-        Set<String> result = emailExtractor.extractEmails("irrelevant");
-
-        Set<String> expected = new LinkedHashSet<>(List.of("info@company.com", "sales@company.com"));
-        assertEquals(expected, result);
+        @Test
+        @DisplayName("host with subdomain and dash -> valid")
+        void shouldAcceptHost_whenContainsSubdomainAndDash() {
+            String result = emailExtractor.normalizeEmail("info@mail-1.sub.example.de");
+            assertEquals("info@mail-1.sub.example.de", result);
+        }
     }
 }
