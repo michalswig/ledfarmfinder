@@ -8,7 +8,11 @@ import java.util.Set;
 public record EmailProperties(
         String provider,
         boolean mxCheckEnabled,
-        String mxUnknownPolicy,
+        MxUnknownPolicy mxUnknownPolicy,
         long mxTimeoutMs,
         Set<String> knownTlds
-) {}
+) {
+    public enum MxUnknownPolicy {
+        WARN, DROP, ALLOW
+    }
+}
