@@ -148,181 +148,183 @@ leadfinder:
     queries:
 
       # =========================
-      # OGÓLNE – FARMA / BETRIEB (WARIANTY)
+      # OGÓLNE – FARMA / BETRIEB (NOWE DODATKOWE)
       # =========================
-      - Landwirtschaftsbetrieb Kontaktdaten
-      - Landwirtschaftlicher Produzent Kontakt
-      - Landwirtschaftlicher Anbieter E-Mail
-      - Landwirtschaftsbetrieb Geschäftsführung Kontakt
-      - Landwirtschaftlicher Hof Ansprechpartner
-      - Agrarunternehmen Kontaktinformationen
-      - Landwirtschaftlicher Betrieb Firmenkontakt
-      - Landwirtschaftlicher Betrieb Verwaltung E-Mail
-      - Landwirtschaftlicher Produzent Impressum
-      - Landwirtschaftlicher Betrieb Kontakt Telefonnummer
-      - Landwirtschaftliche Erzeugung Betrieb Kontakt
-      - Landwirtschaftlicher Familienhof E-Mail
-      - Landwirtschaftsbetrieb Direktkontakt
-      - Landwirtschaftlicher Mischbetrieb E-Mail
-      - Landwirtschaftlicher Produktionsbetrieb Ansprechpartner
-      - Landwirtschaftlicher Betrieb Betriebsleitung Kontakt
-      - Landwirtschaftlicher Hof Verwaltung Kontakt
-      - Landwirtschaftlicher Produzent Mailadresse
-      - Landwirtschaftlicher Hof Firmenadresse
-      - Landwirtschaftsbetrieb Kontaktformular
+      - Landwirtschaftlicher Betrieb E-Mail Kontakt
+      - Agrarbetrieb Ansprechpartner E-Mail
+      - Landwirtschaftlicher Hof Kontaktseite
+      - Landwirtschaftsbetrieb Firmenadresse Kontakt
+      - Agrar Produzent Ansprechpartner Mail
+      - Landwirtschaftliches Unternehmen Kontakt E-Mail
+      - Landwirtschaftlicher Erzeuger Kontaktformular
+      - Hofbetrieb Geschäftsleitung Kontakt
+      - Landwirtschaftsbetrieb Betreiber Kontaktinformationen
+      - Landwirtschaftlicher Betrieb E-Mail Adresse
+      - Agrarhof Verwaltung Telefonnummer
+      - Landwirtschaftliche Produktion Ansprechpartner Kontakt
+      - Landwirtschaftlicher Familienbetrieb Kontaktformular
+      - Landwirtschaftlicher Hof E-Mail Impressum
+      - Landwirtschaftsbetrieb Inhaber Kontakt
+      - Agrarunternehmen Betriebsleitung E-Mail
+      - Landwirtschaftlicher Produzent Geschäftsführung Kontakt
+      - Landwirtschaftsbetrieb Zentrale Kontakt
+      - Landwirtschaftlicher Hof Direktkontakt E-Mail
+      - Landwirtschaftlicher Betrieb Postadresse Kontakt
 
       # =========================
-      # SPARGEL – ROTACJA
+      # SPARGEL – NOWE DODATKOWE
       # =========================
-      - Spargel Produzent Kontakt
-      - Spargel Landwirtschaftsbetrieb E-Mail
-      - Spargelhof Verwaltung Kontakt
-      - Spargelanbauer Ansprechpartner
-      - Spargel Erzeugung Betrieb Kontakt
-      - Spargel Produzent E-Mail Adresse
-      - Spargel Landwirtschaft Direktverkauf Kontakt
-      - Spargel Hof Betreiber Kontakt
-      - Spargelanbau Familienbetrieb E-Mail
-      - Spargel Betrieb Kontaktdaten
-      - Spargelanbau Unternehmen Kontakt
-      - Spargelverkauf Landwirtschaft Kontakt
-      - Spargelhof Betriebsleitung E-Mail
-      - Spargel Direktvermarktung Betrieb Kontakt
-      - Spargel Hof Adresse Kontakt
-      - Spargel Produzent Telefonnummer
-      - Spargelanbau Verwaltung Kontakt
-      - Spargel Landwirtschaft Betrieb Impressum
+      - Spargelhof Kontaktformular
+      - Spargelbetrieb Ansprechpartner E-Mail
+      - Spargelerzeuger Geschäftsführung Kontakt
+      - Spargel Landwirtschaft Unternehmen Kontaktadresse
+      - Spargel Anbau Hof Verwaltung E-Mail
+      - Spargelvermarktung Betrieb Kontakt
+      - Spargel Produzent Direktkontakt
+      - Spargelhof Impressum E-Mail
+      - Spargelanbau Betriebsleitung Kontakt
+      - Spargel Landwirtschaftlicher Erzeuger Kontakt
+      - Spargel Betrieb Inhaber E-Mail
+      - Spargelhof Firmenkontakt
+      - Spargel Produzent Kontaktformular
+      - Spargel Landwirtschaft Hof Telefonnummer
+      - Spargelverkauf Hof E-Mail
+      - Spargelanbauer Geschäftsleitung Kontakt
+      - Spargel Familienhof Ansprechpartner
+      - Spargel Direktvermarktung Hof Mailadresse
 
       # =========================
-      # PILZE – ROTACJA
+      # PILZE – NOWE DODATKOWE
       # =========================
-      - Pilz Produzent Kontakt
-      - Champignon Produzent E-Mail
-      - Speisepilz Betrieb Kontakt
-      - Pilzzucht Unternehmen Kontakt
-      - Pilzproduktion Landwirtschaft E-Mail
-      - Pilzanbau Familienbetrieb Kontakt
-      - Pilzbetrieb Kontaktdaten
-      - Pilz Landwirtschaftsbetrieb Ansprechpartner
-      - Pilzzucht Verwaltung Kontakt
-      - Pilz Erzeuger Impressum
-      - Champignon Landwirtschaft Betrieb Kontakt
-      - Pilz Direktvermarktung Betrieb E-Mail
-      - Pilz Produktion Unternehmen Kontakt
-      - Pilzanbau Betreiber Kontakt
-      - Pilzzucht Hof Kontaktadresse
-      - Speisepilze Produzent E-Mail
+      - Pilzbetrieb Ansprechpartner E-Mail
+      - Champignonzucht Unternehmen Kontakt
+      - Speisepilze Erzeuger Kontaktadresse
+      - Pilzanbau Hof Verwaltung E-Mail
+      - Pilz Produktion Betrieb Impressum Kontakt
+      - Pilzzucht Geschäftsführung Kontakt
+      - Pilz Landwirtschaft Hof Mailadresse
+      - Pilz Direktverkauf Betrieb Kontakt
+      - Pilzproduzent Telefonnummer
+      - Pilzzucht Familienbetrieb E-Mail
+      - Champignon Betrieb Ansprechpartner Kontakt
+      - Pilzbetrieb Direktkontakt E-Mail
+      - Pilz Erzeuger Verwaltung Kontakt
+      - Speisepilz Unternehmen E-Mail Adresse
+      - Pilz Hof Betreiber Mail
+      - Pilzzucht Betriebsleitung Kontakt
 
       # =========================
-      # HOPFEN – ROTACJA
+      # HOPFEN – NOWE DODATKOWE
       # =========================
-      - Hopfen Produzent Kontakt
-      - Hopfenanbau Unternehmen E-Mail
-      - Hopfen Landwirtschaftsbetrieb Ansprechpartner
-      - Hopfen Erzeugung Betrieb Kontakt
-      - Hopfen Hof Betreiber E-Mail
-      - Hopfen Landwirtschaft Produktion Kontakt
-      - Hopfen Direktvermarktung Betrieb E-Mail
-      - Hopfenanbauer Kontaktdaten
-      - Hopfen Betrieb Geschäftsführung Kontakt
-      - Hopfen Landwirtschaftlicher Produzent E-Mail
-      - Hopfen Anbau Familienbetrieb Kontakt
-      - Hopfen Produzent Verwaltung Kontakt
-      - Hopfen Landwirtschaft Impressum
+      - Hopfenhof Ansprechpartner E-Mail
+      - Hopfenproduktion Unternehmen Kontakt
+      - Hopfenbetrieb Verwaltung E-Mail
+      - Hopfenanbau Hof Kontaktadresse
+      - Hopfen Direktvermarktung Hof Kontakt
+      - Hopfen Erzeuger Mailadresse
+      - Hopfen Landwirtschaftlicher Betrieb Kontaktformular
+      - Hopfen Produzent Telefonnummer
+      - Hopfenanbau Geschäftsführung Kontakt
+      - Hopfen Hof Impressum E-Mail
+      - Hopfen Familienbetrieb Ansprechpartner
+      - Hopfenproduktion Betrieb Kontaktinformationen
+      - Hopfen Erzeugung Unternehmen Ansprechpartner
 
       # =========================
-      # WEIN – ROTACJA
+      # WEIN – NOWE DODATKOWE
       # =========================
-      - Wein Produzent Kontakt
-      - Weinbau Unternehmen E-Mail
-      - Winzer Ansprechpartner Kontakt
-      - Wein Erzeugung Betrieb E-Mail
-      - Weingut Geschäftsführung Kontakt
-      - Weinbaubetrieb Verwaltung E-Mail
-      - Winzer Familienbetrieb Kontakt
-      - Wein Direktvertrieb Betrieb Kontakt
-      - Wein Produzent Impressum
-      - Weinbau Produzent Kontaktdaten
-      - Wein Landwirtschaftsbetrieb Kontakt
-      - Weingut Mailadresse
-      - Winzer Betrieb Telefonnummer
+      - Weingut Kontaktformular
+      - Weinproduzent Ansprechpartner E-Mail
+      - Winzerhof Verwaltung Kontakt
+      - Weinbau Familienbetrieb E-Mail Adresse
+      - Wein Direktvermarktung Hof Kontakt
+      - Weingut Inhaber Kontakt
+      - Weinbau Betrieb Impressum E-Mail
+      - Wein Erzeuger Telefonnummer
+      - Winzer Unternehmen Kontaktinformationen
+      - Weinproduktion Betrieb Geschäftsleitung Kontakt
+      - Weingut Betriebsleitung E-Mail
+      - Wein Landwirtschaftlicher Produzent Kontakt
+      - Winzer Mail Kontaktformular
 
       # =========================
-      # ERDBEEREN – ROTACJA
+      # ERDBEEREN – NOWE DODATKOWE
       # =========================
-      - Erdbeer Produzent Kontakt
-      - Erdbeeranbau Unternehmen E-Mail
-      - Erdbeer Landwirtschaftsbetrieb Ansprechpartner
-      - Erdbeer Erzeugung Betrieb Kontakt
-      - Erdbeerhof Verwaltung E-Mail
-      - Erdbeer Produzent Impressum
-      - Erdbeer Direktvermarktung Betrieb Kontakt
-      - Erdbeer Familienbetrieb E-Mail
-      - Erdbeeranbauer Kontaktdaten
-      - Erdbeer Landwirtschaft Produktion Kontakt
-      - Erdbeer Betrieb Geschäftsführung Kontakt
-      - Erdbeerhof Telefonnummer
+      - Erdbeerhof Kontaktformular
+      - Erdbeer Produzent E-Mail Adresse
+      - Erdbeeranbau Hof Verwaltung Kontakt
+      - Erdbeer Betrieb Ansprechpartner E-Mail
+      - Erdbeer Direktverkauf Hof Kontakt
+      - Erdbeer Erzeuger Mailadresse
+      - Erdbeer Landwirtschaft Unternehmen Kontaktinformationen
+      - Erdbeeranbau Betriebsleitung Kontakt
+      - Erdbeerhof Impressum E-Mail
+      - Erdbeer Familienhof Ansprechpartner
+      - Erdbeervermarktung Betrieb Kontakt
+      - Erdbeerproduzent Telefonnummer
 
       # =========================
-      # BLUMEN – ROTACJA
+      # BLUMEN – NOWE DODATKOWE
       # =========================
-      - Blumen Produzent Kontakt
-      - Zierpflanzen Produzent E-Mail
-      - Schnittblumen Unternehmen Kontakt
-      - Gartenbau Betrieb Ansprechpartner
-      - Blumen Landwirtschaftsbetrieb Kontakt
-      - Blumen Direktverkauf Betrieb E-Mail
-      - Gärtnerei Verwaltung Kontakt
-      - Blumenanbau Produzent Kontaktdaten
-      - Zierpflanzen Betrieb Impressum
-      - Blumen Hof Betreiber Kontakt
-      - Gartenbau Produktion Betrieb E-Mail
-      - Schnittblumen Produzent Telefonnummer
+      - Blumenhof Kontaktformular
+      - Zierpflanzen Betrieb Ansprechpartner E-Mail
+      - Schnittblumen Produzent Kontaktadresse
+      - Gartenbau Unternehmen Verwaltung E-Mail
+      - Blumenproduktion Betrieb Kontaktinformationen
+      - Blumen Erzeuger Impressum E-Mail
+      - Gärtnerei Geschäftsführung Kontakt
+      - Blumen Direktvermarktung Hof Kontakt
+      - Zierpflanzen Familienbetrieb E-Mail
+      - Schnittblumen Hof Betreiber Kontakt
+      - Gartenbau Produzent Telefonnummer
+      - Blumenanbau Betrieb Mailadresse
 
       # =========================
-      # GEWÄCHSHAUS – ROTACJA
+      # GEWÄCHSHAUS – NOWE DODATKOWE
       # =========================
-      - Gewächshaus Produzent Kontakt
-      - Gewächshaus Landwirtschaftsbetrieb E-Mail
-      - Gemüse Gewächshaus Unternehmen Kontakt
-      - Tomaten Produzent Gewächshaus Kontakt
-      - Gurken Produzent Gewächshaus E-Mail
-      - Gewächshaus Betreiber Ansprechpartner
-      - Gewächshaus Produktion Betrieb Kontakt
-      - Gewächshaus Verwaltung E-Mail
-      - Gewächshaus Direktvermarktung Betrieb Kontakt
-      - Gewächshaus Unternehmen Impressum
-      - Gewächshaus Landwirtschaft Produzent Kontakt
+      - Gewächshaus Hof Kontaktformular
+      - Gewächshaus Produzent Ansprechpartner E-Mail
+      - Gemüseproduktion Gewächshaus Kontaktadresse
+      - Tomaten Gewächshaus Betrieb E-Mail
+      - Gurken Gewächshaus Unternehmen Kontaktinformationen
+      - Gewächshaus Geschäftsführung Kontakt
+      - Gewächshaus Familienbetrieb E-Mail
+      - Gewächshaus Hof Verwaltung Kontakt
+      - Gewächshaus Direktverkauf Betrieb E-Mail
+      - Gewächshaus Produzent Telefonnummer
+      - Gewächshaus Betrieb Mailadresse
 
       # =========================
-      # KARTOFFEL – ROTACJA
+      # KARTOFFEL – NOWE DODATKOWE
       # =========================
-      - Kartoffel Produzent Kontakt
-      - Kartoffelanbau Unternehmen E-Mail
-      - Speisekartoffeln Produzent Kontakt
-      - Kartoffel Landwirtschaftsbetrieb Ansprechpartner
-      - Kartoffel Erzeugung Betrieb E-Mail
-      - Kartoffelhof Verwaltung Kontakt
-      - Kartoffel Direktvertrieb Betrieb Kontakt
-      - Kartoffel Familienbetrieb E-Mail
-      - Kartoffel Anbauer Kontaktdaten
-      - Kartoffel Produktion Betrieb Kontakt
-      - Kartoffel Landwirtschaft Impressum
-      - Kartoffelhof Telefonnummer
+      - Kartoffelhof Kontaktformular
+      - Kartoffel Produzent Ansprechpartner E-Mail
+      - Kartoffelbetrieb Verwaltung E-Mail
+      - Kartoffelanbau Hof Kontaktadresse
+      - Speisekartoffel Erzeuger Kontakt
+      - Kartoffel Direktvermarktung Hof Kontakt
+      - Kartoffel Produktion Unternehmen E-Mail
+      - Kartoffelbetrieb Impressum Kontakt
+      - Kartoffel Produzent Telefonnummer
+      - Kartoffel Familienhof Ansprechpartner
+      - Kartoffel Landwirtschaft Unternehmen Kontaktinformationen
+      - Kartoffel Anbau Betriebsleitung Kontakt
 
       # =========================
-      # BIO / ÖKO – NOWE ROZSZERZENIE
+      # BIO / ÖKO – NOWE DODATKOWE
       # =========================
-      - Ökologischer Landwirtschaftsbetrieb Kontakt
-      - Bio Produzent Landwirtschaft E-Mail
-      - Bioland zertifizierter Betrieb Kontakt
-      - Naturland zertifizierter Hof E-Mail
-      - Demeter Landwirtschaftsbetrieb Ansprechpartner
-      - Nachhaltige Landwirtschaft Produktion Kontakt
-      - Bio Lebensmittel Produzent E-Mail
-      - Öko Hof Betreiber Kontakt
-      - Bio Direktvermarktung Betrieb E-Mail
-      - Nachhaltiger Erzeuger Kontaktdaten
+      - Bio Hof Kontaktformular
+      - Öko Landwirtschaft Produzent E-Mail Adresse
+      - Bioland Betrieb Ansprechpartner Kontakt
+      - Naturland Hof Verwaltung E-Mail
+      - Demeter Produzent Kontaktinformationen
+      - Bio Direktvermarktung Hof Kontakt
+      - Ökologischer Erzeuger Mailadresse
+      - Nachhaltiger Landwirtschaftsbetrieb Impressum Kontakt
+      - Bio Lebensmittel Hof Betreiber Kontakt
+      - Öko Familienbetrieb E-Mail
+      - Nachhaltige Landwirtschaft Geschäftsführung Kontakt
+      - Biobetrieb Telefonnummer
 
 app:
   outreach:
