@@ -1,6 +1,6 @@
 package com.mike.leadfarmfinder.service.emailextractor;
 
-import com.mike.leadfarmfinder.config.EmailExtractorProperties;
+import com.mike.leadfarmfinder.config.EmailProperties;
 import com.mike.leadfarmfinder.service.MxLookUp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class DomainMxVerifier {
     private final MxLookUp mxLookUp;
-    private final EmailExtractorProperties props;
+    private final EmailProperties props;
 
     public boolean isDomainAllowed(String domain, String rowEmailForLog) {
 
@@ -22,7 +22,7 @@ public class DomainMxVerifier {
         if (mx == MxLookUp.MxStatus.INVALID) return false;
 
         if (mx == MxLookUp.MxStatus.UNKNOWN) {
-            if (props.mxUnknownPolicy() == EmailExtractorProperties.MxUnknownPolicy.DROP) return false;
+            if (props.mxUnknownPolicy() == EmailProperties.MxUnknownPolicy.DROP) return false;
             log.warn("MX check UNKNOWN for domain={}, email={}", domain, rowEmailForLog);
         }
         return true;

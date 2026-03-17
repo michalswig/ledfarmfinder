@@ -1,6 +1,6 @@
 package com.mike.leadfarmfinder.service.emailextractor;
 
-import com.mike.leadfarmfinder.config.EmailExtractorProperties;
+import com.mike.leadfarmfinder.config.EmailProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class EmailValidator {
 
-    private final EmailExtractorProperties props;
+    private final EmailProperties props;
 
     private static final Pattern LOCAL_PART_PATTERN =
             Pattern.compile("^[a-z0-9._%+-]{2,40}$");
