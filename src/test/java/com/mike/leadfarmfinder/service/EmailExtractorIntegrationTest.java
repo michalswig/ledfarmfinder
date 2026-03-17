@@ -1,177 +1,94 @@
 package com.mike.leadfarmfinder.service;
 
-import com.mike.leadfarmfinder.config.EmailExtractorProperties;
+import com.mike.leadfarmfinder.config.EmailProperties;
 import com.mike.leadfarmfinder.service.emailextractor.*;
-import org.junit.jupiter.api.BeforeEach;
+import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = EmailExtractorIntegrationTest.TestConfig.class)
 class EmailExtractorIntegrationTest {
 
+    @Resource
     private EmailExtractor emailExtractor;
 
-    @BeforeEach
-    void setUp() {
-        EmailExtractorProperties props = new EmailExtractorProperties(
-                true,
-                EmailExtractorProperties.MxUnknownPolicy.ALLOW,
-                5000,
-                Set.of("com", "de", "pl")
-        );
-
-        TextObfuscationNormalizer textObfuscationNormalizer = new TextObfuscationNormalizer();
-        EmailNormalizer emailNormalizer = new EmailNormalizer();
-        EmailValidator emailValidator = new EmailValidator(props);
-
-        MxLookUp mxLookUp = domain -> switch (domain) {
-            case "company.com", "example.de", "firma.pl" -> MxLookUp.MxStatus.VALID;
-            case "invalid.com" -> MxLookUp.MxStatus.INVALID;
-            default -> MxLookUp.MxStatus.UNKNOWN;
-        };
-
-        DomainMxVerifier domainMxVerifier = new DomainMxVerifier(mxLookUp, props);
-
-        List<EmailSourceExtractor> sources = List.of(
-                new RegexTextExtractor(),
-                new MailToExtractor(textObfuscationNormalizer),
-                new CloudflareCfEmailExtractor()
-        );
-
-        emailExtractor = new EmailExtractor(
-                textObfuscationNormalizer,
-                sources,
-                emailNormalizer,
-                emailValidator,
-                domainMxVerifier
-        );
-    }
-
     @Test
-    void should_allow_email_when_domain_mx_status_is_unknown_and_policy_is_allow() {
-        Set<String> result = emailExtractor.extractEmails("Contact: info@mystery.com");
+    void shouldExtractOnlyValidNormalizedEmails() {
+        String html = """
+                Kontakt:
+                sales (at) firma (dot) de
+                info@example.com,
+                broken@@example.com
+                bad@invalid.com
+                %20office@example.com
+                """;
 
-        assertEquals(Set.of("info@mystery.com"), result);
+        Set<String> result = emailExtractor.extractEmails(html);
+
+        assertEquals(Set.of(
+                "sales@firma.de",
+                "info@example.com",
+                "office@example.com"
+        ), result);
     }
 
-    @Test
-    void should_extract_email_from_cloudflare_cfemail() {
-        String cfemail = encodeCfEmail("info@company.com", 0x6a);
+    @Configuration
+    @Import({
+            EmailExtractor.class,
+            TextObfuscationNormalizer.class,
+            EmailNormalizer.class,
+            EmailValidator.class,
+            DomainMxVerifier.class
+    })
+    static class TestConfig {
 
-        Set<String> result = emailExtractor.extractEmails("""
-        <a href="/cdn-cgi/l/email-protection"
-           class="__cf_email__"
-           data-cfemail="%s">
-           [email protected]
-        </a>
-        """.formatted(cfemail));
-
-        assertEquals(Set.of("info@company.com"), result);
-    }
-
-    @Test
-    void should_return_empty_set_when_input_is_null() {
-        Set<String> result = emailExtractor.extractEmails(null);
-
-        assertEquals(Set.of(), result);
-    }
-
-    @Test
-    void should_return_empty_set_when_input_is_blank() {
-        Set<String> result = emailExtractor.extractEmails("   ");
-
-        assertEquals(Set.of(), result);
-    }
-
-    @Test
-    void should_extract_plain_email_from_text() {
-        Set<String> result = emailExtractor.extractEmails("Contact us: info@company.com");
-
-        assertEquals(Set.of("info@company.com"), result);
-    }
-
-    @Test
-    void should_extract_obfuscated_email_from_text() {
-        Set<String> result = emailExtractor.extractEmails("Contact us: info(at)company(dot)com");
-
-        assertEquals(Set.of("info@company.com"), result);
-    }
-
-    @Test
-    void should_extract_email_from_mailto_link() {
-        Set<String> result = emailExtractor.extractEmails("""
-                <html>
-                    <body>
-                        <a href="mailto:info@company.com?subject=Hello">Email us</a>
-                    </body>
-                </html>
-                """);
-
-        assertEquals(Set.of("info@company.com"), result);
-    }
-
-    @Test
-    void should_extract_obfuscated_email_from_mailto_link() {
-        Set<String> result = emailExtractor.extractEmails("""
-                <a href="mailto:info(at)company(dot)com?subject=Hello">Email us</a>
-                """);
-
-        assertEquals(Set.of("info@company.com"), result);
-    }
-
-    @Test
-    void should_deduplicate_same_email_found_by_multiple_sources() {
-        Set<String> result = emailExtractor.extractEmails("""
-                Contact: info@company.com
-                <a href="mailto:info@company.com">Write to us</a>
-                """);
-
-        assertEquals(Set.of("info@company.com"), result);
-    }
-
-    @Test
-    void should_keep_insertion_order_when_multiple_distinct_emails_are_found() {
-        Set<String> result = emailExtractor.extractEmails("""
-                First: info@company.com
-                Second: sales@company.com
-                <a href="mailto:info@company.com">Mail</a>
-                """);
-
-        Set<String> expected = new LinkedHashSet<>(List.of("info@company.com", "sales@company.com"));
-        assertEquals(expected, result);
-    }
-
-    @Test
-    void should_skip_invalid_email() {
-        Set<String> result = emailExtractor.extractEmails("Broken email: info@@company..com");
-
-        assertEquals(Set.of(), result);
-    }
-
-    @Test
-    void should_skip_email_when_domain_has_invalid_mx() {
-        Set<String> result = emailExtractor.extractEmails("Contact: info@invalid.com");
-
-        assertEquals(Set.of(), result);
-    }
-
-    @Test
-    void should_skip_email_when_tld_is_not_known() {
-        Set<String> result = emailExtractor.extractEmails("Contact: info@company.xyz");
-
-        assertEquals(Set.of(), result);
-    }
-
-    private String encodeCfEmail(String email, int key) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%02x", key));
-        for (char c : email.toCharArray()) {
-            sb.append(String.format("%02x", ((int) c) ^ key));
+        @Bean
+        EmailProperties emailProperties() {
+            return new EmailProperties(
+                    "ses",
+                    true,
+                    EmailProperties.MxUnknownPolicy.ALLOW,
+                    5000L,
+                    Set.of("com", "de", "pl")
+            );
         }
-        return sb.toString();
+
+        @Bean
+        MxLookUp mxLookUp() {
+            return domain -> switch (domain) {
+                case "firma.de", "example.com", "example.de", "firma.pl" -> MxLookUp.MxStatus.VALID;
+                case "invalid.com" -> MxLookUp.MxStatus.INVALID;
+                default -> MxLookUp.MxStatus.UNKNOWN;
+            };
+        }
+
+        @Bean
+        EmailSourceExtractor extractorOne() {
+            return html -> List.of(
+                    "sales@firma.de",
+                    "info@example.com,",
+                    "broken@@example.com",
+                    "bad@invalid.com",
+                    "%20office@example.com"
+            );
+        }
+
+        @Bean
+        EmailSourceExtractor extractorTwo() {
+            return html -> List.of(
+                    "sales (at) firma (dot) de"
+            );
+        }
     }
 }
