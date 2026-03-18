@@ -83,7 +83,7 @@ public class DiscoveryService {
             "baumschule", "stauden",
             "pilz", "pilze", "pilzzucht", "champignon",
             "gemuesebau", "gemüsebau",
-            "garten",
+            "garten", "spargelhof",
             "betrieb", "familienbetrieb",
             "direktvermarktung", "hofverkauf",
             "verarbeitung", "aufbereitung", "pack", "verpackung", "sortierung", "lager",
@@ -249,7 +249,6 @@ public class DiscoveryService {
             "tiny-house-dorf",
             "wellness",
             "sauna",
-            "spa",
 
             // pośrednictwo / HR
             "zeitarbeit",
