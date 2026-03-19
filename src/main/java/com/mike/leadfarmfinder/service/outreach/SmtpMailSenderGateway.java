@@ -13,7 +13,11 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@ConditionalOnProperty(name = "leadfinder.email.provider", havingValue = "smtp")
+@ConditionalOnProperty(
+        name = "leadfinder.email.provider",
+        havingValue = "smtp",
+        matchIfMissing = true
+)
 public class SmtpMailSenderGateway implements MailSenderGateway {
 
     private final JavaMailSender mailSender;

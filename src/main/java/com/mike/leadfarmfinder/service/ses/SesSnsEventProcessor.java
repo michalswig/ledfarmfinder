@@ -14,33 +14,47 @@ public class SesSnsEventProcessor {
     private final ObjectMapper objectMapper;
     private final SesLeadEventService sesLeadEventService;
 
-    public void processSesEvent(String messageJson) throws Exception {
-        JsonNode root = objectMapper.readTree(messageJson);
+    public void processSesEvent(String messageJson) {
+        try {
+            JsonNode root = objectMapper.readTree(messageJson);
 
-        String eventType = text(root, "eventType");
-        if (eventType == null) {
-            eventType = text(root, "notificationType");
-        }
-
-        JsonNode mail = root.path("mail");
-        String sesMessageId = text(mail, "messageId");
-        String destination = firstText(mail.path("destination"));
-        String leadId = firstTagValue(mail.path("tags"), "leadId");
-        String emailType = firstTagValue(mail.path("tags"), "emailType");
-
-        log.info("Processing SES event: type={}, sesMessageId={}, leadId={}, destination={}, emailType={}",
-                eventType, sesMessageId, leadId, destination, emailType);
-
-        switch (eventType) {
-            case "Bounce" -> {
-                String bounceType = text(root.path("bounce"), "bounceType");
-                String bounceSubType = text(root.path("bounce"), "bounceSubType");
-                sesLeadEventService.handleBounce(leadId, destination, sesMessageId, bounceType, bounceSubType);
+            String eventType = text(root, "eventType");
+            if (eventType == null) {
+                eventType = text(root, "notificationType");
             }
-            case "Complaint" -> sesLeadEventService.handleComplaint(leadId, destination, sesMessageId);
-            case "Delivery" -> sesLeadEventService.handleDelivery(leadId, destination, sesMessageId);
-            case "Send" -> sesLeadEventService.handleSend(leadId, destination, sesMessageId);
-            default -> log.info("Ignoring SES event type={}", eventType);
+
+            JsonNode mail = root.path("mail");
+            String sesMessageId = text(mail, "messageId");
+            String destination = firstText(mail.path("destination"));
+            String leadId = firstTagValue(mail.path("tags"), "leadId");
+            String emailType = firstTagValue(mail.path("tags"), "emailType");
+
+            if (eventType == null || eventType.isBlank()) {
+                log.warn("SES event ignored - missing eventType/notificationType. sesMessageId={}, leadId={}, destination={}, payload={}",
+                        sesMessageId, leadId, destination, messageJson);
+                return;
+            }
+
+            log.info("Processing SES event: type={}, sesMessageId={}, leadId={}, destination={}, emailType={}",
+                    eventType, sesMessageId, leadId, destination, emailType);
+
+            switch (eventType) {
+                case "Bounce" -> {
+                    String bounceType = text(root.path("bounce"), "bounceType");
+                    String bounceSubType = text(root.path("bounce"), "bounceSubType");
+
+                    log.info("SES bounce details: bounceType={}, bounceSubType={}, sesMessageId={}, leadId={}, destination={}",
+                            bounceType, bounceSubType, sesMessageId, leadId, destination);
+
+                    sesLeadEventService.handleBounce(leadId, destination, sesMessageId, bounceType, bounceSubType);
+                }
+                case "Complaint" -> sesLeadEventService.handleComplaint(leadId, destination, sesMessageId);
+                case "Delivery" -> sesLeadEventService.handleDelivery(leadId, destination, sesMessageId);
+                case "Send" -> sesLeadEventService.handleSend(leadId, destination, sesMessageId);
+                default -> log.info("Ignoring SES event type={}", eventType);
+            }
+        } catch (Exception e) {
+            log.error("Failed to process SES event payload: {}", messageJson, e);
         }
     }
 

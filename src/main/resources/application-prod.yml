@@ -60,7 +60,7 @@ leadfinder:
       expression: ${AJB_CRON_EXPRESSION:0 35 2 * * *}
 
   email:
-    provider: ${APP_MAIL_PROVIDER:smtp}
+    provider: ${APP_MAIL_PROVIDER:ses}
     mx-check-enabled: ${EMAIL_MX_CHECK:true}
     mx-timeout-ms: ${EMAIL_MX_TIMEOUT_MS:2000}
     mx-unknown-policy: ${EMAIL_MX_UNKNOWN_POLICY:ALLOW}
@@ -68,7 +68,7 @@ leadfinder:
 
   outreach:
     enabled: ${OUTREACH_ENABLED:true}
-    from-address: ${OUTREACH_FROM:Patrycja Swigost <office@o1jobs.de>}
+    from-address: ${OUTREACH_FROM:Patrycja Swigost <patrycja@office.o1jobs.de>}
     default-subject: ${OUTREACH_SUBJECT:Zuverlässige polnische Arbeitskräfte – kurzfristig verfügbar}
     max-emails-per-run: ${OUTREACH_MAX_PER_RUN:10}
     simulate-only: ${OUTREACH_SIMULATE_ONLY:false}

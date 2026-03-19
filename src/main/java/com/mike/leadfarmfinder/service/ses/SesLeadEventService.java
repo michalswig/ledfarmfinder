@@ -26,7 +26,15 @@ public class SesLeadEventService {
 
         FarmLead lead = leadOpt.get();
         lead.setBounce(true);
-        lead.setActive(false);
+
+        if (isPermanentBounce(bounceType)) {
+            lead.setActive(false);
+            log.info("Permanent bounce -> lead deactivated. leadId={}, destination={}, bounceType={}, bounceSubType={}, sesMessageId={}",
+                    lead.getId(), destination, bounceType, bounceSubType, sesMessageId);
+        } else {
+            log.info("Non-permanent bounce -> lead kept active. leadId={}, destination={}, bounceType={}, bounceSubType={}, sesMessageId={}",
+                    lead.getId(), destination, bounceType, bounceSubType, sesMessageId);
+        }
 
         farmLeadRepository.save(lead);
 
@@ -44,11 +52,12 @@ public class SesLeadEventService {
         }
 
         FarmLead lead = leadOpt.get();
+        lead.setBounce(true);
         lead.setActive(false);
 
         farmLeadRepository.save(lead);
 
-        log.info("Complaint processed. leadId={}, destination={}, sesMessageId={}",
+        log.info("Complaint processed and lead deactivated. leadId={}, destination={}, sesMessageId={}",
                 lead.getId(), destination, sesMessageId);
     }
 
@@ -77,5 +86,9 @@ public class SesLeadEventService {
         }
 
         return Optional.empty();
+    }
+
+    private boolean isPermanentBounce(String bounceType) {
+        return "Permanent".equalsIgnoreCase(bounceType);
     }
 }
