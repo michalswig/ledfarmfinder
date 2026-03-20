@@ -69,7 +69,7 @@ leadfinder:
   outreach:
     enabled: ${OUTREACH_ENABLED:true}
     from-address: ${OUTREACH_FROM:Patrycja Swigost <patrycja@office.o1jobs.de>}
-    default-subject: ${OUTREACH_SUBJECT:kurze Frage}
+    default-subject: ${OUTREACH_SUBJECT:kurze Frage zur Saison}
     max-emails-per-run: ${OUTREACH_MAX_PER_RUN:10}
     simulate-only: ${OUTREACH_SIMULATE_ONLY:false}
     interval-millis: ${OUTREACH_INTERVAL_MS:900000}
@@ -77,16 +77,19 @@ leadfinder:
     first-email-body-template: |
       Guten Tag,
       
-      ich arbeite in einer kleinen Agentur aus Polen und bin in Kontakt mit Arbeitskräften, die kurzfristig verfügbar sind, viele davon mit praktischer Erfahrung in verschiedenen Bereichen.
+      in der Landwirtschaft entstehen oft kurzfristig Engpässe –
+      vor allem bei Ernte oder Saisonarbeiten.
       
-      Ich wollte kurz fragen, ob bei Ihnen aktuell oder in nächster Zeit Bedarf besteht.
+      Ich bin aktuell in Kontakt mit mehreren Personen aus Polen,
+      die in den nächsten Wochen verfügbar sind (z. B. Ernte, Spargel, Obst).
       
-      Falls ja, kann ich gerne unverbindlich unterstützen.
+      Brauchen Sie aktuell Unterstützung?
       
       Viele Grüße
       Patrycja
       o1jobs
       +49 160 6328144
+      Zusammenarbeit mit landwirtschaftlichen Betrieben seit mehreren Jahren
 
     follow-up-subject: ${OUTREACH_FOLLOWUP_SUBJECT:kurze Frage}
 
@@ -95,16 +98,16 @@ leadfinder:
     follow-up-email-body-template: |
       Guten Tag,
       
-      ich wollte mich noch einmal kurz melden.
+      ich wollte nur kurz nachfragen.
       
-      Ich arbeite in einer kleinen Agentur aus Polen und habe aktuell Kontakt zu einigen Arbeitskräften, die kurzfristig verfügbar sind.
-      
-      Ist das für Sie aktuell relevant?
+      Brauchen Sie aktuell oder in den nächsten Wochen Unterstützung
+      bei Ernte oder Saisonarbeiten?
       
       Viele Grüße
       Patrycja
       o1jobs
       +49 160 6328144
+      Zusammenarbeit mit landwirtschaftlichen Betrieben seit mehreren Jahren
 
   scraper:
     min-hours-between-scrapes: 12
