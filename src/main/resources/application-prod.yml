@@ -69,43 +69,24 @@ leadfinder:
   outreach:
     enabled: ${OUTREACH_ENABLED:true}
     from-address: ${OUTREACH_FROM:Patrycja Swigost <patrycja@office.o1jobs.de>}
-    default-subject: ${OUTREACH_SUBJECT:Zuverlässige polnische Arbeitskräfte – kurzfristig verfügbar}
+    default-subject: ${OUTREACH_SUBJECT:kurze Frage}
     max-emails-per-run: ${OUTREACH_MAX_PER_RUN:10}
     simulate-only: ${OUTREACH_SIMULATE_ONLY:false}
     interval-millis: ${OUTREACH_INTERVAL_MS:900000}
     delay-between-emails-millis: ${OUTREACH_DELAY_MS:15000}
     first-email-body-template: |
-      Guten Tag
+      Guten Tag,
       
-      Wir vermitteln zuverlässige Arbeitskräfte aus Polen für die Landwirtschaft und ähnliche Bereiche.
-      Wir sind eine kleine Agentur aus Polen und arbeiten schnell, unkompliziert und ohne viel Bürokratie.
+      ich arbeite in einer kleinen Agentur aus Polen und bin in Kontakt mit Arbeitskräften, die kurzfristig verfügbar sind, viele davon mit praktischer Erfahrung in verschiedenen Bereichen.
       
-      Viele Kandidaten sind kurzfristig einsatzbereit, die meisten mit Erfahrung – einige auch mit Deutsch- oder Englischkenntnissen.
-
-      Unsere Vermittlungskonditionen (einmalige Provision):
-        • 280 Euro- Erntehelfer / landwirtschaftliche Helfer
-        • 320 Euro- Tierpfleger / z.B. Melker
-        • 400 Euro- Hilfsarbeiter (Bau, Reinigung, Produktion, Gartenarbeit, Sortierung)
-
-      Ablauf der Vermittlung:
-        • Sie erhalten von uns einen kurzen Vermittlungsvertrag und eine Stellenbeschreibung (Formular).
-        • Danach senden wir Ihnen passende Kandidatenprofile innerhalb weniger Tage zu.
-        • Nach der Bestätigung eines Kandidaten organisieren wir die Anreise zum gewünschten Termin.
-        • Die Unterkunft muss vorhanden sein.
-
-      Wichtig: Sie sind der Arbeitgeber. Wir sind ausschließlich Vermittler, keine Zeitarbeitsfirma.
+      Ich wollte kurz fragen, ob bei Ihnen aktuell oder in nächster Zeit Bedarf besteht.
       
-      Bei Rückfragen stehe ich gerne zur Verfügung.
+      Falls ja, kann ich gerne unverbindlich unterstützen.
       
-      Falls Sie kein Interesse haben, können Sie sich über den folgenden Link abmelden:
-      {{UNSUBSCRIBE_URL}}      
-      
-      Mit freundlichen Grüßen
-      Patrycja Swigost
+      Viele Grüße
+      Patrycja
       o1jobs
-      Telefon: +49 160 6328144
-      E-Mail: office@o1jobs.de
-      www.o1jobs.de
+      +49 160 6328144
 
     follow-up-subject: ${OUTREACH_FOLLOWUP_SUBJECT:Zuverlässige polnische Arbeitskräfte – kurzfristig verfügbar}
 
