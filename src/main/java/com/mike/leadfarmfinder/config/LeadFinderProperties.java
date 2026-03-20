@@ -27,7 +27,7 @@ public class LeadFinderProperties {
         /**
          * Górna granica paginacji SERP – po jej przekroczeniu zawijamy do 1.
          */
-        private int defaultMaxSerpPage = 50;
+        private int defaultMaxSerpPage = 10;
 
         /**
          * Ile maksymalnie zaakceptowanych URL-i chcemy zebrać w jednym runie.
