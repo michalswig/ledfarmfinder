@@ -55,7 +55,7 @@ public class OutreachCronJob {
 
             // ✅ CHANGE: exclude Telekom already at DB level (prevents starvation)
             List<FarmLead> leads = farmLeadRepository
-                    .findFirstEmailCandidatesExcludingDomains(BLOCKED_D1, BLOCKED_D2, pageable);
+                    .findByActiveTrueAndBounceFalseAndFirstEmailSentAtIsNullOrderByCreatedAtAsc(pageable);
 
             if (leads.isEmpty()) {
                 log.info("OutreachCronJob: no new leads to email (after Telekom filter)");

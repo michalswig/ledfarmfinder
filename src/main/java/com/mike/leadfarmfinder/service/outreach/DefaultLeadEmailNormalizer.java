@@ -19,10 +19,10 @@ public class DefaultLeadEmailNormalizer implements LeadEmailNormalizer {
             Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
 
     private static final String[] TELEKOM_DOMAINS = {
-            "@t-online.de",
-            "@t-mobile.de",
-            "@magenta.de",
-            "@telekom.de"
+//            "@t-online.de",
+//            "@t-mobile.de",
+//            "@magenta.de",
+//            "@telekom.de"
             // opcjonalnie: "@telekom.de"
     };
 

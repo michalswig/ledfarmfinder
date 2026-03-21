@@ -58,7 +58,7 @@ public class FollowUpCronJob {
 
             // ✅ CHANGE: exclude Telekom already at DB level (prevents starvation)
             List<FarmLead> leads = farmLeadRepository
-                    .findFollowUpCandidatesExcludingDomains(cutoff, BLOCKED_D1, BLOCKED_D2, pageable);
+                    .findByActiveTrueAndBounceFalseAndFirstEmailSentAtIsNotNullAndLastEmailSentAtBeforeOrderByLastEmailSentAtAsc(cutoff, pageable);
 
             if (leads.isEmpty()) {
                 log.info("FollowUpCronJob: no eligible leads for follow-up (after Telekom filter, cutoff={})", cutoff);
