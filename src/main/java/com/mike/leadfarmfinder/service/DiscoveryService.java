@@ -7,6 +7,7 @@ import com.mike.leadfarmfinder.entity.SerpQueryCursor;
 import com.mike.leadfarmfinder.repository.DiscoveredUrlRepository;
 import com.mike.leadfarmfinder.repository.DiscoveryRunStatsRepository;
 import com.mike.leadfarmfinder.repository.SerpQueryCursorRepository;
+import com.mike.leadfarmfinder.service.discovery.DiscoveryUrlNormalizer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -23,6 +24,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class DiscoveryService {
+
+    private final DiscoveryUrlNormalizer urlNormalizer;
 
     private final SerpApiService serpApiService;
     private final OpenAiFarmClassifier farmClassifier;
@@ -278,16 +281,6 @@ public class DiscoveryService {
             "hosting"
     );
 
-    private static final Set<String> BLOCKED_EXTENSIONS = Set.of(
-            ".pdf",
-            ".jpg", ".jpeg", ".png", ".gif", ".webp",
-            ".zip", ".rar", ".7z",
-            ".doc", ".docx",
-            ".xls", ".xlsx", ".ods",
-            ".ppt", ".pptx",
-            ".csv", ".txt", ".xml"
-    );
-
     private static final List<String> URL_HINT_KEYWORDS = List.of(
             "/kontakt", "/contact",
             "/impressum",
@@ -435,10 +428,10 @@ public class DiscoveryService {
                     .filter(Objects::nonNull)
                     .map(String::trim)
                     .filter(s -> !s.isBlank())
-                    .filter(this::isNotFileUrl)
+                    .filter(urlNormalizer::isNotFileUrl)
                     .filter(this::isAllowedDomain)
                     .distinct()
-                    .collect(Collectors.toList());
+                    .toList();
 
             cleanedUrlsTotal += cleaned.size();
 
@@ -450,7 +443,7 @@ public class DiscoveryService {
             for (String url : cleaned) {
                 if (accepted.size() >= limit) break;
 
-                String normalized = normalizeUrl(url);
+                String normalized = urlNormalizer.normalizeUrl(url);
 
                 if (!normalized.equals(url)) {
                     normalizedChanged++;
@@ -677,38 +670,6 @@ public class DiscoveryService {
         }
     }
 
-    private String normalizeUrl(String url) {
-        try {
-            URI uri = new URI(url.trim());
-
-            String scheme = (uri.getScheme() == null) ? "https" : uri.getScheme().toLowerCase(Locale.ROOT);
-
-            String host = uri.getHost();
-            if (host == null) return url.trim();
-
-            host = host.toLowerCase(Locale.ROOT);
-            if (host.startsWith("www.")) host = host.substring(4);
-
-            String path = uri.getPath();
-            if (path == null || path.isBlank()) path = "/";
-
-            String p = path.toLowerCase(Locale.ROOT);
-            if (p.endsWith("/index.html") || p.endsWith("/index.htm")) {
-                path = path.substring(0, path.lastIndexOf("/index."));
-                if (path.isBlank()) path = "/";
-            }
-
-            if (path.length() > 1 && path.endsWith("/")) {
-                path = path.substring(0, path.length() - 1);
-            }
-
-            return new URI(scheme, host, path, null).toString();
-
-        } catch (Exception e) {
-            return url.trim();
-        }
-    }
-
     private SeenDecision checkAlreadySeen(String normalizedUrl) {
         if (discoveredUrlRepository.existsByUrl(normalizedUrl)) {
             return SeenDecision.SEEN_BY_URL;
@@ -719,12 +680,6 @@ public class DiscoveryService {
     private enum SeenDecision {
         NOT_SEEN,
         SEEN_BY_URL
-    }
-
-    private String extractNormalizedDomain(String url) {
-        String domain = extractDomain(url);
-        if (domain == null) return null;
-        return domain.toLowerCase(Locale.ROOT).trim();
     }
 
     private SerpQueryCursor loadOrCreateCursor(String query) {
@@ -749,7 +704,7 @@ public class DiscoveryService {
             boolean isNew = (entity.getId() == null);
 
             entity.setUrl(url);
-            entity.setDomain(extractNormalizedDomain(url)); // dalej zapisujemy domain jako info/history
+            entity.setDomain(urlNormalizer.extractNormalizedDomain(url));
             entity.setFarm(result.isFarm());
             entity.setSeasonalJobs(result.isSeasonalJobs());
             entity.setLastSeenAt(LocalDateTime.now());
@@ -773,7 +728,7 @@ public class DiscoveryService {
     }
 
     private boolean isAllowedDomain(String url) {
-        String d = extractNormalizedDomain(url);
+        String d = urlNormalizer.extractNormalizedDomain(url);
         if (d == null) {
             log.info("DiscoveryService: dropping url={} (no domain)", url);
             return false;
@@ -815,7 +770,7 @@ public class DiscoveryService {
     }
 
     private int computeDomainPriorityScore(String url) {
-        String d = extractNormalizedDomain(url);
+        String d = urlNormalizer.extractNormalizedDomain(url);
         if (d == null) return 0;
 
         if (isHardNegative(d)) return -100;
@@ -858,21 +813,6 @@ public class DiscoveryService {
 
     private record ScoredUrl(String url, int score) {}
 
-    private String extractDomain(String url) {
-        try {
-            URI uri = new URI(url);
-            String host = uri.getHost();
-            if (host == null) return null;
-
-            host = host.toLowerCase(Locale.ROOT);
-            if (host.startsWith("www.")) host = host.substring(4);
-            return host;
-        } catch (Exception e) {
-            log.warn("DiscoveryService: failed to extract domain from {}: {}", url, e.getMessage());
-            return null;
-        }
-    }
-
     /**
      * Snippet tylko z HTML. Jeśli treść jest za krótka / nie-HTML / błąd -> zwracamy "".
      * (Wyżej: "" => SKIP bez OpenAI i bez zapisu do DB)
@@ -907,23 +847,4 @@ public class DiscoveryService {
         }
     }
 
-    private boolean isNotFileUrl(String url) {
-        try {
-            URI uri = new URI(url);
-            String path = uri.getPath();
-            if (path == null) return true;
-
-            String p = path.toLowerCase(Locale.ROOT);
-            for (String ext : BLOCKED_EXTENSIONS) {
-                if (p.endsWith(ext)) {
-                    log.info("DiscoveryService: dropping url={} (blocked file extension={})", url, ext);
-                    return false;
-                }
-            }
-            return true;
-        } catch (Exception e) {
-            log.info("DiscoveryService: dropping url={} (invalid url for file-check: {})", url, e.getMessage());
-            return false;
-        }
-    }
 }
