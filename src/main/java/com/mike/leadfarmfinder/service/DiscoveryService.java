@@ -9,6 +9,7 @@ import com.mike.leadfarmfinder.repository.DiscoveryRunStatsRepository;
 import com.mike.leadfarmfinder.repository.SerpQueryCursorRepository;
 import com.mike.leadfarmfinder.service.discovery.DiscoveryUrlFilter;
 import com.mike.leadfarmfinder.service.discovery.DiscoveryUrlNormalizer;
+import com.mike.leadfarmfinder.service.discovery.DiscoveryUrlScorer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -26,6 +27,7 @@ public class DiscoveryService {
 
     private final DiscoveryUrlNormalizer urlNormalizer;
     private final DiscoveryUrlFilter discoveryUrlFilter;
+    private final DiscoveryUrlScorer urlScorer;
 
     private final SerpApiService serpApiService;
     private final OpenAiFarmClassifier farmClassifier;
@@ -33,53 +35,6 @@ public class DiscoveryService {
     private final DiscoveryRunStatsRepository discoveryRunStatsRepository;
     private final DiscoveredUrlRepository discoveredUrlRepository;
     private final LeadFinderProperties leadFinderProperties;
-
-    public static final List<String> FARM_KEYWORDS = List.of(
-            "hof", "hofladen",
-            "obst", "obsthof",
-            "gemuese", "gemüse",
-            "erdbeer", "beeren", "himbeer", "beerenhof",
-            "spargel",
-            "kartoffel", "kartoffelhof",
-            "ackerbau", "getreide", "getreidehof",
-            "landwirtschaft", "bauernhof", "landhof",
-            "gaertnerei", "gärtnerei", "gartenbau",
-            "blumen", "schnittblumen",
-            "weingut", "winzer",
-            "biohof", "bioland", "demeter",
-
-            // zima / całoroczne
-            "gewaechshaus", "gewächshaus",
-            "jungpflanzen", "pflanzen",
-            "baumschule", "stauden",
-            "pilz", "pilze", "pilzzucht", "champignon",
-            "gemuesebau", "gemüsebau",
-            "garten", "spargelhof",
-            "betrieb", "familienbetrieb",
-            "direktvermarktung", "hofverkauf",
-            "verarbeitung", "aufbereitung", "pack", "verpackung", "sortierung", "lager",
-            "milchvieh", "vieh", "rinder", "schwein", "gefluegel", "geflügel", "eier", "legehennen"
-    );
-
-    private static final List<String> SOFT_NEGATIVE_DOMAIN_TOKENS = List.of(
-            "wordpress",
-            "wix",
-            "jimdo",
-            "ionos",
-            "strato",
-            "webnode",
-            "joomla",
-            "hosting"
-    );
-
-    private static final List<String> URL_HINT_KEYWORDS = List.of(
-            "/kontakt", "/contact",
-            "/impressum",
-            "/datenschutz",
-            "/ueber-uns", "/uber-uns", "/über-uns",
-            "/betrieb", "/unternehmen",
-            "/hofladen", "/hofverkauf"
-    );
 
     private static final List<String> QUERY_NEGATIVE_TOKENS = List.of(
             "-branchenbuch",
@@ -109,7 +64,6 @@ public class DiscoveryService {
     );
 
     private static final int EXHAUST_AFTER_EMPTY_NEW_URL_PAGES = 2;
-
     private static final int EXHAUST_AFTER_EMPTY_SERP_PAGES = 1;
 
     private int queryIndex = 0;
@@ -139,15 +93,14 @@ public class DiscoveryService {
         String rawQuery = pick.query();
         SerpQueryCursor cursor = pick.cursor();
 
-        // dopinamy minusy do query (bez zmiany cursora; cursor jest per rawQuery)
         String query = withQueryNegatives(rawQuery);
-
         LocalDateTime startedAt = LocalDateTime.now();
 
         log.info(
                 "DiscoveryService: searching farms for query='{}' (queryIndex={}), limit={}, resultsPerPage={}, maxPagesPerRun={}",
                 rawQuery, currentQueryIndex, limit, resultsPerPage, maxPagesPerRun
         );
+
         if (!query.equals(rawQuery)) {
             log.info("DiscoveryService: SERP query after negatives='{}'", query);
         }
@@ -157,13 +110,17 @@ public class DiscoveryService {
         int maxPage = cursor.getMaxPage();
 
         if (isExhausted(cursor)) {
-            log.info("DiscoveryService: picked query is already exhausted (DONE). query='{}', currentPage={}, maxPage={}",
-                    rawQuery, startPage, maxPage);
+            log.info(
+                    "DiscoveryService: picked query is already exhausted (DONE). query='{}', currentPage={}, maxPage={}",
+                    rawQuery, startPage, maxPage
+            );
             return List.of();
         }
 
-        log.info("DiscoveryService: starting SERP from page={} (maxPage={}) for query='{}'",
-                startPage, maxPage, rawQuery);
+        log.info(
+                "DiscoveryService: starting SERP from page={} (maxPage={}) for query='{}'",
+                startPage, maxPage, rawQuery
+        );
 
         List<String> accepted = new ArrayList<>();
 
@@ -179,8 +136,10 @@ public class DiscoveryService {
 
         for (int i = 0; i < maxPagesPerRun && accepted.size() < limit; i++) {
 
-            log.info("DiscoveryService: fetching SERP page={} (runPageIndex={}) for query='{}'",
-                    currentPage, i, rawQuery);
+            log.info(
+                    "DiscoveryService: fetching SERP page={} (runPageIndex={}) for query='{}'",
+                    currentPage, i, rawQuery
+            );
 
             List<String> rawUrls = serpApiService.searchUrls(query, resultsPerPage, currentPage);
             rawUrlsTotal += rawUrls.size();
@@ -190,13 +149,17 @@ public class DiscoveryService {
             if (rawUrls.isEmpty()) {
                 consecutiveEmptySerpPages++;
 
-                log.info("DiscoveryService: empty SERP page streak = {} (page={})",
-                        consecutiveEmptySerpPages, currentPage);
+                log.info(
+                        "DiscoveryService: empty SERP page streak = {} (page={})",
+                        consecutiveEmptySerpPages, currentPage
+                );
 
                 if (consecutiveEmptySerpPages >= EXHAUST_AFTER_EMPTY_SERP_PAGES) {
-                    currentPage = maxPage + 1; // DONE
-                    log.info("DiscoveryService: marking query as DONE due to empty SERP response. query='{}', pageNow={}",
-                            rawQuery, currentPage);
+                    currentPage = maxPage + 1;
+                    log.info(
+                            "DiscoveryService: marking query as DONE due to empty SERP response. query='{}', pageNow={}",
+                            rawQuery, currentPage
+                    );
                     break;
                 }
 
@@ -223,7 +186,9 @@ public class DiscoveryService {
             Set<String> normalizedSeenThisPage = new HashSet<>();
 
             for (String url : cleaned) {
-                if (accepted.size() >= limit) break;
+                if (accepted.size() >= limit) {
+                    break;
+                }
 
                 String normalized = urlNormalizer.normalizeUrl(url);
 
@@ -241,7 +206,6 @@ public class DiscoveryService {
                     continue;
                 }
 
-                // hard-negative path: SKIP bez DB save
                 if (discoveryUrlFilter.isHardNegativePath(normalized)) {
                     rejectedCount++;
                     log.info("DiscoveryService: SKIP (hard-negative-path - no DB save) url={}", normalized);
@@ -253,24 +217,32 @@ public class DiscoveryService {
 
             openAiCandidates += newUrlsOnly.size();
 
-            log.info("DiscoveryService: new urls for OpenAI after discovered filter (page={}) = {}",
-                    currentPage, newUrlsOnly.size());
+            log.info(
+                    "DiscoveryService: new urls for OpenAI after discovered filter (page={}) = {}",
+                    currentPage, newUrlsOnly.size()
+            );
 
             if (newUrlsOnly.isEmpty()) {
                 consecutiveEmptyNewUrls++;
 
-                log.info("DiscoveryService: empty NEW candidates streak = {} (page={})",
-                        consecutiveEmptyNewUrls, currentPage);
+                log.info(
+                        "DiscoveryService: empty NEW candidates streak = {} (page={})",
+                        consecutiveEmptyNewUrls, currentPage
+                );
 
                 if (consecutiveEmptyNewUrls >= EXHAUST_AFTER_EMPTY_NEW_URL_PAGES) {
-                    currentPage = maxPage + 1; // DONE
-                    log.info("DiscoveryService: marking query as DONE after {} empty NEW pages. query='{}', pageNow={}",
-                            consecutiveEmptyNewUrls, rawQuery, currentPage);
+                    currentPage = maxPage + 1;
+                    log.info(
+                            "DiscoveryService: marking query as DONE after {} empty NEW pages. query='{}', pageNow={}",
+                            consecutiveEmptyNewUrls, rawQuery, currentPage
+                    );
                     break;
                 }
 
                 currentPage = advancePageOrExhaust(currentPage, maxPage);
-                if (currentPage > maxPage) break;
+                if (currentPage > maxPage) {
+                    break;
+                }
                 continue;
             } else {
                 consecutiveEmptyNewUrls = 0;
@@ -278,29 +250,33 @@ public class DiscoveryService {
             }
 
             List<ScoredUrl> scored = newUrlsOnly.stream()
-                    .map(u -> new ScoredUrl(u, computeDomainPriorityScore(u)))
+                    .map(u -> new ScoredUrl(u, urlScorer.computeDomainPriorityScore(u)))
                     .sorted(Comparator.comparingInt(ScoredUrl::score).reversed())
                     .toList();
 
-            log.info("DiscoveryService: scored {} NEW urls (top example: {})",
+            log.info(
+                    "DiscoveryService: scored {} NEW urls (top example: {})",
                     scored.size(),
                     scored.isEmpty() ? "none" : (scored.get(0).url() + " score=" + scored.get(0).score())
             );
 
             for (ScoredUrl scoredUrl : scored) {
 
-                if (accepted.size() >= limit) break;
+                if (accepted.size() >= limit) {
+                    break;
+                }
 
                 String url = scoredUrl.url();
 
                 try {
                     String snippet = fetchTextSnippet(url);
 
-                    // HARD RULE: bez treści -> SKIP (bez OpenAI, bez DB save)
                     if (snippet == null || snippet.isBlank()) {
                         rejectedCount++;
-                        log.info("DiscoveryService: SKIP (empty/low-quality snippet - no OpenAI, no DB save) url={} score={}",
-                                url, scoredUrl.score());
+                        log.info(
+                                "DiscoveryService: SKIP (empty/low-quality snippet - no OpenAI, no DB save) url={} score={}",
+                                url, scoredUrl.score()
+                        );
                         continue;
                     }
 
@@ -330,8 +306,10 @@ public class DiscoveryService {
 
                 } catch (Exception e) {
                     errorsCount++;
-                    log.warn("DiscoveryService: error for url={} (score={}): {}",
-                            url, scoredUrl.score(), e.getMessage());
+                    log.warn(
+                            "DiscoveryService: error for url={} (score={}): {}",
+                            url, scoredUrl.score(), e.getMessage()
+                    );
                 }
             }
 
@@ -384,7 +362,7 @@ public class DiscoveryService {
     private int advancePageOrExhaust(int currentPage, int maxPage) {
         int next = currentPage + 1;
         if (next > maxPage) {
-            return maxPage + 1; // DONE
+            return maxPage + 1;
         }
         return next;
     }
@@ -403,12 +381,13 @@ public class DiscoveryService {
         return Optional.empty();
     }
 
-    private record QueryPick(int index, String query, SerpQueryCursor cursor) {
-    }
+    private record QueryPick(int index, String query, SerpQueryCursor cursor) {}
 
     private String withQueryNegatives(String rawQuery) {
         String q = rawQuery == null ? "" : rawQuery.trim();
-        if (q.isBlank()) return q;
+        if (q.isBlank()) {
+            return q;
+        }
 
         String lower = q.toLowerCase(Locale.ROOT);
         boolean hasAnyMinus = lower.contains(" -branchenbuch")
@@ -416,7 +395,9 @@ public class DiscoveryService {
                 || lower.contains(" -11880")
                 || lower.contains(" -cylex");
 
-        if (hasAnyMinus) return q;
+        if (hasAnyMinus) {
+            return q;
+        }
 
         StringBuilder sb = new StringBuilder(q);
         for (String neg : QUERY_NEGATIVE_TOKENS) {
@@ -456,7 +437,7 @@ public class DiscoveryService {
             var entity = discoveredUrlRepository.findByUrl(url)
                     .orElseGet(com.mike.leadfarmfinder.entity.DiscoveredUrl::new);
 
-            boolean isNew = (entity.getId() == null);
+            boolean isNew = entity.getId() == null;
 
             entity.setUrl(url);
             entity.setDomain(urlNormalizer.extractNormalizedDomain(url));
@@ -471,53 +452,22 @@ public class DiscoveryService {
             discoveredUrlRepository.save(entity);
 
             if (isNew) {
-                log.info("DiscoveryService: saved NEW discovered url={} (farm={}, seasonalJobs={})",
-                        url, result.isFarm(), result.isSeasonalJobs());
+                log.info(
+                        "DiscoveryService: saved NEW discovered url={} (farm={}, seasonalJobs={})",
+                        url, result.isFarm(), result.isSeasonalJobs()
+                );
             } else {
-                log.debug("DiscoveryService: updated discovered url={} (farm={}, seasonalJobs={})",
-                        url, result.isFarm(), result.isSeasonalJobs());
+                log.debug(
+                        "DiscoveryService: updated discovered url={} (farm={}, seasonalJobs={})",
+                        url, result.isFarm(), result.isSeasonalJobs()
+                );
             }
         } catch (Exception e) {
             log.warn("DiscoveryService: failed to save discovered url={} due to {}", url, e.getMessage());
         }
     }
 
-    private int computeDomainPriorityScore(String url) {
-        String d = urlNormalizer.extractNormalizedDomain(url);
-        if (d == null) return 0;
-
-        if (discoveryUrlFilter.isHardNegative(d)) return -100;
-
-        int score = 0;
-
-        for (String kw : FARM_KEYWORDS) {
-            if (d.contains(kw)) score += 20;
-        }
-
-        if (d.endsWith(".de")) score += 10;
-
-        if (d.length() <= 15) score += 5;
-
-        if (d.contains("shop") || d.contains("markt") || d.contains("portal")) score -= 5;
-
-        for (String soft : SOFT_NEGATIVE_DOMAIN_TOKENS) {
-            if (d.contains(soft)) {
-                score -= 3;
-            }
-        }
-
-        String u = url.toLowerCase(Locale.ROOT);
-        for (String hint : URL_HINT_KEYWORDS) {
-            if (u.contains(hint)) {
-                score += 8;
-            }
-        }
-
-        return score;
-    }
-
-    private record ScoredUrl(String url, int score) {
-    }
+    private record ScoredUrl(String url, int score) {}
 
     private String fetchTextSnippet(String url) {
         try {
@@ -530,11 +480,15 @@ public class DiscoveryService {
             doc.select("script,style,noscript").remove();
 
             String text = doc.text();
-            if (text == null) return "";
+            if (text == null) {
+                return "";
+            }
 
             text = text.trim();
 
-            if (text.length() < 120) return "";
+            if (text.length() < 120) {
+                return "";
+            }
 
             int maxLen = 2000;
             return text.length() > maxLen ? text.substring(0, maxLen) : text;
@@ -547,5 +501,4 @@ public class DiscoveryService {
             return "";
         }
     }
-
 }
