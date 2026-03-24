@@ -7,6 +7,7 @@ import com.mike.leadfarmfinder.entity.SerpQueryCursor;
 import com.mike.leadfarmfinder.repository.DiscoveredUrlRepository;
 import com.mike.leadfarmfinder.repository.DiscoveryRunStatsRepository;
 import com.mike.leadfarmfinder.repository.SerpQueryCursorRepository;
+import com.mike.leadfarmfinder.service.discovery.DiscoveryUrlFilter;
 import com.mike.leadfarmfinder.service.discovery.DiscoveryUrlNormalizer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,10 +16,8 @@ import org.jsoup.UnsupportedMimeTypeException;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -26,6 +25,7 @@ import java.util.stream.Collectors;
 public class DiscoveryService {
 
     private final DiscoveryUrlNormalizer urlNormalizer;
+    private final DiscoveryUrlFilter discoveryUrlFilter;
 
     private final SerpApiService serpApiService;
     private final OpenAiFarmClassifier farmClassifier;
@@ -34,39 +34,7 @@ public class DiscoveryService {
     private final DiscoveredUrlRepository discoveredUrlRepository;
     private final LeadFinderProperties leadFinderProperties;
 
-    private static final Set<String> BLOCKED_DOMAINS = Set.of(
-            "de.indeed.com",
-            "facebook.com",
-            "indeed.com",
-            "instagram.com",
-            "linkedin.com",
-            "meinestadt.de",
-            "stepstone.de",
-            "tiktok.com",
-            "xing.com",
-            "youtube.com",
-
-            "sh-tourismus.de",
-
-            "ard.de",
-            "br.de",
-            "hr.de",
-            "mdr.de",
-            "ndr.de",
-            "rtl.de",
-            "swr.de",
-            "wdr.de",
-            "zdf.de",
-
-            "airbnb.com",
-            "airbnb.de",
-            "booking.com",
-            "kleinanzeigen.de",
-
-            "obstbaufachbetriebe.de"
-    );
-
-    private static final List<String> FARM_KEYWORDS = List.of(
+    public static final List<String> FARM_KEYWORDS = List.of(
             "hof", "hofladen",
             "obst", "obsthof",
             "gemuese", "gemüse",
@@ -93,183 +61,6 @@ public class DiscoveryService {
             "milchvieh", "vieh", "rinder", "schwein", "gefluegel", "geflügel", "eier", "legehennen"
     );
 
-    // twarde negatywy w PATH (tanie odfiltrowanie content/spam przed OpenAI)
-    private static final List<String> HARD_NEGATIVE_PATH_TOKENS = List.of(
-            "/ratgeber",
-            "/blog",
-            "/magazin",
-            "/news",
-            "/presse",
-            "/artikel",
-            "/article",
-            "/report",
-            "/wiki",
-            "/lexikon",
-            "/kategorie",
-            "/category",
-            "/tag/",
-            "/tags/",
-            "/author/",
-            "/job", "/jobs", "/stellen", "/karriere",
-
-            // portale / listy / mapy / turystyka (wysoka szansa "listing many farms")
-            "/anbieter",
-            "/anbieterverzeichnis",
-            "/verzeichnis",
-            "/liste",
-            "/listen",
-            "/uebersicht",
-            "/übersicht",
-            "/karte",
-            "/map",
-            "/region",
-            "/tourismus",
-            "/urlaub",
-            "/freizeit"
-    );
-
-    /**
-     * HARD NEGATIVE = coś, co niemal na pewno nie jest farmą (instytucje, media, katalogi, turystyka, pośrednictwo pracy).
-     */
-    private static final List<String> HARD_NEGATIVE_KEYWORDS = List.of(
-            // polityka / administracja / urzędy
-            "bundeskanzler",
-            "bundesregierung",
-            "ministerium",
-            "regierung",
-            "landtag",
-            "verwaltung",
-            "rathaus",
-            "stadt-",
-            "gemeinde-",
-            "kreis-",
-            "landkreis",
-
-            // statystyka/uczelnie
-            "destatis",
-            "statista",
-            "statistik",
-            "hochschule",
-            "uni-",
-            "universitaet",
-            "universität",
-            "fh-",
-
-            // NGO / instytucje publiczne / EU
-            "greenpeace.",
-            "nabu.",
-            "wwf.",
-            "verbraucherzentrale",
-            "verbraucherzentralen",
-            "ec.europa",
-            "europa.eu",
-
-            // instytucje branżowe / izby / urzędy rolnicze (często katalogi/porady, nie lead)
-            "bauernverband",
-            "ble.de",
-            "bzfe.de",
-            "handelskammer",
-            "kammer",
-            "landwirtschaft-bw.de",
-            "lwk-niedersachsen.de",
-
-            // media / news
-            "dw.com",
-            "deutschlandfunk",
-            "deutsche-welle",
-            "faz",
-            "focus",
-            "merkur",
-            "morgenpost",
-            "rbb",
-            "sueddeutsche",
-            "spiegel",
-            "stern",
-            "t-online",
-            "tagesschau",
-            "tagesthemen",
-            "welt",
-            "zeit",
-            "zdf",
-            "wdr",
-            "swr",
-            "ndr",
-            "mdr",
-            "hr",
-            "br",
-            "ard",
-            "bild",
-
-            // travel/tourism (często "hof" w kontekście urlopu)
-            "tourism",
-            "tourismus",
-            "touristik",
-            "reiseland",
-            "reisefuhrer",
-            "reiseführer",
-            "urlaub",
-            "visit",
-            "freizeit",
-            "ausflug",
-            "erleben",
-            "stadtmarketing",
-
-            // katalogi / agregatory / marketplace
-            "branchenbuch",
-            "gelbeseiten",
-            "marktplatz",
-            "verzeichnis",
-            "portal",
-            "cylex",
-            "golocal",
-            "yelp",
-            "11880",
-            "trustedshops",
-            "werliefertwas",
-
-            // noclegi
-            "airbnb",
-            "booking",
-            "ferienwohnung",
-            "ferienwohnungen",
-            "ferienhof",
-            "bauernhofurlaub",
-            "urlaub-auf-dem-bauernhof",
-            "ferienhaus",
-            "ferienhaeuser",
-            "ferienhäuser",
-            "pension",
-            "gasthof",
-            "hotel",
-            "zimmer",
-            "zimmervermietung",
-            "camping",
-            "zeltplatz",
-            "stellplatz",
-            "wohnmobil",
-            "glamping",
-            "tiny-house",
-            "tiny-house-dorf",
-            "wellness",
-            "sauna",
-
-            // pośrednictwo / HR
-            "zeitarbeit",
-            "zeitarbeitsfirma",
-            "personalvermittlung",
-            "personaldienstleister",
-            "arbeitsagentur",
-            "jobvermittlung",
-            "leiharbeit",
-            "arbeitnehmerüberlassung",
-
-            // specyficzne wykluczenia
-            "obstbaufachbetriebe"
-    );
-
-    /**
-     * SOFT NEGATIVE = podejrzane, ale nie blokujemy (tylko -score).
-     */
     private static final List<String> SOFT_NEGATIVE_DOMAIN_TOKENS = List.of(
             "wordpress",
             "wix",
@@ -317,20 +108,12 @@ public class DiscoveryService {
             "-airbnb"
     );
 
-    // 🔴 WARUNEK A: “puste strony” => DONE
     private static final int EXHAUST_AFTER_EMPTY_NEW_URL_PAGES = 2;
-    // opcjonalnie: SerpAPI zwraca 0 organic -> DONE
+
     private static final int EXHAUST_AFTER_EMPTY_SERP_PAGES = 1;
 
     private int queryIndex = 0;
 
-    /**
-     * Minimalny, stabilny flow:
-     * - cursor DONE (currentPage > maxPage) -> pomijamy query
-     * - jeśli brak HTML/snippet -> SKIP bez OpenAI i bez zapisu (nie palimy domen)
-     * - deduplikacja: tylko po URL (nie blokujemy domeny na zawsze)
-     * - 🔴 query kończy się tylko WARUNKIEM A (puste strony) / pusty SERP -> DONE w DB
-     */
     public List<String> findCandidateFarmUrls(int limit) {
 
         int alreadySeenSkipped = 0;
@@ -404,7 +187,6 @@ public class DiscoveryService {
 
             log.info("DiscoveryService: raw urls from SerpAPI (page={}) = {}", currentPage, rawUrls.size());
 
-            // 🔴 SERP puste -> to też jest mocny sygnał “koniec”
             if (rawUrls.isEmpty()) {
                 consecutiveEmptySerpPages++;
 
@@ -429,7 +211,7 @@ public class DiscoveryService {
                     .map(String::trim)
                     .filter(s -> !s.isBlank())
                     .filter(urlNormalizer::isNotFileUrl)
-                    .filter(this::isAllowedDomain)
+                    .filter(discoveryUrlFilter::isAllowedDomain)
                     .distinct()
                     .toList();
 
@@ -453,7 +235,6 @@ public class DiscoveryService {
                     continue;
                 }
 
-                // ✅ DEDUP: tylko po URL (nie blokujemy domeny na zawsze)
                 if (checkAlreadySeen(normalized) != SeenDecision.NOT_SEEN) {
                     filteredAsAlreadyDiscovered++;
                     alreadySeenSkipped++;
@@ -461,7 +242,7 @@ public class DiscoveryService {
                 }
 
                 // hard-negative path: SKIP bez DB save
-                if (isHardNegativePath(normalized)) {
+                if (discoveryUrlFilter.isHardNegativePath(normalized)) {
                     rejectedCount++;
                     log.info("DiscoveryService: SKIP (hard-negative-path - no DB save) url={}", normalized);
                     continue;
@@ -475,7 +256,6 @@ public class DiscoveryService {
             log.info("DiscoveryService: new urls for OpenAI after discovered filter (page={}) = {}",
                     currentPage, newUrlsOnly.size());
 
-            // 🔴 WARUNEK A: puste “NEW candidates” => po N stronach DONE
             if (newUrlsOnly.isEmpty()) {
                 consecutiveEmptyNewUrls++;
 
@@ -597,8 +377,6 @@ public class DiscoveryService {
         return distinctAccepted;
     }
 
-    // ===== helpers (DONE / selection) =====
-
     private boolean isExhausted(SerpQueryCursor c) {
         return c.getCurrentPage() > c.getMaxPage();
     }
@@ -625,9 +403,8 @@ public class DiscoveryService {
         return Optional.empty();
     }
 
-    private record QueryPick(int index, String query, SerpQueryCursor cursor) {}
-
-    // ===== Query negatives =====
+    private record QueryPick(int index, String query, SerpQueryCursor cursor) {
+    }
 
     private String withQueryNegatives(String rawQuery) {
         String q = rawQuery == null ? "" : rawQuery.trim();
@@ -646,28 +423,6 @@ public class DiscoveryService {
             sb.append(' ').append(neg);
         }
         return sb.toString();
-    }
-
-    // ===== rest unchanged =====
-
-    private boolean isHardNegativePath(String url) {
-        try {
-            URI uri = new URI(url);
-            String path = uri.getPath();
-            if (path == null) return false;
-
-            String p = path.toLowerCase(Locale.ROOT);
-
-            for (String token : HARD_NEGATIVE_PATH_TOKENS) {
-                if (p.contains(token)) {
-                    return true;
-                }
-            }
-            return false;
-
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     private SeenDecision checkAlreadySeen(String normalizedUrl) {
@@ -727,53 +482,11 @@ public class DiscoveryService {
         }
     }
 
-    private boolean isAllowedDomain(String url) {
-        String d = urlNormalizer.extractNormalizedDomain(url);
-        if (d == null) {
-            log.info("DiscoveryService: dropping url={} (no domain)", url);
-            return false;
-        }
-
-        if (BLOCKED_DOMAINS.contains(d)) {
-            log.info("DiscoveryService: dropping url={} (blocked domain={})", url, d);
-            return false;
-        }
-
-        if (isHardNegative(d)) {
-            log.info("DiscoveryService: dropping url={} (hard-negative domain={})", url, d);
-            return false;
-        }
-
-        if (d.contains("zeitung") || d.contains("news")) {
-            log.info("DiscoveryService: dropping url={} (looks like news/media domain={})", url, d);
-            return false;
-        }
-
-        if (!looksLikeFarmDomain(d)) {
-            log.debug("DiscoveryService: domain not farm-looking (soft allow), keeping for OpenAI: url={} domain={}", url, d);
-        }
-
-        return true;
-    }
-
-    private boolean looksLikeFarmDomain(String domain) {
-        String d = domain.toLowerCase(Locale.ROOT);
-        if (isHardNegative(d)) return false;
-        return hasFarmKeyword(d);
-    }
-
-    private boolean hasFarmKeyword(String d) {
-        for (String kw : FARM_KEYWORDS) {
-            if (d.contains(kw)) return true;
-        }
-        return false;
-    }
-
     private int computeDomainPriorityScore(String url) {
         String d = urlNormalizer.extractNormalizedDomain(url);
         if (d == null) return 0;
 
-        if (isHardNegative(d)) return -100;
+        if (discoveryUrlFilter.isHardNegative(d)) return -100;
 
         int score = 0;
 
@@ -803,20 +516,9 @@ public class DiscoveryService {
         return score;
     }
 
-    private boolean isHardNegative(String text) {
-        String d = text.toLowerCase(Locale.ROOT);
-        for (String bad : HARD_NEGATIVE_KEYWORDS) {
-            if (d.contains(bad)) return true;
-        }
-        return false;
+    private record ScoredUrl(String url, int score) {
     }
 
-    private record ScoredUrl(String url, int score) {}
-
-    /**
-     * Snippet tylko z HTML. Jeśli treść jest za krótka / nie-HTML / błąd -> zwracamy "".
-     * (Wyżej: "" => SKIP bez OpenAI i bez zapisu do DB)
-     */
     private String fetchTextSnippet(String url) {
         try {
             Document doc = Jsoup.connect(url)
@@ -832,7 +534,6 @@ public class DiscoveryService {
 
             text = text.trim();
 
-            // ✅ próg jakości: 200 -> 120 (żeby nie ucinać realnych farm z krótszą treścią)
             if (text.length() < 120) return "";
 
             int maxLen = 2000;
