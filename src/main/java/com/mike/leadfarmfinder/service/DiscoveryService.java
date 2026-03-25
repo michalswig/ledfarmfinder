@@ -330,19 +330,19 @@ public class DiscoveryService {
                 .distinct()
                 .toList();
 
-        DiscoveryRunStats stats = new DiscoveryRunStats();
-        stats.setQuery(rawQuery);
-        stats.setStartedAt(startedAt);
-        stats.setFinishedAt(LocalDateTime.now());
-        stats.setStartPage(startPage);
-        stats.setEndPage(currentPage);
-        stats.setPagesVisited(pagesVisited);
-        stats.setRawUrls(rawUrlsTotal);
-        stats.setCleanedUrls(cleanedUrlsTotal);
-        stats.setAcceptedUrls(distinctAccepted.size());
-        stats.setRejectedUrls(rejectedCount);
-        stats.setErrors(errorsCount);
-        stats.setFilteredAlreadyDiscovered(filteredAsAlreadyDiscovered);
+        DiscoveryRunStats stats = buildDiscoveryRunStats(
+                rawQuery,
+                startedAt,
+                startPage,
+                currentPage,
+                pagesVisited,
+                rawUrlsTotal,
+                cleanedUrlsTotal,
+                distinctAccepted.size(),
+                rejectedCount,
+                errorsCount,
+                filteredAsAlreadyDiscovered
+        );
 
         discoveryRunStatsRepository.save(stats);
 
@@ -353,6 +353,35 @@ public class DiscoveryService {
         );
 
         return distinctAccepted;
+    }
+
+    private DiscoveryRunStats buildDiscoveryRunStats(
+            String query,
+            LocalDateTime startedAt,
+            int startPage,
+            int endPage,
+            int pagesVisited,
+            int rawUrlsTotal,
+            int cleanedUrlsTotal,
+            int acceptedUrls,
+            int rejectedUrls,
+            int errorsCount,
+            int filteredAlreadyDiscovered
+    ) {
+        DiscoveryRunStats stats = new DiscoveryRunStats();
+        stats.setQuery(query);
+        stats.setStartedAt(startedAt);
+        stats.setFinishedAt(LocalDateTime.now());
+        stats.setStartPage(startPage);
+        stats.setEndPage(endPage);
+        stats.setPagesVisited(pagesVisited);
+        stats.setRawUrls(rawUrlsTotal);
+        stats.setCleanedUrls(cleanedUrlsTotal);
+        stats.setAcceptedUrls(acceptedUrls);
+        stats.setRejectedUrls(rejectedUrls);
+        stats.setErrors(errorsCount);
+        stats.setFilteredAlreadyDiscovered(filteredAlreadyDiscovered);
+        return stats;
     }
 
     private boolean isExhausted(SerpQueryCursor c) {
