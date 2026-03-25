@@ -1,0 +1,50 @@
+---
+description: Rules for working in the leadfarmfinder repository
+globs:
+  - "src/main/java/**/*.java"
+  - "src/test/java/**/*.java"
+  - "src/main/resources/**/*.yml"
+  - "pom.xml"
+alwaysApply: true
+---
+
+# LeadFarmFinder rules
+
+## Workflow
+- First analyze the existing code.
+- For anything beyond a very small change, propose a short implementation plan first.
+- Prefer small, safe, incremental changes.
+- Do not modify unrelated files.
+- Preserve current behavior unless explicitly asked to change it.
+- After changes, explain what was changed and why.
+
+## Refactoring
+- Prefer extracting helper methods or small focused classes over large rewrites.
+- Keep diffs easy to review.
+- Avoid unnecessary abstractions.
+- Do not introduce interfaces unless there is a real project need.
+
+## Tech stack
+- This is a Java 21 + Spring Boot + Maven backend project.
+- Follow existing Spring patterns already present in the codebase.
+- Prefer constructor injection.
+- Keep controllers thin and business logic in services.
+
+## Safety
+- Do not change Liquibase changelogs or database schema unless explicitly asked.
+- Be careful with application-prod.yml and production-related configuration.
+- Do not hardcode secrets, credentials, or tokens.
+
+## Domain-specific care
+- Be careful with discovery, filtering, classification, scraping, deduplication, outreach, unsubscribe, bounce handling, and cron jobs.
+- When changing discovery/filtering logic, explain impact on false positives and false negatives.
+- When changing outreach/email logic, explain impact on sending behavior and deliverability.
+
+## Testing
+- When adding meaningful logic, propose or add tests where reasonable.
+- Prefer JUnit 5 and Mockito if tests are needed.
+
+## Response style
+- Be concrete and technical.
+- For analysis, identify responsibilities, risks, and next steps.
+- For implementation, summarize files changed and the diff.
