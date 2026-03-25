@@ -169,14 +169,7 @@ public class DiscoveryService {
 
             pagesVisited++;
 
-            List<String> cleaned = rawUrls.stream()
-                    .filter(Objects::nonNull)
-                    .map(String::trim)
-                    .filter(s -> !s.isBlank())
-                    .filter(urlNormalizer::isNotFileUrl)
-                    .filter(discoveryUrlFilter::isAllowedDomain)
-                    .distinct()
-                    .toList();
+            List<String> cleaned = cleanSerpUrls(rawUrls);
 
             cleanedUrlsTotal += cleaned.size();
 
@@ -249,10 +242,7 @@ public class DiscoveryService {
                 consecutiveEmptySerpPages = 0;
             }
 
-            List<ScoredUrl> scored = newUrlsOnly.stream()
-                    .map(u -> new ScoredUrl(u, urlScorer.computeDomainPriorityScore(u)))
-                    .sorted(Comparator.comparingInt(ScoredUrl::score).reversed())
-                    .toList();
+            List<ScoredUrl> scored = scoreNewUrls(newUrlsOnly);
 
             log.info(
                     "DiscoveryService: scored {} NEW urls (top example: {})",
@@ -266,51 +256,9 @@ public class DiscoveryService {
                     break;
                 }
 
-                String url = scoredUrl.url();
-
-                try {
-                    String snippet = fetchTextSnippet(url);
-
-                    if (snippet == null || snippet.isBlank()) {
-                        rejectedCount++;
-                        log.info(
-                                "DiscoveryService: SKIP (empty/low-quality snippet - no OpenAI, no DB save) url={} score={}",
-                                url, scoredUrl.score()
-                        );
-                        continue;
-                    }
-
-                    FarmClassificationResult result = farmClassifier.classifyFarm(url, snippet);
-                    saveDiscoveredUrl(url, result);
-
-                    if (result.isFarm()) {
-                        accepted.add(url);
-
-                        String contactUrl = result.mainContactUrl();
-                        if (contactUrl != null && !contactUrl.isBlank()) {
-                            accepted.add(contactUrl);
-                        }
-
-                        log.info(
-                                "DiscoveryService: ACCEPTED (FARM) sourceUrl={} contactUrl={} score={} seasonalJobs={} reason={}",
-                                url, contactUrl, scoredUrl.score(), result.isSeasonalJobs(), result.reason()
-                        );
-
-                    } else {
-                        rejectedCount++;
-                        log.info(
-                                "DiscoveryService: REJECTED (NOT A FARM) url={} score={} seasonalJobs={} reason={}",
-                                url, scoredUrl.score(), result.isSeasonalJobs(), result.reason()
-                        );
-                    }
-
-                } catch (Exception e) {
-                    errorsCount++;
-                    log.warn(
-                            "DiscoveryService: error for url={} (score={}): {}",
-                            url, scoredUrl.score(), e.getMessage()
-                    );
-                }
+                ScoredUrlProcessingDelta delta = processScoredUrl(scoredUrl, accepted);
+                rejectedCount += delta.rejectedDelta();
+                errorsCount += delta.errorsDelta();
             }
 
             currentPage = advancePageOrExhaust(currentPage, maxPage);
@@ -382,6 +330,24 @@ public class DiscoveryService {
         stats.setErrors(errorsCount);
         stats.setFilteredAlreadyDiscovered(filteredAlreadyDiscovered);
         return stats;
+    }
+
+    private List<String> cleanSerpUrls(List<String> rawUrls) {
+        return rawUrls.stream()
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .filter(s -> !s.isBlank())
+                .filter(urlNormalizer::isNotFileUrl)
+                .filter(discoveryUrlFilter::isAllowedDomain)
+                .distinct()
+                .toList();
+    }
+
+    private List<ScoredUrl> scoreNewUrls(List<String> newUrlsOnly) {
+        return newUrlsOnly.stream()
+                .map(u -> new ScoredUrl(u, urlScorer.computeDomainPriorityScore(u)))
+                .sorted(Comparator.comparingInt(ScoredUrl::score).reversed())
+                .toList();
     }
 
     private boolean isExhausted(SerpQueryCursor c) {
@@ -497,6 +463,54 @@ public class DiscoveryService {
     }
 
     private record ScoredUrl(String url, int score) {}
+
+    private record ScoredUrlProcessingDelta(int rejectedDelta, int errorsDelta) {}
+
+    private ScoredUrlProcessingDelta processScoredUrl(ScoredUrl scoredUrl, List<String> accepted) {
+        String url = scoredUrl.url();
+        try {
+            String snippet = fetchTextSnippet(url);
+
+            if (snippet == null || snippet.isBlank()) {
+                log.info(
+                        "DiscoveryService: SKIP (empty/low-quality snippet - no OpenAI, no DB save) url={} score={}",
+                        url, scoredUrl.score()
+                );
+                return new ScoredUrlProcessingDelta(1, 0);
+            }
+
+            FarmClassificationResult result = farmClassifier.classifyFarm(url, snippet);
+            saveDiscoveredUrl(url, result);
+
+            if (result.isFarm()) {
+                accepted.add(url);
+
+                String contactUrl = result.mainContactUrl();
+                if (contactUrl != null && !contactUrl.isBlank()) {
+                    accepted.add(contactUrl);
+                }
+
+                log.info(
+                        "DiscoveryService: ACCEPTED (FARM) sourceUrl={} contactUrl={} score={} seasonalJobs={} reason={}",
+                        url, contactUrl, scoredUrl.score(), result.isSeasonalJobs(), result.reason()
+                );
+                return new ScoredUrlProcessingDelta(0, 0);
+            }
+
+            log.info(
+                    "DiscoveryService: REJECTED (NOT A FARM) url={} score={} seasonalJobs={} reason={}",
+                    url, scoredUrl.score(), result.isSeasonalJobs(), result.reason()
+            );
+            return new ScoredUrlProcessingDelta(1, 0);
+
+        } catch (Exception e) {
+            log.warn(
+                    "DiscoveryService: error for url={} (score={}): {}",
+                    url, scoredUrl.score(), e.getMessage()
+            );
+            return new ScoredUrlProcessingDelta(0, 1);
+        }
+    }
 
     private String fetchTextSnippet(String url) {
         try {
