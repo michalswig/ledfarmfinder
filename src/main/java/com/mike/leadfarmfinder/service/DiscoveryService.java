@@ -2,23 +2,28 @@ package com.mike.leadfarmfinder.service;
 
 import com.mike.leadfarmfinder.config.LeadFinderProperties;
 import com.mike.leadfarmfinder.dto.FarmClassificationResult;
-import com.mike.leadfarmfinder.entity.DiscoveryRunStats;
 import com.mike.leadfarmfinder.entity.SerpQueryCursor;
-import com.mike.leadfarmfinder.repository.DiscoveredUrlRepository;
-import com.mike.leadfarmfinder.repository.DiscoveryRunStatsRepository;
-import com.mike.leadfarmfinder.repository.SerpQueryCursorRepository;
+import com.mike.leadfarmfinder.service.discovery.DiscoveredUrlWriter;
+import com.mike.leadfarmfinder.service.discovery.DiscoveryDuplicateChecker;
+import com.mike.leadfarmfinder.service.discovery.DiscoveryQueryScheduler;
+import com.mike.leadfarmfinder.service.discovery.DiscoveryRunStatsWriter;
+import com.mike.leadfarmfinder.service.discovery.DiscoverySnippetFetcher;
 import com.mike.leadfarmfinder.service.discovery.DiscoveryUrlFilter;
 import com.mike.leadfarmfinder.service.discovery.DiscoveryUrlNormalizer;
 import com.mike.leadfarmfinder.service.discovery.DiscoveryUrlScorer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jsoup.Jsoup;
-import org.jsoup.UnsupportedMimeTypeException;
-import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -28,12 +33,14 @@ public class DiscoveryService {
     private final DiscoveryUrlNormalizer urlNormalizer;
     private final DiscoveryUrlFilter discoveryUrlFilter;
     private final DiscoveryUrlScorer urlScorer;
+    private final DiscoverySnippetFetcher snippetFetcher;
+    private final DiscoveryDuplicateChecker duplicateChecker;
+    private final DiscoveredUrlWriter discoveredUrlWriter;
+    private final DiscoveryRunStatsWriter discoveryRunStatsWriter;
+    private final DiscoveryQueryScheduler queryScheduler;
 
     private final SerpApiService serpApiService;
     private final OpenAiFarmClassifier farmClassifier;
-    private final SerpQueryCursorRepository serpQueryCursorRepository;
-    private final DiscoveryRunStatsRepository discoveryRunStatsRepository;
-    private final DiscoveredUrlRepository discoveredUrlRepository;
     private final LeadFinderProperties leadFinderProperties;
 
     private static final List<String> QUERY_NEGATIVE_TOKENS = List.of(
@@ -66,8 +73,6 @@ public class DiscoveryService {
     private static final int EXHAUST_AFTER_EMPTY_NEW_URL_PAGES = 2;
     private static final int EXHAUST_AFTER_EMPTY_SERP_PAGES = 1;
 
-    private int queryIndex = 0;
-
     public List<String> findCandidateFarmUrls(int limit) {
 
         int alreadySeenSkipped = 0;
@@ -82,13 +87,13 @@ public class DiscoveryService {
             throw new IllegalStateException("Discovery queries are not configured! Add leadfinder.discovery.queries[]");
         }
 
-        Optional<QueryPick> pickOpt = pickNextNonExhaustedQuery(queries);
+        Optional<DiscoveryQueryScheduler.QueryPick> pickOpt = queryScheduler.pickNextNonExhaustedQuery(queries);
         if (pickOpt.isEmpty()) {
             log.info("DiscoveryService: all queries exhausted (all cursors DONE). Nothing to do.");
             return List.of();
         }
 
-        QueryPick pick = pickOpt.get();
+        DiscoveryQueryScheduler.QueryPick pick = pickOpt.get();
         int currentQueryIndex = pick.index();
         String rawQuery = pick.query();
         SerpQueryCursor cursor = pick.cursor();
@@ -109,7 +114,7 @@ public class DiscoveryService {
         int currentPage = startPage;
         int maxPage = cursor.getMaxPage();
 
-        if (isExhausted(cursor)) {
+        if (queryScheduler.isExhausted(cursor)) {
             log.info(
                     "DiscoveryService: picked query is already exhausted (DONE). query='{}', currentPage={}, maxPage={}",
                     rawQuery, startPage, maxPage
@@ -161,7 +166,6 @@ public class DiscoveryService {
             pagesVisited++;
 
             List<String> cleaned = cleanSerpUrls(rawUrls);
-
             cleanedUrlsTotal += cleaned.size();
 
             log.info("DiscoveryService: urls after domain filter (page={}) = {}", currentPage, cleaned.size());
@@ -191,6 +195,7 @@ public class DiscoveryService {
             currentPage = emptyNewCandidatesOutcome.currentPage();
             consecutiveEmptyNewUrls = emptyNewCandidatesOutcome.consecutiveEmptyNewUrls();
             consecutiveEmptySerpPages = emptyNewCandidatesOutcome.consecutiveEmptySerpPages();
+
             if (emptyNewCandidatesOutcome.shouldBreak()) {
                 break;
             }
@@ -217,7 +222,7 @@ public class DiscoveryService {
                 errorsCount += scoredUrlProcessingOutcome.errorsDelta();
             }
 
-            currentPage = advancePageOrExhaust(currentPage, maxPage);
+            currentPage = queryScheduler.advancePageOrExhaust(currentPage, maxPage);
             if (currentPage > maxPage) {
                 break;
             }
@@ -261,9 +266,7 @@ public class DiscoveryService {
             int errorsCount,
             int filteredAsAlreadyDiscovered
     ) {
-        cursor.setCurrentPage(currentPage);
-        cursor.setLastRunAt(LocalDateTime.now());
-        serpQueryCursorRepository.save(cursor);
+        queryScheduler.saveCursorAfterRun(cursor, currentPage);
 
         List<String> distinctAccepted = accepted.stream()
                 .filter(Objects::nonNull)
@@ -272,7 +275,7 @@ public class DiscoveryService {
                 .distinct()
                 .toList();
 
-        DiscoveryRunStats stats = buildDiscoveryRunStats(
+        discoveryRunStatsWriter.save(
                 rawQuery,
                 startedAt,
                 startPage,
@@ -286,37 +289,7 @@ public class DiscoveryService {
                 filteredAsAlreadyDiscovered
         );
 
-        discoveryRunStatsRepository.save(stats);
         return distinctAccepted;
-    }
-
-    private DiscoveryRunStats buildDiscoveryRunStats(
-            String query,
-            LocalDateTime startedAt,
-            int startPage,
-            int endPage,
-            int pagesVisited,
-            int rawUrlsTotal,
-            int cleanedUrlsTotal,
-            int acceptedUrls,
-            int rejectedUrls,
-            int errorsCount,
-            int filteredAlreadyDiscovered
-    ) {
-        DiscoveryRunStats stats = new DiscoveryRunStats();
-        stats.setQuery(query);
-        stats.setStartedAt(startedAt);
-        stats.setFinishedAt(LocalDateTime.now());
-        stats.setStartPage(startPage);
-        stats.setEndPage(endPage);
-        stats.setPagesVisited(pagesVisited);
-        stats.setRawUrls(rawUrlsTotal);
-        stats.setCleanedUrls(cleanedUrlsTotal);
-        stats.setAcceptedUrls(acceptedUrls);
-        stats.setRejectedUrls(rejectedUrls);
-        stats.setErrors(errorsCount);
-        stats.setFilteredAlreadyDiscovered(filteredAlreadyDiscovered);
-        return stats;
     }
 
     private List<String> cleanSerpUrls(List<String> rawUrls) {
@@ -343,7 +316,8 @@ public class DiscoveryService {
             int consecutiveEmptySerpPages,
             boolean shouldBreak,
             boolean shouldContinue
-    ) {}
+    ) {
+    }
 
     private EmptyNewCandidatesOutcome handleEmptyNewCandidates(
             List<String> newUrlsOnly,
@@ -376,7 +350,7 @@ public class DiscoveryService {
                 );
             }
 
-            int nextPage = advancePageOrExhaust(currentPage, maxPage);
+            int nextPage = queryScheduler.advancePageOrExhaust(currentPage, maxPage);
             boolean shouldBreak = nextPage > maxPage;
             return new EmptyNewCandidatesOutcome(
                     nextPage,
@@ -399,7 +373,8 @@ public class DiscoveryService {
     private record EmptySerpPageOutcome(
             int currentPage,
             int consecutiveEmptySerpPages
-    ) {}
+    ) {
+    }
 
     private EmptySerpPageOutcome handleEmptySerpPage(
             String rawQuery,
@@ -423,7 +398,7 @@ public class DiscoveryService {
             return new EmptySerpPageOutcome(donePage, nextEmptySerpPages);
         }
 
-        int nextPage = advancePageOrExhaust(currentPage, maxPage);
+        int nextPage = queryScheduler.advancePageOrExhaust(currentPage, maxPage);
         return new EmptySerpPageOutcome(nextPage, nextEmptySerpPages);
     }
 
@@ -433,7 +408,8 @@ public class DiscoveryService {
             int filteredAlreadyDiscoveredDelta,
             int alreadySeenSkippedDelta,
             int rejectedDelta
-    ) {}
+    ) {
+    }
 
     private NewUrlSelectionOutcome selectNewUrlsForClassification(List<String> cleaned, int acceptedSize, int limit) {
         List<String> newUrlsOnly = new ArrayList<>();
@@ -458,7 +434,7 @@ public class DiscoveryService {
                 continue;
             }
 
-            if (checkAlreadySeen(normalized) != SeenDecision.NOT_SEEN) {
+            if (duplicateChecker.checkAlreadySeen(normalized) != DiscoveryDuplicateChecker.SeenDecision.NOT_SEEN) {
                 filteredAlreadyDiscoveredDelta++;
                 alreadySeenSkippedDelta++;
                 continue;
@@ -481,34 +457,6 @@ public class DiscoveryService {
                 rejectedDelta
         );
     }
-
-    private boolean isExhausted(SerpQueryCursor c) {
-        return c.getCurrentPage() > c.getMaxPage();
-    }
-
-    private int advancePageOrExhaust(int currentPage, int maxPage) {
-        int next = currentPage + 1;
-        if (next > maxPage) {
-            return maxPage + 1;
-        }
-        return next;
-    }
-
-    private Optional<QueryPick> pickNextNonExhaustedQuery(List<String> queries) {
-        for (int attempts = 0; attempts < queries.size(); attempts++) {
-            int idx = queryIndex;
-            String q = queries.get(idx);
-            queryIndex = (queryIndex + 1) % queries.size();
-
-            SerpQueryCursor c = loadOrCreateCursor(q);
-            if (!isExhausted(c)) {
-                return Optional.of(new QueryPick(idx, q, c));
-            }
-        }
-        return Optional.empty();
-    }
-
-    private record QueryPick(int index, String query, SerpQueryCursor cursor) {}
 
     private String withQueryNegatives(String rawQuery) {
         String q = rawQuery == null ? "" : rawQuery.trim();
@@ -533,75 +481,16 @@ public class DiscoveryService {
         return sb.toString();
     }
 
-    private SeenDecision checkAlreadySeen(String normalizedUrl) {
-        if (discoveredUrlRepository.existsByUrl(normalizedUrl)) {
-            return SeenDecision.SEEN_BY_URL;
-        }
-        return SeenDecision.NOT_SEEN;
+    private record ScoredUrl(String url, int score) {
     }
 
-    private enum SeenDecision {
-        NOT_SEEN,
-        SEEN_BY_URL
+    private record ScoredUrlProcessingOutcome(int rejectedDelta, int errorsDelta) {
     }
-
-    private SerpQueryCursor loadOrCreateCursor(String query) {
-        return serpQueryCursorRepository.findByQuery(query)
-                .orElseGet(() -> {
-                    SerpQueryCursor cursor = new SerpQueryCursor();
-                    cursor.setQuery(query);
-                    cursor.setCurrentPage(1);
-                    cursor.setMaxPage(leadFinderProperties.getDiscovery().getDefaultMaxSerpPage());
-                    cursor.setLastRunAt(null);
-                    SerpQueryCursor saved = serpQueryCursorRepository.save(cursor);
-                    log.info("DiscoveryService: created new SERP cursor for query='{}'", query);
-                    return saved;
-                });
-    }
-
-    private void saveDiscoveredUrl(String url, FarmClassificationResult result) {
-        try {
-            var entity = discoveredUrlRepository.findByUrl(url)
-                    .orElseGet(com.mike.leadfarmfinder.entity.DiscoveredUrl::new);
-
-            boolean isNew = entity.getId() == null;
-
-            entity.setUrl(url);
-            entity.setDomain(urlNormalizer.extractNormalizedDomain(url));
-            entity.setFarm(result.isFarm());
-            entity.setSeasonalJobs(result.isSeasonalJobs());
-            entity.setLastSeenAt(LocalDateTime.now());
-
-            if (isNew) {
-                entity.setFirstSeenAt(LocalDateTime.now());
-            }
-
-            discoveredUrlRepository.save(entity);
-
-            if (isNew) {
-                log.info(
-                        "DiscoveryService: saved NEW discovered url={} (farm={}, seasonalJobs={})",
-                        url, result.isFarm(), result.isSeasonalJobs()
-                );
-            } else {
-                log.debug(
-                        "DiscoveryService: updated discovered url={} (farm={}, seasonalJobs={})",
-                        url, result.isFarm(), result.isSeasonalJobs()
-                );
-            }
-        } catch (Exception e) {
-            log.warn("DiscoveryService: failed to save discovered url={} due to {}", url, e.getMessage());
-        }
-    }
-
-    private record ScoredUrl(String url, int score) {}
-
-    private record ScoredUrlProcessingOutcome(int rejectedDelta, int errorsDelta) {}
 
     private ScoredUrlProcessingOutcome processScoredUrl(ScoredUrl scoredUrl, List<String> accepted) {
         String url = scoredUrl.url();
         try {
-            String snippet = fetchTextSnippet(url);
+            String snippet = snippetFetcher.fetchTextSnippet(url);
 
             if (snippet == null || snippet.isBlank()) {
                 log.info(
@@ -612,7 +501,7 @@ public class DiscoveryService {
             }
 
             FarmClassificationResult result = farmClassifier.classifyFarm(url, snippet);
-            saveDiscoveredUrl(url, result);
+            discoveredUrlWriter.save(url, result);
             return handleClassificationResult(scoredUrl, result, accepted);
 
         } catch (Exception e) {
@@ -650,38 +539,5 @@ public class DiscoveryService {
                 url, scoredUrl.score(), result.isSeasonalJobs(), result.reason()
         );
         return new ScoredUrlProcessingOutcome(1, 0);
-    }
-
-    private String fetchTextSnippet(String url) {
-        try {
-            Document doc = Jsoup.connect(url)
-                    .userAgent("Mozilla/5.0 (compatible; LeadFarmFinderBot/1.0)")
-                    .timeout(10_000)
-                    .followRedirects(true)
-                    .get();
-
-            doc.select("script,style,noscript").remove();
-
-            String text = doc.text();
-            if (text == null) {
-                return "";
-            }
-
-            text = text.trim();
-
-            if (text.length() < 120) {
-                return "";
-            }
-
-            int maxLen = 2000;
-            return text.length() > maxLen ? text.substring(0, maxLen) : text;
-
-        } catch (UnsupportedMimeTypeException e) {
-            log.warn("DiscoveryService: failed to fetch text from {}: unsupported mime {}", url, e.getMimeType());
-            return "";
-        } catch (Exception e) {
-            log.warn("DiscoveryService: failed to fetch text from {}: {}", url, e.getMessage());
-            return "";
-        }
     }
 }
