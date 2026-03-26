@@ -189,31 +189,22 @@ public class DiscoveryService {
                     currentPage, newUrlsOnly.size()
             );
 
-            if (newUrlsOnly.isEmpty()) {
-                consecutiveEmptyNewUrls++;
-
-                log.info(
-                        "DiscoveryService: empty NEW candidates streak = {} (page={})",
-                        consecutiveEmptyNewUrls, currentPage
-                );
-
-                if (consecutiveEmptyNewUrls >= EXHAUST_AFTER_EMPTY_NEW_URL_PAGES) {
-                    currentPage = maxPage + 1;
-                    log.info(
-                            "DiscoveryService: marking query as DONE after {} empty NEW pages. query='{}', pageNow={}",
-                            consecutiveEmptyNewUrls, rawQuery, currentPage
-                    );
-                    break;
-                }
-
-                currentPage = advancePageOrExhaust(currentPage, maxPage);
-                if (currentPage > maxPage) {
-                    break;
-                }
+            EmptyNewCandidatesOutcome emptyOutcome = handleEmptyNewCandidates(
+                    newUrlsOnly,
+                    rawQuery,
+                    currentPage,
+                    maxPage,
+                    consecutiveEmptyNewUrls,
+                    consecutiveEmptySerpPages
+            );
+            currentPage = emptyOutcome.currentPage();
+            consecutiveEmptyNewUrls = emptyOutcome.consecutiveEmptyNewUrls();
+            consecutiveEmptySerpPages = emptyOutcome.consecutiveEmptySerpPages();
+            if (emptyOutcome.shouldBreak()) {
+                break;
+            }
+            if (emptyOutcome.shouldContinue()) {
                 continue;
-            } else {
-                consecutiveEmptyNewUrls = 0;
-                consecutiveEmptySerpPages = 0;
             }
 
             List<ScoredUrl> scored = scoreNewUrls(newUrlsOnly);
@@ -322,6 +313,65 @@ public class DiscoveryService {
                 .map(u -> new ScoredUrl(u, urlScorer.computeDomainPriorityScore(u)))
                 .sorted(Comparator.comparingInt(ScoredUrl::score).reversed())
                 .toList();
+    }
+
+    private record EmptyNewCandidatesOutcome(
+            int currentPage,
+            int consecutiveEmptyNewUrls,
+            int consecutiveEmptySerpPages,
+            boolean shouldBreak,
+            boolean shouldContinue
+    ) {}
+
+    private EmptyNewCandidatesOutcome handleEmptyNewCandidates(
+            List<String> newUrlsOnly,
+            String rawQuery,
+            int currentPage,
+            int maxPage,
+            int consecutiveEmptyNewUrls,
+            int consecutiveEmptySerpPages
+    ) {
+        if (newUrlsOnly.isEmpty()) {
+            int nextEmptyNewUrls = consecutiveEmptyNewUrls + 1;
+
+            log.info(
+                    "DiscoveryService: empty NEW candidates streak = {} (page={})",
+                    nextEmptyNewUrls, currentPage
+            );
+
+            if (nextEmptyNewUrls >= EXHAUST_AFTER_EMPTY_NEW_URL_PAGES) {
+                int donePage = maxPage + 1;
+                log.info(
+                        "DiscoveryService: marking query as DONE after {} empty NEW pages. query='{}', pageNow={}",
+                        nextEmptyNewUrls, rawQuery, donePage
+                );
+                return new EmptyNewCandidatesOutcome(
+                        donePage,
+                        nextEmptyNewUrls,
+                        consecutiveEmptySerpPages,
+                        true,
+                        false
+                );
+            }
+
+            int nextPage = advancePageOrExhaust(currentPage, maxPage);
+            boolean shouldBreak = nextPage > maxPage;
+            return new EmptyNewCandidatesOutcome(
+                    nextPage,
+                    nextEmptyNewUrls,
+                    consecutiveEmptySerpPages,
+                    shouldBreak,
+                    !shouldBreak
+            );
+        }
+
+        return new EmptyNewCandidatesOutcome(
+                currentPage,
+                0,
+                0,
+                false,
+                false
+        );
     }
 
     private record NewUrlSelectionResult(
