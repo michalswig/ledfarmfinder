@@ -223,6 +223,44 @@ public class DiscoveryService {
             }
         }
 
+        List<String> distinctAccepted = finalizeRun(
+                cursor,
+                accepted,
+                rawQuery,
+                startedAt,
+                startPage,
+                currentPage,
+                pagesVisited,
+                rawUrlsTotal,
+                cleanedUrlsTotal,
+                rejectedCount,
+                errorsCount,
+                filteredAsAlreadyDiscovered
+        );
+
+        log.info(
+                "DiscoveryService: returning {} accepted urls (query='{}', startPage={}, endPage={}, done={}, pagesVisited={}, alreadySeenSkippedUrl={}, openAiCandidates={}, normalizedChanged={})",
+                distinctAccepted.size(), rawQuery, startPage, currentPage, (currentPage > maxPage), pagesVisited,
+                alreadySeenSkipped, openAiCandidates, normalizedChanged
+        );
+
+        return distinctAccepted;
+    }
+
+    private List<String> finalizeRun(
+            SerpQueryCursor cursor,
+            List<String> accepted,
+            String rawQuery,
+            LocalDateTime startedAt,
+            int startPage,
+            int currentPage,
+            int pagesVisited,
+            int rawUrlsTotal,
+            int cleanedUrlsTotal,
+            int rejectedCount,
+            int errorsCount,
+            int filteredAsAlreadyDiscovered
+    ) {
         cursor.setCurrentPage(currentPage);
         cursor.setLastRunAt(LocalDateTime.now());
         serpQueryCursorRepository.save(cursor);
@@ -249,13 +287,6 @@ public class DiscoveryService {
         );
 
         discoveryRunStatsRepository.save(stats);
-
-        log.info(
-                "DiscoveryService: returning {} accepted urls (query='{}', startPage={}, endPage={}, done={}, pagesVisited={}, alreadySeenSkippedUrl={}, openAiCandidates={}, normalizedChanged={})",
-                distinctAccepted.size(), rawQuery, startPage, currentPage, (currentPage > maxPage), pagesVisited,
-                alreadySeenSkipped, openAiCandidates, normalizedChanged
-        );
-
         return distinctAccepted;
     }
 
