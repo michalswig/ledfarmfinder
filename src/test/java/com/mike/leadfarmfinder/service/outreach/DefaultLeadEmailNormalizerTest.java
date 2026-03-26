@@ -139,33 +139,5 @@ class DefaultLeadEmailNormalizerTest {
             verify(lead).setBounce(true);
             verify(farmLeadRepository).save(lead);
         }
-
-        @Test
-        @DisplayName("should return null and not deactivate lead for blocked Telekom domain")
-        @Disabled
-        void shouldReturnNullAndNotDeactivateLeadForBlockedTelekomDomain() {
-            when(lead.getEmail()).thenReturn("kontakt@t-online.de");
-
-            String result = normalizer.normalizeAndValidateOrDeactivate(lead);
-
-            assertThat(result).isNull();
-            verify(farmLeadRepository, never()).save(any());
-            verify(lead, never()).setActive(false);
-            verify(lead, never()).setBounce(true);
-        }
-
-        @Test
-        @DisplayName("should block Telekom domains case insensitively")
-        @Disabled
-        void shouldBlockTelekomDomainsCaseInsensitively() {
-            when(lead.getEmail()).thenReturn("Kontakt@T-Online.De");
-
-            String result = normalizer.normalizeAndValidateOrDeactivate(lead);
-
-            assertThat(result).isNull();
-            verify(farmLeadRepository, never()).save(any());
-            verify(lead, never()).setActive(false);
-            verify(lead, never()).setBounce(true);
-        }
     }
 }
