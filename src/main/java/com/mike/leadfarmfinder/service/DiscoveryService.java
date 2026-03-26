@@ -147,14 +147,14 @@ public class DiscoveryService {
             log.info("DiscoveryService: raw urls from SerpAPI (page={}) = {}", currentPage, rawUrls.size());
 
             if (rawUrls.isEmpty()) {
-                EmptySerpPageOutcome serpOutcome = handleEmptySerpPage(
+                EmptySerpPageOutcome emptySerpPageOutcome = handleEmptySerpPage(
                         rawQuery,
                         currentPage,
                         maxPage,
                         consecutiveEmptySerpPages
                 );
-                currentPage = serpOutcome.currentPage();
-                consecutiveEmptySerpPages = serpOutcome.consecutiveEmptySerpPages();
+                currentPage = emptySerpPageOutcome.currentPage();
+                consecutiveEmptySerpPages = emptySerpPageOutcome.consecutiveEmptySerpPages();
                 break;
             }
 
@@ -166,12 +166,12 @@ public class DiscoveryService {
 
             log.info("DiscoveryService: urls after domain filter (page={}) = {}", currentPage, cleaned.size());
 
-            NewUrlSelectionResult selection = selectNewUrlsForClassification(cleaned, accepted.size(), limit);
-            List<String> newUrlsOnly = selection.newUrlsOnly();
-            normalizedChanged += selection.normalizedChangedDelta();
-            filteredAsAlreadyDiscovered += selection.filteredAlreadyDiscoveredDelta();
-            alreadySeenSkipped += selection.alreadySeenSkippedDelta();
-            rejectedCount += selection.rejectedDelta();
+            NewUrlSelectionOutcome newUrlSelectionOutcome = selectNewUrlsForClassification(cleaned, accepted.size(), limit);
+            List<String> newUrlsOnly = newUrlSelectionOutcome.newUrlsOnly();
+            normalizedChanged += newUrlSelectionOutcome.normalizedChangedDelta();
+            filteredAsAlreadyDiscovered += newUrlSelectionOutcome.filteredAlreadyDiscoveredDelta();
+            alreadySeenSkipped += newUrlSelectionOutcome.alreadySeenSkippedDelta();
+            rejectedCount += newUrlSelectionOutcome.rejectedDelta();
 
             openAiCandidates += newUrlsOnly.size();
 
@@ -180,7 +180,7 @@ public class DiscoveryService {
                     currentPage, newUrlsOnly.size()
             );
 
-            EmptyNewCandidatesOutcome emptyOutcome = handleEmptyNewCandidates(
+            EmptyNewCandidatesOutcome emptyNewCandidatesOutcome = handleEmptyNewCandidates(
                     newUrlsOnly,
                     rawQuery,
                     currentPage,
@@ -188,13 +188,13 @@ public class DiscoveryService {
                     consecutiveEmptyNewUrls,
                     consecutiveEmptySerpPages
             );
-            currentPage = emptyOutcome.currentPage();
-            consecutiveEmptyNewUrls = emptyOutcome.consecutiveEmptyNewUrls();
-            consecutiveEmptySerpPages = emptyOutcome.consecutiveEmptySerpPages();
-            if (emptyOutcome.shouldBreak()) {
+            currentPage = emptyNewCandidatesOutcome.currentPage();
+            consecutiveEmptyNewUrls = emptyNewCandidatesOutcome.consecutiveEmptyNewUrls();
+            consecutiveEmptySerpPages = emptyNewCandidatesOutcome.consecutiveEmptySerpPages();
+            if (emptyNewCandidatesOutcome.shouldBreak()) {
                 break;
             }
-            if (emptyOutcome.shouldContinue()) {
+            if (emptyNewCandidatesOutcome.shouldContinue()) {
                 continue;
             }
 
@@ -212,9 +212,9 @@ public class DiscoveryService {
                     break;
                 }
 
-                ScoredUrlProcessingDelta delta = processScoredUrl(scoredUrl, accepted);
-                rejectedCount += delta.rejectedDelta();
-                errorsCount += delta.errorsDelta();
+                ScoredUrlProcessingOutcome scoredUrlProcessingOutcome = processScoredUrl(scoredUrl, accepted);
+                rejectedCount += scoredUrlProcessingOutcome.rejectedDelta();
+                errorsCount += scoredUrlProcessingOutcome.errorsDelta();
             }
 
             currentPage = advancePageOrExhaust(currentPage, maxPage);
@@ -427,7 +427,7 @@ public class DiscoveryService {
         return new EmptySerpPageOutcome(nextPage, nextEmptySerpPages);
     }
 
-    private record NewUrlSelectionResult(
+    private record NewUrlSelectionOutcome(
             List<String> newUrlsOnly,
             int normalizedChangedDelta,
             int filteredAlreadyDiscoveredDelta,
@@ -435,7 +435,7 @@ public class DiscoveryService {
             int rejectedDelta
     ) {}
 
-    private NewUrlSelectionResult selectNewUrlsForClassification(List<String> cleaned, int acceptedSize, int limit) {
+    private NewUrlSelectionOutcome selectNewUrlsForClassification(List<String> cleaned, int acceptedSize, int limit) {
         List<String> newUrlsOnly = new ArrayList<>();
         Set<String> normalizedSeenThisPage = new HashSet<>();
         int normalizedChangedDelta = 0;
@@ -473,7 +473,7 @@ public class DiscoveryService {
             newUrlsOnly.add(normalized);
         }
 
-        return new NewUrlSelectionResult(
+        return new NewUrlSelectionOutcome(
                 newUrlsOnly,
                 normalizedChangedDelta,
                 filteredAlreadyDiscoveredDelta,
@@ -596,9 +596,9 @@ public class DiscoveryService {
 
     private record ScoredUrl(String url, int score) {}
 
-    private record ScoredUrlProcessingDelta(int rejectedDelta, int errorsDelta) {}
+    private record ScoredUrlProcessingOutcome(int rejectedDelta, int errorsDelta) {}
 
-    private ScoredUrlProcessingDelta processScoredUrl(ScoredUrl scoredUrl, List<String> accepted) {
+    private ScoredUrlProcessingOutcome processScoredUrl(ScoredUrl scoredUrl, List<String> accepted) {
         String url = scoredUrl.url();
         try {
             String snippet = fetchTextSnippet(url);
@@ -608,7 +608,7 @@ public class DiscoveryService {
                         "DiscoveryService: SKIP (empty/low-quality snippet - no OpenAI, no DB save) url={} score={}",
                         url, scoredUrl.score()
                 );
-                return new ScoredUrlProcessingDelta(1, 0);
+                return new ScoredUrlProcessingOutcome(1, 0);
             }
 
             FarmClassificationResult result = farmClassifier.classifyFarm(url, snippet);
@@ -620,11 +620,11 @@ public class DiscoveryService {
                     "DiscoveryService: error for url={} (score={}): {}",
                     url, scoredUrl.score(), e.getMessage()
             );
-            return new ScoredUrlProcessingDelta(0, 1);
+            return new ScoredUrlProcessingOutcome(0, 1);
         }
     }
 
-    private ScoredUrlProcessingDelta handleClassificationResult(
+    private ScoredUrlProcessingOutcome handleClassificationResult(
             ScoredUrl scoredUrl,
             FarmClassificationResult result,
             List<String> accepted
@@ -642,14 +642,14 @@ public class DiscoveryService {
                     "DiscoveryService: ACCEPTED (FARM) sourceUrl={} contactUrl={} score={} seasonalJobs={} reason={}",
                     url, contactUrl, scoredUrl.score(), result.isSeasonalJobs(), result.reason()
             );
-            return new ScoredUrlProcessingDelta(0, 0);
+            return new ScoredUrlProcessingOutcome(0, 0);
         }
 
         log.info(
                 "DiscoveryService: REJECTED (NOT A FARM) url={} score={} seasonalJobs={} reason={}",
                 url, scoredUrl.score(), result.isSeasonalJobs(), result.reason()
         );
-        return new ScoredUrlProcessingDelta(1, 0);
+        return new ScoredUrlProcessingOutcome(1, 0);
     }
 
     private String fetchTextSnippet(String url) {
