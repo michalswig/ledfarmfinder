@@ -147,23 +147,14 @@ public class DiscoveryService {
             log.info("DiscoveryService: raw urls from SerpAPI (page={}) = {}", currentPage, rawUrls.size());
 
             if (rawUrls.isEmpty()) {
-                consecutiveEmptySerpPages++;
-
-                log.info(
-                        "DiscoveryService: empty SERP page streak = {} (page={})",
-                        consecutiveEmptySerpPages, currentPage
+                EmptySerpPageOutcome serpOutcome = handleEmptySerpPage(
+                        rawQuery,
+                        currentPage,
+                        maxPage,
+                        consecutiveEmptySerpPages
                 );
-
-                if (consecutiveEmptySerpPages >= EXHAUST_AFTER_EMPTY_SERP_PAGES) {
-                    currentPage = maxPage + 1;
-                    log.info(
-                            "DiscoveryService: marking query as DONE due to empty SERP response. query='{}', pageNow={}",
-                            rawQuery, currentPage
-                    );
-                    break;
-                }
-
-                currentPage = advancePageOrExhaust(currentPage, maxPage);
+                currentPage = serpOutcome.currentPage();
+                consecutiveEmptySerpPages = serpOutcome.consecutiveEmptySerpPages();
                 break;
             }
 
@@ -372,6 +363,37 @@ public class DiscoveryService {
                 false,
                 false
         );
+    }
+
+    private record EmptySerpPageOutcome(
+            int currentPage,
+            int consecutiveEmptySerpPages
+    ) {}
+
+    private EmptySerpPageOutcome handleEmptySerpPage(
+            String rawQuery,
+            int currentPage,
+            int maxPage,
+            int consecutiveEmptySerpPages
+    ) {
+        int nextEmptySerpPages = consecutiveEmptySerpPages + 1;
+
+        log.info(
+                "DiscoveryService: empty SERP page streak = {} (page={})",
+                nextEmptySerpPages, currentPage
+        );
+
+        if (nextEmptySerpPages >= EXHAUST_AFTER_EMPTY_SERP_PAGES) {
+            int donePage = maxPage + 1;
+            log.info(
+                    "DiscoveryService: marking query as DONE due to empty SERP response. query='{}', pageNow={}",
+                    rawQuery, donePage
+            );
+            return new EmptySerpPageOutcome(donePage, nextEmptySerpPages);
+        }
+
+        int nextPage = advancePageOrExhaust(currentPage, maxPage);
+        return new EmptySerpPageOutcome(nextPage, nextEmptySerpPages);
     }
 
     private record NewUrlSelectionResult(
