@@ -175,38 +175,12 @@ public class DiscoveryService {
 
             log.info("DiscoveryService: urls after domain filter (page={}) = {}", currentPage, cleaned.size());
 
-            List<String> newUrlsOnly = new ArrayList<>();
-            Set<String> normalizedSeenThisPage = new HashSet<>();
-
-            for (String url : cleaned) {
-                if (accepted.size() >= limit) {
-                    break;
-                }
-
-                String normalized = urlNormalizer.normalizeUrl(url);
-
-                if (!normalized.equals(url)) {
-                    normalizedChanged++;
-                }
-
-                if (!normalizedSeenThisPage.add(normalized)) {
-                    continue;
-                }
-
-                if (checkAlreadySeen(normalized) != SeenDecision.NOT_SEEN) {
-                    filteredAsAlreadyDiscovered++;
-                    alreadySeenSkipped++;
-                    continue;
-                }
-
-                if (discoveryUrlFilter.isHardNegativePath(normalized)) {
-                    rejectedCount++;
-                    log.info("DiscoveryService: SKIP (hard-negative-path - no DB save) url={}", normalized);
-                    continue;
-                }
-
-                newUrlsOnly.add(normalized);
-            }
+            NewUrlSelectionResult selection = selectNewUrlsForClassification(cleaned, accepted.size(), limit);
+            List<String> newUrlsOnly = selection.newUrlsOnly();
+            normalizedChanged += selection.normalizedChangedDelta();
+            filteredAsAlreadyDiscovered += selection.filteredAlreadyDiscoveredDelta();
+            alreadySeenSkipped += selection.alreadySeenSkippedDelta();
+            rejectedCount += selection.rejectedDelta();
 
             openAiCandidates += newUrlsOnly.size();
 
@@ -348,6 +322,61 @@ public class DiscoveryService {
                 .map(u -> new ScoredUrl(u, urlScorer.computeDomainPriorityScore(u)))
                 .sorted(Comparator.comparingInt(ScoredUrl::score).reversed())
                 .toList();
+    }
+
+    private record NewUrlSelectionResult(
+            List<String> newUrlsOnly,
+            int normalizedChangedDelta,
+            int filteredAlreadyDiscoveredDelta,
+            int alreadySeenSkippedDelta,
+            int rejectedDelta
+    ) {}
+
+    private NewUrlSelectionResult selectNewUrlsForClassification(List<String> cleaned, int acceptedSize, int limit) {
+        List<String> newUrlsOnly = new ArrayList<>();
+        Set<String> normalizedSeenThisPage = new HashSet<>();
+        int normalizedChangedDelta = 0;
+        int filteredAlreadyDiscoveredDelta = 0;
+        int alreadySeenSkippedDelta = 0;
+        int rejectedDelta = 0;
+
+        for (String url : cleaned) {
+            if (acceptedSize >= limit) {
+                break;
+            }
+
+            String normalized = urlNormalizer.normalizeUrl(url);
+
+            if (!normalized.equals(url)) {
+                normalizedChangedDelta++;
+            }
+
+            if (!normalizedSeenThisPage.add(normalized)) {
+                continue;
+            }
+
+            if (checkAlreadySeen(normalized) != SeenDecision.NOT_SEEN) {
+                filteredAlreadyDiscoveredDelta++;
+                alreadySeenSkippedDelta++;
+                continue;
+            }
+
+            if (discoveryUrlFilter.isHardNegativePath(normalized)) {
+                rejectedDelta++;
+                log.info("DiscoveryService: SKIP (hard-negative-path - no DB save) url={}", normalized);
+                continue;
+            }
+
+            newUrlsOnly.add(normalized);
+        }
+
+        return new NewUrlSelectionResult(
+                newUrlsOnly,
+                normalizedChangedDelta,
+                filteredAlreadyDiscoveredDelta,
+                alreadySeenSkippedDelta,
+                rejectedDelta
+        );
     }
 
     private boolean isExhausted(SerpQueryCursor c) {
