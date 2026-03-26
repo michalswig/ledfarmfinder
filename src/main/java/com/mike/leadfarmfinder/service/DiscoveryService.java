@@ -481,27 +481,7 @@ public class DiscoveryService {
 
             FarmClassificationResult result = farmClassifier.classifyFarm(url, snippet);
             saveDiscoveredUrl(url, result);
-
-            if (result.isFarm()) {
-                accepted.add(url);
-
-                String contactUrl = result.mainContactUrl();
-                if (contactUrl != null && !contactUrl.isBlank()) {
-                    accepted.add(contactUrl);
-                }
-
-                log.info(
-                        "DiscoveryService: ACCEPTED (FARM) sourceUrl={} contactUrl={} score={} seasonalJobs={} reason={}",
-                        url, contactUrl, scoredUrl.score(), result.isSeasonalJobs(), result.reason()
-                );
-                return new ScoredUrlProcessingDelta(0, 0);
-            }
-
-            log.info(
-                    "DiscoveryService: REJECTED (NOT A FARM) url={} score={} seasonalJobs={} reason={}",
-                    url, scoredUrl.score(), result.isSeasonalJobs(), result.reason()
-            );
-            return new ScoredUrlProcessingDelta(1, 0);
+            return handleClassificationResult(scoredUrl, result, accepted);
 
         } catch (Exception e) {
             log.warn(
@@ -510,6 +490,34 @@ public class DiscoveryService {
             );
             return new ScoredUrlProcessingDelta(0, 1);
         }
+    }
+
+    private ScoredUrlProcessingDelta handleClassificationResult(
+            ScoredUrl scoredUrl,
+            FarmClassificationResult result,
+            List<String> accepted
+    ) {
+        String url = scoredUrl.url();
+        if (result.isFarm()) {
+            accepted.add(url);
+
+            String contactUrl = result.mainContactUrl();
+            if (contactUrl != null && !contactUrl.isBlank()) {
+                accepted.add(contactUrl);
+            }
+
+            log.info(
+                    "DiscoveryService: ACCEPTED (FARM) sourceUrl={} contactUrl={} score={} seasonalJobs={} reason={}",
+                    url, contactUrl, scoredUrl.score(), result.isSeasonalJobs(), result.reason()
+            );
+            return new ScoredUrlProcessingDelta(0, 0);
+        }
+
+        log.info(
+                "DiscoveryService: REJECTED (NOT A FARM) url={} score={} seasonalJobs={} reason={}",
+                url, scoredUrl.score(), result.isSeasonalJobs(), result.reason()
+        );
+        return new ScoredUrlProcessingDelta(1, 0);
     }
 
     private String fetchTextSnippet(String url) {
