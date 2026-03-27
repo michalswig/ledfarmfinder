@@ -122,255 +122,474 @@ leadfinder:
     queries:
 
       # =========================
-      # ERDBEEREN – EXTRA 50 (EMAIL / KONTAKT)
+      # OGÓLNE – FARMA / BETRIEB / KONTAKT
       # =========================
-      - Erdbeerhof Kontakt E-Mail
-      - Erdbeerhof Impressum Kontakt
-      - Erdbeeranbau Betrieb Kontakt E-Mail
-      - Erdbeerbetrieb E-Mail Adresse
-      - Erdbeerhof Betreiber Kontakt E-Mail
-      - Erdbeerhof Firmenkontakt
-      - Erdbeerhof Ansprechpartner Kontakt
-      - Erdbeerhof Verwaltung E-Mail
-      - Erdbeerhof Kontaktseite Impressum
-      - Erdbeerhof Kontaktformular E-Mail Adresse
-
-      - Erdbeeranbau Hof E-Mail Adresse
-      - Erdbeer Produktion Betrieb Kontakt E-Mail
-      - Erdbeer Direktvermarktung E-Mail
-      - Erdbeerhof Direktverkauf Kontakt E-Mail
-      - Erdbeerhof Hofladen E-Mail Adresse
-      - Erdbeerhof Hofverkauf Kontakt E-Mail
-      - Erdbeer Erzeuger Betrieb E-Mail
-      - Erdbeerhof Mailadresse Kontakt
-      - Erdbeerbetrieb Ansprechpartner E-Mail
-      - Erdbeerhof Impressum Mailadresse
-
-      - Erdbeerhof Telefon E-Mail Kontakt
-      - Erdbeerhof Firmenadresse Kontakt E-Mail
-      - Erdbeeranbau Betrieb Impressum E-Mail
-      - Erdbeer Produktion Landwirtschaft Kontakt
-      - Erdbeerhof Kontaktformular Impressum
-      - Erdbeerhof Betreiber Mailadresse
-      - Erdbeerbetrieb Kontaktseite E-Mail
-      - Erdbeerhof Verwaltung Kontakt E-Mail
-      - Erdbeerhof Ansprechpartner Mailadresse
-      - Erdbeer Direktverkauf Betrieb Kontakt E-Mail
-
-      - Erdbeerhof Impressum Ansprechpartner
-      - Erdbeerhof Zentrale Kontakt E-Mail
-      - Erdbeerproduktion Betrieb E-Mail Adresse
-      - Erdbeerhof Kontakt Impressum E-Mail
-      - Erdbeerhof Firmenkontakt E-Mail Adresse
-      - Erdbeeranbau Hof Kontaktformular E-Mail
-      - Erdbeerhof E-Mail Kontaktformular
-      - Erdbeerbetrieb Impressum Kontakt E-Mail
-      - Erdbeerhof Verwaltung Ansprechpartner Kontakt
-      - Erdbeerhof Kontakt E-Mail Impressum
-
-      - Erdbeerhof Mail Kontakt Ansprechpartner
-      - Erdbeerhof Betreiber Kontaktformular
-      - Erdbeerhof Kontakt E-Mail Adresse Impressum
-      - Erdbeerhof Direktvermarktung Kontaktformular
-      - Erdbeerhof Hofladen Ansprechpartner E-Mail
-      - Erdbeerhof Produktion Betrieb Kontakt
-      - Erdbeerhof Impressum Firmenkontakt
-      - Erdbeerhof Ansprechpartner Kontaktformular
-      - Erdbeerhof Firmenkontakt Ansprechpartner
-      - Erdbeerhof Verwaltung Firmenkontakt E-Mail
+      - Landwirtschaftlicher Betrieb Kontaktadresse
+      - Landwirtschaftlicher Betrieb Kontaktinformationen
+      - Landwirtschaftlicher Betrieb Firmenanschrift
+      - Landwirtschaftlicher Betrieb Unternehmenskontakt
+      - Landwirtschaftlicher Betrieb Mail Adresse
+      - Landwirtschaftlicher Betrieb E-Mail Impressum Kontakt
+      - Landwirtschaftlicher Betrieb Kontaktperson E-Mail
+      - Landwirtschaftlicher Betrieb Geschäftsadresse Kontakt
+      - Landwirtschaftlicher Betrieb Inhaber E-Mail
+      - Landwirtschaftlicher Betrieb Betriebsleitung Kontakt
+      - Landwirtschaftlicher Betrieb Sekretariat Kontakt
+      - Landwirtschaftlicher Betrieb Verwaltung Kontaktformular
+      - Landwirtschaftlicher Betrieb Firmenzentrale Kontakt
+      - Landwirtschaftlicher Betrieb Kontaktperson Impressum
+      - Landwirtschaftlicher Betrieb Kontaktperson Telefonnummer
+      - Landwirtschaftlicher Betrieb Firmenmail
+      - Landwirtschaftlicher Betrieb offizielle Kontaktseite
+      - Landwirtschaftlicher Betrieb zentrale E-Mail
+      - Landwirtschaftlicher Betrieb Verwaltung Mailadresse
+      - Landwirtschaftlicher Betrieb Firmenkontakt Kontaktformular
+      - Landwirtschaftlicher Hof Kontaktadresse
+      - Landwirtschaftlicher Hof Kontaktinformationen
+      - Landwirtschaftlicher Hof Firmenkontakt
+      - Landwirtschaftlicher Hof Betreiber E-Mail
+      - Landwirtschaftlicher Hof Ansprechpartner E-Mail
+      - Landwirtschaftlicher Hof Verwaltung Kontakt
+      - Landwirtschaftlicher Hof Inhaber Kontakt
+      - Landwirtschaftlicher Hof Impressum Mailadresse
+      - Landwirtschaftlicher Hof Firmenanschrift
+      - Landwirtschaftlicher Hof Kontaktformular Impressum
+      - Landwirtschaftlicher Hof Zentrale Kontakt
+      - Landwirtschaftlicher Hof Firmenmail
+      - Landwirtschaftlicher Hof offizielle E-Mail
+      - Landwirtschaftlicher Hof Verwaltung Telefonnummer
+      - Landwirtschaftlicher Hof Betreiber Kontaktformular
+      - Landwirtschaftlicher Produzent Kontaktadresse
+      - Landwirtschaftlicher Produzent Firmenkontakt
+      - Landwirtschaftlicher Produzent Ansprechpartner E-Mail
+      - Landwirtschaftlicher Produzent Verwaltung Kontakt
+      - Landwirtschaftlicher Produzent Kontaktinformationen
+      - Landwirtschaftlicher Produzent Impressum E-Mail
+      - Landwirtschaftlicher Produzent offizielle Kontaktseite
+      - Landwirtschaftlicher Produzent Betriebsleitung Kontakt
+      - Landwirtschaftlicher Produzent Mailadresse
+      - Landwirtschaftlicher Produzent Firmenanschrift
+      - Agrarbetrieb Kontaktadresse
+      - Agrarbetrieb Kontaktinformationen
+      - Agrarbetrieb Firmenanschrift
+      - Agrarbetrieb Verwaltung Kontakt
+      - Agrarbetrieb Ansprechpartner Kontaktformular
 
       # =========================
-      # OGÓLNE – EMAIL / KONTAKT
+      # BAUERNHOF / HOF / FAMILIENBETRIEB
       # =========================
-      - Landwirtschaftsbetrieb E-Mail
-      - Landwirtschaftlicher Betrieb Kontakt E-Mail
-      - Bauernhof E-Mail Adresse
-      - Agrarbetrieb Kontakt E-Mail
-      - Landwirtschaftlicher Hof E-Mail
-      - Landwirtschaftlicher Betrieb Impressum E-Mail
-      - Bauernhof Impressum Kontakt
-      - Landwirtschaftlicher Betrieb Kontaktseite E-Mail
-      - Landwirtschaftlicher Produzent E-Mail Adresse
-      - Agrarunternehmen Impressum E-Mail
-      - Landwirtschaftlicher Betrieb Ansprechpartner E-Mail
-      - Bauernhof Kontaktformular E-Mail
-      - Landwirtschaftlicher Betrieb Mailadresse
-      - Landwirtschaftlicher Hof Impressum Kontakt
-      - Landwirtschaftlicher Betrieb Firmenkontakt E-Mail
-      - Landwirtschaftlicher Betrieb Verwaltung E-Mail
-      - Bauernhof Betreiber E-Mail
-      - Landwirtschaftlicher Betrieb Geschäftsführung E-Mail
-      - Landwirtschaftlicher Hof Kontakt E-Mail
-      - Landwirtschaftlicher Betrieb Kontaktformular
+      - Bauernhof Kontaktadresse
+      - Bauernhof Kontaktinformationen
+      - Bauernhof offizielle E-Mail
+      - Bauernhof Betreiber Kontaktformular
+      - Bauernhof Verwaltung Kontakt
+      - Bauernhof Ansprechpartner E-Mail
+      - Bauernhof Firmenkontakt
+      - Bauernhof Firmenanschrift
+      - Bauernhof Mailadresse Impressum
+      - Bauernhof Inhaber E-Mail
+      - Bauernhof Zentrale Kontakt
+      - Bauernhof Kontaktseite E-Mail
+      - Bauernhof Kontaktformular Impressum
+      - Bauernhof Geschäftsleitung Kontakt
+      - Bauernhof Betreiber Telefonnummer
+      - Bauernhof Hofladen E-Mail
+      - Bauernhof Direktverkauf E-Mail
+      - Bauernhof Direktvermarktung E-Mail
+      - Familienbetrieb Landwirtschaft Kontaktadresse
+      - Familienbetrieb Landwirtschaft Kontaktinformationen
+      - Familienbetrieb Landwirtschaft Ansprechpartner
+      - Familienbetrieb Landwirtschaft E-Mail Adresse
+      - Familienbetrieb Landwirtschaft Verwaltung Kontakt
+      - Familienbetrieb Landwirtschaft Impressum E-Mail
+      - Familienbetrieb Landwirtschaft Firmenkontakt
+      - Familienbetrieb Landwirtschaft Betreiber Kontakt
+      - Familienbetrieb Landwirtschaft Kontaktformular
+      - Familienbetrieb Landwirtschaft offizielle Mailadresse
+      - Familienhof Kontaktadresse
+      - Familienhof Ansprechpartner E-Mail
 
       # =========================
-      # HOFLADEN / DIREKT
+      # HOFLADEN / HOFVERKAUF / DIREKTVERMARKTUNG
       # =========================
-      - Hofladen E-Mail Adresse
-      - Hofladen Kontakt E-Mail
-      - Hofladen Impressum E-Mail
-      - Direktvermarktung Hof E-Mail
-      - Hofverkauf E-Mail Adresse
-      - Hofladen Kontaktformular
-      - Hofladen Ansprechpartner E-Mail
-      - Direktvermarkter Impressum E-Mail
-      - Hofladen Betreiber Kontakt E-Mail
-      - Hofladen Firmenkontakt
+      - Hofladen Kontaktadresse
+      - Hofladen Kontaktinformationen
+      - Hofladen offizielle E-Mail
+      - Hofladen Betreiber Kontakt
+      - Hofladen Verwaltung E-Mail
+      - Hofladen Impressum Kontakt
+      - Hofladen Firmenanschrift
+      - Hofladen Zentrale Kontakt
+      - Hofladen Kontaktperson E-Mail
+      - Hofladen Ansprechpartner Kontaktformular
+      - Hofladen Direktverkauf Kontakt
+      - Hofladen Hofverkauf E-Mail
+      - Hofladen Mailadresse Impressum
+      - Hofladen Inhaber Kontakt
+      - Hofladen Betreiber Telefonnummer
+      - Hofverkauf Kontaktadresse
+      - Hofverkauf Kontaktinformationen
+      - Hofverkauf E-Mail Impressum
+      - Hofverkauf Ansprechpartner E-Mail
+      - Hofverkauf Betreiber Kontakt
+      - Hofverkauf Firmenkontakt
+      - Hofverkauf Kontaktformular
+      - Hofverkauf Verwaltung Kontakt
+      - Direktvermarktung Hof Kontaktadresse
+      - Direktvermarktung Hof Kontaktinformationen
+      - Direktvermarktung Hof Ansprechpartner E-Mail
+      - Direktvermarktung Hof Impressum E-Mail
+      - Direktvermarktung Hof Betreiber Kontakt
+      - Direktvermarktung Hof Firmenanschrift
+      - Direktvermarktung Hof Kontaktformular
 
       # =========================
-      # OBST / GEMÜSE
+      # OBST / GEMÜSE / ERZEUGER
       # =========================
-      - Obsthof E-Mail Adresse
-      - Gemüsehof E-Mail Adresse
-      - Obstbau Betrieb Kontakt E-Mail
-      - Gemüsebau Betrieb E-Mail
-      - Obst Gemüse Erzeuger E-Mail
-      - Gemüsebetrieb Impressum E-Mail
-      - Obsthof Ansprechpartner E-Mail
-      - Gemüsehof Kontaktformular
-      - Obstbau Betrieb Impressum Kontakt
-      - Gemüsebetrieb Kontaktseite E-Mail
+      - Obsthof Kontaktadresse
+      - Obsthof Kontaktinformationen
+      - Obsthof offizielle E-Mail
+      - Obsthof Betreiber Kontakt
+      - Obsthof Verwaltung E-Mail
+      - Obsthof Firmenkontakt
+      - Obsthof Kontaktformular Impressum
+      - Obsthof Ansprechpartner Mailadresse
+      - Obsthof Hofladen E-Mail
+      - Obsthof Direktverkauf Kontakt
+      - Gemüsehof Kontaktadresse
+      - Gemüsehof Kontaktinformationen
+      - Gemüsehof offizielle E-Mail
+      - Gemüsehof Betreiber Kontakt
+      - Gemüsehof Verwaltung E-Mail
+      - Gemüsehof Firmenkontakt
+      - Gemüsehof Impressum Kontakt
+      - Gemüsehof Ansprechpartner Mailadresse
+      - Gemüsehof Direktvermarktung E-Mail
+      - Gemüsehof Kontaktformular Impressum
+      - Obstbaubetrieb Kontaktadresse
+      - Obstbaubetrieb Kontaktinformationen
+      - Obstbaubetrieb Ansprechpartner E-Mail
+      - Obstbaubetrieb Impressum E-Mail
+      - Obstbaubetrieb Verwaltung Kontakt
+      - Gemüsebaubetrieb Kontaktadresse
+      - Gemüsebaubetrieb Kontaktinformationen
+      - Gemüsebaubetrieb Ansprechpartner E-Mail
+      - Gemüsebaubetrieb Impressum E-Mail
+      - Gemüsebaubetrieb Verwaltung Kontakt
+      - Erzeugerbetrieb Obst Gemüse Kontaktadresse
+      - Erzeugerbetrieb Obst Gemüse Kontaktinformationen
+      - Erzeugerbetrieb Obst Gemüse E-Mail
+      - Erzeugerbetrieb Obst Gemüse Impressum
+      - Erzeugerbetrieb Obst Gemüse Ansprechpartner
 
       # =========================
       # ERDBEEREN / BEEREN
       # =========================
-      - Erdbeerhof E-Mail Adresse
-      - Erdbeeranbau Betrieb E-Mail
-      - Erdbeerhof Impressum E-Mail
-      - Beerenhof E-Mail Adresse
-      - Himbeerhof Kontakt E-Mail
-      - Heidelbeerhof E-Mail
-      - Erdbeerhof Ansprechpartner E-Mail
-      - Erdbeerhof Kontaktformular
-      - Beerenbetrieb Impressum E-Mail
-      - Erdbeer Direktverkauf E-Mail
+      - Erdbeerhof Kontaktadresse
+      - Erdbeerhof Kontaktinformationen
+      - Erdbeerhof offizielle E-Mail
+      - Erdbeerhof Betreiber Kontakt
+      - Erdbeerhof Verwaltung Kontaktformular
+      - Erdbeerhof Firmenanschrift
+      - Erdbeerhof Inhaber E-Mail
+      - Erdbeerhof Zentrale Kontakt
+      - Erdbeerhof Kontaktperson E-Mail
+      - Erdbeerhof Mailadresse Impressum
+      - Erdbeerhof Direktvermarktung E-Mail
+      - Erdbeerhof Direktverkauf Kontakt
+      - Erdbeerhof Selbstpflücke E-Mail
+      - Erdbeerhof Hofladen Kontakt
+      - Erdbeerhof Verwaltung Telefonnummer
+      - Erdbeeranbau Betrieb Kontaktinformationen
+      - Erdbeeranbau Betrieb Ansprechpartner E-Mail
+      - Erdbeeranbau Betrieb Impressum Kontakt
+      - Erdbeeranbau Betrieb Firmenkontakt
+      - Erdbeeranbau Betrieb Verwaltung E-Mail
+      - Erdbeerbetrieb Kontaktadresse
+      - Erdbeerbetrieb Kontaktinformationen
+      - Erdbeerbetrieb Betreiber Mailadresse
+      - Erdbeerbetrieb Impressum E-Mail Kontakt
+      - Erdbeerbetrieb Firmenanschrift
+      - Beerenhof Kontaktadresse
+      - Beerenhof Kontaktinformationen
+      - Beerenhof Ansprechpartner E-Mail
+      - Beerenhof Impressum E-Mail
+      - Beerenhof Verwaltung Kontakt
+      - Himbeerhof Kontaktadresse
+      - Himbeerhof Kontaktinformationen
+      - Himbeerhof Ansprechpartner E-Mail
+      - Heidelbeerhof Kontaktadresse
+      - Heidelbeerhof Kontaktinformationen
+      - Heidelbeerhof Ansprechpartner E-Mail
+      - Beerenbetrieb Kontaktadresse
+      - Beerenbetrieb Kontaktinformationen
+      - Beerenbetrieb Verwaltung E-Mail
+      - Beerenbetrieb Firmenkontakt
 
       # =========================
       # KARTOFFEL
       # =========================
-      - Kartoffelhof E-Mail Adresse
-      - Kartoffelanbau Betrieb E-Mail
-      - Kartoffelbetrieb Impressum E-Mail
-      - Kartoffel Erzeuger Kontakt E-Mail
-      - Kartoffelhof Ansprechpartner E-Mail
-      - Kartoffelhof Kontaktformular
-      - Kartoffelbetrieb Kontaktseite E-Mail
-      - Kartoffel Landwirtschaft E-Mail
-      - Kartoffel Produzent E-Mail Adresse
-      - Kartoffelbetrieb Firmenkontakt
+      - Kartoffelhof Kontaktadresse
+      - Kartoffelhof Kontaktinformationen
+      - Kartoffelhof offizielle E-Mail
+      - Kartoffelhof Betreiber Kontakt
+      - Kartoffelhof Verwaltung E-Mail
+      - Kartoffelhof Firmenanschrift
+      - Kartoffelhof Kontaktperson E-Mail
+      - Kartoffelhof Mailadresse Impressum
+      - Kartoffelhof Direktvermarktung Kontakt
+      - Kartoffelhof Hofladen E-Mail
+      - Kartoffelanbau Betrieb Kontaktinformationen
+      - Kartoffelanbau Betrieb Ansprechpartner E-Mail
+      - Kartoffelanbau Betrieb Impressum Kontakt
+      - Kartoffelanbau Betrieb Firmenkontakt
+      - Kartoffelanbau Betrieb Verwaltung E-Mail
+      - Kartoffelbetrieb Kontaktadresse
+      - Kartoffelbetrieb Kontaktinformationen
+      - Kartoffelbetrieb Betreiber Mailadresse
+      - Kartoffelbetrieb Impressum E-Mail Kontakt
+      - Kartoffelbetrieb Firmenanschrift
+      - Kartoffel Produzent Kontaktadresse
+      - Kartoffel Produzent Kontaktinformationen
+      - Kartoffel Produzent Ansprechpartner E-Mail
+      - Kartoffel Produzent Impressum E-Mail
+      - Speisekartoffel Erzeuger E-Mail Kontakt
 
       # =========================
-      # GEMÜSE SPEZIAL
+      # SPARGEL
       # =========================
-      - Tomatenbetrieb E-Mail Adresse
-      - Gurkenbetrieb E-Mail Adresse
-      - Paprikabetrieb E-Mail Adresse
-      - Salatanbau Betrieb E-Mail
-      - Kräuteranbau Betrieb Kontakt E-Mail
-      - Tomaten Gewächshaus E-Mail
-      - Gurken Gewächshaus E-Mail
-      - Paprika Gewächshaus E-Mail
-      - Gemüseproduktion Betrieb E-Mail
-      - Gemüsebetrieb Ansprechpartner E-Mail
+      - Spargelhof Kontaktadresse
+      - Spargelhof Kontaktinformationen
+      - Spargelhof offizielle E-Mail
+      - Spargelhof Betreiber Kontakt
+      - Spargelhof Verwaltung E-Mail
+      - Spargelhof Firmenanschrift
+      - Spargelhof Inhaber E-Mail
+      - Spargelhof Kontaktperson E-Mail
+      - Spargelhof Mailadresse Impressum
+      - Spargelhof Direktvermarktung E-Mail
+      - Spargelhof Direktverkauf Kontakt
+      - Spargelhof Hofladen E-Mail
+      - Spargelhof Selbstpflücke E-Mail
+      - Spargelhof Verwaltung Telefonnummer
+      - Spargelanbau Betrieb Kontaktinformationen
+      - Spargelanbau Betrieb Ansprechpartner E-Mail
+      - Spargelanbau Betrieb Impressum Kontakt
+      - Spargelanbau Betrieb Firmenkontakt
+      - Spargelanbau Betrieb Verwaltung E-Mail
+      - Spargelbetrieb Kontaktadresse
+      - Spargelbetrieb Kontaktinformationen
+      - Spargelbetrieb Betreiber Mailadresse
+      - Spargelbetrieb Impressum E-Mail Kontakt
+      - Spargelbetrieb Firmenanschrift
+      - Spargel Erzeuger Kontaktadresse
+      - Spargel Erzeuger Kontaktinformationen
+      - Spargel Erzeuger Ansprechpartner E-Mail
+      - Spargel Erzeuger Impressum E-Mail
+      - Spargel Direktverkauf Hof E-Mail
+      - Spargel Direktvermarktung Betrieb Kontaktformular
+
+      # =========================
+      # TOMATEN / GURKEN / PAPRIKA / GEMÜSE SPEZIAL
+      # =========================
+      - Tomatenhof Kontaktadresse
+      - Tomatenhof Kontaktinformationen
+      - Tomatenhof Ansprechpartner E-Mail
+      - Tomatenhof Impressum E-Mail
+      - Tomatenhof Direktvermarktung Kontakt
+      - Tomatenanbau Betrieb Kontaktinformationen
+      - Tomatenanbau Betrieb Ansprechpartner E-Mail
+      - Tomatenanbau Betrieb Verwaltung E-Mail
+      - Tomatenbetrieb Kontaktadresse
+      - Tomatenbetrieb Kontaktinformationen
+      - Gurkenhof Kontaktadresse
+      - Gurkenhof Kontaktinformationen
+      - Gurkenhof Ansprechpartner E-Mail
+      - Gurkenhof Impressum E-Mail
+      - Gurkenanbau Betrieb Kontaktinformationen
+      - Gurkenanbau Betrieb Ansprechpartner E-Mail
+      - Gurkenbetrieb Kontaktadresse
+      - Gurkenbetrieb Kontaktinformationen
+      - Gurkenbetrieb Verwaltung E-Mail
+      - Gurkenbetrieb Firmenkontakt
+      - Paprikahof Kontaktadresse
+      - Paprikahof Kontaktinformationen
+      - Paprikahof Ansprechpartner E-Mail
+      - Paprikahof Impressum E-Mail
+      - Paprikaanbau Betrieb Kontaktinformationen
+      - Paprikaanbau Betrieb Ansprechpartner E-Mail
+      - Paprikabetrieb Kontaktadresse
+      - Paprikabetrieb Kontaktinformationen
+      - Paprikabetrieb Verwaltung E-Mail
+      - Chilianbau Betrieb Ansprechpartner E-Mail
 
       # =========================
       # GEWÄCHSHAUS
       # =========================
-      - Gewächshausbetrieb E-Mail Adresse
-      - Gewächshaus Kontakt E-Mail
-      - Gewächshaus Impressum E-Mail
-      - Gewächshaus Ansprechpartner E-Mail
-      - Gewächshaus Betrieb Kontaktformular
-      - Gewächshaus Produktion E-Mail
-      - Gewächshaus Betreiber Kontakt E-Mail
-      - Gewächshaus Betrieb Firmenkontakt
-      - Gewächshaus Gemüse E-Mail
-      - Gewächshaus Betrieb Telefonnummer Kontakt
+      - Gewächshausbetrieb Kontaktadresse
+      - Gewächshausbetrieb Kontaktinformationen
+      - Gewächshausbetrieb offizielle E-Mail
+      - Gewächshausbetrieb Betreiber Kontakt
+      - Gewächshausbetrieb Verwaltung E-Mail
+      - Gewächshausbetrieb Firmenanschrift
+      - Gewächshausbetrieb Kontaktperson E-Mail
+      - Gewächshausbetrieb Mailadresse Impressum
+      - Gewächshausbetrieb Zentrale Kontakt
+      - Gewächshausbetrieb Inhaber E-Mail
+      - Gemüse Gewächshaus Betrieb Kontaktinformationen
+      - Gemüse Gewächshaus Betrieb Ansprechpartner E-Mail
+      - Tomaten Gewächshaus Betrieb Kontaktinformationen
+      - Tomaten Gewächshaus Betrieb Ansprechpartner E-Mail
+      - Gurken Gewächshaus Betrieb Kontaktinformationen
+      - Gurken Gewächshaus Betrieb Ansprechpartner E-Mail
+      - Paprika Gewächshaus Betrieb Kontaktinformationen
+      - Paprika Gewächshaus Betrieb Ansprechpartner E-Mail
+      - Gewächshaus Produktion Betrieb Kontaktadresse
+      - Gewächshaus Produktion Betrieb E-Mail
 
       # =========================
-      # BIO / ÖKO
+      # PILZE
       # =========================
-      - Biohof E-Mail Adresse
-      - Bio Landwirtschaft E-Mail
-      - Öko Betrieb Kontakt E-Mail
-      - Bioland Betrieb E-Mail
-      - Naturland Betrieb Kontakt E-Mail
-      - Demeter Betrieb E-Mail
-      - Bio Erzeuger E-Mail Adresse
-      - Bio Hofladen Kontakt E-Mail
-      - Bio Betrieb Impressum E-Mail
-      - Bio Landwirtschaft Ansprechpartner E-Mail
+      - Pilzfarm Kontaktadresse
+      - Pilzfarm Kontaktinformationen
+      - Pilzfarm offizielle E-Mail
+      - Pilzfarm Betreiber Kontakt
+      - Pilzfarm Verwaltung E-Mail
+      - Pilzfarm Firmenanschrift
+      - Pilzfarm Ansprechpartner E-Mail
+      - Pilzfarm Impressum Kontakt
+      - Pilzanbau Betrieb Kontaktinformationen
+      - Pilzanbau Betrieb Ansprechpartner E-Mail
+      - Pilzbetrieb Kontaktadresse
+      - Pilzbetrieb Kontaktinformationen
+      - Pilzbetrieb Betreiber Mailadresse
+      - Pilzbetrieb Verwaltung E-Mail
+      - Pilzbetrieb Firmenkontakt
+      - Champignonfarm Kontaktadresse
+      - Champignonfarm Kontaktinformationen
+      - Champignonfarm Ansprechpartner E-Mail
+      - Champignonbetrieb Kontaktadresse
+      - Champignonbetrieb Kontaktinformationen
 
       # =========================
-      # SPEZIALKULTUREN
+      # HOPFEN
       # =========================
-      - Spargelhof E-Mail Adresse
-      - Spargelanbau Betrieb E-Mail
-      - Spargelhof Impressum E-Mail
-      - Spargelbetrieb Ansprechpartner E-Mail
-      - Spargelhof Kontaktformular
-      - Pilzfarm E-Mail Adresse
-      - Pilzanbau Betrieb E-Mail
-      - Champignonbetrieb Kontakt E-Mail
-      - Pilzbetrieb Impressum E-Mail
-      - Hopfenhof E-Mail Adresse
-      - Hopfenanbau Betrieb E-Mail
-      - Hopfenbetrieb Kontakt E-Mail
-      - Hopfenhof Ansprechpartner E-Mail
-      - Weingut E-Mail Adresse
-      - Weinbau Betrieb E-Mail
-      - Winzer Kontakt E-Mail
-      - Weingut Impressum E-Mail
-      - Weingut Ansprechpartner E-Mail
-      - Weinbetrieb Kontaktformular
+      - Hopfenhof Kontaktadresse
+      - Hopfenhof Kontaktinformationen
+      - Hopfenhof offizielle E-Mail
+      - Hopfenhof Betreiber Kontakt
+      - Hopfenhof Verwaltung E-Mail
+      - Hopfenhof Firmenanschrift
+      - Hopfenhof Ansprechpartner Mailadresse
+      - Hopfenhof Impressum Kontakt
+      - Hopfenanbau Betrieb Kontaktinformationen
+      - Hopfenanbau Betrieb Ansprechpartner E-Mail
+      - Hopfenbetrieb Kontaktadresse
+      - Hopfenbetrieb Kontaktinformationen
+      - Hopfenbetrieb Betreiber Mailadresse
+      - Hopfenbetrieb Verwaltung E-Mail
+      - Hopfenbetrieb Firmenkontakt
+      - Hopfen Erzeuger Kontaktadresse
+      - Hopfen Erzeuger Kontaktinformationen
+      - Hopfen Erzeuger Ansprechpartner E-Mail
+      - Hopfen Direktvermarktung Betrieb E-Mail
+      - Hopfen Direktverkauf Hof Kontakt
 
       # =========================
-      # IMPRESSUM / EMAIL KILLER
+      # WEIN / WEINGUT
       # =========================
-      - Bauernhof Impressum E-Mail
-      - Landwirtschaft Betrieb Impressum E-Mail
-      - Agrarbetrieb Impressum E-Mail
-      - Hofladen Impressum E-Mail
-      - Obsthof Impressum E-Mail
-      - Gemüsehof Impressum E-Mail
-      - Kartoffelhof Impressum E-Mail
-      - Erdbeerhof Impressum E-Mail
-      - Spargelhof Impressum E-Mail
-      - Gewächshaus Impressum E-Mail
-      - Pilzfarm Impressum E-Mail
-      - Weingut Impressum E-Mail
-      - Gärtnerei Impressum E-Mail
-      - Direktvermarktung Impressum E-Mail
-      - Biohof Impressum E-Mail
-      - Familienbetrieb Impressum E-Mail
-      - Landwirtschaftlicher Hof Impressum E-Mail
-      - Landwirtschaftlicher Betrieb Impressum Kontakt
-      - Agrarunternehmen Impressum Kontakt
-      - Bauernhof Impressum Kontaktformular
+      - Weingut Kontaktadresse
+      - Weingut Kontaktinformationen
+      - Weingut offizielle E-Mail
+      - Weingut Betreiber Kontakt
+      - Weingut Verwaltung E-Mail
+      - Weingut Firmenanschrift
+      - Weingut Kontaktperson E-Mail
+      - Weingut Mailadresse Impressum
+      - Weingut Zentrale Kontakt
+      - Weingut Inhaber E-Mail
+      - Weinbau Betrieb Kontaktinformationen
+      - Weinbau Betrieb Ansprechpartner E-Mail
+      - Weinbau Betrieb Impressum Kontakt
+      - Weinbau Betrieb Firmenkontakt
+      - Weinbau Betrieb Verwaltung E-Mail
+      - Winzerbetrieb Kontaktadresse
+      - Winzerbetrieb Kontaktinformationen
+      - Winzerbetrieb Betreiber Mailadresse
+      - Winzerbetrieb Impressum E-Mail Kontakt
+      - Familienweingut Kontaktadresse
 
       # =========================
-      # LONG TAIL – EMAIL FOCUSED
+      # BLUMEN / GÄRTNEREI / GARTENBAU
       # =========================
-      - Landwirtschaft Betrieb E-Mail Adresse Kontakt
-      - Bauernhof Kontakt E-Mail Adresse
-      - Hofbetrieb Ansprechpartner E-Mail Adresse
-      - Landwirtschaftlicher Betrieb Direktkontakt E-Mail
-      - Landwirtschaft Betrieb Mailadresse Kontakt
-      - Bauernhof Firmenkontakt E-Mail Adresse
-      - Landwirtschaftlicher Hof Kontaktformular E-Mail
-      - Landwirtschaftlicher Betrieb Verwaltung E-Mail Adresse
-      - Agrarbetrieb Ansprechpartner E-Mail Adresse
-      - Landwirtschaftlicher Produzent Mailadresse Kontakt
-      - Bauernhof Betreiber Kontakt E-Mail Adresse
-      - Landwirtschaft Betrieb Telefon E-Mail Kontakt
-      - Landwirtschaftlicher Hof Firmenkontakt E-Mail
-      - Landwirtschaftlicher Betrieb Kontaktseite Impressum E-Mail
-      - Landwirtschaftlicher Betrieb Zentrale Kontakt E-Mail
-      - Agrarunternehmen Kontaktformular E-Mail
-      - Landwirtschaftlicher Betrieb Mailkontakt
-      - Bauernhof Direktkontakt E-Mail Adresse
-      - Landwirtschaftlicher Betrieb Ansprechpartner Kontaktformular
-      - Landwirtschaftlicher Betrieb Firmenadresse E-Mail
+      - Blumenhof Kontaktadresse
+      - Blumenhof Kontaktinformationen
+      - Blumenhof offizielle E-Mail
+      - Blumenhof Betreiber Kontakt
+      - Blumenhof Verwaltung E-Mail
+      - Blumenhof Firmenanschrift
+      - Blumenhof Ansprechpartner E-Mail
+      - Blumenhof Impressum Kontakt
+      - Blumenanbau Betrieb Kontaktinformationen
+      - Blumenanbau Betrieb Ansprechpartner E-Mail
+      - Blumenbetrieb Kontaktadresse
+      - Blumenbetrieb Kontaktinformationen
+      - Blumenbetrieb Betreiber Mailadresse
+      - Blumenbetrieb Verwaltung E-Mail
+      - Gärtnerei Kontaktadresse
+      - Gärtnerei Kontaktinformationen
+      - Gärtnerei Ansprechpartner E-Mail
+      - Gärtnerei Impressum Kontakt
+      - Gartenbaubetrieb Kontaktadresse
+      - Gartenbaubetrieb Kontaktinformationen
+
+      # =========================
+      # BIO / ÖKO / VERBÄNDE
+      # =========================
+      - Biohof Kontaktadresse
+      - Biohof Kontaktinformationen
+      - Biohof offizielle E-Mail
+      - Biohof Betreiber Kontakt
+      - Biohof Verwaltung E-Mail
+      - Biohof Firmenanschrift
+      - Biohof Ansprechpartner E-Mail
+      - Biohof Impressum Kontakt
+      - Bio Landwirtschaft Betrieb Kontaktinformationen
+      - Bio Landwirtschaft Betrieb Ansprechpartner E-Mail
+      - Ökologischer Betrieb Kontaktadresse
+      - Ökologischer Betrieb Kontaktinformationen
+      - Ökologischer Betrieb Ansprechpartner E-Mail
+      - Ökologischer Betrieb Impressum E-Mail
+      - Bioland Betrieb Kontaktadresse
+      - Bioland Betrieb Kontaktinformationen
+      - Bioland Betrieb Ansprechpartner E-Mail
+      - Naturland Betrieb Kontaktadresse
+      - Naturland Betrieb Kontaktinformationen
+      - Naturland Betrieb Ansprechpartner E-Mail
+      - Demeter Betrieb Kontaktadresse
+      - Demeter Betrieb Kontaktinformationen
+      - Demeter Betrieb Ansprechpartner E-Mail
+      - Regionaler Bio Erzeuger E-Mail
+      - Bio Direktvermarktung Hof Ansprechpartner
+
+      # =========================
+      # IMPRESSUM / KONTAKTSEITE / ANSPRECHPARTNER
+      # =========================
+      - Landwirtschaft Kontaktseite Impressum E-Mail
+      - Hof Kontaktseite Impressum E-Mail
+      - Bauernhof Ansprechpartner Impressum
+      - Agrarbetrieb Kontaktperson E-Mail
+      - Landwirtschaftlicher Anbieter Kontaktformular E-Mail
+      - Landwirtschaftlicher Anbieter Impressum Kontakt
+      - Landwirtschaftliche Firma Ansprechpartner E-Mail
+      - Landwirtschaftliche Firma Kontaktinformationen
+      - Landwirtschaftliche Produktion Kontaktformular
+      - Landwirtschaftliche Produktion Firmenkontakt
+      - Hof Website Impressum E-Mail
+      - Unser Hof Kontakt E-Mail
+      - Hof Über uns Kontakt E-Mail
+      - Direktvermarktung Über uns Kontakt
+      - Erzeugerbetrieb Ansprechpartner Kontaktformular
 
 app:
   outreach:
