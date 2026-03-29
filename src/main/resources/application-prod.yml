@@ -77,21 +77,21 @@ leadfinder:
     first-email-body-template: |
       Guten Tag,
       
-      in der Landwirtschaft entstehen oft kurzfristig Engpässe –
-      vor allem bei Ernte oder Saisonarbeiten.
+      in der Landwirtschaft entstehen oft kurzfristige Engpässe –
+      besonders bei Ernte und Saisonarbeiten.
       
-      Ich vermittle aktuell mehrere Arbeitskräfte aus Polen,
-      die in den nächsten Wochen verfügbar sind (Ernte, Spargel, Obst).
-      Viele haben bereits in Deutschland gearbeitet.
+      Ich bin aktuell mit mehreren Arbeitskräften aus Polen in Kontakt,
+      die in den nächsten Wochen verfügbar sind (u. a. Spargel, Obst).
+      Viele haben bereits Erfahrung in Deutschland.
       
-      Benötigen Sie aktuell Unterstützung?
+      Wäre das für Sie in den nächsten Wochen grundsätzlich interessant?
       
       Viele Grüße
       Patrycja
       o1jobs
       +49 160 6328144
 
-    follow-up-subject: ${OUTREACH_FOLLOWUP_SUBJECT:kurze Frage}
+    follow-up-subject: ${OUTREACH_FOLLOWUP_SUBJECT:kurze Info}
 
     follow-up-min-days-since-last-email: ${OUTREACH_FOLLOWUP_MIN_DAYS:60}
 
@@ -100,10 +100,12 @@ leadfinder:
       
       ich wollte mich noch einmal kurz melden.
       
-      Ich vermittle aktuell Arbeitskräfte aus Polen,
-      die kurzfristig verfügbar sind (Ernte, Spargel, Obst).
+      Wir sind weiterhin aktiv in der Vermittlung von Arbeitskräften aus Polen
+      und stehen in ständigem Kontakt mit Personen, die kurzfristig verfügbar sind
+      (u. a. Ernte, Spargel, Obst).
       
-      Ist das für Sie aktuell relevant?
+      Falls bei Ihnen im Laufe der Saison kurzfristig Bedarf entsteht,
+      geben Sie mir gerne kurz Bescheid – wir können in der Regel schnell unterstützen.
       
       Viele Grüße
       Patrycja
