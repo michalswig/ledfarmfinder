@@ -73,7 +73,19 @@ public class DiscoveryUrlFilter {
             "/region",
             "/tourismus",
             "/urlaub",
-            "/freizeit"
+            "/freizeit",
+            "/verwaltung/",
+            "/dienstleistungen/",
+            "/serviceassistent/",
+            "/leistung/",
+            "/download",
+            "/attachment/",
+            "/dokumente/",
+            "/informationen/",
+            "/einheit.php",
+            "?dl=",
+             "mam/cms",
+             "/fileadmin/"
     );
 
     private static final List<String> HARD_NEGATIVE_KEYWORDS = List.of(
