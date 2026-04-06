@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
@@ -52,7 +53,7 @@ class DiscoverySnippetFetcherTest {
             String url = "https://farm.example.com";
             String longText = " ".repeat(5) + "a".repeat(150) + " ".repeat(5);
 
-            when(contentTypeChecker.check(url)).thenReturn(probeOkHtml());
+            when(contentTypeChecker.check(anyString())).thenReturn(probeOkHtml());
 
             try (MockedStatic<Jsoup> jsoupMock = mockStatic(Jsoup.class)) {
                 Connection connection = mock(Connection.class);
@@ -61,8 +62,10 @@ class DiscoverySnippetFetcherTest {
 
                 jsoupMock.when(() -> Jsoup.connect(url)).thenReturn(connection);
                 when(connection.userAgent(anyString())).thenReturn(connection);
-                when(connection.timeout(10_000)).thenReturn(connection);
+                when(connection.referrer(anyString())).thenReturn(connection);
+                when(connection.timeout(anyInt())).thenReturn(connection);
                 when(connection.followRedirects(true)).thenReturn(connection);
+                when(connection.ignoreHttpErrors(false)).thenReturn(connection);
                 when(connection.get()).thenReturn(document);
 
                 when(document.select("script,style,noscript")).thenReturn(elements);
@@ -80,7 +83,7 @@ class DiscoverySnippetFetcherTest {
         void shouldReturnEmptyStringWhenTextIsNull() throws Exception {
             String url = "https://farm.example.com";
 
-            when(contentTypeChecker.check(url)).thenReturn(probeOkHtml());
+            when(contentTypeChecker.check(anyString())).thenReturn(probeOkHtml());
 
             try (MockedStatic<Jsoup> jsoupMock = mockStatic(Jsoup.class)) {
                 Connection connection = mock(Connection.class);
@@ -89,8 +92,10 @@ class DiscoverySnippetFetcherTest {
 
                 jsoupMock.when(() -> Jsoup.connect(url)).thenReturn(connection);
                 when(connection.userAgent(anyString())).thenReturn(connection);
-                when(connection.timeout(10_000)).thenReturn(connection);
+                when(connection.referrer(anyString())).thenReturn(connection);
+                when(connection.timeout(anyInt())).thenReturn(connection);
                 when(connection.followRedirects(true)).thenReturn(connection);
+                when(connection.ignoreHttpErrors(false)).thenReturn(connection);
                 when(connection.get()).thenReturn(document);
 
                 when(document.select("script,style,noscript")).thenReturn(elements);
@@ -108,7 +113,7 @@ class DiscoverySnippetFetcherTest {
             String url = "https://farm.example.com";
             String shortText = "   short text   ";
 
-            when(contentTypeChecker.check(url)).thenReturn(probeOkHtml());
+            when(contentTypeChecker.check(anyString())).thenReturn(probeOkHtml());
 
             try (MockedStatic<Jsoup> jsoupMock = mockStatic(Jsoup.class)) {
                 Connection connection = mock(Connection.class);
@@ -117,8 +122,10 @@ class DiscoverySnippetFetcherTest {
 
                 jsoupMock.when(() -> Jsoup.connect(url)).thenReturn(connection);
                 when(connection.userAgent(anyString())).thenReturn(connection);
-                when(connection.timeout(10_000)).thenReturn(connection);
+                when(connection.referrer(anyString())).thenReturn(connection);
+                when(connection.timeout(anyInt())).thenReturn(connection);
                 when(connection.followRedirects(true)).thenReturn(connection);
+                when(connection.ignoreHttpErrors(false)).thenReturn(connection);
                 when(connection.get()).thenReturn(document);
 
                 when(document.select("script,style,noscript")).thenReturn(elements);
@@ -136,7 +143,7 @@ class DiscoverySnippetFetcherTest {
             String url = "https://farm.example.com";
             String veryLongText = "a".repeat(2500);
 
-            when(contentTypeChecker.check(url)).thenReturn(probeOkHtml());
+            when(contentTypeChecker.check(anyString())).thenReturn(probeOkHtml());
 
             try (MockedStatic<Jsoup> jsoupMock = mockStatic(Jsoup.class)) {
                 Connection connection = mock(Connection.class);
@@ -145,8 +152,10 @@ class DiscoverySnippetFetcherTest {
 
                 jsoupMock.when(() -> Jsoup.connect(url)).thenReturn(connection);
                 when(connection.userAgent(anyString())).thenReturn(connection);
-                when(connection.timeout(10_000)).thenReturn(connection);
+                when(connection.referrer(anyString())).thenReturn(connection);
+                when(connection.timeout(anyInt())).thenReturn(connection);
                 when(connection.followRedirects(true)).thenReturn(connection);
+                when(connection.ignoreHttpErrors(false)).thenReturn(connection);
                 when(connection.get()).thenReturn(document);
 
                 when(document.select("script,style,noscript")).thenReturn(elements);
@@ -164,15 +173,17 @@ class DiscoverySnippetFetcherTest {
         void shouldReturnEmptyStringWhenUnsupportedMimeTypeIsThrown() throws Exception {
             String url = "https://farm.example.com/file.pdf";
 
-            when(contentTypeChecker.check(url)).thenReturn(probeOkHtml());
+            when(contentTypeChecker.check(anyString())).thenReturn(probeOkHtml());
 
             try (MockedStatic<Jsoup> jsoupMock = mockStatic(Jsoup.class)) {
                 Connection connection = mock(Connection.class);
 
                 jsoupMock.when(() -> Jsoup.connect(url)).thenReturn(connection);
                 when(connection.userAgent(anyString())).thenReturn(connection);
-                when(connection.timeout(10_000)).thenReturn(connection);
+                when(connection.referrer(anyString())).thenReturn(connection);
+                when(connection.timeout(anyInt())).thenReturn(connection);
                 when(connection.followRedirects(true)).thenReturn(connection);
+                when(connection.ignoreHttpErrors(false)).thenReturn(connection);
                 when(connection.get()).thenThrow(new UnsupportedMimeTypeException("unsupported", "application/pdf", url));
 
                 String result = fetcher.fetchTextSnippet(url);
@@ -186,15 +197,17 @@ class DiscoverySnippetFetcherTest {
         void shouldReturnEmptyStringWhenGenericExceptionIsThrown() throws Exception {
             String url = "https://farm.example.com";
 
-            when(contentTypeChecker.check(url)).thenReturn(probeOkHtml());
+            when(contentTypeChecker.check(anyString())).thenReturn(probeOkHtml());
 
             try (MockedStatic<Jsoup> jsoupMock = mockStatic(Jsoup.class)) {
                 Connection connection = mock(Connection.class);
 
                 jsoupMock.when(() -> Jsoup.connect(url)).thenReturn(connection);
                 when(connection.userAgent(anyString())).thenReturn(connection);
-                when(connection.timeout(10_000)).thenReturn(connection);
+                when(connection.referrer(anyString())).thenReturn(connection);
+                when(connection.timeout(anyInt())).thenReturn(connection);
                 when(connection.followRedirects(true)).thenReturn(connection);
+                when(connection.ignoreHttpErrors(false)).thenReturn(connection);
                 when(connection.get()).thenThrow(new IOException("connection failed"));
 
                 String result = fetcher.fetchTextSnippet(url);
@@ -207,7 +220,8 @@ class DiscoverySnippetFetcherTest {
         @DisplayName("should skip Jsoup when precheck says PDF")
         void shouldSkipJsoupWhenPrecheckSaysPdf() {
             String url = "https://farm.example.com/paper.pdf";
-            when(contentTypeChecker.check(url)).thenReturn(
+
+            when(contentTypeChecker.check(anyString())).thenReturn(
                     new DiscoveryContentTypeResult(
                             false,
                             DiscoveryContentTypeResult.Reason.PDF,
@@ -217,8 +231,9 @@ class DiscoverySnippetFetcherTest {
 
             try (MockedStatic<Jsoup> jsoupMock = mockStatic(Jsoup.class)) {
                 String result = fetcher.fetchTextSnippet(url);
+
                 assertThat(result).isEmpty();
-                jsoupMock.verify(() -> Jsoup.connect(anyString()), never());
+                jsoupMock.verifyNoInteractions();
             }
         }
 
@@ -226,7 +241,8 @@ class DiscoverySnippetFetcherTest {
         @DisplayName("should skip Jsoup when precheck says non-HTML")
         void shouldSkipJsoupWhenPrecheckSaysNonHtml() {
             String url = "https://farm.example.com/binary";
-            when(contentTypeChecker.check(url)).thenReturn(
+
+            when(contentTypeChecker.check(anyString())).thenReturn(
                     new DiscoveryContentTypeResult(
                             false,
                             DiscoveryContentTypeResult.Reason.NON_HTML,
@@ -236,8 +252,9 @@ class DiscoverySnippetFetcherTest {
 
             try (MockedStatic<Jsoup> jsoupMock = mockStatic(Jsoup.class)) {
                 String result = fetcher.fetchTextSnippet(url);
+
                 assertThat(result).isEmpty();
-                jsoupMock.verify(() -> Jsoup.connect(anyString()), never());
+                jsoupMock.verifyNoInteractions();
             }
         }
 
@@ -247,7 +264,7 @@ class DiscoverySnippetFetcherTest {
             String url = "https://farm.example.com";
             String longText = "a".repeat(150);
 
-            when(contentTypeChecker.check(url))
+            when(contentTypeChecker.check(anyString()))
                     .thenReturn(DiscoveryContentTypeResult.unknown());
 
             try (MockedStatic<Jsoup> jsoupMock = mockStatic(Jsoup.class)) {
@@ -257,8 +274,10 @@ class DiscoverySnippetFetcherTest {
 
                 jsoupMock.when(() -> Jsoup.connect(url)).thenReturn(connection);
                 when(connection.userAgent(anyString())).thenReturn(connection);
-                when(connection.timeout(10_000)).thenReturn(connection);
+                when(connection.referrer(anyString())).thenReturn(connection);
+                when(connection.timeout(anyInt())).thenReturn(connection);
                 when(connection.followRedirects(true)).thenReturn(connection);
+                when(connection.ignoreHttpErrors(false)).thenReturn(connection);
                 when(connection.get()).thenReturn(document);
 
                 when(document.select("script,style,noscript")).thenReturn(elements);
