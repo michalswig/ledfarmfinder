@@ -232,20 +232,67 @@ public class FarmScraperService {
     }
 
     private boolean isRelevantEmailForDomain(String email, String startUrl) {
-        String emailDomain = extractDomainFromEmail(email);
-        if (emailDomain == null) return false;
+        if (email == null || email.isBlank()) {
+            return false;
+        }
 
-        String localPart = email.substring(0, email.indexOf('@'));
-        if (looksLikeHexId(localPart)) return false;
+        String normalizedEmail = email.trim().toLowerCase(Locale.ROOT);
+        String emailDomain = extractDomainFromEmail(normalizedEmail);
+        if (emailDomain == null) {
+            return false;
+        }
+
+        int at = normalizedEmail.indexOf('@');
+        if (at <= 0) {
+            return false;
+        }
+
+        String localPart = normalizedEmail.substring(0, at).trim();
+        if (localPart.isBlank()) {
+            return false;
+        }
 
         String siteBaseDomain = extractBaseDomainFromUrl(startUrl);
-        if (siteBaseDomain == null) return false;
+        if (siteBaseDomain == null || siteBaseDomain.isBlank()) {
+            return false;
+        }
 
-        if (emailDomain.equalsIgnoreCase(siteBaseDomain) ||
-                emailDomain.endsWith("." + siteBaseDomain)) {
+        if (looksLikeHexId(localPart)) {
+            return false;
+        }
+
+        if (isFakeOrPlaceholderEmail(localPart, emailDomain)) {
+            return false;
+        }
+
+        if (isTechnicalOrBlacklistedEmailDomain(emailDomain)) {
+            return false;
+        }
+
+        if (isNoReplyMailbox(localPart)) {
+            return false;
+        }
+
+        if (isSameOrSubdomain(emailDomain, siteBaseDomain)) {
             return true;
         }
 
+        if (isAllowedPersonalDomain(emailDomain) && looksLikeBusinessMailbox(localPart)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean isSameOrSubdomain(String emailDomain, String siteBaseDomain) {
+        String emailDomainLower = emailDomain.toLowerCase(Locale.ROOT);
+        String siteBaseDomainLower = siteBaseDomain.toLowerCase(Locale.ROOT);
+
+        return emailDomainLower.equals(siteBaseDomainLower)
+                || emailDomainLower.endsWith("." + siteBaseDomainLower);
+    }
+
+    private boolean isAllowedPersonalDomain(String domain) {
         Set<String> allowedPersonalDomains = Set.of(
                 "gmail.com",
                 "gmx.de",
@@ -260,10 +307,11 @@ public class FarmScraperService {
                 "freenet.de",
                 "posteo.de"
         );
-        if (allowedPersonalDomains.contains(emailDomain.toLowerCase())) {
-            return true;
-        }
 
+        return allowedPersonalDomains.contains(domain.toLowerCase(Locale.ROOT));
+    }
+
+    private boolean isTechnicalOrBlacklistedEmailDomain(String domain) {
         Set<String> blacklistedDomains = Set.of(
                 "mysite.com",
                 "example.com",
@@ -281,11 +329,65 @@ public class FarmScraperService {
                 "amazonses.com"
         );
 
-        if (blacklistedDomains.contains(emailDomain.toLowerCase())) {
-            return false;
+        return blacklistedDomains.contains(domain.toLowerCase(Locale.ROOT));
+    }
+
+    private boolean isFakeOrPlaceholderEmail(String localPart, String domain) {
+        String normalizedLocalPart = localPart.toLowerCase(Locale.ROOT);
+        String normalizedDomain = domain.toLowerCase(Locale.ROOT);
+
+        if (Set.of("example.com", "test.com", "mysite.com", "localhost").contains(normalizedDomain)) {
+            return true;
         }
 
-        return false;
+        Set<String> fakeLocalParts = Set.of(
+                "example",
+                "email",
+                "fakemail",
+                "fake",
+                "test",
+                "demo"
+        );
+
+        return fakeLocalParts.contains(normalizedLocalPart);
+    }
+
+    private boolean isNoReplyMailbox(String localPart) {
+        String normalizedLocalPart = localPart.toLowerCase(Locale.ROOT);
+
+        return normalizedLocalPart.equals("noreply")
+                || normalizedLocalPart.equals("no-reply")
+                || normalizedLocalPart.equals("donotreply")
+                || normalizedLocalPart.equals("do-not-reply");
+    }
+
+    private boolean looksLikeBusinessMailbox(String localPart) {
+        String normalizedLocalPart = localPart.toLowerCase(Locale.ROOT);
+
+        Set<String> accepted = Set.of(
+                "info",
+                "kontakt",
+                "contact",
+                "post",
+                "mail",
+                "office",
+                "buero",
+                "büro",
+                "service",
+                "verkauf",
+                "shop",
+                "bestellung",
+                "anfrage",
+                "reservierung",
+                "reservation",
+                "hofladen"
+        );
+
+        if (accepted.contains(normalizedLocalPart)) {
+            return true;
+        }
+
+        return normalizedLocalPart.matches("^(info|kontakt|contact|office|service|verkauf|shop|post|mail)[._-]?[a-z0-9]*$");
     }
 
     private boolean looksLikeHexId(String localPart) {
