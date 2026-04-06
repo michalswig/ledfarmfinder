@@ -124,494 +124,400 @@ leadfinder:
     queries:
 
       # =========================
-      # OGÓLNE – FARMA / HOF / BETRIEB
+      # CORE – FARM IDENTITY
       # =========================
       - Bauernhof Kontakt
       - Hof Kontakt
-      - Landwirtschaftsbetrieb Kontakt
-      - Landwirtschaftlicher Betrieb Kontakt
-      - Landwirtschaftlicher Hof Kontakt
+      - Spargelhof Kontakt
+      - Erdbeerhof Kontakt
+      - Kartoffelhof Kontakt
+      - Obsthof Kontakt
+      - Gemüsehof Kontakt
       - Hofladen Kontakt
-      - Direktvermarkter Kontakt
       - Direktvermarktung Hof Kontakt
       - Hofverkauf Kontakt
       - Familienhof Kontakt
-      - Familienbetrieb Landwirtschaft Kontakt
-      - Regionaler Bauernhof Kontakt
-      - Landwirtschaft Betrieb Hof Kontakt
-      - Landwirtschaftsbetrieb Hofladen Kontakt
-      - Landwirtschaftlicher Betrieb Hof Kontakt
-      - Landwirtschaftlicher Betrieb Impressum
-      - Landwirtschaftlicher Hof Impressum
       - Bauernhof Impressum
       - Hof Impressum
-      - Familienhof Impressum
-      - Familienbetrieb Landwirtschaft Impressum
+      - Spargelhof Impressum
+      - Erdbeerhof Impressum
+      - Kartoffelhof Impressum
+      - Obsthof Impressum
+      - Gemüsehof Impressum
       - Hofladen Impressum
-      - Direktvermarkter Impressum
-      - Direktvermarktung Hof Impressum
-      - Hofverkauf Impressum
+      - Familienhof Impressum
       - Bauernhof E-Mail
       - Hof E-Mail
-      - Landwirtschaftsbetrieb E-Mail
-      - Landwirtschaftlicher Betrieb E-Mail
-      - Landwirtschaftlicher Hof E-Mail
+      - Spargelhof E-Mail
+      - Erdbeerhof E-Mail
+      - Kartoffelhof E-Mail
+      - Obsthof E-Mail
+      - Gemüsehof E-Mail
       - Hofladen E-Mail
-      - Direktvermarkter E-Mail
-      - Direktvermarktung Hof E-Mail
-      - Hofverkauf E-Mail
       - Familienhof E-Mail
       - Bauernhof Kontaktformular
       - Hof Kontaktformular
-      - Landwirtschaftsbetrieb Kontaktformular
-      - Landwirtschaftlicher Betrieb Kontaktformular
-      - Landwirtschaftlicher Hof Kontaktformular
+      - Spargelhof Kontaktformular
+      - Erdbeerhof Kontaktformular
+      - Kartoffelhof Kontaktformular
+      - Obsthof Kontaktformular
+      - Gemüsehof Kontaktformular
       - Hofladen Kontaktformular
-      - Direktvermarkter Kontaktformular
-      - Hofverkauf Kontaktformular
       - Familienhof Kontaktformular
-      - Unser Hof Kontakt
-      - Unser Hof Impressum
-      - Hof Über uns
-      - Landwirtschaft Hofladen Kontakt
-      - Bauernhof Hofladen Kontakt
-      - Hof Direktvermarktung Kontakt
 
       # =========================
-      # BAUERNHOF / HOF / FAMILIENHOF
+      # VERKAUF / AB HOF
       # =========================
-      - Bauernhof Kontakt E-Mail
-      - Bauernhof Impressum E-Mail
-      - Bauernhof Hofladen Kontakt
-      - Bauernhof Direktvermarktung Kontakt
-      - Bauernhof Hofverkauf Kontakt
-      - Bauernhof Verkauf ab Hof
-      - Bauernhof Ab Hof Verkauf Kontakt
-      - Bauernhof Ansprechpartner
-      - Bauernhof Über uns
-      - Bauernhof Unser Hof
-      - Hof Kontakt E-Mail
-      - Hof Impressum E-Mail
-      - Hofladen Bauernhof Kontakt
-      - Hofverkauf Bauernhof Kontakt
-      - Hof Direktverkauf Kontakt
-      - Hof Verkauf ab Hof Kontakt
-      - Hof Ab Hof Verkauf
-      - Hof Ansprechpartner
-      - Hof Über uns Kontakt
-      - Hof Website Kontakt
-      - Familienhof Kontakt E-Mail
-      - Familienhof Impressum E-Mail
-      - Familienhof Hofladen Kontakt
-      - Familienhof Direktvermarktung Kontakt
-      - Familienhof Hofverkauf Kontakt
-      - Familienhof Verkauf ab Hof
-      - Familienhof Ansprechpartner
-      - Familienhof Über uns
-      - Familienbetrieb Hof Kontakt
-      - Familienbetrieb Hofladen Kontakt
+      - Spargel Verkauf ab Hof
+      - Erdbeeren Verkauf ab Hof
+      - Kartoffeln Verkauf ab Hof
+      - Obst Verkauf ab Hof
+      - Gemüse Verkauf ab Hof
+      - Spargel ab Hof
+      - Erdbeeren ab Hof
+      - Kartoffeln ab Hof
+      - Obst ab Hof
+      - Gemüse ab Hof
+      - Hofverkauf Spargel
+      - Hofverkauf Erdbeeren
+      - Hofverkauf Kartoffeln
+      - Hofverkauf Obst
+      - Hofverkauf Gemüse
+      - Direktverkauf Bauernhof
+      - Direktverkauf Spargelhof
+      - Direktverkauf Erdbeerhof
+      - Direktverkauf Kartoffelhof
+      - Direktverkauf Obsthof
+      - Direktverkauf Gemüsehof
+      - Verkauf ab Hof Bauernhof
+      - Verkauf ab Hof Spargel
+      - Verkauf ab Hof Erdbeeren
+      - Verkauf ab Hof Kartoffeln
+      - Verkauf ab Hof Obst
+      - Verkauf ab Hof Gemüse
+      - Ab Hof Verkauf Spargel
+      - Ab Hof Verkauf Erdbeeren
+      - Ab Hof Verkauf Kartoffeln
+      - Ab Hof Verkauf Obst
+      - Ab Hof Verkauf Gemüse
 
       # =========================
-      # HOFLADEN / DIREKTVERMARKTUNG / HOFVERKAUF
+      # HOFLADEN / DIREKT
       # =========================
       - Hofladen Bauernhof
-      - Hofladen Hof Kontakt
-      - Hofladen Landwirtschaft Kontakt
-      - Hofladen Obst Gemüse Kontakt
-      - Hofladen regionaler Hof Kontakt
-      - Hofladen Familienhof Kontakt
-      - Hofladen Direktvermarktung Kontakt
-      - Hofladen Verkauf ab Hof
-      - Hofladen Ab Hof Verkauf
-      - Hofladen Kontakt E-Mail
-      - Hofladen Impressum E-Mail
-      - Hofladen Über uns
-      - Hofverkauf Bauernhof
-      - Hofverkauf Landwirtschaft Kontakt
-      - Hofverkauf Obsthof Kontakt
-      - Hofverkauf Gemüsehof Kontakt
-      - Hofverkauf Familienhof Kontakt
-      - Hofverkauf Direktvermarktung Kontakt
-      - Hofverkauf Kontakt E-Mail
-      - Hofverkauf Impressum E-Mail
-      - Direktvermarkter Bauernhof Kontakt
-      - Direktvermarkter Hof Kontakt
-      - Direktvermarkter Landwirtschaft Kontakt
-      - Direktvermarkter Obsthof Kontakt
-      - Direktvermarkter Gemüsehof Kontakt
-      - Direktvermarkter Familienhof Kontakt
-      - Direktvermarkter Kontakt E-Mail
-      - Direktvermarkter Impressum E-Mail
-      - Direktvermarktung Bauernhof Kontakt
-      - Direktvermarktung Hofladen Kontakt
-      - Direktvermarktung Verkauf ab Hof
-      - Direktvermarktung Ab Hof Verkauf
-      - Direktvermarktung Kontakt E-Mail
-      - Direktvermarktung Impressum E-Mail
-      - Verkauf ab Hof Kontakt
-      - Ab Hof Verkauf Kontakt
-      - Hofladen regional Kontakt
-      - Regionale Produkte Hofladen Kontakt
-      - Regionale Produkte Direktvermarkter Kontakt
-      - Hofladen Obsthof E-Mail
+      - Hofladen Spargel
+      - Hofladen Erdbeeren
+      - Hofladen Kartoffeln
+      - Hofladen Obst
+      - Hofladen Gemüse
+      - Hofladen regional
+      - Hofladen Obst Gemüse
+      - Hofladen Bauernhof Kontakt
+      - Hofladen Spargelhof Kontakt
+      - Hofladen Erdbeerhof Kontakt
+      - Hofladen Kartoffelhof Kontakt
+      - Hofladen Obsthof Kontakt
+      - Hofladen Gemüsehof Kontakt
+      - Direktvermarktung Bauernhof
+      - Direktvermarktung Spargelhof
+      - Direktvermarktung Erdbeerhof
+      - Direktvermarktung Kartoffelhof
+      - Direktvermarktung Obsthof
+      - Direktvermarktung Gemüsehof
+      - Direktvermarkter Bauernhof
+      - Direktvermarkter Spargel
+      - Direktvermarkter Erdbeeren
+      - Direktvermarkter Kartoffeln
+      - Direktvermarkter Obst
+      - Direktvermarkter Gemüse
 
       # =========================
-      # OBST / GEMÜSE
+      # ERDBEEREN / SELBSTPFLÜCKE
       # =========================
-      - Obsthof Kontakt
-      - Obsthof Impressum
-      - Obsthof E-Mail
-      - Obsthof Kontaktformular
-      - Obsthof Hofladen Kontakt
-      - Obsthof Direktvermarktung Kontakt
-      - Obsthof Hofverkauf Kontakt
-      - Obsthof Verkauf ab Hof
-      - Obsthof Ansprechpartner
-      - Obsthof Über uns
-      - Gemüsehof Kontakt
-      - Gemüsehof Impressum
-      - Gemüsehof E-Mail
-      - Gemüsehof Kontaktformular
-      - Gemüsehof Hofladen Kontakt
-      - Gemüsehof Direktvermarktung Kontakt
-      - Gemüsehof Hofverkauf Kontakt
-      - Gemüsehof Verkauf ab Hof
-      - Gemüsehof Ansprechpartner
-      - Gemüsehof Über uns
-      - Obstbaubetrieb Kontakt
-      - Obstbaubetrieb Impressum
-      - Obstbaubetrieb E-Mail
-      - Gemüsebaubetrieb Kontakt
-      - Gemüsebaubetrieb Impressum
-      - Gemüsebaubetrieb E-Mail
-      - Erzeugerbetrieb Obst Kontakt
-      - Erzeugerbetrieb Gemüse Kontakt
-      - Obst Gemüse Hofladen Kontakt
-      - Obst Gemüse Direktvermarktung Kontakt
-
-      # =========================
-      # ERDBEEREN / BEEREN
-      # =========================
-      - Erdbeerhof Kontakt
-      - Erdbeerhof Impressum
-      - Erdbeerhof E-Mail
-      - Erdbeerhof Kontaktformular
-      - Erdbeerhof Hofladen Kontakt
-      - Erdbeerhof Direktvermarktung Kontakt
-      - Erdbeerhof Direktverkauf Kontakt
-      - Erdbeerhof Verkauf ab Hof
+      - Erdbeerhof Selbstpflücke
+      - Erdbeeren selbst pflücken Hof
+      - Erdbeeren pflücken Bauernhof
+      - Erdbeerfeld selbst pflücken
+      - Erdbeerhof selber pflücken
+      - Selbstpflücke Erdbeeren Kontakt
       - Erdbeerhof Selbstpflücke Kontakt
-      - Erdbeerhof Ansprechpartner
-      - Erdbeerhof Über uns
-      - Erdbeerplantage Kontakt
-      - Erdbeerbetrieb Kontakt
-      - Erdbeerbetrieb Impressum
-      - Erdbeerbetrieb E-Mail
-      - Erdbeeranbau Betrieb Kontakt
-      - Erdbeeranbau Betrieb Impressum
-      - Erdbeeranbau Betrieb E-Mail
-      - Beerenhof Kontakt
-      - Beerenhof Impressum
-      - Beerenhof E-Mail
-      - Beerenhof Kontaktformular
-      - Himbeerhof Kontakt
-      - Himbeerhof Impressum
-      - Himbeerhof E-Mail
-      - Heidelbeerhof Kontakt
-      - Heidelbeerhof Impressum
-      - Heidelbeerhof E-Mail
-      - Beerenbetrieb Kontakt
-      - Beerenbetrieb Impressum
-      - Erdbeeren Direktvermarktung Kontakt
-      - Erdbeer Direktverkauf Hof Kontakt
-      - Erdbeer Selbstpflücke Hof Kontakt
-      - Erdbeerhof Hofverkauf Kontakt
-      - Erdbeerhof Kontakt E-Mail
-      - Erdbeerhof Impressum E-Mail
-      - Beerenhof Direktvermarktung Kontakt
-      - Beerenhof Hofladen Kontakt
-      - Beerenhof Verkauf ab Hof
-      - Erdbeerhof Ab Hof Verkauf
-
-      # =========================
-      # KARTOFFEL
-      # =========================
-      - Kartoffelhof Kontakt
-      - Kartoffelhof Impressum
-      - Kartoffelhof E-Mail
-      - Kartoffelhof Kontaktformular
-      - Kartoffelhof Hofladen Kontakt
-      - Kartoffelhof Direktvermarktung Kontakt
-      - Kartoffelhof Direktverkauf Kontakt
-      - Kartoffelhof Verkauf ab Hof
-      - Kartoffelhof Ansprechpartner
-      - Kartoffelhof Über uns
-      - Kartoffelanbau Betrieb Kontakt
-      - Kartoffelanbau Betrieb Impressum
-      - Kartoffelanbau Betrieb E-Mail
-      - Kartoffelbetrieb Kontakt
-      - Kartoffelbetrieb Impressum
-      - Kartoffelbetrieb E-Mail
-      - Kartoffel Erzeuger Kontakt
-      - Kartoffel Direktvermarktung Kontakt
-      - Kartoffel Verkauf ab Hof
-      - Speisekartoffeln Erzeuger Kontakt
-      - Kartoffelhof Kontakt E-Mail
-      - Kartoffelhof Impressum E-Mail
-      - Kartoffelhof Hofverkauf Kontakt
-      - Kartoffelhof Ab Hof Verkauf
-      - Kartoffel Selbsternte Kontakt
-      - Kartoffelhof Hofladen E-Mail
-      - Kartoffelhof Direktverkauf E-Mail
-      - Kartoffelanbau Hof Kontakt
-      - Kartoffelanbau Hof Impressum
-      - Kartoffelhof regional Kontakt
+      - Erdbeerhof Selbstpflücke E-Mail
+      - Erdbeerhof Selbstpflücke Impressum
+      - Erdbeerhof Hofladen Erdbeeren
+      - Erdbeerhof Verkauf Erdbeeren
+      - Erdbeer Direktverkauf Hof
+      - Erdbeer Verkauf Bauernhof
+      - Erdbeer Verkauf Hofladen
+      - Erdbeer Bauernhof Kontakt
+      - Erdbeer Hof Kontakt
+      - Erdbeer Feld Kontakt
+      - Erdbeer Plantage Kontakt
+      - Erdbeer Betrieb Kontakt
+      - Erdbeerhof Verkauf ab Hof
 
       # =========================
       # SPARGEL
       # =========================
-      - Spargelhof Kontakt
-      - Spargelhof Impressum
-      - Spargelhof E-Mail
-      - Spargelhof Kontaktformular
-      - Spargelhof Hofladen Kontakt
-      - Spargelhof Direktvermarktung Kontakt
-      - Spargelhof Direktverkauf Kontakt
+      - Spargelhof Verkauf
+      - Spargel Verkauf Bauernhof
+      - Spargel Verkauf Hof
+      - Spargelhof Hofladen
       - Spargelhof Verkauf ab Hof
-      - Spargelhof Selbstpflücke Kontakt
-      - Spargelhof Ansprechpartner
-      - Spargelhof Über uns
-      - Spargelanbau Betrieb Kontakt
-      - Spargelanbau Betrieb Impressum
-      - Spargelanbau Betrieb E-Mail
-      - Spargelbetrieb Kontakt
-      - Spargelbetrieb Impressum
-      - Spargelbetrieb E-Mail
-      - Spargel Erzeuger Kontakt
-      - Spargel Direktvermarktung Kontakt
-      - Spargel Verkauf Hof Kontakt
-      - Spargel Direktverkauf Kontakt
+      - Spargelhof Direktverkauf
+      - Spargel Bauernhof Kontakt
+      - Spargel Hof Kontakt
+      - Spargel Erzeuger Hof
+      - Spargel Landwirtschaft Betrieb
+      - Spargel vom Hof
+      - Spargel frisch vom Hof
+      - Spargel Direktvermarktung
+      - Spargel Hofladen Kontakt
       - Spargelhof Kontakt E-Mail
       - Spargelhof Impressum E-Mail
-      - Spargelhof Hofverkauf Kontakt
-      - Spargelhof Ab Hof Verkauf
-      - Spargelhof Hofladen E-Mail
-      - Spargelbetrieb Kontaktformular
-      - Spargel Erzeugerbetrieb Kontakt
+      - Spargelbetrieb Kontakt
+      - Spargelbetrieb E-Mail
       - Spargelanbau Hof Kontakt
-      - Spargelhof regional Kontakt
+      - Spargelanbau Betrieb Kontakt
 
       # =========================
-      # TOMATEN / GURKEN / PAPRIKA / CHILI
+      # KARTOFFEL
       # =========================
-      - Tomatenhof Kontakt
-      - Tomatenhof Impressum
-      - Tomatenhof E-Mail
-      - Tomatenhof Kontaktformular
-      - Tomatenhof Direktvermarktung Kontakt
-      - Tomatenhof Verkauf ab Hof
-      - Tomatenanbau Betrieb Kontakt
-      - Tomatenanbau Betrieb Impressum
-      - Tomatenanbau Betrieb E-Mail
+      - Kartoffelhof Verkauf
+      - Kartoffeln Bauernhof
+      - Kartoffeln vom Hof
+      - Kartoffeln frisch vom Hof
+      - Kartoffel Verkauf Hof
+      - Kartoffel Direktverkauf
+      - Kartoffelhof Hofladen
+      - Kartoffelhof Verkauf ab Hof
+      - Kartoffel Bauernhof Kontakt
+      - Kartoffel Hof Kontakt
+      - Kartoffel Erzeuger Hof
+      - Kartoffel Landwirtschaft Betrieb
+      - Kartoffel Direktvermarktung
+      - Kartoffelhof Kontakt E-Mail
+      - Kartoffelhof Impressum E-Mail
+      - Kartoffelbetrieb Kontakt
+      - Kartoffelbetrieb E-Mail
+      - Kartoffelanbau Hof Kontakt
+      - Kartoffelanbau Betrieb Kontakt
+      - Kartoffel Selbsternte Hof
+
+      # =========================
+      # OBST / GEMÜSE
+      # =========================
+      - Obsthof Verkauf
+      - Gemüsehof Verkauf
+      - Obst vom Hof
+      - Gemüse vom Hof
+      - Obst frisch vom Hof
+      - Gemüse frisch vom Hof
+      - Obst Bauernhof Kontakt
+      - Gemüse Bauernhof Kontakt
+      - Obst Hof Kontakt
+      - Gemüse Hof Kontakt
+      - Obst Direktverkauf
+      - Gemüse Direktverkauf
+      - Obst Hofladen
+      - Gemüse Hofladen
+      - Obst Direktvermarktung
+      - Gemüse Direktvermarktung
+      - Obsthof Kontakt E-Mail
+      - Gemüsehof Kontakt E-Mail
+      - Obstbau Hof Kontakt
+      - Gemüsebau Hof Kontakt
+
+      # =========================
+      # TOMATEN / GURKEN / PAPRIKA
+      # =========================
+      - Tomatenhof Verkauf
+      - Tomaten vom Hof
+      - Tomaten frisch vom Hof
+      - Tomaten Direktverkauf
+      - Tomaten Gewächshaus Hof
       - Tomatenbetrieb Kontakt
-      - Tomatenbetrieb Impressum
       - Tomatenbetrieb E-Mail
-      - Tomaten Gewächshaus Kontakt
-      - Tomaten Gewächshaus Betrieb Kontakt
-      - Tomaten Gewächshaus Betrieb Impressum
-      - Gurkenhof Kontakt
-      - Gurkenhof Impressum
-      - Gurkenhof E-Mail
-      - Gurkenhof Kontaktformular
-      - Gurkenhof Direktvermarktung Kontakt
-      - Gurkenanbau Betrieb Kontakt
-      - Gurkenanbau Betrieb Impressum
-      - Gurkenanbau Betrieb E-Mail
+      - Gurkenhof Verkauf
+      - Gurken vom Hof
+      - Gurken frisch vom Hof
+      - Gurken Direktverkauf
+      - Gurken Gewächshaus Hof
       - Gurkenbetrieb Kontakt
-      - Gurkenbetrieb Impressum
       - Gurkenbetrieb E-Mail
-      - Gurken Gewächshaus Kontakt
-      - Gurken Gewächshaus Betrieb Kontakt
-      - Paprikahof Kontakt
-      - Paprikahof Impressum
-      - Paprikahof E-Mail
-      - Paprikahof Kontaktformular
-      - Paprikaanbau Betrieb Kontakt
-      - Paprikaanbau Betrieb Impressum
-      - Paprikaanbau Betrieb E-Mail
+      - Paprikahof Verkauf
+      - Paprika vom Hof
+      - Paprika frisch vom Hof
+      - Paprika Direktverkauf
+      - Paprika Gewächshaus Hof
       - Paprikabetrieb Kontakt
-      - Paprikabetrieb Impressum
-      - Paprikabetrieb E-Mail
-      - Paprika Gewächshaus Kontakt
-      - Chilianbau Betrieb Kontakt
 
       # =========================
       # GEWÄCHSHAUS
       # =========================
-      - Gewächshausbetrieb Kontakt
-      - Gewächshausbetrieb Impressum
-      - Gewächshausbetrieb E-Mail
-      - Gewächshausbetrieb Kontaktformular
-      - Gewächshausbetrieb Direktvermarktung Kontakt
-      - Gewächshausbetrieb Verkauf ab Hof
-      - Gemüse Gewächshaus Betrieb Kontakt
-      - Gemüse Gewächshaus Betrieb Impressum
-      - Gemüse Gewächshaus Betrieb E-Mail
-      - Tomaten Gewächshaus Betrieb Kontakt
-      - Tomaten Gewächshaus Betrieb E-Mail
-      - Gurken Gewächshaus Betrieb Kontakt
-      - Gurken Gewächshaus Betrieb E-Mail
-      - Paprika Gewächshaus Betrieb Kontakt
-      - Paprika Gewächshaus Betrieb E-Mail
+      - Gewächshaus Gemüse Verkauf
+      - Gewächshaus Tomaten Verkauf
+      - Gewächshaus Gurken Verkauf
+      - Gewächshaus Paprika Verkauf
+      - Gewächshaus Betrieb Kontakt
       - Gewächshaus Hof Kontakt
-      - Gewächshaus Hof Impressum
-      - Gewächshaus Hof E-Mail
       - Gewächshaus Gemüse Kontakt
-      - Gewächshaus Direktverkauf Kontakt
+      - Gewächshaus Tomaten Kontakt
+      - Gewächshaus Gurken Kontakt
+      - Gewächshaus Paprika Kontakt
+      - Gewächshausbetrieb Verkauf
+      - Gewächshausbetrieb Direktverkauf
+      - Gewächshausbetrieb Hofladen
+      - Gewächshausbetrieb Kontakt E-Mail
+      - Gewächshausbetrieb Impressum
+      - Gemüse Gewächshaus Kontakt
+      - Tomaten Gewächshaus Kontakt
+      - Gurken Gewächshaus Kontakt
+      - Paprika Gewächshaus Kontakt
+      - Gewächshaus Direktvermarktung
 
       # =========================
       # PILZE
       # =========================
+      - Pilzfarm Verkauf
+      - Pilze vom Hof
+      - Pilze frisch vom Hof
+      - Pilz Direktverkauf
       - Pilzfarm Kontakt
-      - Pilzfarm Impressum
       - Pilzfarm E-Mail
-      - Pilzfarm Kontaktformular
-      - Pilzfarm Direktvermarktung Kontakt
-      - Pilzfarm Hofladen Kontakt
-      - Pilzanbau Betrieb Kontakt
-      - Pilzanbau Betrieb Impressum
-      - Pilzanbau Betrieb E-Mail
+      - Pilzfarm Impressum
       - Pilzbetrieb Kontakt
-      - Pilzbetrieb Impressum
       - Pilzbetrieb E-Mail
       - Champignonfarm Kontakt
-      - Champignonfarm Impressum
-      - Champignonfarm E-Mail
+      - Champignonfarm Verkauf
       - Champignonbetrieb Kontakt
-      - Champignonbetrieb Impressum
       - Champignonbetrieb E-Mail
-      - Speisepilze Erzeuger Kontakt
-      - Pilzhof Kontakt
+      - Pilzanbau Hof Kontakt
+      - Pilzanbau Betrieb Kontakt
+      - Pilze Direktvermarktung
+      - Pilz Hofladen Kontakt
+      - Pilz Hof Kontakt
+      - Pilze Bauernhof Kontakt
+      - Pilzproduktion Hof
 
       # =========================
       # HOPFEN
       # =========================
       - Hopfenhof Kontakt
-      - Hopfenhof Impressum
+      - Hopfenhof Verkauf
+      - Hopfen vom Hof
+      - Hopfen Direktverkauf
+      - Hopfen Erzeuger Hof
+      - Hopfen Landwirtschaft Betrieb
       - Hopfenhof E-Mail
-      - Hopfenhof Kontaktformular
-      - Hopfenhof Direktvermarktung Kontakt
-      - Hopfenhof Verkauf ab Hof
-      - Hopfenanbau Betrieb Kontakt
-      - Hopfenanbau Betrieb Impressum
-      - Hopfenanbau Betrieb E-Mail
+      - Hopfenhof Impressum
       - Hopfenbetrieb Kontakt
-      - Hopfenbetrieb Impressum
       - Hopfenbetrieb E-Mail
-      - Hopfen Erzeuger Kontakt
-      - Hopfen Direktverkauf Hof Kontakt
-      - Hopfen Direktvermarktung Kontakt
+      - Hopfenanbau Hof Kontakt
+      - Hopfenanbau Betrieb Kontakt
+      - Hopfen Direktvermarktung
       - Hopfenbauer Kontakt
-      - Hopfenhof Kontakt E-Mail
-      - Hopfenhof Impressum E-Mail
-      - Hopfenhof Hofladen Kontakt
-      - Hopfenhof regional Kontakt
+      - Hopfenhof Hofladen
+      - Hopfenhof Verkauf ab Hof
+      - Hopfenhof Ansprechpartner
+      - Hopfenhof Über uns
+      - Hopfenhof Kontaktformular
+      - Hopfenbetrieb Impressum
 
       # =========================
       # WEIN / WEINGUT
       # =========================
       - Weingut Kontakt
-      - Weingut Impressum
+      - Weingut Verkauf
+      - Wein vom Hof
+      - Wein Direktverkauf
+      - Wein Erzeuger Hof
+      - Weinbau Betrieb Kontakt
       - Weingut E-Mail
+      - Weingut Impressum
       - Weingut Kontaktformular
-      - Weingut Direktvermarktung Kontakt
-      - Weingut Direktverkauf Kontakt
+      - Weingut Hofladen
       - Weingut Verkauf ab Hof
-      - Weingut Hofladen Kontakt
-      - Weingut Ansprechpartner
-      - Familienweingut Kontakt
       - Winzerbetrieb Kontakt
-      - Winzerbetrieb Impressum
       - Winzerbetrieb E-Mail
-      - Weinbaubetrieb Kontakt
-      - Weinbaubetrieb Impressum
-      - Weinbaubetrieb E-Mail
-      - Wein Erzeuger Betrieb Kontakt
-      - Wein Direktverkauf E-Mail
-      - Winzer Kontaktformular
-      - Weingut Kontakt E-Mail
+      - Wein Direktvermarktung
+      - Wein Bauernhof Kontakt
+      - Wein Hof Kontakt
+      - Weingut Ansprechpartner
+      - Weingut Über uns
+      - Familienweingut Kontakt
+      - Weinbau Hof Kontakt
 
       # =========================
-      # BLUMEN / GÄRTNEREI / GARTENBAU
+      # BLUMEN / GÄRTNEREI
       # =========================
       - Blumenhof Kontakt
-      - Blumenhof Impressum
-      - Blumenhof E-Mail
-      - Blumenhof Kontaktformular
-      - Blumenhof Direktvermarktung Kontakt
+      - Blumenhof Verkauf
+      - Blumen vom Hof
+      - Blumen Direktverkauf
       - Blumenbetrieb Kontakt
-      - Blumenbetrieb Impressum
       - Blumenbetrieb E-Mail
       - Blumenanbau Betrieb Kontakt
-      - Blumenanbau Betrieb Impressum
       - Blumenanbau Betrieb E-Mail
       - Gärtnerei Kontakt
-      - Gärtnerei Impressum
       - Gärtnerei E-Mail
-      - Gärtnerei Kontaktformular
+      - Gärtnerei Verkauf
+      - Gärtnerei Hofladen
       - Gartenbaubetrieb Kontakt
-      - Gartenbaubetrieb Impressum
       - Gartenbaubetrieb E-Mail
+      - Schnittblumen Verkauf Hof
       - Schnittblumen Betrieb Kontakt
       - Zierpflanzen Betrieb Kontakt
+      - Blumen Direktvermarktung
+      - Blumen Bauernhof Kontakt
+      - Blumen Hof Kontakt
 
       # =========================
       # BIO / ÖKO
       # =========================
       - Biohof Kontakt
-      - Biohof Impressum
+      - Biohof Verkauf
       - Biohof E-Mail
-      - Biohof Kontaktformular
-      - Biohof Hofladen Kontakt
-      - Biohof Direktvermarktung Kontakt
+      - Biohof Impressum
+      - Biohof Hofladen
+      - Biohof Direktvermarktung
+      - Bio Bauernhof Kontakt
+      - Bio Hof Kontakt
+      - Bio Obsthof Kontakt
+      - Bio Gemüsehof Kontakt
+      - Bio Kartoffelhof Kontakt
+      - Bio Erdbeerhof Kontakt
+      - Bio Spargelhof Kontakt
       - Bio Landwirtschaft Betrieb Kontakt
-      - Bio Landwirtschaft Betrieb Impressum
-      - Bio Landwirtschaft Betrieb E-Mail
-      - Ökologischer Betrieb Kontakt
-      - Ökologischer Betrieb Impressum
-      - Ökologischer Betrieb E-Mail
-      - Bioland Betrieb Kontakt
-      - Bioland Betrieb Impressum
-      - Bioland Betrieb E-Mail
-      - Naturland Betrieb Kontakt
-      - Naturland Betrieb Impressum
-      - Naturland Betrieb E-Mail
-      - Demeter Betrieb Kontakt
-      - Demeter Betrieb Impressum
+      - Bio Direktverkauf Hof
+      - Bio Verkauf ab Hof
+      - Bio Produkte Hofladen
+      - Biohof Kontaktformular
+      - Biohof Ansprechpartner
+      - Biohof Über uns
 
       # =========================
-      # IMPRESSUM / EMAIL-KILLER / PODSTRONY
+      # IMPRESSUM / EMAIL TARGET
       # =========================
-      - Hof Kontakt Impressum
       - Bauernhof Kontakt Impressum
-      - Familienhof Kontakt Impressum
-      - Landwirtschaftsbetrieb Kontakt Impressum
-      - Landwirtschaftlicher Betrieb Kontakt Impressum
-      - Obsthof Kontakt Impressum
-      - Gemüsehof Kontakt Impressum
+      - Hof Kontakt Impressum
+      - Spargelhof Kontakt Impressum
       - Erdbeerhof Kontakt Impressum
       - Kartoffelhof Kontakt Impressum
-      - Spargelhof Kontakt Impressum
+      - Obsthof Kontakt Impressum
+      - Gemüsehof Kontakt Impressum
+      - Hofladen Kontakt Impressum
+      - Direktvermarkter Kontakt Impressum
       - Weingut Kontakt Impressum
       - Pilzfarm Kontakt Impressum
       - Gewächshausbetrieb Kontakt Impressum
-      - Hofladen Kontakt Impressum
-      - Direktvermarkter Kontakt Impressum
+      - Familienhof Kontakt Impressum
       - Unser Hof E-Mail
-      - Über uns Hof Kontakt
-      - Über uns Bauernhof Kontakt
       - Hof Website Impressum
       - Verkauf ab Hof E-Mail
+      - Direktvermarktung Impressum
+      - Hofladen Impressum E-Mail
+      - Bauernhof Impressum E-Mail
+      - Landwirtschaftsbetrieb Impressum E-Mail
 
 app:
   outreach:
