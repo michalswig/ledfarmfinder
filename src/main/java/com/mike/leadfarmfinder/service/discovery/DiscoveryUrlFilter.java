@@ -252,12 +252,36 @@ public class DiscoveryUrlFilter {
     }
 
     public boolean isHardNegative(String text) {
+        if (text == null || text.isBlank()) {
+            return false;
+        }
+
         String lower = text.toLowerCase(Locale.ROOT);
+
         for (String keyword : HARD_NEGATIVE_KEYWORDS) {
-            if (lower.contains(keyword)) {
-                return true;
+            String normalizedKeyword = keyword.toLowerCase(Locale.ROOT);
+
+            if (normalizedKeyword.contains(".") || normalizedKeyword.contains("-")) {
+                if (lower.equals(normalizedKeyword)
+                        || lower.startsWith(normalizedKeyword + ".")
+                        || lower.endsWith("." + normalizedKeyword)
+                        || lower.contains("." + normalizedKeyword + ".")
+                        || lower.contains("-" + normalizedKeyword + "-")
+                        || lower.contains("." + normalizedKeyword + "-")
+                        || lower.contains("-" + normalizedKeyword + ".")) {
+                    return true;
+                }
+                continue;
+            }
+
+            String[] tokens = lower.split("[\\.-]");
+            for (String token : tokens) {
+                if (token.equals(normalizedKeyword)) {
+                    return true;
+                }
             }
         }
+
         return false;
     }
 }
