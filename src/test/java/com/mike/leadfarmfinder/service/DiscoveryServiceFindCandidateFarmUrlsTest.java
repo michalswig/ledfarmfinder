@@ -59,6 +59,8 @@ class DiscoveryServiceFindCandidateFarmUrlsTest {
     private OpenAiFarmClassifier farmClassifier;
     @Mock
     private LeadFinderProperties leadFinderProperties;
+    @Mock
+    private FarmScraperService farmScraperService;
 
     private DiscoveryService discoveryService;
 
@@ -73,12 +75,12 @@ class DiscoveryServiceFindCandidateFarmUrlsTest {
                 discoveredUrlWriter,
                 discoveryRunStatsWriter,
                 queryScheduler,
+                farmScraperService,
                 serpApiService,
                 farmClassifier,
                 leadFinderProperties
         );
     }
-
     @Nested
     @DisplayName("findCandidateFarmUrls")
     class FindCandidateFarmUrlsTests {
