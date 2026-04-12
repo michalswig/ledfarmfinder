@@ -15,7 +15,10 @@ public class MailEventMessage {
 
     private MailEventType eventType;
 
+    private String leadId;
     private String leadEmail;
+    private String emailType;
+
     private String sesMessageId;
 
     private String bounceType;

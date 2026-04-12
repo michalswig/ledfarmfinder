@@ -51,8 +51,8 @@ public class SesSnsWebhookController {
                 return ResponseEntity.ok("Ignored - empty message");
             }
 
-            sesSnsEventProcessor.processSesEvent(message);
-            return ResponseEntity.ok("Notification processed");
+            sesSnsEventProcessor.processSesEvent(message, body);
+            return ResponseEntity.ok("Notification published");
         }
 
         if ("UnsubscribeConfirmation".equals(type)) {
