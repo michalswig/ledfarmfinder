@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 public class SesSnsEventProcessor {
 
     private final ObjectMapper objectMapper;
-    private final SesLeadEventService sesLeadEventService;
     private final MailEventPublisher mailEventPublisher;
 
     public void processSesEvent(String messageJson, String rawPayload) {
@@ -74,7 +73,7 @@ public class SesSnsEventProcessor {
     }
 
     private MailEventType mapEventType(String eventTypeValue) {
-        return switch (eventTypeValue){
+        return switch (eventTypeValue) {
             case "Bounce" -> MailEventType.BOUNCE;
             case "Complaint" -> MailEventType.COMPLAINT;
             case "Delivery" -> MailEventType.DELIVERY;
