@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 public class MailEventProcessingService {
 
     private final MailEventClassificationService classificationService;
+    private final LeadDeliveryStatusService leadDeliveryStatusService;
 
     public void process(MailEventMessage message) {
         ClassifiedMailEvent classified = classificationService.classify(message);
@@ -22,6 +23,7 @@ public class MailEventProcessingService {
                 classified.getDeliveryStatus(),
                 classified.isTerminalFailure(),
                 classified.getClassificationReason());
-    }
 
+        leadDeliveryStatusService.updateLead(classified);
+    }
 }
