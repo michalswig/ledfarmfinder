@@ -40,6 +40,27 @@ public class FarmLead {
     @Column(nullable = false)
     private boolean bounce;
 
+    @Column(name = "last_delivery_status")
+    private String lastDeliveryStatus;
+
+    @Column(name = "bounce_type")
+    private String bounceType;
+
+    @Column(name = "bounce_reason", length = 1000)
+    private String bounceReason;
+
+    @Column(name = "last_bounce_at")
+    private LocalDateTime lastBounceAt;
+
+    @Column(name = "last_delivery_event_at")
+    private LocalDateTime lastDeliveryEventAt;
+
+    @Column(name = "delivery_provider_message_id")
+    private String deliveryProviderMessageId;
+
+    @Column(name = "review_required")
+    private boolean reviewRequired;
+
     @PrePersist
     void prePersist() {
         if (createdAt == null) createdAt = LocalDateTime.now();

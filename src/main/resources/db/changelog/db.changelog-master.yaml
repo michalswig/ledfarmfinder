@@ -406,4 +406,41 @@ databaseChangeLog:
               - column:
                   name: updated_at
                   valueComputed: NOW()
+  # -------------------------------------------------------
+  # 8) delivery status fields (COMMIT 6)
+  # -------------------------------------------------------
+  - changeSet:
+      id: 2026-04-14-01-add-delivery-status-fields
+      author: mike
+      changes:
+        - addColumn:
+            tableName: farm_leads
+            columns:
+              - column:
+                  name: last_delivery_status
+                  type: VARCHAR(100)
 
+              - column:
+                  name: bounce_type
+                  type: VARCHAR(100)
+
+              - column:
+                  name: bounce_reason
+                  type: VARCHAR(1000)
+
+              - column:
+                  name: last_bounce_at
+                  type: TIMESTAMP
+
+              - column:
+                  name: last_delivery_event_at
+                  type: TIMESTAMP
+
+              - column:
+                  name: delivery_provider_message_id
+                  type: VARCHAR(255)
+
+              - column:
+                  name: review_required
+                  type: BOOLEAN
+                  defaultValueBoolean: false
