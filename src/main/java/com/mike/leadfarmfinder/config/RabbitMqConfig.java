@@ -1,15 +1,17 @@
 package com.mike.leadfarmfinder.config;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Slf4j
 @Configuration
 @RequiredArgsConstructor
 public class RabbitMqConfig {
@@ -22,6 +24,25 @@ public class RabbitMqConfig {
     }
 
     @Bean
+    public Queue outreachEventsQueue() {
+        return QueueBuilder
+                .durable(rabbitProperties.getOutreachEventsQueue())
+                .withArgument("x-dead-letter-exchange", rabbitProperties.getOutreachEventsExchange())
+                .withArgument("x-dead-letter-routing-key", rabbitProperties.getOutreachEventsRetryRoutingKey())
+                .build();
+    }
+
+    @Bean
+    public Queue outreachEventsRetryQueue() {
+        return QueueBuilder
+                .durable(rabbitProperties.getOutreachEventsRetryQueue())
+                .withArgument("x-message-ttl", rabbitProperties.getRetryTtlMs())
+                .withArgument("x-dead-letter-exchange", rabbitProperties.getOutreachEventsExchange())
+                .withArgument("x-dead-letter-routing-key", rabbitProperties.getOutreachEventsRoutingKey())
+                .build();
+    }
+
+    @Bean
     public Queue outreachEventsDlq() {
         return QueueBuilder
                 .durable(rabbitProperties.getOutreachEventsDlq())
@@ -29,20 +50,27 @@ public class RabbitMqConfig {
     }
 
     @Bean
-    public Queue outreachEventsQueue() {
-        return QueueBuilder
-                .durable(rabbitProperties.getOutreachEventsQueue())
-                .deadLetterExchange("")
-                .deadLetterRoutingKey(rabbitProperties.getOutreachEventsDlq())
-                .build();
+    public Binding outreachEventsBinding() {
+        return BindingBuilder
+                .bind(outreachEventsQueue())
+                .to(outreachEventsExchange())
+                .with(rabbitProperties.getOutreachEventsRoutingKey());
     }
 
     @Bean
-    public Binding outreachEventsBinding(Queue outreachEventsQueue, DirectExchange outreachEventsExchange) {
+    public Binding outreachEventsRetryBinding() {
         return BindingBuilder
-                .bind(outreachEventsQueue)
-                .to(outreachEventsExchange)
-                .with(rabbitProperties.getOutreachEventsRoutingKey());
+                .bind(outreachEventsRetryQueue())
+                .to(outreachEventsExchange())
+                .with(rabbitProperties.getOutreachEventsRetryRoutingKey());
+    }
+
+    @Bean
+    public Binding outreachEventsDlqBinding() {
+        return BindingBuilder
+                .bind(outreachEventsDlq())
+                .to(outreachEventsExchange())
+                .with(rabbitProperties.getOutreachEventsDlqRoutingKey());
     }
 
     @Bean

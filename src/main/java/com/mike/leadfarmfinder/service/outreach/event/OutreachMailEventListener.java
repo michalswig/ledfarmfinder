@@ -1,7 +1,10 @@
 package com.mike.leadfarmfinder.service.outreach.event;
 
+import com.mike.leadfarmfinder.config.LeadFinderRabbitProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.AmqpRejectAndDontRequeueException;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -11,16 +14,37 @@ import org.springframework.stereotype.Component;
 public class OutreachMailEventListener {
 
     private final MailEventProcessingService processingService;
+    private final RabbitRetrySupport retrySupport;
+    private final LeadFinderRabbitProperties rabbitProperties;
+    private final MailEventDlqPublisher dlqPublisher;
 
     @RabbitListener(queues = "${leadfinder.rabbit.outreach-events-queue}")
-    public void handle(MailEventMessage message) {
+    public void handle(MailEventMessage message, Message amqpMessage) {
+        try {
+            processingService.process(message);
 
-        log.info("Received mail event from queue: type={}, leadId={}, email={}, sesMessageId={}",
-                message.getEventType(),
-                message.getLeadId(),
-                message.getLeadEmail(),
-                message.getSesMessageId());
+        } catch (Exception e) {
+            long retryCount = retrySupport.getRetryCount(
+                    amqpMessage,
+                    rabbitProperties.getOutreachEventsRetryQueue()
+            );
 
-        processingService.process(message);
+            log.error("Processing failed. retryCount={}, max={}, leadId={}",
+                    retryCount,
+                    rabbitProperties.getMaxRetryAttempts(),
+                    message.getLeadId(),
+                    e
+            );
+
+            if (retryCount >= rabbitProperties.getMaxRetryAttempts()) {
+                dlqPublisher.publishToDlq(message);
+                return;
+            }
+
+            throw new AmqpRejectAndDontRequeueException(
+                    "Processing failed, sending message to retry queue",
+                    e
+            );
+        }
     }
 }

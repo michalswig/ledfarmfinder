@@ -50,10 +50,15 @@ spring:
 
 leadfinder:
   rabbit:
-    outreach-events-exchange: ${OUTREACH_EVENTS_EXCHANGE:outreach.events.exchange}
-    outreach-events-queue: ${OUTREACH_EVENTS_QUEUE:outreach.event.queue}
-    outreach-events-dlq: ${OUTREACH_EVENTS_DLQ:outreach.event.dlq}
-    outreach-events-routing-key: ${OUTREACH_EVENTS_ROUTING_KEY:outreach.event}
+    outreach-events-exchange: outreach.events.exchange
+    outreach-events-queue: outreach.event.queue
+    outreach-events-dlq: outreach.event.dlq
+    outreach-events-routing-key: outreach.event
+    outreach-events-retry-queue: outreach.event.retry.queue
+    outreach-events-retry-routing-key: outreach.event.retry
+    outreach-events-dlq-routing-key: outreach.event.dlq
+    retry-ttl-ms: 30000
+    max-retry-attempts: 2
   agrarjobboerse:
     pagesPerRun: 2
     pageCap: 50
