@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+
+  liquibase:
+    enabled: true
+
+leadfinder:
+  rabbit:
+    outreach-events-exchange: outreach.events.exchange
+    outreach-events-queue: outreach.event.queue
+    outreach-events-dlq: outreach.event.dlq
+    outreach-events-routing-key: outreach.event
+    outreach-events-retry-queue: outreach.event.retry.queue
+    outreach-events-retry-routing-key: outreach.event.retry
+    outreach-events-dlq-routing-key: outreach.event.dlq
+    retry-ttl-ms: 30000
+    max-retry-attempts: 2
+
+aws:
+  ses:
+    region: eu-central-1
+    configuration-set: leadfarmfinder-test

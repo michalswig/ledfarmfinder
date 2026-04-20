@@ -94,7 +94,7 @@ public class LeadDeliveryStatusService {
                                      LocalDateTime now) {
         lead.setBounce(true);
         lead.setActive(false);
-        lead.setBounceType(event.getBounceType());
+        lead.setBounceType(classifiedEvent.getDeliveryStatus().name());
         lead.setBounceReason(resolveBounceReason(event, classifiedEvent));
         lead.setLastBounceAt(now);
         lead.setReviewRequired(false);
@@ -105,7 +105,7 @@ public class LeadDeliveryStatusService {
                                  ClassifiedMailEvent classifiedEvent,
                                  LocalDateTime now) {
         lead.setBounce(true);
-        lead.setBounceType(event.getBounceType());
+        lead.setBounceType(classifiedEvent.getDeliveryStatus().name());
         lead.setBounceReason(resolveBounceReason(event, classifiedEvent));
         lead.setLastBounceAt(now);
         // Na MVP jeszcze nie dezaktywujemy
@@ -118,6 +118,7 @@ public class LeadDeliveryStatusService {
                                 LocalDateTime now) {
         lead.setBounce(true);
         lead.setActive(false);
+        lead.setBounceType(classifiedEvent.getDeliveryStatus().name());
         lead.setBounceReason(resolveBounceReason(event, classifiedEvent));
         lead.setLastBounceAt(now);
         lead.setReviewRequired(true);
@@ -129,7 +130,7 @@ public class LeadDeliveryStatusService {
                                 LocalDateTime now) {
         lead.setBounce(true);
         lead.setActive(false);
-        lead.setBounceType(event.getBounceType());
+        lead.setBounceType(classifiedEvent.getDeliveryStatus().name());
         lead.setBounceReason(resolveBounceReason(event, classifiedEvent));
         lead.setLastBounceAt(now);
         lead.setReviewRequired(true);
@@ -140,7 +141,7 @@ public class LeadDeliveryStatusService {
                                      ClassifiedMailEvent classifiedEvent,
                                      LocalDateTime now) {
         lead.setBounce(true);
-        lead.setBounceType(event.getBounceType());
+        lead.setBounceType(classifiedEvent.getDeliveryStatus().name());
         lead.setBounceReason(resolveBounceReason(event, classifiedEvent));
         lead.setLastBounceAt(now);
         lead.setReviewRequired(true);

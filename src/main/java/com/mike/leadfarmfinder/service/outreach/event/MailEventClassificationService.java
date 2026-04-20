@@ -76,6 +76,11 @@ public class MailEventClassificationService {
                     "diagnostic code indicates domain not found");
         }
 
+        if ("suppressed".equals(bounceSubType) || "onaccountsuppressionlist".equals(bounceSubType)) {
+            return build(event, MailDeliveryStatus.SPAM_BLOCK, true,
+                    "bounce subtype indicates suppression list");
+        }
+
         if (containsAny(diagnosticCode,
                 "blocked",
                 "blacklist",
@@ -96,9 +101,9 @@ public class MailEventClassificationService {
                     "bounceType=Transient");
         }
 
-        if ("suppressed".equals(bounceSubType)) {
-            return build(event, MailDeliveryStatus.SPAM_BLOCK, true,
-                    "bounceSubType=Suppressed");
+        if ("undetermined".equals(bounceType)) {
+            return build(event, MailDeliveryStatus.UNKNOWN_FAILURE, false,
+                    "bounceType=Undetermined");
         }
 
         return build(event, MailDeliveryStatus.UNKNOWN_FAILURE, false,
