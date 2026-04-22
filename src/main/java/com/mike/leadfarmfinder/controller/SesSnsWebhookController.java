@@ -24,6 +24,8 @@ public class SesSnsWebhookController {
             @RequestBody String body,
             @RequestHeader(value = "x-amz-sns-message-type", required = false) String messageTypeHeader) throws Exception {
 
+        log.info("SNS RAW BODY: {}", body);
+
         JsonNode root = objectMapper.readTree(body);
         String type = text(root, "Type");
         String topicArn = text(root, "TopicArn");
@@ -50,6 +52,12 @@ public class SesSnsWebhookController {
                 log.warn("SNS Notification received without Message payload");
                 return ResponseEntity.ok("Ignored - empty message");
             }
+
+            JsonNode sesMessageNode = objectMapper.readTree(message);
+
+            log.info("SES MESSAGE PAYLOAD PRETTY:\n{}",
+                    objectMapper.writerWithDefaultPrettyPrinter()
+                            .writeValueAsString(sesMessageNode));
 
             sesSnsEventProcessor.processSesEvent(message);
             return ResponseEntity.ok("Notification processed");
