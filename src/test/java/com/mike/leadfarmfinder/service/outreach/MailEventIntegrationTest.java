@@ -4,11 +4,14 @@ import com.mike.leadfarmfinder.entity.FarmLead;
 import com.mike.leadfarmfinder.repository.FarmLeadRepository;
 import com.mike.leadfarmfinder.service.outreach.event.MailEventMessage;
 import com.mike.leadfarmfinder.service.outreach.event.MailEventType;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
@@ -18,10 +21,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 class MailEventIntegrationTest {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private RabbitAdmin rabbitAdmin;
 
     @Autowired
     private FarmLeadRepository repository;
@@ -29,10 +36,17 @@ class MailEventIntegrationTest {
     @MockitoBean
     private JavaMailSender javaMailSender;
 
-    @Test
-    void shouldMarkLeadAsBouncedOnDnsFailureEvent() {
+    @BeforeEach
+    void cleanUp() {
         repository.deleteAll();
 
+        rabbitAdmin.purgeQueue("outreach.event.queue", true);
+        rabbitAdmin.purgeQueue("outreach.event.retry.queue", true);
+        rabbitAdmin.purgeQueue("outreach.event.dlq", true);
+    }
+
+    @Test
+    void shouldMarkLeadAsBouncedOnDnsFailureEvent() {
         FarmLead lead = new FarmLead();
         lead.setEmail("info@kartoffelhof-walter.de");
         lead.setActive(true);
@@ -64,8 +78,6 @@ class MailEventIntegrationTest {
 
     @Test
     void shouldDeactivateLeadOnComplaintEvent() {
-        repository.deleteAll();
-
         FarmLead lead = new FarmLead();
         lead.setEmail("complaint@farm-example.de");
         lead.setActive(true);
@@ -96,8 +108,6 @@ class MailEventIntegrationTest {
 
     @Test
     void shouldKeepLeadActiveOnTransientSoftBounceEvent() {
-        repository.deleteAll();
-
         FarmLead lead = new FarmLead();
         lead.setEmail("softbounce@farm-example.de");
         lead.setActive(true);
