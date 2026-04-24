@@ -29,7 +29,7 @@ leadfinder:
     outreach-events-retry-queue: outreach.event.retry.queue
     outreach-events-retry-routing-key: outreach.event.retry
     outreach-events-dlq-routing-key: outreach.event.dlq
-    retry-ttl-ms: 30000
+    retry-ttl-ms: 500
     max-retry-attempts: 2
 
 aws:

@@ -33,13 +33,25 @@ public class LeadDeliveryStatusService {
         }
 
         FarmLead lead = leadOpt.get();
+        MailDeliveryStatus newStatus = classifiedEvent.getDeliveryStatus();
+
+        if (isDeliveredAfterTerminalFailure(lead, newStatus)) {
+            log.warn("Delivery event ignored because lead already has terminal failure. leadId={}, email={}, currentStatus={}, incomingStatus={}, sesMessageId={}",
+                    lead.getId(),
+                    lead.getEmail(),
+                    lead.getLastDeliveryStatus(),
+                    newStatus,
+                    event.getSesMessageId());
+            return;
+        }
+
         LocalDateTime now = LocalDateTime.now();
 
-        lead.setLastDeliveryStatus(classifiedEvent.getDeliveryStatus().name());
+        lead.setLastDeliveryStatus(newStatus.name());
         lead.setLastDeliveryEventAt(now);
         lead.setDeliveryProviderMessageId(event.getSesMessageId());
 
-        switch (classifiedEvent.getDeliveryStatus()) {
+        switch (newStatus) {
             case DELIVERED -> applyDelivered(lead);
 
             case DNS_FAILURE,
@@ -84,6 +96,37 @@ public class LeadDeliveryStatusService {
         return Optional.empty();
     }
 
+    private boolean isDeliveredAfterTerminalFailure(FarmLead lead, MailDeliveryStatus incomingStatus) {
+        return incomingStatus == MailDeliveryStatus.DELIVERED
+                && isTerminalFailureStatus(lead.getLastDeliveryStatus());
+    }
+
+    private boolean isTerminalFailureStatus(String status) {
+        if (status == null || status.isBlank()) {
+            return false;
+        }
+
+        try {
+            MailDeliveryStatus currentStatus = MailDeliveryStatus.valueOf(status);
+
+            return switch (currentStatus) {
+                case DNS_FAILURE,
+                     MAILBOX_NOT_FOUND,
+                     DOMAIN_NOT_FOUND,
+                     HARD_BOUNCE,
+                     COMPLAINT,
+                     SPAM_BLOCK -> true;
+
+                case DELIVERED,
+                     SOFT_BOUNCE,
+                     UNKNOWN_FAILURE -> false;
+            };
+        } catch (IllegalArgumentException e) {
+            log.warn("Unknown stored delivery status: {}", status);
+            return false;
+        }
+    }
+
     private void applyDelivered(FarmLead lead) {
         lead.setReviewRequired(false);
     }
@@ -108,7 +151,6 @@ public class LeadDeliveryStatusService {
         lead.setBounceType(classifiedEvent.getDeliveryStatus().name());
         lead.setBounceReason(resolveBounceReason(event, classifiedEvent));
         lead.setLastBounceAt(now);
-        // Na MVP jeszcze nie dezaktywujemy
         lead.setReviewRequired(false);
     }
 

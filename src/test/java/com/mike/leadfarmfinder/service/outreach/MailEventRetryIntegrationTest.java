@@ -10,6 +10,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
@@ -25,6 +26,7 @@ import static org.mockito.Mockito.doAnswer;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 class MailEventRetryIntegrationTest {
 
     @Autowired
@@ -75,11 +77,11 @@ class MailEventRetryIntegrationTest {
                 message
         );
 
-        await().atMost(90, SECONDS).untilAsserted(() ->
+        await().atMost(10, SECONDS).untilAsserted(() ->
                 assertTrue(attempts.get() >= 3)
         );
 
-        await().atMost(10, SECONDS).untilAsserted(() -> {
+        await().atMost(5, SECONDS).untilAsserted(() -> {
             Object dlqMessage = rabbitTemplate.receiveAndConvert("outreach.event.dlq");
             assertNotNull(dlqMessage);
         });
