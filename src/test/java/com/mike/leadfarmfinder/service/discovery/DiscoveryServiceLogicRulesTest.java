@@ -3,6 +3,7 @@ package com.mike.leadfarmfinder.service.discovery;
 import com.mike.leadfarmfinder.config.LeadFinderProperties;
 import com.mike.leadfarmfinder.dto.FarmClassificationResult;
 import com.mike.leadfarmfinder.service.DiscoveryService;
+import com.mike.leadfarmfinder.service.FarmScraperService;
 import com.mike.leadfarmfinder.service.OpenAiFarmClassifier;
 import com.mike.leadfarmfinder.service.SerpApiService;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,6 +48,8 @@ class DiscoveryServiceLogicRulesTest {
     private OpenAiFarmClassifier farmClassifier;
     @Mock
     private LeadFinderProperties leadFinderProperties;
+    @Mock
+    private FarmScraperService farmScraperService;
 
     private DiscoveryService discoveryService;
 
@@ -61,6 +64,7 @@ class DiscoveryServiceLogicRulesTest {
                 discoveredUrlWriter,
                 discoveryRunStatsWriter,
                 queryScheduler,
+                farmScraperService,
                 serpApiService,
                 farmClassifier,
                 leadFinderProperties

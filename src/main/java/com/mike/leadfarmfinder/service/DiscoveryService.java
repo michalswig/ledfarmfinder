@@ -38,6 +38,7 @@ public class DiscoveryService {
     private final DiscoveredUrlWriter discoveredUrlWriter;
     private final DiscoveryRunStatsWriter discoveryRunStatsWriter;
     private final DiscoveryQueryScheduler queryScheduler;
+    private final FarmScraperService farmScraperService;
 
     private final SerpApiService serpApiService;
     private final OpenAiFarmClassifier farmClassifier;
@@ -493,6 +494,27 @@ public class DiscoveryService {
             String snippet = snippetFetcher.fetchTextSnippet(url);
 
             if (snippet == null || snippet.isBlank()) {
+
+                if (shouldTryDirectScrape(url, scoredUrl.score())) {
+                    var recoveredLeads = farmScraperService.scrapeFarmLeads(url);
+
+                    if (recoveredLeads != null && !recoveredLeads.isEmpty()) {
+                        accepted.add(url);
+
+                        log.info(
+                                "DiscoveryService: RECOVERED via direct scrape url={} score={} leadsFound={}",
+                                url, scoredUrl.score(), recoveredLeads.size()
+                        );
+
+                        return new ScoredUrlProcessingOutcome(0, 0);
+                    }
+
+                    log.info(
+                            "DiscoveryService: direct scrape found no leads for high-score url={} score={}",
+                            url, scoredUrl.score()
+                    );
+                }
+
                 log.info(
                         "DiscoveryService: SKIP (empty/low-quality snippet - no OpenAI, no DB save) url={} score={}",
                         url, scoredUrl.score()
@@ -512,6 +534,30 @@ public class DiscoveryService {
             return new ScoredUrlProcessingOutcome(0, 1);
         }
     }
+
+    private boolean shouldTryDirectScrape(String url, int score) {
+        if (score < 50) {
+            return false;
+        }
+        String lower = url.toLowerCase(Locale.ROOT);
+        return DIRECT_SCRAPE_HINTS.stream().anyMatch(lower::contains);
+    }
+
+    private static final List<String> DIRECT_SCRAPE_HINTS = List.of(
+            "spargelhof",
+            "obsthof",
+            "landhof",
+            "bauernhof",
+            "gemuesehof",
+            "gemüsehof",
+            "beerenhof",
+            "erdbeerhof",
+            "biohof",
+            "hofladen",
+            "ab-hof",
+            "hofverkauf",
+            "direktvermarktung"
+    );
 
     private ScoredUrlProcessingOutcome handleClassificationResult(
             ScoredUrl scoredUrl,
