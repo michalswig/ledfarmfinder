@@ -38,7 +38,6 @@ public class SesSnsWebhookController {
 
         log.info("SNS RAW BODY: {}", body);
 
-        JsonNode root = objectMapper.readTree(body);
         String type = text(root, "Type");
         String topicArn = text(root, "TopicArn");
 
