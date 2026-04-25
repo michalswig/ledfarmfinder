@@ -12,7 +12,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         OutreachProperties.class,
         AgrarjobboerseProperties.class,
         EmailProperties.class,
-        AwsSesProperties.class})
+        AwsSesProperties.class,
+        LeadFinderRabbitProperties.class})
 public class LeadfarmfinderApplication {
 
     public static void main(String[] args) {

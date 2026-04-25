@@ -11,6 +11,13 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME}
+    password: ${SPRING_RABBITMQ_PASSWORD}
+    virtual-host: ${SPRING_RABBITMQ_VHOST:/}
+
   jpa:
     hibernate:
       ddl-auto: none
@@ -42,6 +49,16 @@ spring:
       mail.debug: false
 
 leadfinder:
+  rabbit:
+    outreach-events-exchange: outreach.events.exchange
+    outreach-events-queue: outreach.event.queue
+    outreach-events-dlq: outreach.event.dlq
+    outreach-events-routing-key: outreach.event
+    outreach-events-retry-queue: outreach.event.retry.queue
+    outreach-events-retry-routing-key: outreach.event.retry
+    outreach-events-dlq-routing-key: outreach.event.dlq
+    retry-ttl-ms: ${RABBIT_RETRY_TTL_MS:30000}
+    max-retry-attempts: ${RABBIT_MAX_RETRY_ATTEMPTS:2}
   agrarjobboerse:
     pagesPerRun: 2
     pageCap: 50
