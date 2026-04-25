@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-//@Component
+@Component
 @RequiredArgsConstructor
 @Slf4j
 public class AgrarjobboerseCronJob {
