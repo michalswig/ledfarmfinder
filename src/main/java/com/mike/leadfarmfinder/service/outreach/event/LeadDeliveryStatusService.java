@@ -57,15 +57,14 @@ public class LeadDeliveryStatusService {
             case DNS_FAILURE,
                  MAILBOX_NOT_FOUND,
                  DOMAIN_NOT_FOUND,
-                 HARD_BOUNCE -> applyTerminalBounce(lead, event, classifiedEvent, now);
+                 HARD_BOUNCE,
+                 UNKNOWN_FAILURE -> applyTerminalBounce(lead, event, classifiedEvent, now);
 
             case SOFT_BOUNCE -> applySoftBounce(lead, event, classifiedEvent, now);
 
             case COMPLAINT -> applyComplaint(lead, event, classifiedEvent, now);
 
             case SPAM_BLOCK -> applySpamBlock(lead, event, classifiedEvent, now);
-
-            case UNKNOWN_FAILURE -> applyUnknownFailure(lead, event, classifiedEvent, now);
         }
 
         farmLeadRepository.save(lead);
@@ -115,11 +114,11 @@ public class LeadDeliveryStatusService {
                      DOMAIN_NOT_FOUND,
                      HARD_BOUNCE,
                      COMPLAINT,
-                     SPAM_BLOCK -> true;
+                     SPAM_BLOCK,
+                     UNKNOWN_FAILURE -> true;
 
                 case DELIVERED,
-                     SOFT_BOUNCE,
-                     UNKNOWN_FAILURE -> false;
+                     SOFT_BOUNCE -> false;
             };
         } catch (IllegalArgumentException e) {
             log.warn("Unknown stored delivery status: {}", status);
@@ -141,6 +140,12 @@ public class LeadDeliveryStatusService {
         lead.setBounceReason(resolveBounceReason(event, classifiedEvent));
         lead.setLastBounceAt(now);
         lead.setReviewRequired(false);
+
+        log.info("Terminal bounce applied. leadId={}, email={}, status={}, reason={}",
+                lead.getId(),
+                lead.getEmail(),
+                classifiedEvent.getDeliveryStatus(),
+                classifiedEvent.getClassificationReason());
     }
 
     private void applySoftBounce(FarmLead lead,
@@ -172,17 +177,6 @@ public class LeadDeliveryStatusService {
                                 LocalDateTime now) {
         lead.setBounce(true);
         lead.setActive(false);
-        lead.setBounceType(classifiedEvent.getDeliveryStatus().name());
-        lead.setBounceReason(resolveBounceReason(event, classifiedEvent));
-        lead.setLastBounceAt(now);
-        lead.setReviewRequired(true);
-    }
-
-    private void applyUnknownFailure(FarmLead lead,
-                                     MailEventMessage event,
-                                     ClassifiedMailEvent classifiedEvent,
-                                     LocalDateTime now) {
-        lead.setBounce(true);
         lead.setBounceType(classifiedEvent.getDeliveryStatus().name());
         lead.setBounceReason(resolveBounceReason(event, classifiedEvent));
         lead.setLastBounceAt(now);
