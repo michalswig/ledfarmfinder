@@ -27,27 +27,22 @@ public class MailEventClassificationService {
     }
 
     private ClassifiedMailEvent classifyDelivery(MailEventMessage event) {
-        return ClassifiedMailEvent.builder()
-                .originalEvent(event)
-                .deliveryStatus(MailDeliveryStatus.DELIVERED)
-                .terminalFailure(false)
-                .classificationReason("delivery event")
-                .build();
+        return build(event, MailDeliveryStatus.DELIVERED, false, "delivery event");
     }
 
     private ClassifiedMailEvent classifyComplaint(MailEventMessage event) {
-        return ClassifiedMailEvent.builder()
-                .originalEvent(event)
-                .deliveryStatus(MailDeliveryStatus.COMPLAINT)
-                .terminalFailure(true)
-                .classificationReason("complaint event")
-                .build();
+        return build(event, MailDeliveryStatus.COMPLAINT, true, "complaint event");
     }
 
     private ClassifiedMailEvent classifyBounce(MailEventMessage event) {
         String bounceType = normalize(event.getBounceType());
         String bounceSubType = normalize(event.getBounceSubType());
         String diagnosticCode = normalize(event.getDiagnosticCode());
+        String status = normalize(event.getStatus());
+
+        if (isPermanentSmtpFailure(status)) {
+            return classifyPermanentSmtpFailure(event, diagnosticCode);
+        }
 
         if (containsAny(diagnosticCode,
                 "unable to lookup dns",
@@ -63,7 +58,11 @@ public class MailEventClassificationService {
                 "unknown user",
                 "no such user",
                 "recipient address rejected",
-                "mailbox not found")) {
+                "mailbox not found",
+                "unrouteable address",
+                "invalid recipient",
+                "recipient unknown",
+                "unknown recipient")) {
             return build(event, MailDeliveryStatus.MAILBOX_NOT_FOUND, true,
                     "diagnostic code indicates mailbox not found");
         }
@@ -86,7 +85,13 @@ public class MailEventClassificationService {
                 "blacklist",
                 "spam",
                 "policy rejection",
-                "message rejected")) {
+                "message rejected",
+                "relay access denied",
+                "access denied",
+                "not authorized",
+                "not permitted",
+                "sender denied",
+                "sender rejected")) {
             return build(event, MailDeliveryStatus.SPAM_BLOCK, true,
                     "diagnostic code indicates spam or policy block");
         }
@@ -102,12 +107,68 @@ public class MailEventClassificationService {
         }
 
         if ("undetermined".equals(bounceType)) {
-            return build(event, MailDeliveryStatus.UNKNOWN_FAILURE, false,
+            return build(event, MailDeliveryStatus.UNKNOWN_FAILURE, true,
                     "bounceType=Undetermined");
         }
 
-        return build(event, MailDeliveryStatus.UNKNOWN_FAILURE, false,
+        return build(event, MailDeliveryStatus.UNKNOWN_FAILURE, true,
                 "bounce could not be classified");
+    }
+
+    private ClassifiedMailEvent classifyPermanentSmtpFailure(MailEventMessage event, String diagnosticCode) {
+        if (containsAny(diagnosticCode,
+                "unable to lookup dns",
+                "lookup dns",
+                "dns")) {
+            return build(event, MailDeliveryStatus.DNS_FAILURE, true,
+                    "smtp status indicates permanent 5xx failure; diagnostic code indicates dns lookup failure");
+        }
+
+        if (containsAny(diagnosticCode,
+                "mailbox unavailable",
+                "user unknown",
+                "unknown user",
+                "no such user",
+                "recipient address rejected",
+                "mailbox not found",
+                "unrouteable address",
+                "invalid recipient",
+                "recipient unknown",
+                "unknown recipient")) {
+            return build(event, MailDeliveryStatus.MAILBOX_NOT_FOUND, true,
+                    "smtp status indicates permanent 5xx failure; diagnostic code indicates mailbox not found");
+        }
+
+        if (containsAny(diagnosticCode,
+                "domain not found",
+                "no such domain",
+                "host or domain name not found")) {
+            return build(event, MailDeliveryStatus.DOMAIN_NOT_FOUND, true,
+                    "smtp status indicates permanent 5xx failure; diagnostic code indicates domain not found");
+        }
+
+        if (containsAny(diagnosticCode,
+                "blocked",
+                "blacklist",
+                "spam",
+                "policy rejection",
+                "message rejected",
+                "relay access denied",
+                "access denied",
+                "not authorized",
+                "not permitted",
+                "sender denied",
+                "sender rejected")) {
+            return build(event, MailDeliveryStatus.SPAM_BLOCK, true,
+                    "smtp status indicates permanent 5xx failure; diagnostic code indicates spam or policy block");
+        }
+
+        return build(event, MailDeliveryStatus.UNKNOWN_FAILURE, true,
+                "smtp status indicates permanent 5xx failure");
+    }
+
+    private boolean isPermanentSmtpFailure(String status) {
+        return status.startsWith("5.");
     }
 
     private ClassifiedMailEvent build(MailEventMessage event,
