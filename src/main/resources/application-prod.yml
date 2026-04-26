@@ -86,7 +86,7 @@ leadfinder:
   outreach:
     enabled: ${OUTREACH_ENABLED:true}
     from-address: ${OUTREACH_FROM:Patrycja Swigost <patrycja@office.o1jobs.de>}
-    default-subject: ${OUTREACH_SUBJECT:kurze Frage zur Saison}
+    default-subject: ${OUTREACH_SUBJECT:kurze Frage – Arbeitskräfte zur Saison}
     max-emails-per-run: ${OUTREACH_MAX_PER_RUN:10}
     simulate-only: ${OUTREACH_SIMULATE_ONLY:false}
     interval-millis: ${OUTREACH_INTERVAL_MS:900000}
@@ -94,35 +94,34 @@ leadfinder:
     first-email-body-template: |
       Guten Tag,
       
-      in der Landwirtschaft entstehen oft kurzfristige Engpässe –
-      besonders bei Ernte und Saisonarbeiten.
+      ich melde mich kurz bei Ihnen.
       
-      Ich bin aktuell mit mehreren Arbeitskräften aus Polen in Kontakt,
+      Ich habe aktuell Kontakt zu mehreren Arbeitskräften aus Polen,
       die in den nächsten Wochen verfügbar sind (u. a. Spargel, Obst).
-      Viele haben bereits Erfahrung in Deutschland.
+      Viele haben bereits Erfahrung in Deutschland – wir selbst arbeiten seit über 6 Jahren mit landwirtschaftlichen Betrieben zusammen.
       
-      Wäre das für Sie in den nächsten Wochen grundsätzlich interessant?
+      Falls das für Sie aktuell oder in den nächsten Wochen interessant ist,
+      geben Sie mir gerne kurz Bescheid.
       
       Viele Grüße
       Patrycja
       o1jobs
       +49 160 6328144
 
-    follow-up-subject: ${OUTREACH_FOLLOWUP_SUBJECT:kurze Info}
+    follow-up-subject: ${OUTREACH_FOLLOWUP_SUBJECT:kurze Rückmeldung}
 
     follow-up-min-days-since-last-email: ${OUTREACH_FOLLOWUP_MIN_DAYS:60}
 
     follow-up-email-body-template: |
       Guten Tag,
       
-      ich melde mich noch einmal kurz.
+      ich melde mich kurz.
       
-      Falls das Thema bei Ihnen noch aktuell ist –
-      wir unterstützen weiterhin bei der Organisation von Arbeitskräften aus Polen
-      und stehen in ständigem Kontakt mit Arbeitskräften, die kurzfristig verfügbar sind
-      (u. a. Ernte, Spargel, Obst).
+      Falls das Thema noch aktuell ist –
+      wir sind weiterhin in Kontakt mit Arbeitskräften aus Polen,
+      die kurzfristig verfügbar sind (u. a. Ernte, Spargel, Obst).
       
-      Sollte sich bei Ihnen etwas ergeben oder im Laufe der Saison Bedarf entstehen,
+      Wenn sich bei Ihnen etwas ergibt oder im Laufe der Saison Bedarf entsteht,
       geben Sie mir gerne kurz Bescheid – wir können in der Regel flexibel und kurzfristig unterstützen.
       
       Wenn wir dazu schon im Austausch sind, ist natürlich alles in Ordnung – wir bleiben in Kontakt.
