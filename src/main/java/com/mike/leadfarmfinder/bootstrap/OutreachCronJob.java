@@ -26,9 +26,6 @@ public class OutreachCronJob {
 
     private final AtomicBoolean running = new AtomicBoolean(false);
 
-    private static final String BLOCKED_D1 = "t-online.de";
-    private static final String BLOCKED_D2 = "telekom.de";
-
     @Scheduled(fixedDelayString = "${leadfinder.outreach.interval-millis:900000}")
     public void runOutreachBatch() {
         if (!outreachProperties.isEnabled()) {
@@ -53,12 +50,11 @@ public class OutreachCronJob {
 
             Pageable pageable = PageRequest.of(0, batchSize);
 
-            // ✅ CHANGE: exclude Telekom already at DB level (prevents starvation)
             List<FarmLead> leads = farmLeadRepository
                     .findByActiveTrueAndBounceFalseAndFirstEmailSentAtIsNullOrderByCreatedAtAsc(pageable);
 
             if (leads.isEmpty()) {
-                log.info("OutreachCronJob: no new leads to email (after Telekom filter)");
+                log.info("OutreachCronJob: no new leads to email");
                 return;
             }
 
