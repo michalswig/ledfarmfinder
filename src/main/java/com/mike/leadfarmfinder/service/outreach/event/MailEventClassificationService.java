@@ -40,7 +40,7 @@ public class MailEventClassificationService {
         String diagnosticCode = normalize(event.getDiagnosticCode());
         String status = normalize(event.getStatus());
 
-        if (isPermanentSmtpFailure(status)) {
+        if (isPermanentSmtpFailure(status, diagnosticCode)) {
             return classifyPermanentSmtpFailure(event, diagnosticCode);
         }
 
@@ -60,9 +60,14 @@ public class MailEventClassificationService {
                 "recipient address rejected",
                 "mailbox not found",
                 "unrouteable address",
+                "unroutable address",
                 "invalid recipient",
                 "recipient unknown",
-                "unknown recipient")) {
+                "unknown recipient",
+                "no such mailbox",
+                "quota exceeded",
+                "exceeded storage allocation",
+                "storage allocation")) {
             return build(event, MailDeliveryStatus.MAILBOX_NOT_FOUND, true,
                     "diagnostic code indicates mailbox not found");
         }
@@ -121,7 +126,7 @@ public class MailEventClassificationService {
                 "lookup dns",
                 "dns")) {
             return build(event, MailDeliveryStatus.DNS_FAILURE, true,
-                    "smtp status indicates permanent 5xx failure; diagnostic code indicates dns lookup failure");
+                    "smtp permanent failure; diagnostic code indicates dns lookup failure");
         }
 
         if (containsAny(diagnosticCode,
@@ -132,11 +137,16 @@ public class MailEventClassificationService {
                 "recipient address rejected",
                 "mailbox not found",
                 "unrouteable address",
+                "unroutable address",
                 "invalid recipient",
                 "recipient unknown",
-                "unknown recipient")) {
+                "unknown recipient",
+                "no such mailbox",
+                "quota exceeded",
+                "exceeded storage allocation",
+                "storage allocation")) {
             return build(event, MailDeliveryStatus.MAILBOX_NOT_FOUND, true,
-                    "smtp status indicates permanent 5xx failure; diagnostic code indicates mailbox not found");
+                    "smtp permanent failure; diagnostic code indicates mailbox not found");
         }
 
         if (containsAny(diagnosticCode,
@@ -144,7 +154,7 @@ public class MailEventClassificationService {
                 "no such domain",
                 "host or domain name not found")) {
             return build(event, MailDeliveryStatus.DOMAIN_NOT_FOUND, true,
-                    "smtp status indicates permanent 5xx failure; diagnostic code indicates domain not found");
+                    "smtp permanent failure; diagnostic code indicates domain not found");
         }
 
         if (containsAny(diagnosticCode,
@@ -160,15 +170,21 @@ public class MailEventClassificationService {
                 "sender denied",
                 "sender rejected")) {
             return build(event, MailDeliveryStatus.SPAM_BLOCK, true,
-                    "smtp status indicates permanent 5xx failure; diagnostic code indicates spam or policy block");
+                    "smtp permanent failure; diagnostic code indicates spam or policy block");
         }
 
-        return build(event, MailDeliveryStatus.UNKNOWN_FAILURE, true,
-                "smtp status indicates permanent 5xx failure");
+        return build(event, MailDeliveryStatus.HARD_BOUNCE, true,
+                "smtp permanent failure");
     }
 
-    private boolean isPermanentSmtpFailure(String status) {
-        return status.startsWith("5.");
+    private boolean isPermanentSmtpFailure(String status, String diagnosticCode) {
+        return status.startsWith("5.")
+                || diagnosticCode.contains(" 550")
+                || diagnosticCode.contains("; 550")
+                || diagnosticCode.contains(" 552")
+                || diagnosticCode.contains("; 552")
+                || diagnosticCode.contains(" 554")
+                || diagnosticCode.contains("; 554");
     }
 
     private ClassifiedMailEvent build(MailEventMessage event,
