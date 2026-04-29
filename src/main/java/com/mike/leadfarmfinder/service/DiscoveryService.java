@@ -415,13 +415,15 @@ public class DiscoveryService {
     private NewUrlSelectionOutcome selectNewUrlsForClassification(List<String> cleaned, int acceptedSize, int limit) {
         List<String> newUrlsOnly = new ArrayList<>();
         Set<String> normalizedSeenThisPage = new HashSet<>();
+        Set<String> domainsSeenThisPage = new HashSet<>();
+
         int normalizedChangedDelta = 0;
         int filteredAlreadyDiscoveredDelta = 0;
         int alreadySeenSkippedDelta = 0;
         int rejectedDelta = 0;
 
         for (String url : cleaned) {
-            if (acceptedSize >= limit) {
+            if (acceptedSize + newUrlsOnly.size() >= limit) {
                 break;
             }
 
@@ -435,7 +437,21 @@ public class DiscoveryService {
                 continue;
             }
 
-            if (duplicateChecker.checkAlreadySeen(normalized) != DiscoveryDuplicateChecker.SeenDecision.NOT_SEEN) {
+            String normalizedDomain = urlNormalizer.extractNormalizedDomain(normalized);
+
+            // 🔥 NOWE – dedup domeny na tej samej stronie SERP
+            if (normalizedDomain != null && !normalizedDomain.isBlank()) {
+                if (!domainsSeenThisPage.add(normalizedDomain)) {
+                    filteredAlreadyDiscoveredDelta++;
+                    alreadySeenSkippedDelta++;
+                    continue;
+                }
+            }
+
+            DiscoveryDuplicateChecker.SeenDecision seenDecision =
+                    duplicateChecker.checkAlreadySeen(normalized, normalizedDomain);
+
+            if (seenDecision != DiscoveryDuplicateChecker.SeenDecision.NOT_SEEN) {
                 filteredAlreadyDiscoveredDelta++;
                 alreadySeenSkippedDelta++;
                 continue;
@@ -443,7 +459,6 @@ public class DiscoveryService {
 
             if (discoveryUrlFilter.isHardNegativePath(normalized)) {
                 rejectedDelta++;
-                log.info("DiscoveryService: SKIP (hard-negative-path - no DB save) url={}", normalized);
                 continue;
             }
 

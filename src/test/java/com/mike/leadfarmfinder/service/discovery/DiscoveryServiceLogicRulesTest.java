@@ -113,7 +113,6 @@ class DiscoveryServiceLogicRulesTest {
         @Test
         @DisplayName("should handle empty SERP page and mark query done immediately")
         void shouldHandleEmptySerpPageAndMarkQueryDoneImmediately() throws Exception {
-
             Object outcome = invokePrivate(
                     "handleEmptySerpPage",
                     new Class[]{String.class, int.class, int.class, int.class},
@@ -198,11 +197,16 @@ class DiscoveryServiceLogicRulesTest {
             );
 
             when(urlNormalizer.normalizeUrl(anyString())).thenAnswer(invocation -> invocation.getArgument(0));
-            when(duplicateChecker.checkAlreadySeen("https://seen.example.com"))
+
+            when(urlNormalizer.extractNormalizedDomain("https://seen.example.com")).thenReturn("seen.example.com");
+            when(urlNormalizer.extractNormalizedDomain("https://new.example.com")).thenReturn("new.example.com");
+            when(urlNormalizer.extractNormalizedDomain("https://hard.example.com/blog")).thenReturn("hard.example.com");
+
+            when(duplicateChecker.checkAlreadySeen("https://seen.example.com", "seen.example.com"))
                     .thenReturn(DiscoveryDuplicateChecker.SeenDecision.SEEN_BY_URL);
-            when(duplicateChecker.checkAlreadySeen("https://new.example.com"))
+            when(duplicateChecker.checkAlreadySeen("https://new.example.com", "new.example.com"))
                     .thenReturn(DiscoveryDuplicateChecker.SeenDecision.NOT_SEEN);
-            when(duplicateChecker.checkAlreadySeen("https://hard.example.com/blog"))
+            when(duplicateChecker.checkAlreadySeen("https://hard.example.com/blog", "hard.example.com"))
                     .thenReturn(DiscoveryDuplicateChecker.SeenDecision.NOT_SEEN);
 
             when(discoveryUrlFilter.isHardNegativePath("https://new.example.com")).thenReturn(false);
@@ -229,12 +233,91 @@ class DiscoveryServiceLogicRulesTest {
         }
 
         @Test
+        @DisplayName("should skip already seen domain during url selection")
+        void shouldSkipAlreadySeenDomainDuringUrlSelection() throws Exception {
+            List<String> cleaned = List.of(
+                    "https://farm.example.com/kontakt"
+            );
+
+            when(urlNormalizer.normalizeUrl("https://farm.example.com/kontakt"))
+                    .thenReturn("https://farm.example.com/kontakt");
+            when(urlNormalizer.extractNormalizedDomain("https://farm.example.com/kontakt"))
+                    .thenReturn("farm.example.com");
+            when(duplicateChecker.checkAlreadySeen("https://farm.example.com/kontakt", "farm.example.com"))
+                    .thenReturn(DiscoveryDuplicateChecker.SeenDecision.SEEN_BY_DOMAIN);
+
+            Object outcome = invokePrivate(
+                    "selectNewUrlsForClassification",
+                    new Class[]{List.class, int.class, int.class},
+                    cleaned,
+                    0,
+                    10
+            );
+
+            @SuppressWarnings("unchecked")
+            List<String> newUrlsOnly = invokeRecordAccessor(outcome, "newUrlsOnly", List.class);
+            int filteredAlready = invokeRecordAccessor(outcome, "filteredAlreadyDiscoveredDelta", Integer.class);
+            int alreadySkipped = invokeRecordAccessor(outcome, "alreadySeenSkippedDelta", Integer.class);
+            int rejected = invokeRecordAccessor(outcome, "rejectedDelta", Integer.class);
+
+            assertThat(newUrlsOnly).isEmpty();
+            assertThat(filteredAlready).isEqualTo(1);
+            assertThat(alreadySkipped).isEqualTo(1);
+            assertThat(rejected).isZero();
+        }
+
+        @Test
+        @DisplayName("should skip duplicate domains on the same SERP page")
+        void shouldSkipDuplicateDomainsOnSameSerpPage() throws Exception {
+            List<String> cleaned = List.of(
+                    "https://farm.example.com",
+                    "https://farm.example.com/kontakt",
+                    "https://other.example.com"
+            );
+
+            when(urlNormalizer.normalizeUrl(anyString())).thenAnswer(invocation -> invocation.getArgument(0));
+
+            when(urlNormalizer.extractNormalizedDomain("https://farm.example.com")).thenReturn("farm.example.com");
+            when(urlNormalizer.extractNormalizedDomain("https://farm.example.com/kontakt")).thenReturn("farm.example.com");
+            when(urlNormalizer.extractNormalizedDomain("https://other.example.com")).thenReturn("other.example.com");
+
+            when(duplicateChecker.checkAlreadySeen("https://farm.example.com", "farm.example.com"))
+                    .thenReturn(DiscoveryDuplicateChecker.SeenDecision.NOT_SEEN);
+            when(duplicateChecker.checkAlreadySeen("https://other.example.com", "other.example.com"))
+                    .thenReturn(DiscoveryDuplicateChecker.SeenDecision.NOT_SEEN);
+
+            when(discoveryUrlFilter.isHardNegativePath("https://farm.example.com")).thenReturn(false);
+            when(discoveryUrlFilter.isHardNegativePath("https://other.example.com")).thenReturn(false);
+
+            Object outcome = invokePrivate(
+                    "selectNewUrlsForClassification",
+                    new Class[]{List.class, int.class, int.class},
+                    cleaned,
+                    0,
+                    10
+            );
+
+            @SuppressWarnings("unchecked")
+            List<String> newUrlsOnly = invokeRecordAccessor(outcome, "newUrlsOnly", List.class);
+            int filteredAlready = invokeRecordAccessor(outcome, "filteredAlreadyDiscoveredDelta", Integer.class);
+            int alreadySkipped = invokeRecordAccessor(outcome, "alreadySeenSkippedDelta", Integer.class);
+
+            assertThat(newUrlsOnly).containsExactly(
+                    "https://farm.example.com",
+                    "https://other.example.com"
+            );
+            assertThat(filteredAlready).isEqualTo(1);
+            assertThat(alreadySkipped).isEqualTo(1);
+        }
+
+        @Test
         @DisplayName("should count normalized changed when normalizer changes url")
         void shouldCountNormalizedChangedWhenNormalizerChangesUrl() throws Exception {
             List<String> cleaned = List.of("https://example.com/");
 
             when(urlNormalizer.normalizeUrl("https://example.com/")).thenReturn("https://example.com");
-            when(duplicateChecker.checkAlreadySeen("https://example.com"))
+            when(urlNormalizer.extractNormalizedDomain("https://example.com")).thenReturn("example.com");
+            when(duplicateChecker.checkAlreadySeen("https://example.com", "example.com"))
                     .thenReturn(DiscoveryDuplicateChecker.SeenDecision.NOT_SEEN);
             when(discoveryUrlFilter.isHardNegativePath("https://example.com")).thenReturn(false);
 

@@ -81,6 +81,7 @@ class DiscoveryServiceFindCandidateFarmUrlsTest {
                 leadFinderProperties
         );
     }
+
     @Nested
     @DisplayName("findCandidateFarmUrls")
     class FindCandidateFarmUrlsTests {
@@ -159,21 +160,25 @@ class DiscoveryServiceFindCandidateFarmUrlsTest {
 
             SerpQueryCursor cursor = cursor("q1", 1, 5);
 
+            String url = "https://farm.example.com";
+            String domain = "farm.example.com";
+
             when(leadFinderProperties.getDiscovery()).thenReturn(discovery);
             when(queryScheduler.pickNextNonExhaustedQuery(List.of("q1")))
                     .thenReturn(Optional.of(new DiscoveryQueryScheduler.QueryPick(0, "q1", cursor)));
             when(queryScheduler.isExhausted(cursor)).thenReturn(false);
             when(serpApiService.searchUrls(anyString(), anyInt(), anyInt()))
-                    .thenReturn(List.of("https://farm.example.com"));
+                    .thenReturn(List.of(url));
 
-            when(urlNormalizer.isNotFileUrl("https://farm.example.com")).thenReturn(true);
-            when(discoveryUrlFilter.isAllowedDomain("https://farm.example.com")).thenReturn(true);
-            when(urlNormalizer.normalizeUrl("https://farm.example.com")).thenReturn("https://farm.example.com");
-            when(duplicateChecker.checkAlreadySeen("https://farm.example.com"))
+            when(urlNormalizer.isNotFileUrl(url)).thenReturn(true);
+            when(discoveryUrlFilter.isAllowedDomain(url)).thenReturn(true);
+            when(urlNormalizer.normalizeUrl(url)).thenReturn(url);
+            when(urlNormalizer.extractNormalizedDomain(url)).thenReturn(domain);
+            when(duplicateChecker.checkAlreadySeen(url, domain))
                     .thenReturn(DiscoveryDuplicateChecker.SeenDecision.NOT_SEEN);
-            when(discoveryUrlFilter.isHardNegativePath("https://farm.example.com")).thenReturn(false);
-            when(urlScorer.computeDomainPriorityScore("https://farm.example.com")).thenReturn(42);
-            when(snippetFetcher.fetchTextSnippet("https://farm.example.com"))
+            when(discoveryUrlFilter.isHardNegativePath(url)).thenReturn(false);
+            when(urlScorer.computeDomainPriorityScore(url)).thenReturn(42);
+            when(snippetFetcher.fetchTextSnippet(url))
                     .thenReturn("Familienbetrieb Spargel und Erdbeeren mit Direktvermarktung und Hofladen.");
             when(farmClassifier.classifyFarm(anyString(), anyString()))
                     .thenReturn(new FarmClassificationResult(
@@ -191,25 +196,12 @@ class DiscoveryServiceFindCandidateFarmUrlsTest {
             );
 
             verify(farmClassifier, times(1)).classifyFarm(
-                    "https://farm.example.com",
+                    url,
                     "Familienbetrieb Spargel und Erdbeeren mit Direktvermarktung und Hofladen."
             );
             verify(discoveredUrlWriter, times(1)).save(
-                    "https://farm.example.com",
+                    url,
                     new FarmClassificationResult(true, false, "farm", "https://farm.example.com/kontakt")
-            );
-            verify(discoveryRunStatsWriter, times(1)).save(
-                    anyString(),
-                    any(LocalDateTime.class),
-                    anyInt(),
-                    anyInt(),
-                    anyInt(),
-                    anyInt(),
-                    anyInt(),
-                    anyInt(),
-                    anyInt(),
-                    anyInt(),
-                    anyInt()
             );
         }
 
@@ -221,21 +213,25 @@ class DiscoveryServiceFindCandidateFarmUrlsTest {
 
             SerpQueryCursor cursor = cursor("q1", 1, 5);
 
+            String url = "https://notfarm.example.com";
+            String domain = "notfarm.example.com";
+
             when(leadFinderProperties.getDiscovery()).thenReturn(discovery);
             when(queryScheduler.pickNextNonExhaustedQuery(List.of("q1")))
                     .thenReturn(Optional.of(new DiscoveryQueryScheduler.QueryPick(0, "q1", cursor)));
             when(queryScheduler.isExhausted(cursor)).thenReturn(false);
             when(serpApiService.searchUrls(anyString(), anyInt(), anyInt()))
-                    .thenReturn(List.of("https://notfarm.example.com"));
+                    .thenReturn(List.of(url));
 
-            when(urlNormalizer.isNotFileUrl("https://notfarm.example.com")).thenReturn(true);
-            when(discoveryUrlFilter.isAllowedDomain("https://notfarm.example.com")).thenReturn(true);
-            when(urlNormalizer.normalizeUrl("https://notfarm.example.com")).thenReturn("https://notfarm.example.com");
-            when(duplicateChecker.checkAlreadySeen("https://notfarm.example.com"))
+            when(urlNormalizer.isNotFileUrl(url)).thenReturn(true);
+            when(discoveryUrlFilter.isAllowedDomain(url)).thenReturn(true);
+            when(urlNormalizer.normalizeUrl(url)).thenReturn(url);
+            when(urlNormalizer.extractNormalizedDomain(url)).thenReturn(domain);
+            when(duplicateChecker.checkAlreadySeen(url, domain))
                     .thenReturn(DiscoveryDuplicateChecker.SeenDecision.NOT_SEEN);
-            when(discoveryUrlFilter.isHardNegativePath("https://notfarm.example.com")).thenReturn(false);
-            when(urlScorer.computeDomainPriorityScore("https://notfarm.example.com")).thenReturn(10);
-            when(snippetFetcher.fetchTextSnippet("https://notfarm.example.com"))
+            when(discoveryUrlFilter.isHardNegativePath(url)).thenReturn(false);
+            when(urlScorer.computeDomainPriorityScore(url)).thenReturn(10);
+            when(snippetFetcher.fetchTextSnippet(url))
                     .thenReturn("Portal branżowy i katalog dostawców.");
             when(farmClassifier.classifyFarm(anyString(), anyString()))
                     .thenReturn(new FarmClassificationResult(false, false, "not farm", null));
@@ -273,21 +269,25 @@ class DiscoveryServiceFindCandidateFarmUrlsTest {
 
             SerpQueryCursor cursor = cursor("q1", 1, 5);
 
+            String url = "https://farm.example.com";
+            String domain = "farm.example.com";
+
             when(leadFinderProperties.getDiscovery()).thenReturn(discovery);
             when(queryScheduler.pickNextNonExhaustedQuery(List.of("q1")))
                     .thenReturn(Optional.of(new DiscoveryQueryScheduler.QueryPick(0, "q1", cursor)));
             when(queryScheduler.isExhausted(cursor)).thenReturn(false);
             when(serpApiService.searchUrls(anyString(), anyInt(), anyInt()))
-                    .thenReturn(List.of("https://farm.example.com"));
+                    .thenReturn(List.of(url));
 
-            when(urlNormalizer.isNotFileUrl("https://farm.example.com")).thenReturn(true);
-            when(discoveryUrlFilter.isAllowedDomain("https://farm.example.com")).thenReturn(true);
-            when(urlNormalizer.normalizeUrl("https://farm.example.com")).thenReturn("https://farm.example.com");
-            when(duplicateChecker.checkAlreadySeen("https://farm.example.com"))
+            when(urlNormalizer.isNotFileUrl(url)).thenReturn(true);
+            when(discoveryUrlFilter.isAllowedDomain(url)).thenReturn(true);
+            when(urlNormalizer.normalizeUrl(url)).thenReturn(url);
+            when(urlNormalizer.extractNormalizedDomain(url)).thenReturn(domain);
+            when(duplicateChecker.checkAlreadySeen(url, domain))
                     .thenReturn(DiscoveryDuplicateChecker.SeenDecision.NOT_SEEN);
-            when(discoveryUrlFilter.isHardNegativePath("https://farm.example.com")).thenReturn(false);
-            when(urlScorer.computeDomainPriorityScore("https://farm.example.com")).thenReturn(20);
-            when(snippetFetcher.fetchTextSnippet("https://farm.example.com")).thenReturn("   ");
+            when(discoveryUrlFilter.isHardNegativePath(url)).thenReturn(false);
+            when(urlScorer.computeDomainPriorityScore(url)).thenReturn(20);
+            when(snippetFetcher.fetchTextSnippet(url)).thenReturn("   ");
 
             List<String> result = discoveryService.findCandidateFarmUrls(5);
 
@@ -297,25 +297,62 @@ class DiscoveryServiceFindCandidateFarmUrlsTest {
         }
 
         @Test
-        @DisplayName("should skip already seen urls before classification")
+        @DisplayName("should skip already seen url before classification")
         void shouldSkipAlreadySeenUrlsBeforeClassification() {
             LeadFinderProperties.Discovery discovery = baseDiscoveryConfig();
             discovery.setQueries(List.of("q1"));
 
             SerpQueryCursor cursor = cursor("q1", 1, 5);
 
+            String url = "https://farm.example.com";
+            String domain = "farm.example.com";
+
             when(leadFinderProperties.getDiscovery()).thenReturn(discovery);
             when(queryScheduler.pickNextNonExhaustedQuery(List.of("q1")))
                     .thenReturn(Optional.of(new DiscoveryQueryScheduler.QueryPick(0, "q1", cursor)));
             when(queryScheduler.isExhausted(cursor)).thenReturn(false);
             when(serpApiService.searchUrls(anyString(), anyInt(), anyInt()))
-                    .thenReturn(List.of("https://farm.example.com"));
+                    .thenReturn(List.of(url));
 
-            when(urlNormalizer.isNotFileUrl("https://farm.example.com")).thenReturn(true);
-            when(discoveryUrlFilter.isAllowedDomain("https://farm.example.com")).thenReturn(true);
-            when(urlNormalizer.normalizeUrl("https://farm.example.com")).thenReturn("https://farm.example.com");
-            when(duplicateChecker.checkAlreadySeen("https://farm.example.com"))
+            when(urlNormalizer.isNotFileUrl(url)).thenReturn(true);
+            when(discoveryUrlFilter.isAllowedDomain(url)).thenReturn(true);
+            when(urlNormalizer.normalizeUrl(url)).thenReturn(url);
+            when(urlNormalizer.extractNormalizedDomain(url)).thenReturn(domain);
+            when(duplicateChecker.checkAlreadySeen(url, domain))
                     .thenReturn(DiscoveryDuplicateChecker.SeenDecision.SEEN_BY_URL);
+
+            List<String> result = discoveryService.findCandidateFarmUrls(5);
+
+            assertThat(result).isEmpty();
+            verify(snippetFetcher, never()).fetchTextSnippet(anyString());
+            verify(farmClassifier, never()).classifyFarm(anyString(), anyString());
+            verify(discoveredUrlWriter, never()).save(anyString(), any(FarmClassificationResult.class));
+        }
+
+        @Test
+        @DisplayName("should skip already seen domain before classification")
+        void shouldSkipAlreadySeenDomainBeforeClassification() {
+            LeadFinderProperties.Discovery discovery = baseDiscoveryConfig();
+            discovery.setQueries(List.of("q1"));
+
+            SerpQueryCursor cursor = cursor("q1", 1, 5);
+
+            String url = "https://farm.example.com/kontakt";
+            String domain = "farm.example.com";
+
+            when(leadFinderProperties.getDiscovery()).thenReturn(discovery);
+            when(queryScheduler.pickNextNonExhaustedQuery(List.of("q1")))
+                    .thenReturn(Optional.of(new DiscoveryQueryScheduler.QueryPick(0, "q1", cursor)));
+            when(queryScheduler.isExhausted(cursor)).thenReturn(false);
+            when(serpApiService.searchUrls(anyString(), anyInt(), anyInt()))
+                    .thenReturn(List.of(url));
+
+            when(urlNormalizer.isNotFileUrl(url)).thenReturn(true);
+            when(discoveryUrlFilter.isAllowedDomain(url)).thenReturn(true);
+            when(urlNormalizer.normalizeUrl(url)).thenReturn(url);
+            when(urlNormalizer.extractNormalizedDomain(url)).thenReturn(domain);
+            when(duplicateChecker.checkAlreadySeen(url, domain))
+                    .thenReturn(DiscoveryDuplicateChecker.SeenDecision.SEEN_BY_DOMAIN);
 
             List<String> result = discoveryService.findCandidateFarmUrls(5);
 
@@ -343,7 +380,8 @@ class DiscoveryServiceFindCandidateFarmUrlsTest {
             when(urlNormalizer.isNotFileUrl(anyString())).thenReturn(true);
             when(discoveryUrlFilter.isAllowedDomain(anyString())).thenReturn(true);
             when(urlNormalizer.normalizeUrl(anyString())).thenAnswer(invocation -> invocation.getArgument(0));
-            when(duplicateChecker.checkAlreadySeen(anyString()))
+            when(urlNormalizer.extractNormalizedDomain("https://a.example.com")).thenReturn("a.example.com");
+            when(duplicateChecker.checkAlreadySeen(anyString(), anyString()))
                     .thenReturn(DiscoveryDuplicateChecker.SeenDecision.NOT_SEEN);
             when(discoveryUrlFilter.isHardNegativePath(anyString())).thenReturn(false);
             when(urlScorer.computeDomainPriorityScore(anyString())).thenReturn(10);

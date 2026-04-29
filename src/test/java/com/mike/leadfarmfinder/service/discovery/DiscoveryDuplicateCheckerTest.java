@@ -1,52 +1,53 @@
 package com.mike.leadfarmfinder.service.discovery;
 
 import com.mike.leadfarmfinder.repository.DiscoveredUrlRepository;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class DiscoveryDuplicateCheckerTest {
 
     @Mock
-    private DiscoveredUrlRepository discoveredUrlRepository;
+    private DiscoveredUrlRepository repository;
 
-    @Nested
-    @DisplayName("checkAlreadySeen")
-    class CheckAlreadySeenTests {
+    @Test
+    void shouldReturnSeenByUrl() {
+        when(repository.existsByUrl("url")).thenReturn(true);
 
-        @Test
-        @DisplayName("should return SEEN_BY_URL when repository contains url")
-        void shouldReturnSeenByUrlWhenRepositoryContainsUrl() {
-            String normalizedUrl = "https://farm.example.com";
+        var checker = new DiscoveryDuplicateChecker(repository);
 
-            when(discoveredUrlRepository.existsByUrl(normalizedUrl)).thenReturn(true);
+        var result = checker.checkAlreadySeen("url", "domain");
 
-            DiscoveryDuplicateChecker checker = new DiscoveryDuplicateChecker(discoveredUrlRepository);
+        assertThat(result).isEqualTo(DiscoveryDuplicateChecker.SeenDecision.SEEN_BY_URL);
+        verify(repository, never()).existsByDomain(any());
+    }
 
-            DiscoveryDuplicateChecker.SeenDecision result = checker.checkAlreadySeen(normalizedUrl);
+    @Test
+    void shouldReturnSeenByDomain() {
+        when(repository.existsByUrl("url")).thenReturn(false);
+        when(repository.existsByDomain("domain")).thenReturn(true);
 
-            assertThat(result).isEqualTo(DiscoveryDuplicateChecker.SeenDecision.SEEN_BY_URL);
-        }
+        var checker = new DiscoveryDuplicateChecker(repository);
 
-        @Test
-        @DisplayName("should return NOT_SEEN when repository does not contain url")
-        void shouldReturnNotSeenWhenRepositoryDoesNotContainUrl() {
-            String normalizedUrl = "https://newfarm.example.com";
+        var result = checker.checkAlreadySeen("url", "domain");
 
-            when(discoveredUrlRepository.existsByUrl(normalizedUrl)).thenReturn(false);
+        assertThat(result).isEqualTo(DiscoveryDuplicateChecker.SeenDecision.SEEN_BY_DOMAIN);
+    }
 
-            DiscoveryDuplicateChecker checker = new DiscoveryDuplicateChecker(discoveredUrlRepository);
+    @Test
+    void shouldReturnNotSeen() {
+        when(repository.existsByUrl("url")).thenReturn(false);
+        when(repository.existsByDomain("domain")).thenReturn(false);
 
-            DiscoveryDuplicateChecker.SeenDecision result = checker.checkAlreadySeen(normalizedUrl);
+        var checker = new DiscoveryDuplicateChecker(repository);
 
-            assertThat(result).isEqualTo(DiscoveryDuplicateChecker.SeenDecision.NOT_SEEN);
-        }
+        var result = checker.checkAlreadySeen("url", "domain");
+
+        assertThat(result).isEqualTo(DiscoveryDuplicateChecker.SeenDecision.NOT_SEEN);
     }
 }
