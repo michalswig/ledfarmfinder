@@ -14,26 +14,16 @@ public class LeadFinderProperties {
 
     @Data
     public static class Discovery {
-        /**
-         * Ile wyników na stronę pobieramy z SERP (SerpAPI).
-         */
+
         private int resultsPerPage = 10;
 
-        /**
-         * Maksymalna liczba stron SERP przetwarzanych w jednym runie.
-         */
         private int maxPagesPerRun = 3;
 
-        /**
-         * Górna granica paginacji SERP – po jej przekroczeniu zawijamy do 1.
-         */
         private int defaultMaxSerpPage = 10;
 
-        /**
-         * Ile maksymalnie zaakceptowanych URL-i chcemy zebrać w jednym runie.
-         * (przyda się w LeadCronJob).
-         */
         private int limitPerRun = 100;
+
+        private int queriesPerRun = 1;
 
         private List<String> queries = List.of();
     }

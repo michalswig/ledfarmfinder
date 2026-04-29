@@ -75,18 +75,62 @@ public class DiscoveryService {
     private static final int EXHAUST_AFTER_EMPTY_SERP_PAGES = 1;
 
     public List<String> findCandidateFarmUrls(int limit) {
+        if (limit <= 0) {
+            return List.of();
+        }
 
+        LeadFinderProperties.Discovery discovery = leadFinderProperties.getDiscovery();
+
+        List<String> queries = discovery.getQueries();
+        if (queries == null || queries.isEmpty()) {
+            throw new IllegalStateException("Discovery queries are not configured! Add leadfinder.discovery.queries[]");
+        }
+
+        int queriesPerRun = Math.max(1, discovery.getQueriesPerRun());
+
+        log.info(
+                "DiscoveryService: starting discovery batch. limit={}, queriesPerRun={}",
+                limit,
+                queriesPerRun
+        );
+
+        List<String> acceptedAcrossQueries = new ArrayList<>();
+
+        for (int i = 0; i < queriesPerRun && acceptedAcrossQueries.size() < limit; i++) {
+            int remainingLimit = limit - acceptedAcrossQueries.size();
+
+            List<String> acceptedForQuery = findCandidateFarmUrlsForSingleQuery(remainingLimit, queries);
+
+            if (!acceptedForQuery.isEmpty()) {
+                acceptedAcrossQueries.addAll(acceptedForQuery);
+            }
+        }
+
+        List<String> distinctAccepted = acceptedAcrossQueries.stream()
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .filter(s -> !s.isBlank())
+                .distinct()
+                .limit(limit)
+                .toList();
+
+        log.info(
+                "DiscoveryService: discovery batch finished. acceptedTotal={}, limit={}, queriesPerRun={}",
+                distinctAccepted.size(),
+                limit,
+                queriesPerRun
+        );
+
+        return distinctAccepted;
+    }
+
+    private List<String> findCandidateFarmUrlsForSingleQuery(int limit, List<String> queries) {
         int alreadySeenSkipped = 0;
         int normalizedChanged = 0;
         int openAiCandidates = 0;
 
         int resultsPerPage = leadFinderProperties.getDiscovery().getResultsPerPage();
         int maxPagesPerRun = leadFinderProperties.getDiscovery().getMaxPagesPerRun();
-
-        List<String> queries = leadFinderProperties.getDiscovery().getQueries();
-        if (queries == null || queries.isEmpty()) {
-            throw new IllegalStateException("Discovery queries are not configured! Add leadfinder.discovery.queries[]");
-        }
 
         Optional<DiscoveryQueryScheduler.QueryPick> pickOpt = queryScheduler.pickNextNonExhaustedQuery(queries);
         if (pickOpt.isEmpty()) {
@@ -141,7 +185,6 @@ public class DiscoveryService {
         int consecutiveEmptySerpPages = 0;
 
         for (int i = 0; i < maxPagesPerRun && accepted.size() < limit; i++) {
-
             log.info(
                     "DiscoveryService: fetching SERP page={} (runPageIndex={}) for query='{}'",
                     currentPage, i, rawQuery
@@ -213,7 +256,6 @@ public class DiscoveryService {
             );
 
             for (ScoredUrl scoredUrl : scored) {
-
                 if (accepted.size() >= limit) {
                     break;
                 }
@@ -439,7 +481,6 @@ public class DiscoveryService {
 
             String normalizedDomain = urlNormalizer.extractNormalizedDomain(normalized);
 
-            // 🔥 NOWE – dedup domeny na tej samej stronie SERP
             if (normalizedDomain != null && !normalizedDomain.isBlank()) {
                 if (!domainsSeenThisPage.add(normalizedDomain)) {
                     filteredAlreadyDiscoveredDelta++;
@@ -509,7 +550,6 @@ public class DiscoveryService {
             String snippet = snippetFetcher.fetchTextSnippet(url);
 
             if (snippet == null || snippet.isBlank()) {
-
                 if (shouldTryDirectScrape(url, scoredUrl.score())) {
                     var recoveredLeads = farmScraperService.scrapeFarmLeads(url);
 
