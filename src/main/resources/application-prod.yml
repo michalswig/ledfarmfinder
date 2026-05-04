@@ -144,208 +144,144 @@ leadfinder:
     queries:
 
       # =========================
-      # CORE – FARM CONTACT (DE)
+      # IMPRESSUM DEEP (HIGH CONVERSION)
       # =========================
-      - Bauernhof Kontakt Deutschland
-      - Landwirtschaftsbetrieb Kontakt Deutschland
-      - Agrarbetrieb Kontakt Deutschland
-      - Bauernhof Adresse Telefon Deutschland
-      - Hofladen Kontakt Bauernhof Deutschland
-      - Direktvermarktung Bauernhof Kontakt
-      - Bauernhof E-Mail Deutschland
-      - Landwirtschaft Betrieb Impressum Deutschland
-      - Bauernhof Kontaktformular Deutschland
-      - Agrarbetrieb Adresse Deutschland
+      - Bauernhof Impressum Deutschland E-Mail
+      - Landwirtschaftsbetrieb Impressum Kontakt
+      - Agrarbetrieb Impressum Telefonnummer
+      - Hofladen Impressum Adresse Deutschland
+      - Direktvermarktung Hof Impressum Telefon
+      - Bauernhof Impressum Betreiber Kontakt
+      - Landwirtschaft Impressum Inhaber Kontakt
+      - Agrarbetrieb Impressum Email Adresse
+      - Hof Impressum Kontaktformular
+      - Bauernhof Impressum Geschäftsführer
 
       # =========================
-      # MILCH / TIERHALTUNG
+      # CITY LEVEL (HIGH ROI)
       # =========================
-      - Milchhof Kontakt Deutschland
-      - Milchviehbetrieb Kontakt Bayern
-      - Milchbauernhof Adresse Niedersachsen
-      - Milchbetrieb Telefon Deutschland
-      - Milchhof Direktvermarktung Kontakt
-      - Milchviehbetrieb Impressum Deutschland
-      - Milchbauernhof E-Mail Kontakt
-      - Milchproduktion Betrieb Kontakt NRW
-      - Milchhof Verkauf ab Hof Kontakt
-      - Milchbetrieb Adresse Brandenburg
-
-      - Geflügelhof Kontakt Deutschland
-      - Hühnerfarm Kontakt Niedersachsen
-      - Eierhof Direktverkauf Kontakt
-      - Geflügelbetrieb Adresse Deutschland
-      - Hühnerhof Telefon Kontakt Bayern
-      - Eierproduktion Betrieb Kontakt
-      - Geflügelhof Impressum Deutschland
-      - Eierhof E-Mail Kontakt
-      - Hühnerbetrieb Direktvermarktung
-      - Geflügel Bauernhof Kontakt
-
-      - Schweinehof Kontakt Deutschland
-      - Schweinezucht Betrieb Kontakt Niedersachsen
-      - Schweinemastbetrieb Adresse Bayern
-      - Schweinebauernhof Telefon Kontakt
-      - Schweinebetrieb Impressum Deutschland
-      - Schweinehof Direktverkauf Kontakt
-      - Schweinezucht E-Mail Deutschland
-      - Schweinebetrieb Liste Deutschland
-      - Schweinemast Hof Kontakt Brandenburg
-      - Schweinehof Direktvermarktung
+      - Bauernhof Kontakt München Adresse
+      - Landwirtschaft Betrieb Hamburg Kontakt
+      - Agrarbetrieb Berlin Telefonnummer
+      - Bauernhof Köln Kontakt Adresse
+      - Hofladen Stuttgart Bauernhof Kontakt
+      - Landwirtschaft Leipzig Kontakt Betrieb
+      - Bauernhof Dresden Adresse Telefon
+      - Agrarbetrieb Hannover Kontakt
+      - Bauernhof Nürnberg Direktverkauf Kontakt
+      - Landwirtschaft Bremen Kontakt Hof
 
       # =========================
-      # GEMÜSE / WARZYWA
+      # POTATO / ROOT CROPS (UNDERSERVED)
       # =========================
-      - Gemüsebauernhof Kontakt Deutschland
-      - Gemüseanbau Betrieb Kontakt Bayern
-      - Gemüsehof Direktvermarktung Niedersachsen
-      - Gemüsebau Betrieb Adresse Deutschland
-      - Gemüsehof Verkauf ab Hof Kontakt
-      - Gemüsebetrieb Telefon Deutschland
-      - Gemüsehof Impressum Deutschland
-      - Gemüse Erzeuger Kontakt Brandenburg
-      - Gemüse Direktverkauf Bauernhof
-      - Gemüsebauernhof E-Mail Kontakt
+      - Kartoffelhof Kontakt Deutschland
+      - Kartoffelanbau Betrieb Kontakt Bayern
+      - Kartoffelbauernhof Adresse Niedersachsen
+      - Kartoffel Direktverkauf Hof Kontakt
+      - Kartoffel Erzeuger Deutschland Kontakt
+      - Kartoffelhof Impressum E-Mail
+      - Kartoffel Betrieb Telefonnummer
+      - Kartoffel Bauernhof Kontaktformular
+      - Kartoffel Produktion Betrieb Kontakt
+      - Kartoffelhof Verkauf ab Hof Adresse
 
       # =========================
-      # OBST / SADOWNICTWO
+      # BERRY / HIGH SEASON
       # =========================
-      - Obsthof Kontakt Deutschland
-      - Obstbau Betrieb Kontakt Bayern
-      - Obstbauernhof Adresse Niedersachsen
-      - Obsthof Direktvermarktung Kontakt
-      - Obstbau Betrieb Telefon Deutschland
-      - Obsthof Impressum Deutschland
-      - Obst Erzeuger Kontakt Brandenburg
-      - Obstbauernhof Verkauf ab Hof
-      - Obsthof E-Mail Kontakt Deutschland
-      - Obstplantage Kontakt Deutschland
+      - Himbeerhof Kontakt Deutschland
+      - Heidelbeerhof Kontakt Niedersachsen
+      - Beerenhof Direktvermarktung Kontakt
+      - Himbeeren Verkauf ab Hof Kontakt
+      - Heidelbeeren Betrieb Adresse Kontakt
+      - Beerenhof Impressum E-Mail
+      - Erdbeerhof Produktion Kontakt
+      - Beeren Bauernhof Kontaktformular
+      - Himbeeranbau Betrieb Kontakt
+      - Heidelbeer Produktion Betrieb Kontakt
 
       # =========================
-      # BIO / EKO
+      # SMALL FARM / PRIVATE (GOLD)
       # =========================
-      - Bio Bauernhof Kontakt Deutschland
-      - Bio Landwirtschaft Betrieb Kontakt
-      - Biohof Direktvermarktung Kontakt
-      - Bio Bauernhof Adresse Bayern
-      - Bio Betrieb Telefon Deutschland
-      - Biohof Impressum Deutschland
-      - Bio Landwirtschaft Liste Deutschland
-      - Bio Bauernhof E-Mail Kontakt
-      - Bio Gemüsehof Kontakt Deutschland
-      - Bio Milchhof Kontakt Deutschland
+      - kleiner Hof Kontakt Deutschland Telefonnummer
+      - Familienbetrieb Landwirtschaft Kontakt
+      - privater Bauernhof Kontakt Adresse
+      - kleiner landwirtschaftlicher Betrieb Kontakt
+      - Hof Familie Kontakt Deutschland
+      - kleiner Bauernhof Direktverkauf Kontakt
+      - Hof privat Kontakt Telefonnummer
+      - Familienhof Impressum Kontakt
+      - kleiner Hof E-Mail Kontakt
+      - Familienbetrieb Adresse Telefonnummer
 
       # =========================
-      # REGIONAL – BAYERN
+      # DIRECT SALES (VERY STRONG)
       # =========================
-      - Bauernhof Kontakt Bayern Adresse
-      - Landwirtschaft Betrieb Bayern Telefon
-      - Agrarbetrieb Bayern Kontakt Liste
-      - Bauernhof Direktvermarktung Bayern Kontakt
-      - Hofladen Bayern Bauernhof Kontakt
-      - Bauernhof Bayern Impressum E-Mail
-      - Landwirtschaft Bayern Adresse Telefon
-      - Bauernhof Bayern Kontaktformular
-      - Direktverkauf Hof Bayern Kontakt
-      - Bauernhof Bayern Liste Kontakte
+      - Direktverkauf Bauernhof Deutschland Kontakt
+      - Verkauf ab Hof Adresse Bauernhof
+      - Hofladen Direktverkauf Kontakt
+      - Bauernhof eigene Produkte Adresse
+      - Landwirtschaft Direktverkauf Telefonnummer
+      - Hofladen Produkte Kontakt Deutschland
+      - Bauernhof Verkauf Kontakt Telefon
+      - Direktvermarktung Adresse Betrieb
+      - Hofladen Kontaktformular Bauernhof
+      - Bauernhof Verkauf E-Mail Kontakt
 
       # =========================
-      # REGIONAL – NIEDERSACHSEN
+      # ANIMAL FARMS EXTENDED
       # =========================
-      - Bauernhof Kontakt Niedersachsen Adresse
-      - Landwirtschaft Betrieb Niedersachsen Telefon
-      - Agrarbetrieb Niedersachsen Kontakt Liste
-      - Bauernhof Direktvermarktung Niedersachsen
-      - Hofladen Niedersachsen Kontakt Bauernhof
-      - Bauernhof Niedersachsen Impressum E-Mail
-      - Landwirtschaft Niedersachsen Adresse Kontakt
-      - Bauernhof Niedersachsen Kontaktformular
-      - Direktverkauf Hof Niedersachsen Kontakt
-      - Bauernhof Niedersachsen Liste Kontakte
+      - Rinderbetrieb Kontakt Deutschland
+      - Viehzucht Betrieb Kontakt Bayern
+      - Tierhaltung Bauernhof Kontakt Niedersachsen
+      - Rinderhof Adresse Telefon Deutschland
+      - Tierzucht Betrieb Kontakt
+      - Viehbetrieb Impressum Kontakt
+      - Rinderbauernhof Telefonnummer
+      - Tierhaltung Hof Kontaktformular
+      - Viehzucht Direktvermarktung Kontakt
+      - Tierbetrieb E-Mail Kontakt
 
       # =========================
-      # REGIONAL – BRANDENBURG
+      # ORGANIC + NICHE
       # =========================
-      - Bauernhof Kontakt Brandenburg Adresse
-      - Landwirtschaft Betrieb Brandenburg Telefon
-      - Agrarbetrieb Brandenburg Kontakt Liste
-      - Bauernhof Direktvermarktung Brandenburg
-      - Hofladen Brandenburg Kontakt Bauernhof
-      - Bauernhof Brandenburg Impressum E-Mail
-      - Landwirtschaft Brandenburg Adresse Kontakt
-      - Bauernhof Brandenburg Kontaktformular
-      - Direktverkauf Hof Brandenburg Kontakt
-      - Bauernhof Brandenburg Liste Kontakte
+      - Demeter Bauernhof Kontakt Deutschland
+      - Bioland Betrieb Kontakt Adresse
+      - ökologische Landwirtschaft Kontakt Betrieb
+      - Bio Gemüse Produktion Kontakt
+      - Bio Obsthof Adresse Kontakt
+      - Bio Landwirtschaft Telefonnummer
+      - Biohof Verkauf ab Hof Kontakt
+      - Bio Betrieb Impressum Adresse
+      - Bio Hof E-Mail Kontakt
+      - ökologische Produktion Betrieb Kontakt
 
       # =========================
-      # REGIONAL – MECKLENBURG-VORPOMMERN
+      # DIRECTORY BUT CLEANABLE
       # =========================
-      - Bauernhof Kontakt Mecklenburg Vorpommern
-      - Landwirtschaft Betrieb MV Telefon
-      - Agrarbetrieb MV Kontakt Liste
-      - Bauernhof Direktvermarktung MV
-      - Hofladen MV Bauernhof Kontakt
-      - Bauernhof MV Impressum E-Mail
-      - Landwirtschaft MV Adresse Kontakt
-      - Bauernhof MV Kontaktformular
-      - Direktverkauf Hof MV Kontakt
-      - Bauernhof MV Liste Kontakte
+      - Bauernhof Liste Deutschland Kontakt Adresse
+      - Landwirtschaftsbetriebe Verzeichnis Deutschland Kontakt
+      - Agrarbetriebe Liste Bayern Kontakt
+      - Bauernhof Datenbank Deutschland Adresse
+      - Landwirtschaft Verzeichnis Niedersachsen Kontakt
+      - Bauernhof Übersicht Deutschland Kontakt
+      - Agrarbetrieb Liste Kontakt Telefonnummer
+      - Landwirtschaft Betriebe Liste Deutschland
+      - Bauernhof Register Deutschland Kontakt
+      - Landwirtschaft Firmen Liste Kontakt
 
       # =========================
-      # EMAIL / IMPRESSUM BOOST
+      # MIX HIGH INTENT
       # =========================
-      - Bauernhof Impressum E-Mail Deutschland
-      - Landwirtschaft Betrieb Impressum E-Mail
-      - Hofladen Impressum Kontakt E-Mail
-      - Direktvermarktung Hof Impressum Kontakt
-      - Bauernhof Adresse E-Mail Telefon
-      - Landwirtschaftsbetrieb Kontakt E-Mail Deutschland
-      - Agrarbetrieb Impressum E-Mail Deutschland
-      - Bauernhof E-Mail Liste Deutschland
-      - Landwirtschaft E-Mail Verzeichnis Deutschland
-      - Bauernhof Kontakt E-Mail Bayern
-
-      # =========================
-      # LONG TAIL – SPRZEDAŻ
-      # =========================
-      - frische Produkte Bauernhof Kontakt Deutschland
-      - Bauernhof eigene Produkte Verkauf Kontakt
-      - regionale Lebensmittel Bauernhof Kontakt
-      - Hofladen frische Produkte Kontakt Deutschland
-      - Bauernhof Direktverkauf Gemüse Obst Kontakt
-      - Landwirtschaft Verkauf ab Hof Kontakt
-      - Bauernhof regionale Produkte Kontakt Bayern
-      - Hof Direktvermarktung frische Lebensmittel
-      - Bauernhof Produkte Kontakt Adresse Telefon
-      - Landwirtschaft Direktverkauf Kontakt Deutschland
-
-      # =========================
-      # MIX – PRODUKT + HOF
-      # =========================
-      - Milch Gemüse Bauernhof Kontakt Deutschland
-      - Obst Gemüse Bauernhof Kontakt Bayern
-      - Eier Milch Hof Kontakt Niedersachsen
-      - Gemüse Obst Hofladen Kontakt Deutschland
-      - Bauernhof Milch Eier Kontakt Brandenburg
-      - Landwirtschaft Gemüse Milch Kontakt MV
-      - Bauernhof Obst Gemüse Direktverkauf
-      - Hof Gemüse Kartoffeln Kontakt Deutschland
-      - Bauernhof Milch Fleisch Kontakt
-      - Landwirtschaft Produkte Verkauf Kontakt
-
-      # =========================
-      # DODATKOWE (do 500 – skrócona reprezentacja stylu)
-      # =========================
-      - kleiner Bauernhof Kontakt Deutschland
-      - Familienhof Kontakt Bayern Adresse
-      - regionaler Bauernhof Kontakt Niedersachsen
-      - Hof im Dorf Kontakt Deutschland
-      - Bauernhof regionale Lebensmittel Kontakt
-      - Landwirtschaft kleiner Betrieb Kontakt
-      - Hofladen kleiner Bauernhof Kontakt
-      - Direktvermarktung kleiner Hof Kontakt
-      - Bauernhof lokal Kontakt Telefon
-      - Landwirtschaft regional Kontakt E-Mail
+      - Bauernhof Gemüse Kartoffeln Kontakt Deutschland
+      - Landwirtschaft Obst Gemüse Kontakt Bayern
+      - Hof Milch Eier Gemüse Kontakt
+      - Bauernhof Kartoffeln Gemüse Direktverkauf
+      - Landwirtschaft Produkte Hof Kontakt Deutschland
+      - Bauernhof Obst Kartoffeln Kontakt
+      - Hof Gemüse Produktion Kontakt Betrieb
+      - Landwirtschaft Mischung Produkte Kontakt
+      - Bauernhof Gemüse Verkauf Kontakt Adresse
+      - Hof Kartoffel Gemüse Verkauf Kontakt
 
 app:
   outreach:
