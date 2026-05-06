@@ -156,6 +156,26 @@ leadfinder:
       - Agrarbetrieb Impressum Email Adresse
       - Hof Impressum Kontaktformular
       - Bauernhof Impressum Geschäftsführer
+      - Gemüsehof Impressum Kontakt Deutschland
+      - Obsthof Impressum E-Mail Adresse
+      - Biohof Impressum Telefonnummer
+      - Milchbetrieb Impressum Kontakt
+      - Geflügelhof Impressum E-Mail
+      - Schweinebetrieb Impressum Adresse
+      - Weinbaubetrieb Impressum Kontakt
+      - Gärtnerei Impressum E-Mail Deutschland
+      - Blumenhof Impressum Telefonnummer
+      - Forsthof Impressum Kontakt Adresse
+      - Imkerei Impressum E-Mail Kontakt
+      - Schäferei Impressum Telefonnummer
+      - Ziegenhof Impressum Kontakt Deutschland
+      - Pferdehof Impressum E-Mail Adresse
+      - Fischzucht Impressum Kontakt
+      - Kräuterhof Impressum Telefonnummer
+      - Gewächshaus Betrieb Impressum Kontakt
+      - Champignonzucht Impressum E-Mail
+      - Spargelbetrieb Impressum Kontakt
+      - Baumschule Impressum Adresse Kontakt
 
       # =========================
       # CITY LEVEL (HIGH ROI)
@@ -170,6 +190,60 @@ leadfinder:
       - Agrarbetrieb Hannover Kontakt
       - Bauernhof Nürnberg Direktverkauf Kontakt
       - Landwirtschaft Bremen Kontakt Hof
+      - Bauernhof Dortmund Kontakt Adresse
+      - Landwirtschaft Düsseldorf Betrieb Kontakt
+      - Agrarbetrieb Frankfurt Telefonnummer
+      - Bauernhof Essen Kontakt Adresse
+      - Hofladen Duisburg Kontakt
+      - Bauernhof Bochum Direktverkauf Adresse
+      - Landwirtschaft Wuppertal Kontakt Betrieb
+      - Bauernhof Bielefeld Adresse Telefon
+      - Agrarbetrieb Bonn Kontakt
+      - Bauernhof Mannheim Direktverkauf Kontakt
+      - Landwirtschaft Karlsruhe Kontakt Hof
+      - Bauernhof Augsburg Kontakt Adresse
+      - Hofladen Münster Kontakt Deutschland
+      - Bauernhof Wiesbaden Direktverkauf Adresse
+      - Landwirtschaft Gelsenkirchen Kontakt Betrieb
+      - Bauernhof Mönchengladbach Adresse Telefon
+      - Agrarbetrieb Braunschweig Kontakt
+      - Bauernhof Kiel Direktverkauf Kontakt
+      - Landwirtschaft Chemnitz Kontakt Hof
+      - Bauernhof Erfurt Adresse Telefon
+      - Hofladen Rostock Kontakt Deutschland
+      - Bauernhof Freiburg Direktverkauf Adresse
+      - Landwirtschaft Lübeck Kontakt Betrieb
+      - Bauernhof Oberhausen Adresse Telefon
+      - Agrarbetrieb Halle Kontakt
+      - Bauernhof Magdeburg Direktverkauf Kontakt
+      - Landwirtschaft Mainz Kontakt Hof
+      - Bauernhof Kassel Adresse Telefon
+      - Hofladen Saarbrücken Kontakt Deutschland
+      - Bauernhof Potsdam Direktverkauf Adresse
+
+      # =========================
+      # REGION / BUNDESLAND LEVEL
+      # =========================
+      - Bauernhof Bayern Kontakt Telefonnummer
+      - Landwirtschaft Niedersachsen Betrieb Kontakt
+      - Agrarbetrieb Nordrhein-Westfalen Adresse
+      - Bauernhof Baden-Württemberg Kontakt
+      - Hofladen Sachsen Kontakt Direktverkauf
+      - Landwirtschaft Thüringen Kontakt Betrieb
+      - Bauernhof Brandenburg Adresse Telefon
+      - Agrarbetrieb Schleswig-Holstein Kontakt
+      - Bauernhof Hessen Direktverkauf Kontakt
+      - Landwirtschaft Sachsen-Anhalt Kontakt Hof
+      - Bauernhof Mecklenburg Adresse Telefon
+      - Hofladen Rheinland-Pfalz Kontakt
+      - Landwirtschaft Saarland Kontakt Betrieb
+      - Bauernhof Oberbayern Direktverkauf Kontakt
+      - Bauernhof Schwaben Kontakt Adresse
+      - Landwirtschaft Allgäu Betrieb Kontakt
+      - Agrarbetrieb Franken Telefonnummer
+      - Bauernhof Oberpfalz Direktverkauf Kontakt
+      - Landwirtschaft Münsterland Kontakt Betrieb
+      - Bauernhof Eifel Adresse Telefon
 
       # =========================
       # POTATO / ROOT CROPS (UNDERSERVED)
@@ -184,6 +258,16 @@ leadfinder:
       - Kartoffel Bauernhof Kontaktformular
       - Kartoffel Produktion Betrieb Kontakt
       - Kartoffelhof Verkauf ab Hof Adresse
+      - Süßkartoffel Anbau Betrieb Kontakt
+      - Rote Bete Anbau Hof Kontakt
+      - Möhrenbetrieb Direktverkauf Kontakt
+      - Pastinaken Anbau Hof Kontakt
+      - Rübenbetrieb Kontakt Deutschland
+      - Sellerieanbau Betrieb Kontakt
+      - Zwiebelbetrieb Direktverkauf Kontakt
+      - Knoblauch Anbau Hof Kontakt
+      - Kartoffel Biobetrieb Kontakt Deutschland
+      - Frühkartoffel Erzeuger Kontakt Bayern
 
       # =========================
       # BERRY / HIGH SEASON
@@ -198,6 +282,16 @@ leadfinder:
       - Beeren Bauernhof Kontaktformular
       - Himbeeranbau Betrieb Kontakt
       - Heidelbeer Produktion Betrieb Kontakt
+      - Johannisbeer Hof Kontakt Deutschland
+      - Stachelbeerhof Direktverkauf Kontakt
+      - Brombeerhof Adresse Telefon
+      - Sanddorn Betrieb Kontakt Niedersachsen
+      - Aroniahof Kontakt Deutschland
+      - Holunderbeerenanbau Betrieb Kontakt
+      - Weinbeeren Erzeuger Kontakt Deutschland
+      - Beerenobst Hof Direktvermarktung Kontakt
+      - Erdbeeren Pflück Hof Kontakt Adresse
+      - Beerenobst Produktion Impressum E-Mail
 
       # =========================
       # SMALL FARM / PRIVATE (GOLD)
@@ -212,6 +306,16 @@ leadfinder:
       - Familienhof Impressum Kontakt
       - kleiner Hof E-Mail Kontakt
       - Familienbetrieb Adresse Telefonnummer
+      - Nebenerwerb Landwirtschaft Kontakt Deutschland
+      - Kleinbauer Direktverkauf Kontakt
+      - Ein-Mann Betrieb Landwirtschaft Kontakt
+      - Hobbylandwirtschaft Kontakt Deutschland
+      - Subsistenz Landwirtschaft Hof Kontakt
+      - Kleinst Betrieb Landwirtschaft Kontakt
+      - Familienhof Gemüse Kontakt Adresse
+      - privater Hof Telefonnummer Deutschland
+      - Kleinbetrieb Hof Direktverkauf Kontakt
+      - Familienlandwirtschaft Kontakt E-Mail
 
       # =========================
       # DIRECT SALES (VERY STRONG)
@@ -226,6 +330,16 @@ leadfinder:
       - Direktvermarktung Adresse Betrieb
       - Hofladen Kontaktformular Bauernhof
       - Bauernhof Verkauf E-Mail Kontakt
+      - Hofladen Öffnungszeiten Kontakt Adresse
+      - Direktvermarktung Frischware Kontakt
+      - Hofverkauf Adresse Telefon Deutschland
+      - ab Hof Verkauf Gemüse Kontakt
+      - Direktvermarktung Erzeuger Kontakt Bayern
+      - Hofladen Sortiment Kontakt Adresse
+      - Bauernhof Wochenmarkt Kontakt Adresse
+      - Direktvermarktung Obst Gemüse Kontakt
+      - Hofladen Bestellung Kontakt E-Mail
+      - ab Hof Gemüse Obst Kontakt Deutschland
 
       # =========================
       # ANIMAL FARMS EXTENDED
@@ -240,6 +354,16 @@ leadfinder:
       - Tierhaltung Hof Kontaktformular
       - Viehzucht Direktvermarktung Kontakt
       - Tierbetrieb E-Mail Kontakt
+      - Schweinehaltung Betrieb Kontakt Deutschland
+      - Geflügelzucht Hof Kontakt Adresse
+      - Hühnerhof Kontakt E-Mail Deutschland
+      - Schafzucht Betrieb Kontakt Bayern
+      - Ziegenzucht Hof Kontakt Adresse
+      - Pferdezucht Betrieb Kontakt Deutschland
+      - Kaninchenzucht Hof Kontakt E-Mail
+      - Lammfleisch Betrieb Kontakt Deutschland
+      - Rinderzucht Direktvermarktung Kontakt
+      - Mastbetrieb Schweine Kontakt Adresse
 
       # =========================
       # ORGANIC + NICHE
@@ -254,6 +378,256 @@ leadfinder:
       - Bio Betrieb Impressum Adresse
       - Bio Hof E-Mail Kontakt
       - ökologische Produktion Betrieb Kontakt
+      - Naturland Betrieb Kontakt Deutschland
+      - EU Bio Betrieb Kontakt Adresse
+      - Bio Getreide Anbau Kontakt
+      - ökologischer Landbau Kontakt Deutschland
+      - Bioland Gemüse Betrieb Kontakt
+      - Bio Weide Rinder Kontakt Hof
+      - Permakultur Hof Kontakt Deutschland
+      - Bio Geflügel Hof Kontakt Adresse
+      - Demeter Gemüse Betrieb Kontakt
+      - ökologischer Hof Direktverkauf Kontakt
+
+      # =========================
+      # GRAIN / CEREAL FARMS
+      # =========================
+      - Getreidebetrieb Kontakt Deutschland
+      - Weizenanbau Betrieb Kontakt Adresse
+      - Getreidehof Direktverkauf Kontakt
+      - Kornbauer Kontakt Deutschland
+      - Mühle Getreide Betrieb Kontakt
+      - Roggenanbau Hof Kontakt Adresse
+      - Gerstenbetrieb Kontakt E-Mail
+      - Haferhof Direktverkauf Kontakt Deutschland
+      - Dinkelanbau Betrieb Kontakt Bayern
+      - Getreidebauernhof Impressum Kontakt
+      - Mais Anbau Betrieb Kontakt
+      - Raps Anbau Hof Kontakt Adresse
+      - Getreidehof Impressum E-Mail Deutschland
+      - Urgetreide Anbau Betrieb Kontakt
+      - Emmer Anbau Hof Kontakt Deutschland
+      - Einkorn Anbau Betrieb Kontakt
+      - Hülsenfrüchte Anbau Hof Kontakt
+      - Linsen Anbau Betrieb Kontakt Deutschland
+      - Bohnen Anbau Hof Kontakt Adresse
+      - Erbsen Anbau Betrieb Kontakt
+
+      # =========================
+      # FRUIT FARMS
+      # =========================
+      - Obsthof Kontakt Deutschland Adresse
+      - Apfelbetrieb Direktverkauf Kontakt
+      - Kirschbaumhof Kontakt Bayern
+      - Pflaumenhof Adresse Telefon
+      - Birnenbetrieb Kontakt Deutschland
+      - Apfelplantage Direktverkauf Kontakt
+      - Obstbau Betrieb Impressum E-Mail
+      - Aprikosen Anbau Hof Kontakt
+      - Pfirsich Anbau Betrieb Kontakt
+      - Obstgarten Direktverkauf Kontakt Adresse
+      - Kirschbetrieb Kontakt Adresse Deutschland
+      - Süßkirschen Anbau Hof Kontakt
+      - Sauerkirschen Betrieb Kontakt E-Mail
+      - Mirabellen Anbau Hof Kontakt
+      - Quittenbetrieb Kontakt Deutschland
+      - Haselnuss Anbau Hof Kontakt
+      - Walnuss Betrieb Kontakt Adresse
+      - Obstplantage Impressum Kontakt Deutschland
+      - Tafelobst Betrieb Direktverkauf Kontakt
+      - Mostobst Hof Kontakt Adresse
+
+      # =========================
+      # VEGETABLE FARMS
+      # =========================
+      - Gemüsebetrieb Kontakt Deutschland
+      - Gemüsehof Direktverkauf Kontakt
+      - Salatanbau Betrieb Kontakt Adresse
+      - Tomatenbetrieb Kontakt Deutschland
+      - Gurkenhof Direktverkauf Kontakt
+      - Paprika Anbau Betrieb Kontakt
+      - Zucchinibetrieb Kontakt Adresse
+      - Blumenkohl Anbau Hof Kontakt
+      - Brokkoli Anbau Betrieb Kontakt
+      - Spitzkohlhof Direktverkauf Kontakt
+      - Spinat Anbau Betrieb Kontakt
+      - Rettich Anbau Hof Kontakt Adresse
+      - Lauch Betrieb Direktverkauf Kontakt
+      - Porree Anbau Betrieb Kontakt
+      - Kürbisbetrieb Direktverkauf Kontakt
+      - Kürbis Anbau Hof Kontakt Adresse
+      - Fenchel Anbau Betrieb Kontakt
+      - Kohlrabi Anbau Hof Kontakt
+      - Steckrüben Betrieb Kontakt Deutschland
+      - Feldsalat Anbau Hof Kontakt
+
+      # =========================
+      # SPECIALTY / NICHE PRODUCTS
+      # =========================
+      - Spargelbetrieb Kontakt Deutschland
+      - Spargelhof Direktverkauf Kontakt Adresse
+      - Spargelanbau Betrieb E-Mail Kontakt
+      - Hopfenbetrieb Kontakt Bayern
+      - Heilkräuter Hof Kontakt Deutschland
+      - Kräuterbetrieb Direktverkauf Kontakt
+      - Lavendelhof Kontakt Adresse
+      - Hanf Anbau Betrieb Kontakt Deutschland
+      - Sonnenblumen Anbau Hof Kontakt
+      - Safran Anbau Betrieb Kontakt
+      - Tabak Anbau Hof Kontakt Deutschland
+      - Zuckerrüben Betrieb Kontakt Adresse
+      - Minze Anbau Hof Kontakt E-Mail
+      - Basilikum Anbau Betrieb Kontakt
+      - Rosmarin Anbau Hof Kontakt
+      - Thymian Anbau Betrieb Kontakt Deutschland
+      - Gewürzkräuter Hof Direktverkauf Kontakt
+      - Wildkräuter Sammlung Betrieb Kontakt
+      - Tee Kräuter Anbau Hof Kontakt
+      - Arznei Pflanzen Betrieb Kontakt
+
+      # =========================
+      # DAIRY / MILK PRODUCTS
+      # =========================
+      - Milchbetrieb Kontakt Deutschland
+      - Milchhof Direktverkauf Kontakt Adresse
+      - Käserei Hof Kontakt E-Mail
+      - Rohmilch Betrieb Kontakt Deutschland
+      - Joghurt Produktion Hof Kontakt
+      - Molkerei Betrieb Kontakt Adresse
+      - Butter Produktion Hof Kontakt
+      - Ziegenmilch Betrieb Kontakt Deutschland
+      - Schafmilch Hof Kontakt Adresse
+      - Milchviehbetrieb Impressum Kontakt
+      - Büffelmilch Betrieb Kontakt Deutschland
+      - Mozzarella Produktion Hof Kontakt
+      - Frischkäse Betrieb Kontakt Adresse
+      - Direktmilch Hof Kontakt E-Mail
+      - Milchtankstelle Betrieb Kontakt
+      - Kuhkäse Hof Direktverkauf Kontakt
+      - Kefir Produktion Betrieb Kontakt
+      - Quark Hof Kontakt Adresse Deutschland
+      - Bio Milch Betrieb Kontakt
+      - Weidehaltung Milch Hof Kontakt
+
+      # =========================
+      # POULTRY / EGGS
+      # =========================
+      - Geflügelhof Kontakt Deutschland
+      - Hühnerhof Direktverkauf Kontakt Adresse
+      - Eierproduktion Betrieb Kontakt
+      - Freilandeier Hof Kontakt E-Mail
+      - Putenbetrieb Kontakt Deutschland
+      - Gänsehof Direktverkauf Kontakt
+      - Entenhof Kontakt Adresse
+      - Hähnchenbetrieb Kontakt E-Mail
+      - Wachteleier Betrieb Kontakt
+      - Bio Eier Hof Kontakt Deutschland
+      - Freilandhühner Betrieb Kontakt Adresse
+      - Eier Direktverkauf Hof Kontakt
+      - Ökoeier Betrieb Kontakt E-Mail
+      - Truthahn Hof Kontakt Deutschland
+      - Perlhuhn Betrieb Kontakt Adresse
+      - Fasanenzucht Hof Kontakt
+      - Gänse Produktion Betrieb Kontakt
+      - Freilandgeflügel Hof Kontakt E-Mail
+      - Broiler Betrieb Kontakt Adresse
+      - Bodenhaltung Hühner Hof Kontakt
+
+      # =========================
+      # MEAT FARMS
+      # =========================
+      - Fleischbetrieb Direktverkauf Kontakt
+      - Metzgerei Hof Kontakt Deutschland
+      - Rindfleisch Direktverkauf Hof Kontakt
+      - Schweinefleisch ab Hof Kontakt Adresse
+      - Lammfleisch Hof Kontakt E-Mail
+      - Wildfleisch Betrieb Kontakt Deutschland
+      - Geflügelfleisch Hof Direktverkauf Kontakt
+      - Bio Fleisch Betrieb Kontakt Adresse
+      - Weiderind Direktverkauf Hof Kontakt
+      - Naturland Fleisch Betrieb Kontakt
+      - Ziegenfleisch Hof Kontakt Deutschland
+      - Kalbfleisch Betrieb Direktverkauf Kontakt
+      - Pferdefleisch Hof Kontakt Adresse
+      - Wild Betrieb Direktvermarktung Kontakt
+      - Wildschweinfleisch Hof Kontakt
+      - Hase Kaninchen Fleisch Betrieb Kontakt
+      - Büffelfleisch Hof Kontakt Deutschland
+      - Wurstwaren Hof Direktverkauf Kontakt
+      - Fleischpaket Hof Kontakt Adresse
+      - Dry Aged Fleisch Betrieb Kontakt
+
+      # =========================
+      # HONEY / BEE PRODUCTS
+      # =========================
+      - Imkerei Kontakt Deutschland Adresse
+      - Honigbetrieb Direktverkauf Kontakt
+      - Imker Hof Kontakt E-Mail
+      - Honig ab Hof Kontakt Adresse
+      - Bienenprodukte Betrieb Kontakt
+      - Propolis Imkerei Kontakt Deutschland
+      - Bienenwachs Betrieb Kontakt Adresse
+      - Waldhonig Imkerei Kontakt
+      - Blütenhonig Betrieb Direktverkauf Kontakt
+      - Bio Honig Imkerei Kontakt E-Mail
+      - Manuka Honig Imkerei Kontakt Deutschland
+      - Rapshonig Betrieb Kontakt Adresse
+      - Lindenhonig Imkerei Kontakt
+      - Akazienhonig Betrieb Kontakt Deutschland
+      - Wildbienenhonig Hof Kontakt E-Mail
+      - Gelee Royal Imkerei Kontakt
+      - Imkerei Bayern Kontakt Direktverkauf
+      - Honig Glas Imkerei Kontakt Adresse
+      - Ernte Honig Betrieb Kontakt
+      - Wachsprodukte Imkerei Kontakt Deutschland
+
+      # =========================
+      # WINE / VINEYARD
+      # =========================
+      - Weingut Kontakt Deutschland Adresse
+      - Weinbau Betrieb Kontakt E-Mail
+      - Weingut Direktverkauf Kontakt
+      - Winzer Hof Kontakt Adresse
+      - Rotwein Betrieb Kontakt Deutschland
+      - Weißwein Weingut Kontakt E-Mail
+      - Biowein Betrieb Kontakt Adresse
+      - Sektgut Kontakt Deutschland
+      - Obstmost Betrieb Kontakt
+      - Most Hof Direktverkauf Kontakt
+      - Apfelwein Betrieb Kontakt Adresse
+      - Federweißer Weingut Kontakt
+      - Winzer Bayern Kontakt Direktverkauf
+      - Weingut Baden Württemberg Kontakt
+      - Mosel Weingut Kontakt Adresse
+      - Rheingau Weingut Kontakt E-Mail
+      - Pfalz Weingut Kontakt Direktverkauf
+      - Franken Weingut Kontakt Adresse
+      - Württemberg Weingut Kontakt
+      - Weingut Saarland Kontakt E-Mail
+
+      # =========================
+      # HERBS / MEDICINAL PLANTS
+      # =========================
+      - Kräuterhof Kontakt Deutschland Adresse
+      - Heilkräuter Betrieb Kontakt E-Mail
+      - Kräutergarten Hof Kontakt
+      - Naturheilkunde Pflanzen Betrieb Kontakt
+      - Tee Kräuter Betrieb Kontakt Deutschland
+      - Arzneipflanzen Anbau Kontakt Adresse
+      - Kräutertrocknung Betrieb Kontakt
+      - Kräuter Direktverkauf Hof Kontakt
+      - Wildkräuter Betrieb Kontakt E-Mail
+      - Kräuterverarbeitung Hof Kontakt Deutschland
+      - Kamille Anbau Betrieb Kontakt
+      - Baldrian Anbau Hof Kontakt Adresse
+      - Melissa Betrieb Kontakt Deutschland
+      - Lavendel Anbau Hof Kontakt E-Mail
+      - Pfefferminze Betrieb Direktverkauf Kontakt
+      - Schafgarbe Anbau Hof Kontakt
+      - Rotklee Betrieb Kontakt Adresse
+      - Johanniskraut Anbau Hof Kontakt
+      - Holunder Betrieb Direktverkauf Kontakt
+      - Brennnessel Anbau Hof Kontakt Deutschland
 
       # =========================
       # DIRECTORY BUT CLEANABLE
@@ -268,6 +642,40 @@ leadfinder:
       - Landwirtschaft Betriebe Liste Deutschland
       - Bauernhof Register Deutschland Kontakt
       - Landwirtschaft Firmen Liste Kontakt
+      - Hofladen Verzeichnis Deutschland Adresse
+      - Direktvermarktung Verzeichnis Kontakt
+      - Agrarbetriebe Datenbank Niedersachsen
+      - Bauernhof Übersicht Bayern Kontakt
+      - Landwirtschaft Liste NRW Kontakt Adresse
+      - Hofläden Übersicht Brandenburg Kontakt
+      - Bio Betriebe Verzeichnis Deutschland
+      - Landwirtschaft Firmen Baden-Württemberg Kontakt
+      - Bauernhof Adressen Sachsen Kontakt
+      - Agrarbetriebe Register Hessen Kontakt
+
+      # =========================
+      # FLOWER / NURSERY FARMS
+      # =========================
+      - Blumenhof Kontakt Deutschland Adresse
+      - Gärtnerei Direktverkauf Kontakt
+      - Blumenbetrieb Kontakt E-Mail
+      - Schnittblumen Hof Kontakt Deutschland
+      - Rosen Anbau Betrieb Kontakt
+      - Tulpen Anbau Hof Kontakt Adresse
+      - Chrysanthemen Betrieb Kontakt
+      - Pflanzenverkauf ab Hof Kontakt
+      - Baumschule Kontakt Adresse Deutschland
+      - Garten Betrieb Direktverkauf Kontakt
+      - Topfpflanzen Hof Kontakt E-Mail
+      - Zierpflanzen Betrieb Kontakt Adresse
+      - Sommerblumen Anbau Hof Kontakt
+      - Freilandblumen Betrieb Kontakt
+      - Saisonblumen Hof Direktverkauf Kontakt
+      - Wildblumen Anbau Betrieb Kontakt
+      - Pflück Garten Hof Kontakt Adresse
+      - Blumen Betrieb Impressum Kontakt
+      - Schnittblumen Direktverkauf Kontakt E-Mail
+      - Blumenzucht Betrieb Kontakt Deutschland
 
       # =========================
       # MIX HIGH INTENT
@@ -282,6 +690,54 @@ leadfinder:
       - Landwirtschaft Mischung Produkte Kontakt
       - Bauernhof Gemüse Verkauf Kontakt Adresse
       - Hof Kartoffel Gemüse Verkauf Kontakt
+      - Bauernhof Fleisch Wurst Direktverkauf Kontakt
+      - Hof Eier Milch Käse Kontakt
+      - Landwirtschaft Honig Obst Kontakt
+      - Bauernhof Beeren Kräuter Kontakt
+      - Hof Bio Gemüse Fleisch Kontakt
+      - Landwirtschaft Kartoffel Zwiebel Kontakt
+      - Bauernhof Getreide Brot Kontakt
+      - Hof Wein Honig Kontakt Deutschland
+      - Landwirtschaft Eier Käse Honig Kontakt
+      - Bauernhof Direktverkauf Mischprodukte Kontakt
+
+      # =========================
+      # AGRITOURISM / CSA
+      # =========================
+      - Urlaub auf dem Bauernhof Kontakt Deutschland
+      - Ferienbauernhof Adresse Telefon
+      - Agrotourismus Hof Kontakt E-Mail
+      - Erlebnis Bauernhof Kontakt Adresse
+      - Solidarische Landwirtschaft Kontakt Deutschland
+      - SoLaWi Hof Kontakt E-Mail Adresse
+      - CSA Betrieb Kontakt Deutschland
+      - Gemüseabo Hof Kontakt
+      - Gemüsekiste Betrieb Kontakt Adresse
+      - Gemüse Lieferservice Hof Kontakt
+      - Abo Kiste Hof Kontakt Deutschland
+      - Ernteanteil Hof Kontakt E-Mail
+      - Hofführung Bauernhof Kontakt Adresse
+      - Ernte Erlebnis Hof Kontakt
+      - Lernbauernhof Kontakt Deutschland
+      - Seminarbauernhof Kontakt Adresse
+      - Naturerlebnis Hof Kontakt E-Mail
+      - Bauernhof Ausflug Kontakt Gruppe
+      - Erntehelfer Hof Kontakt Deutschland
+      - Selbsternte Betrieb Kontakt Adresse
+
+      # =========================
+      # SUPPLEMENT TO 500
+      # =========================
+      - Bauernhof Sachsen Anhalt Kontakt Adresse
+      - Landwirtschaft Ostdeutschland Kontakt Betrieb
+      - Agrarbetrieb Westfalen Kontakt Adresse
+      - Bauernhof Vorpommern Direktverkauf Kontakt
+      - Hofladen Oberfranken Kontakt E-Mail
+      - Bauernhof Erzgebirge Kontakt Adresse
+      - Landwirtschaft Niederbayern Kontakt Betrieb
+      - Agrarbetrieb Hunsrück Kontakt Adresse
+      - Bauernhof Schwarzwald Direktverkauf Kontakt
+      - Hofladen Lüneburger Heide Kontakt
 
 app:
   outreach:
