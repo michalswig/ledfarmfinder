@@ -144,600 +144,595 @@ leadfinder:
     queries:
 
       # =========================
-      # IMPRESSUM DEEP (HIGH CONVERSION)
+      # IMPRESSUM TRIGGER (WYSOKIE KONWERSJE)
+      # Wymusza strony z prawdziwym Impressum, nie katalogi
       # =========================
-      - Bauernhof Webseite Impressum Inhaber
-      - Landwirtschaft Homepage Impressum Kontakt
-      - Agrarbetrieb Website Impressum Telefon
-      - Hofladen Online Impressum Anschrift
-      - Direktvermarktung Website Impressum Email
-      - Bauernhof Betreiber Anschrift Impressum
-      - Landwirtschaft Unternehmen Impressum Kontakt
-      - Agrarbetrieb Impressum Ansprechpartner
-      - Hof Impressum Verantwortlicher Kontakt
-      - Bauernhof Impressum Firmeninhaber Email
-      - Gemüsehof Website Impressum Telefon
-      - Obsthof Impressum Anschrift Betreiber
-      - Biohof Website Impressum Kontakt
-      - Milchbetrieb Impressum Inhaber Email
-      - Geflügelhof Impressum Anschrift Kontakt
-      - Schweinebetrieb Website Impressum Telefon
-      - Weinbau Impressum Betreiber Kontakt
-      - Gärtnerei Impressum Anschrift Deutschland
-      - Blumenhof Website Impressum Email
-      - Forsthof Impressum Inhaber Telefon
-      - Imkerei Website Impressum Kontakt
-      - Schäferei Impressum Anschrift Betreiber
-      - Ziegenhof Website Impressum Email
-      - Pferdehof Impressum Inhaber Kontakt
-      - Fischzucht Website Impressum Telefon
-      - Kräuterhof Impressum Betreiber Kontakt
-      - Gewächshausbetrieb Impressum Email Telefon
-      - Champignonzucht Website Impressum Kontakt
-      - Spargelhof Impressum Inhaber Anschrift
-      - Baumschule Website Impressum Kontakt
+      - '"Verantwortlich für den Inhalt" Bauernhof Bayern'
+      - '"Verantwortlich für den Inhalt" Hofladen Niedersachsen'
+      - '"Verantwortlich für den Inhalt" Hof NRW Gemüse'
+      - '"Verantwortlich für den Inhalt" Agrarbetrieb Baden-Württemberg'
+      - '"Verantwortlich für den Inhalt" Hof Sachsen Direktverkauf'
+      - '"Inhaber" Hofladen Bayern Telefon Adresse'
+      - '"Inhaber" Bauernhof NRW Kontakt Email'
+      - '"Inhaber" Hof Niedersachsen Direktverkauf'
+      - '"Inhaber" Agrarbetrieb Hessen Kontakt'
+      - '"Inhaber" Hofladen Thüringen Adresse'
+      - '"Betreiber" Hofladen Bayern Impressum Kontakt'
+      - '"Betreiber" Bauernhof Sachsen Impressum'
+      - '"Betreiber" Hof Niedersachsen Impressum Email'
+      - '"Betreiber" Agrarbetrieb NRW Impressum Adresse'
+      - '"Betreiber" Hofladen Brandenburg Impressum Telefon'
+      - '"USt-IdNr" Bauernhof Direktverkauf Kontakt'
+      - '"USt-IdNr" Hofladen Bayern Adresse'
+      - '"USt-IdNr" Hof Gemüse Direktverkauf'
+      - '"Steuernummer" Bauernhof Hofladen Kontakt'
+      - '"Steuernummer" Hof Direktverkauf Adresse'
+      - '"eingetragen im" Landwirtschaftsbetrieb Kontakt'
+      - '"Amtsgericht" Bauernhof Hofladen Adresse'
+      - '"HRB" OR "HRA" Agrarbetrieb Direktverkauf Kontakt'
+      - '"Einzelunternehmen" Bauernhof Direktverkauf Adresse'
+      - '"GbR" Bauernhof Hofladen Direktverkauf Kontakt'
+      - '"GbR" Hof Gemüse Direktverkauf Adresse'
+      - '"GbR" Agrarbetrieb Obst Kontakt'
+      - '"e.K." Bauernhof Hofladen Adresse Kontakt'
+      - '"Landwirt" Impressum Kontakt Telefon Deutschland'
+      - '"Landwirtin" Impressum Hofladen Kontakt'
 
       # =========================
-      # CITY LEVEL (HIGH ROI)
+      # FRAZY "AB HOF" / "VOM HOF" (BARDZO SILNE)
+      # Frazy używane wyłącznie przez prawdziwe gospodarstwa
       # =========================
-      - Hofladen München Telefon Öffnungszeiten
-      - Bauernhof Hamburg Direktverkauf Telefon
-      - Landwirtschaft Berlin Betrieb Anschrift
-      - Hof Köln Gemüse Direktverkauf
-      - Bauernhof Stuttgart Obst Kontakt
-      - Hofladen Leipzig Adresse Telefon
-      - Landwirtschaft Dresden Betrieb Kontakt
-      - Bauernhof Hannover Hofladen Adresse
-      - Hof Nürnberg Gemüse Adresse
-      - Landwirtschaft Bremen Direktverkauf Adresse
-      - Hofladen Dortmund Telefon Adresse
-      - Bauernhof Düsseldorf Gemüse Kontakt
-      - Hof Frankfurt Direktverkauf Telefon
-      - Landwirtschaft Essen Betrieb Adresse
-      - Bauernhof Duisburg Hofladen Telefon
-      - Hof Bochum Gemüse Direktverkauf
-      - Landwirtschaft Wuppertal Adresse Telefon
-      - Hofladen Bielefeld Direktverkauf Kontakt
-      - Bauernhof Bonn Gemüse Adresse
-      - Hof Mannheim Direktverkauf Telefon
-      - Landwirtschaft Karlsruhe Betrieb Adresse
-      - Bauernhof Augsburg Hofladen Kontakt
-      - Hof Münster Gemüse Direktverkauf
-      - Landwirtschaft Wiesbaden Adresse Kontakt
-      - Bauernhof Gelsenkirchen Hofladen Telefon
-      - Hof Mönchengladbach Direktverkauf Adresse
-      - Landwirtschaft Braunschweig Betrieb Kontakt
-      - Bauernhof Kiel Hofladen Adresse
-      - Hof Chemnitz Gemüse Direktverkauf
-      - Landwirtschaft Erfurt Betrieb Telefon
-      - Bauernhof Rostock Hofladen Kontakt
-      - Hof Freiburg Gemüse Adresse
-      - Landwirtschaft Lübeck Direktverkauf Kontakt
-      - Bauernhof Oberhausen Hofladen Telefon
-      - Hof Halle Gemüse Direktverkauf
-      - Landwirtschaft Magdeburg Betrieb Adresse
-      - Bauernhof Mainz Hofladen Kontakt
-      - Hof Kassel Gemüse Telefon
-      - Landwirtschaft Saarbrücken Direktverkauf Adresse
-      - Bauernhof Potsdam Hofladen Kontakt
+      - '"ab Hof" Kartoffeln Bayern Telefon'
+      - '"ab Hof" Gemüse Obst Kontakt Adresse'
+      - '"ab Hof" frische Eier Direktverkauf'
+      - '"ab Hof" Milch Käse Direktverkauf Adresse'
+      - '"ab Hof" Fleisch Wurst Kontakt'
+      - '"ab Hof" Bio Gemüse Direktverkauf Adresse'
+      - '"ab Hof" Kartoffeln Zwiebeln Kontakt'
+      - '"ab Hof" Honig Imkerei Direktverkauf'
+      - '"ab Hof" Obst Beeren Direktverkauf Adresse'
+      - '"ab Hof" Spargel Direktverkauf Kontakt'
+      - '"frisch vom Hof" Gemüse Kontakt Adresse'
+      - '"frisch vom Hof" Obst Direktverkauf Bayern'
+      - '"frisch vom Hof" Eier Milch Direktverkauf'
+      - '"frisch vom Hof" Fleisch Wurst Kontakt'
+      - '"frisch vom Hof" Bio Produkte Adresse'
+      - '"direkt vom Hof" Gemüse Obst Kontakt'
+      - '"direkt vom Hof" Kartoffeln Direktverkauf'
+      - '"direkt vom Hof" Milch Käse Adresse'
+      - '"direkt vom Hof" Fleisch Kontakt Telefon'
+      - '"direkt vom Hof" Eier Direktverkauf Adresse'
+      - '"vom eigenen Hof" Gemüse Kontakt'
+      - '"vom eigenen Hof" Obst Direktverkauf Adresse'
+      - '"vom eigenen Hof" Kartoffeln Bayern Kontakt'
+      - '"aus eigenem Anbau" Gemüse Direktverkauf Kontakt'
+      - '"aus eigenem Anbau" Obst Hof Adresse'
+      - '"aus eigenem Anbau" Bio Direktverkauf Kontakt'
+      - '"selbst angebaut" Gemüse Hof Direktverkauf'
+      - '"eigene Erzeugung" Hof Adresse Telefon'
+      - '"eigener Anbau" Hofladen Direktverkauf Kontakt'
+      - '"hofeigene" Produkte Direktverkauf Adresse'
 
       # =========================
-      # REGION / BUNDESLAND LEVEL
+      # FRAZY SPRZEDAŻOWE (UNIKALNE DLA GOSPODARSTW)
       # =========================
-      - Hofladen Bayern Direktverkauf Adresse
-      - Bauernhof Niedersachsen Adresse Telefon
-      - Hof Nordrhein-Westfalen Direktverkauf Kontakt
-      - Landwirtschaft Baden-Württemberg Adresse
-      - Bauernhof Sachsen Hofladen Telefon
-      - Hof Thüringen Direktverkauf Adresse
-      - Landwirtschaft Brandenburg Betrieb Kontakt
-      - Bauernhof Schleswig-Holstein Hofladen Adresse
-      - Hof Hessen Gemüse Direktverkauf
-      - Landwirtschaft Sachsen-Anhalt Adresse Telefon
-      - Bauernhof Mecklenburg-Vorpommern Hofladen Kontakt
-      - Hof Rheinland-Pfalz Direktverkauf Adresse
-      - Landwirtschaft Saarland Betrieb Telefon
-      - Bauernhof Oberbayern Hofladen Adresse
-      - Hof Schwaben Direktverkauf Kontakt
-      - Landwirtschaft Allgäu Adresse Telefon
-      - Bauernhof Franken Hofladen Kontakt
-      - Hof Oberpfalz Gemüse Direktverkauf
-      - Landwirtschaft Münsterland Adresse Betrieb
-      - Bauernhof Eifel Hofladen Kontakt
+      - '"Wir verkaufen" Gemüse Hof Bayern Kontakt'
+      - '"Wir verkaufen" Obst Direktverkauf Adresse'
+      - '"Wir bieten" frische Produkte Hof Kontakt'
+      - '"Wir ernten" Gemüse Hof Direktverkauf'
+      - '"bei uns kaufen" Hofladen Adresse Telefon'
+      - '"bei uns erhältlich" Hof Gemüse Kontakt'
+      - '"zu kaufen" ab Hof Gemüse Direktverkauf'
+      - '"auf unserem Hof" Direktverkauf Kontakt Adresse'
+      - '"auf unserem Hof" Gemüse Obst verkaufen'
+      - '"unser Hofladen" Adresse Öffnungszeiten Telefon'
+      - '"unser Hofladen" Direktverkauf Kontakt Bayern'
+      - '"unser Hofladen" Gemüse Obst Adresse'
+      - '"unser Betrieb" Landwirtschaft Direktverkauf Kontakt'
+      - '"unser Betrieb" Hof Gemüse Adresse'
+      - '"unsere Produkte" Hofladen Direktverkauf Kontakt'
+      - '"unsere Produkte" ab Hof Adresse Telefon'
+      - '"jetzt erhältlich" Hofladen Gemüse Kontakt'
+      - '"jetzt erntefrisch" Hof Direktverkauf Adresse'
+      - '"Saison" Hofladen Gemüse Direktverkauf Kontakt'
+      - '"Ernte" frisch Hof Direktverkauf Kontakt'
 
       # =========================
-      # POTATO / ROOT CROPS (UNDERSERVED)
+      # WYKLUCZENIA KATALOGÓW (-site:)
+      # Eliminuje agregatory, wymusza indywidualne strony
       # =========================
-      - Kartoffelhof Bayern Direktverkauf Adresse
-      - Kartoffelanbau Niedersachsen Adresse Telefon
-      - Kartoffelbauer Kontakt Hofladen Deutschland
-      - Kartoffel Ernte ab Hof Kontakt
-      - Kartoffelproduzent Deutschland Adresse
-      - Kartoffelhof NRW Direktverkauf Kontakt
-      - Kartoffel Anbau Hof Telefon
-      - Kartoffellieferant Betrieb Kontakt Deutschland
-      - Kartoffeln frisch ab Hof Adresse
-      - Kartoffelhof Sachsen Direktverkauf Kontakt
-      - Süßkartoffel Betrieb Deutschland Adresse
-      - Rote Bete Produktion Betrieb Kontakt
-      - Möhren Anbau Betrieb Adresse
-      - Pastinaken Produzent Betrieb Kontakt
-      - Rüben Anbau Hof Adresse Deutschland
-      - Sellerie Betrieb Direktverkauf Kontakt
-      - Zwiebeln ab Hof Direktverkauf Kontakt
-      - Knoblauch Produzent Betrieb Adresse
-      - Bio Kartoffeln Hof Direktverkauf Kontakt
-      - Kartoffeln Ernte Betrieb Bayern Adresse
+      - 'Bauernhof Bayern Direktverkauf Kontakt -site:bauernhofatlas.de -site:regionalkaufen.de'
+      - 'Hofladen NRW Adresse Telefon -site:hofladenverzeichnis.de -site:bauernhofatlas.de'
+      - 'Hof Niedersachsen Gemüse Direktverkauf -site:regionalkaufen.de -site:bioland.de'
+      - 'Bauernhof Baden-Württemberg Hofladen -site:bauernhofatlas.de -site:direktvermarktung.de'
+      - 'Landwirtschaft Sachsen Direktverkauf -site:regionalkaufen.de -site:oeko-kiste.de'
+      - 'Hof Bayern Obst Gemüse -site:bauernhofatlas.de -site:slowfood.de'
+      - 'Hofladen Hessen Adresse -site:hofladenverzeichnis.de -site:regionalkaufen.de'
+      - 'Bauernhof Thüringen Direktverkauf -site:bauernhofatlas.de'
+      - 'Hof Brandenburg Gemüse Kontakt -site:regionalkaufen.de'
+      - 'Agrarbetrieb Schleswig-Holstein -site:bauernhofatlas.de -site:bioland.de'
+      - 'Hof Rheinland-Pfalz Direktverkauf -site:regionalkaufen.de -site:bauernhofatlas.de'
+      - 'Bauernhof Sachsen-Anhalt Hofladen -site:hofladenverzeichnis.de'
+      - 'Hof Mecklenburg Gemüse Direktverkauf -site:bauernhofatlas.de'
+      - 'Landwirtschaft Saarland Hofladen -site:regionalkaufen.de'
+      - 'Bauernhof Oberbayern Direktverkauf -site:bauernhofatlas.de -site:oeko-kiste.de'
+      - 'Hof Franken Gemüse Direktverkauf -site:regionalkaufen.de'
+      - 'Landwirtschaft Münsterland Hofladen -site:bauernhofatlas.de'
+      - 'Bauernhof Allgäu Direktverkauf -site:regionalkaufen.de -site:bioland.de'
+      - 'Hof Eifel Gemüse Direktverkauf -site:bauernhofatlas.de'
+      - 'Landwirtschaft Schwaben Hofladen -site:hofladenverzeichnis.de'
 
       # =========================
-      # BERRY / HIGH SEASON
+      # MAŁE MIASTA / POWIATY (NIEOBSŁUŻONE)
+      # Poziom Landkreis/Kleinstadt - mniej konkurencji w wynikach
       # =========================
-      - Himbeeren Direktverkauf Hof Adresse
-      - Heidelbeeren Ernte Betrieb Kontakt
-      - Beeren Ernte Hof Adresse Telefon
-      - Himbeerhof Bayern Direktverkauf Adresse
-      - Heidelbeerhof Norddeutschland Kontakt
-      - Beerenernte Hof Telefon Direktverkauf
-      - Erdbeerhof Direktverkauf Adresse Telefon
-      - Beeren Pflücken Hof Kontakt Deutschland
-      - Himbeerplantage Betrieb Adresse Kontakt
-      - Heidelbeer Ernte Hof Bayern Adresse
-      - Johannisbeeren ab Hof Direktverkauf
-      - Stachelbeeren Hof Kontakt Adresse
-      - Brombeeren Ernte Betrieb Kontakt
-      - Sanddorn Hof Norddeutschland Adresse
-      - Aronia Betrieb Direktverkauf Kontakt
-      - Holunder Ernte Hof Adresse Deutschland
-      - Weintrauben ab Hof Direktverkauf Kontakt
-      - Beerenfrüchte Ernte Hof Adresse
-      - Erdbeerfeld Pflücken Kontakt Adresse
-      - Beerenobst Ernte Hof Telefon Kontakt
+      - Hofladen Landsberg am Lech Adresse Telefon
+      - Bauernhof Ebersberg Direktverkauf Kontakt
+      - Hof Dachau Gemüse Direktverkauf Adresse
+      - Landwirtschaft Freising Hofladen Kontakt
+      - Bauernhof Erding Direktverkauf Adresse
+      - Hofladen Starnberg Adresse Öffnungszeiten
+      - Hof Weilheim Gemüse Direktverkauf Kontakt
+      - Bauernhof Rosenheim Hofladen Adresse
+      - Landwirtschaft Miesbach Direktverkauf Kontakt
+      - Hof Traunstein Gemüse Adresse Telefon
+      - Hofladen Altötting Direktverkauf Kontakt
+      - Bauernhof Mühldorf Hofladen Adresse
+      - Hof Passau Gemüse Direktverkauf Kontakt
+      - Landwirtschaft Deggendorf Hofladen Adresse
+      - Bauernhof Straubing Direktverkauf Kontakt
+      - Hof Regensburg Land Gemüse Adresse
+      - Landwirtschaft Neumarkt Hofladen Kontakt
+      - Bauernhof Amberg Direktverkauf Adresse
+      - Hof Weiden Gemüse Direktverkauf Kontakt
+      - Landwirtschaft Bayreuth Hofladen Adresse
+      - Bauernhof Coburg Direktverkauf Kontakt
+      - Hof Bamberg Land Gemüse Adresse
+      - Landwirtschaft Ansbach Hofladen Kontakt
+      - Bauernhof Weißenburg Direktverkauf Adresse
+      - Hof Ingolstadt Land Gemüse Kontakt
+      - Landwirtschaft Pfaffenhofen Hofladen Adresse
+      - Bauernhof Aichach Direktverkauf Kontakt
+      - Hof Dillingen Gemüse Direktverkauf Adresse
+      - Landwirtschaft Günzburg Hofladen Kontakt
+      - Bauernhof Neu-Ulm Direktverkauf Adresse
+      - Hofladen Lüneburg Land Adresse Telefon
+      - Bauernhof Uelzen Direktverkauf Kontakt
+      - Hof Celle Gemüse Direktverkauf Adresse
+      - Landwirtschaft Verden Hofladen Kontakt
+      - Bauernhof Rotenburg Wümme Direktverkauf
+      - Hof Cuxhaven Gemüse Adresse Telefon
+      - Landwirtschaft Stade Hofladen Kontakt
+      - Bauernhof Harburg Land Direktverkauf Adresse
+      - Hof Heidekreis Gemüse Direktverkauf Kontakt
+      - Landwirtschaft Soltau Hofladen Adresse
 
       # =========================
-      # SMALL FARM / PRIVATE (GOLD)
+      # ÖFFNUNGSZEITEN (WYSOKA INTENCJA)
+      # Kto szuka godzin otwarcia = aktywny klient/lead
       # =========================
-      - Kleinbetrieb Hof Gemüse Adresse
-      - Familienbetrieb Obst Gemüse Direktverkauf
-      - privater Hof Gemüse Verkauf Kontakt
-      - kleiner Gemüsehof Kontakt Telefon
-      - Hof Familie Direktverkauf Adresse
-      - kleiner Obsthof Kontakt Deutschland
-      - Nebenerwerb Hof Gemüse Kontakt
-      - Familienhof Obst Kontakt Adresse
-      - kleiner Hof Direktverkauf Gemüse Telefon
-      - Familienbetrieb Hof Produkte Kontakt
-      - Nebenerwerbslandwirt Kontakt Adresse
-      - Kleinbauer Hof Gemüse Direktverkauf
-      - kleiner Biobetrieb Kontakt Adresse
-      - Hobby Gärtner Direktverkauf Kontakt
-      - privater Gemüseanbau Verkauf Kontakt
-      - Kleingärtner Direktverkauf Hof Kontakt
-      - Familienhof Bio Produkte Kontakt
-      - privater Obsthof Adresse Telefon
-      - Kleinst Hof Direktverkauf Kontakt
-      - Familiengemüse Hof Kontakt Adresse
+      - Hofladen Öffnungszeiten heute Bayern
+      - Bauernhof Öffnungszeiten Direktverkauf NRW
+      - Hof Öffnungszeiten Gemüse Niedersachsen
+      - Hofladen Öffnungszeiten Samstag Adresse
+      - Bauernhof Öffnungszeiten Sonntag Direktverkauf
+      - Hof Öffnungszeiten aktuell Direktverkauf
+      - Hofladen geöffnet Adresse Telefon Deutschland
+      - Bauernhof Verkauf Öffnungszeiten Kontakt
+      - Hof Verkaufsstelle Öffnungszeiten Adresse
+      - Hofladen Wochenende geöffnet Kontakt
+      - Bauernhof Saisonverkauf Öffnungszeiten Adresse
+      - Hof Direktverkauf täglich geöffnet Kontakt
+      - Hofladen ganzjährig geöffnet Adresse
+      - Bauernhof Ernte Öffnungszeiten Direktverkauf
+      - Hof frische Waren täglich Kontakt Adresse
 
       # =========================
-      # DIRECT SALES (VERY STRONG)
+      # LIEFERSERVICE / ABONNEMENT
+      # Nowoczesne modele sprzedaży - niszowe query
       # =========================
-      - Hofladen Öffnungszeiten Adresse Telefon
-      - ab Hof Gemüse Obst frisch Kontakt
-      - Direktvermarktung Hof frische Produkte Adresse
-      - Bauernhof Eigenprodukte Verkauf Telefon
-      - Landwirtschaft Direktvertrieb Adresse Kontakt
-      - Hofladen frische Waren Adresse Telefon
-      - Bauernhof Produkte direkt kaufen Kontakt
-      - Direktvermarktung Hof Anschrift Deutschland
-      - Hofladen Sortiment Adresse Öffnungszeiten
-      - Bauernhof Direktabsatz Kontakt Telefon
-      - Hofladen Standort Adresse Deutschland
-      - Direktvermarktung Saison Produkte Kontakt
-      - Hofverkauf Telefon Öffnungszeiten Adresse
-      - Gemüse frisch Hof kaufen Kontakt
-      - Direktvermarktung Erzeuger Bayern Adresse
-      - Hofladen Bestellmöglichkeit Kontakt
-      - Bauernhof Saisonprodukte Adresse Telefon
-      - Direktvermarktung Gemüse Obst Adresse
-      - Hofladen Lieferung Kontakt Email
-      - Gemüse Obst Hof kaufen Adresse
+      - Gemüsekiste Lieferung Hof Anmeldung Bayern
+      - Gemüseabo Direktlieferung Betrieb Kontakt
+      - Abokiste Hof Direktlieferung Adresse
+      - Gemüselieferung Hof wöchentlich Kontakt
+      - Gemüsebox Hof Direktlieferung Anmeldung
+      - Obst Gemüse Lieferservice Hof Kontakt
+      - Hofkiste Lieferung Anmeldung Direktverkauf
+      - Ernteanteile Hof Anmeldung Kontakt Bayern
+      - Wochenkorb Hof Direktlieferung Kontakt
+      - Saisonkiste Hof Lieferung Anmeldung
+      - CSA Hof Anmeldung Kontakt Deutschland
+      - SoLaWi Betrieb Anmeldung Adresse NRW
+      - Solidarische Landwirtschaft Hof Kontakt Bayern
+      - Ernteteiler Hof Anmeldung Kontakt
+      - Gemüsegarten Paten Hof Direktverkauf Kontakt
+      - Selbsternte Hof Anmeldung Adresse Telefon
+      - Pflücken Hof Termin Kontakt Adresse
+      - Selbstpflücken Beeren Hof Öffnungszeiten
+      - Pflückfeld Hof Adresse Direktverkauf
+      - Mietbeet Hof Kontakt Adresse Deutschland
 
       # =========================
-      # ANIMAL FARMS EXTENDED
+      # TECHNICZNE / STRONA KONTAKT
+      # Query trafiające w podstrony kontaktowe
       # =========================
-      - Rinderhaltung Betrieb Adresse Kontakt
-      - Viehwirtschaft Bayern Direktverkauf Kontakt
-      - Tierhaltung Hof Adresse Niedersachsen
-      - Rindfleisch Betrieb Telefon Adresse
-      - Tierzucht Hof Kontakt Adresse
-      - Viehbetrieb Direktverkauf Kontakt
-      - Rinderhof Kontakt Anschrift Deutschland
-      - Tierhaltung Betrieb Telefon Direktverkauf
-      - Viehzucht Hof Adresse Kontakt
-      - Tierproduktion Betrieb Kontakt Deutschland
-      - Schweinezucht Betrieb Adresse Kontakt
-      - Geflügelhaltung Hof Direktverkauf Adresse
-      - Hühnerfarm Kontakt Adresse Deutschland
-      - Schafbetrieb Bayern Direktverkauf Kontakt
-      - Ziegenbetrieb Hof Adresse Telefon
-      - Pferdehaltung Betrieb Direktverkauf Kontakt
-      - Kaninchen Züchter Hof Adresse Kontakt
-      - Lamm Betrieb Direktverkauf Adresse
-      - Rinder Züchter Hof Direktverkauf Kontakt
-      - Schweinemast Betrieb Adresse Kontakt
+      - 'Bauernhof "Kontaktformular" Direktverkauf Bayern'
+      - 'Hofladen "Kontakt" "Telefon" "Email" Adresse'
+      - 'Hof "Anfahrt" Direktverkauf Gemüse Kontakt'
+      - 'Bauernhof "Anfahrtsbeschreibung" Hofladen Adresse'
+      - 'Hof "So finden Sie uns" Direktverkauf Kontakt'
+      - 'Hofladen "Lageplan" Adresse Telefon'
+      - 'Bauernhof "Google Maps" Direktverkauf Kontakt'
+      - 'Hof "Routenplaner" Direktverkauf Adresse'
+      - 'Bauernhof "schreiben Sie uns" Hofladen Kontakt'
+      - 'Hof "rufen Sie uns an" Direktverkauf Adresse'
+      - 'Hofladen "Bestellung" "Telefon" Direktverkauf'
+      - 'Bauernhof "vorbestellen" Gemüse Direktverkauf'
+      - 'Hof "Vorbestellung" Obst Gemüse Kontakt'
+      - 'Hofladen "Abholung" Direktverkauf Adresse'
+      - 'Bauernhof "Abholtermin" Gemüse Kontakt'
 
       # =========================
-      # ORGANIC + NICHE
+      # POWIATY WSCHODNIE NIEMCY (NIEDOCENIONE)
       # =========================
-      - Demeter Hof Direktverkauf Adresse
-      - Bioland Hof Telefon Direktverkauf
-      - ökologisch wirtschaftender Betrieb Kontakt
-      - Bio Gemüse Hof Adresse Telefon
-      - Bio Obstbau Hof Direktverkauf Kontakt
-      - Bio Hof Direktverkauf Adresse
-      - Biobauer Direktverkauf Adresse Telefon
-      - Bio Betrieb Telefon Direktverkauf
-      - Bio Hof Kontakt Adresse Telefon
-      - ökologischer Betrieb Direktverkauf Adresse
-      - Naturland Hof Adresse Kontakt
-      - EU Bio zertifiziert Hof Kontakt
-      - Bio Getreide Direktverkauf Hof Adresse
-      - ökologischer Anbau Hof Adresse Kontakt
-      - Bioland Hof Gemüse Direktverkauf Adresse
-      - Bio Weidebetrieb Kontakt Telefon
-      - Permakultur Betrieb Direktverkauf Kontakt
-      - Bio Geflügelbetrieb Adresse Kontakt
-      - Demeter zertifiziert Hof Adresse Kontakt
-      - Öko Hof Direktverkauf Adresse Telefon
+      - Bauernhof Oder-Spree Direktverkauf Kontakt
+      - Hof Havelland Gemüse Adresse Telefon
+      - Landwirtschaft Prignitz Hofladen Kontakt
+      - Bauernhof Uckermark Direktverkauf Adresse
+      - Hof Barnim Gemüse Direktverkauf Kontakt
+      - Landwirtschaft Dahme-Spreewald Hofladen Adresse
+      - Bauernhof Elbe-Elster Direktverkauf Kontakt
+      - Hof Fläming Gemüse Adresse Telefon
+      - Landwirtschaft Ostprignitz Hofladen Kontakt
+      - Bauernhof Märkisch-Oderland Direktverkauf
+      - Hofladen Nordsachsen Adresse Telefon
+      - Bauernhof Meißen Land Direktverkauf Kontakt
+      - Hof Bautzen Gemüse Adresse Direktverkauf
+      - Landwirtschaft Görlitz Hofladen Kontakt
+      - Bauernhof Zwickau Land Direktverkauf Adresse
+      - Hof Vogtland Gemüse Direktverkauf Kontakt
+      - Landwirtschaft Erzgebirge Hofladen Adresse
+      - Bauernhof Mittelsachsen Direktverkauf Kontakt
+      - Hof Leipzig Land Gemüse Adresse Telefon
+      - Landwirtschaft Nordhausen Hofladen Kontakt
+      - Bauernhof Kyffhäuserkreis Direktverkauf Adresse
+      - Hof Eichsfeld Gemüse Direktverkauf Kontakt
+      - Landwirtschaft Unstrut-Hainich Hofladen Adresse
+      - Bauernhof Wartburgkreis Direktverkauf Kontakt
+      - Hof Hildburghausen Gemüse Adresse Telefon
+      - Landwirtschaft Sonneberg Hofladen Kontakt
+      - Bauernhof Saale-Orla-Kreis Direktverkauf
+      - Hof Greiz Gemüse Direktverkauf Kontakt
+      - Landwirtschaft Altenburger Land Hofladen Adresse
+      - Bauernhof Burgenlandkreis Direktverkauf Kontakt
 
       # =========================
-      # GRAIN / CEREAL FARMS
+      # NISZOWE PRODUKTY (NIEOBSŁUŻONE W ORYGINALE)
       # =========================
-      - Getreideanbau Betrieb Adresse Telefon
-      - Weizenbauer Direktverkauf Kontakt
-      - Getreidehof Bayern Adresse Telefon
-      - Kornspeicher Betrieb Direktverkauf Kontakt
-      - Getreidemühle Hof Adresse Kontakt
-      - Roggenbauer Hof Direktverkauf Adresse
-      - Gerste Anbau Betrieb Adresse Kontakt
-      - Hafer Anbau Hof Direktverkauf Adresse
-      - Dinkel Bauer Betrieb Kontakt Adresse
-      - Getreidebauer Hof Direktverkauf Kontakt
-      - Mais Erzeuger Betrieb Adresse Kontakt
-      - Raps Erzeuger Hof Direktverkauf Kontakt
-      - Getreidehof Verkauf Adresse Telefon
-      - Urgetreide Direktverkauf Betrieb Adresse
-      - Emmer Erzeuger Hof Adresse Kontakt
-      - Einkorn Produzent Betrieb Direktverkauf
-      - Hülsenfrüchte Erzeuger Hof Kontakt
-      - Linsen Produzent Betrieb Adresse
-      - Bohnen Erzeuger Hof Direktverkauf Kontakt
-      - Erbsen Produzent Betrieb Adresse Kontakt
+      - Topinambur Erzeuger Hof Direktverkauf Adresse
+      - Pastinaken Bauer Hof Direktverkauf Kontakt
+      - Schwarzwurzel Erzeuger Betrieb Adresse
+      - Meerrettich Anbau Hof Direktverkauf Adresse
+      - Rote Bete Erzeuger Hof Kontakt Bayern
+      - Steckrüben Bauer Direktverkauf Adresse Kontakt
+      - Kohlrabi Erzeuger Hof Direktverkauf Bayern
+      - Rosenkohl Bauer Betrieb Direktverkauf Adresse
+      - Grünkohl Erzeuger Hof Direktverkauf Kontakt
+      - Spitzkohl Bauer Betrieb Adresse Telefon
+      - Pak Choi Erzeuger Hof Direktverkauf Kontakt
+      - Mangold Bauer Betrieb Direktverkauf Adresse
+      - Rucola Erzeuger Hof Direktverkauf Kontakt
+      - Postelein Bauer Betrieb Adresse Telefon
+      - Vogelmiere Erzeuger Hof Direktverkauf
+      - Artischocken Bauer Deutschland Direktverkauf
+      - Zuckermais Erzeuger Hof Direktverkauf Adresse
+      - Physalis Bauer Betrieb Direktverkauf Kontakt
+      - Kapuzinerkresse Erzeuger Hof Adresse
+      - Borretsch Bauer Direktverkauf Hof Kontakt
+      - Süßkartoffel Erzeuger Hof Bayern Adresse
+      - Yacon Bauer Betrieb Direktverkauf Kontakt
+      - Shiitake Pilze Betrieb Direktverkauf Adresse
+      - Austernpilze Erzeuger Hof Direktverkauf
+      - Steinpilze Kultivierung Betrieb Adresse Kontakt
+      - Kräuterseitlinge Erzeuger Hof Direktverkauf
+      - Edelpilze Betrieb Direktverkauf Adresse Kontakt
+      - Trüffel Anbau Deutschland Betrieb Kontakt
+      - Ingwer Anbau Betrieb Direktverkauf Adresse
+      - Kurkuma Anbau Hof Deutschland Kontakt
 
       # =========================
-      # FRUIT FARMS
+      # NISZOWE ZWIERZĘTA (NIEDOCENIONE)
       # =========================
-      - Obstbauer Direktverkauf Adresse Telefon
-      - Apfelernte Hof Direktverkauf Kontakt
-      - Kirschernte Betrieb Bayern Adresse
-      - Pflaumenernte Hof Direktverkauf Kontakt
-      - Birnenbauer Betrieb Adresse Telefon
-      - Apfelbauer Direktverkauf Adresse Kontakt
-      - Obstbetrieb Telefon Öffnungszeiten
-      - Aprikosenanbau Hof Direktverkauf Adresse
-      - Pfirsichbauer Betrieb Adresse Kontakt
-      - Obstbauer Direktverkauf Telefon Adresse
-      - Kirschbauer Betrieb Adresse Kontakt
-      - Süßkirschen Hof Direktverkauf Adresse
-      - Sauerkirschen Erzeuger Betrieb Kontakt
-      - Mirabellen Betrieb Direktverkauf Adresse
-      - Quitten Erzeuger Hof Kontakt
-      - Haselnuss Produzent Betrieb Adresse
-      - Walnuss Erzeuger Hof Direktverkauf Kontakt
-      - Obstbauer Anschrift Telefon Deutschland
-      - Tafelobst Erzeuger Direktverkauf Adresse
-      - Mostobst Produzent Betrieb Kontakt
+      - Alpaka Haltung Hof Direktverkauf Adresse
+      - Lama Züchter Betrieb Direktverkauf Kontakt
+      - Bison Haltung Betrieb Direktverkauf Adresse
+      - Yak Züchter Hof Deutschland Kontakt
+      - Wasserbüffel Betrieb Direktverkauf Adresse
+      - Esel Züchter Hof Kontakt Adresse
+      - Minischweine Züchter Betrieb Kontakt Adresse
+      - Damwild Betrieb Direktverkauf Adresse Kontakt
+      - Rotwild Haltung Betrieb Direktverkauf Adresse
+      - Mufflons Züchter Hof Direktverkauf Kontakt
+      - Fasane Züchter Betrieb Direktverkauf Adresse
+      - Rebhühner Züchter Hof Kontakt Adresse
+      - Wachteln Erzeuger Betrieb Direktverkauf Adresse
+      - Perlhühner Züchter Hof Direktverkauf Kontakt
+      - Emus Züchter Betrieb Deutschland Adresse
+      - Strauße Züchter Hof Direktverkauf Adresse
+      - Nandus Züchter Betrieb Kontakt Deutschland
+      - Meerschweinchen Züchter Hof Direktverkauf
+      - Kaninchen Fleisch Betrieb Direktverkauf Adresse
+      - Nutria Züchter Hof Direktverkauf Kontakt
 
       # =========================
-      # VEGETABLE FARMS
+      # PRZETWÓRSTWO NA FARMIE
+      # Gospodarstwa z własnym przetwórstwem = wyższy ticket
       # =========================
-      - Gemüsebauer Direktverkauf Adresse Telefon
-      - Gemüseerzeuger Hof Adresse Kontakt
-      - Salatbauer Betrieb Direktverkauf Adresse
-      - Tomatenbauer Direktverkauf Hof Kontakt
-      - Gurkenbauer Betrieb Adresse Telefon
-      - Paprikaanbau Hof Direktverkauf Kontakt
-      - Zucchini Erzeuger Betrieb Adresse
-      - Blumenkohl Bauer Direktverkauf Kontakt
-      - Brokkoli Erzeuger Hof Adresse
-      - Weißkohl Bauer Direktverkauf Adresse Kontakt
-      - Spinat Erzeuger Betrieb Direktverkauf Kontakt
-      - Rettich Bauer Hof Adresse Telefon
-      - Lauch Erzeuger Betrieb Direktverkauf Adresse
-      - Porree Bauer Hof Kontakt Telefon
-      - Kürbis Bauer Direktverkauf Adresse Kontakt
-      - Kürbisanbau Hof Telefon Direktverkauf
-      - Fenchel Erzeuger Betrieb Adresse Kontakt
-      - Kohlrabi Bauer Hof Direktverkauf
-      - Steckrüben Erzeuger Betrieb Direktverkauf
-      - Feldsalat Bauer Hof Adresse Kontakt
+      - Hofeigene Metzgerei Direktverkauf Adresse Bayern
+      - Hofmetzgerei Adresse Telefon Direktverkauf
+      - Hofbäckerei Direktverkauf Adresse Kontakt
+      - Hofeigene Bäckerei frisch Direktverkauf
+      - Hofkäserei Direktverkauf Adresse Telefon
+      - Schaukäserei Betrieb Direktverkauf Adresse
+      - Hofbrennerei Direktverkauf Adresse Kontakt
+      - Schnapsbrennerei Hof Direktverkauf Adresse
+      - Obstbrennerei Betrieb Direktverkauf Kontakt
+      - Fruchtsaft Kelterei Direktverkauf Adresse
+      - Apfelsaft Kelterei Hof Direktverkauf Kontakt
+      - Mosterei Betrieb Direktverkauf Adresse Telefon
+      - Hofrösterei Kaffee Direktverkauf Adresse
+      - Getreidemühle Hofladen Direktverkauf Kontakt
+      - Hofmühle Mehl Direktverkauf Adresse
+      - Ölmühle Betrieb Direktverkauf Adresse Kontakt
+      - Rapsöl Kaltpressung Betrieb Direktverkauf
+      - Kürbiskernöl Betrieb Direktverkauf Adresse
+      - Leinöl Erzeuger Betrieb Direktverkauf Kontakt
+      - Marmelade Produktion Hof Direktverkauf Adresse
+      - Konfitüre Hersteller Hof Direktverkauf Kontakt
+      - Eingemachtes Hersteller Betrieb Adresse
+      - Sauerkraut Hersteller Hof Direktverkauf
+      - Fermentiertes Gemüse Hof Direktverkauf Kontakt
+      - Trockenfrüchte Erzeuger Betrieb Direktverkauf
 
       # =========================
-      # SPECIALTY / NICHE PRODUCTS
+      # CERTYFIKATY (FILTR JAKOŚCI)
       # =========================
-      - Spargelbauer Direktverkauf Adresse Telefon
-      - Spargelernte Hof Direktverkauf Kontakt
-      - Spargelfeld Betrieb Adresse Telefon
-      - Hopfenanbau Bayern Betrieb Adresse
-      - Heilkräuteranbau Betrieb Direktverkauf Adresse
-      - Kräuteranbau Hof Adresse Telefon
-      - Lavendel Ernte Hof Direktverkauf Adresse
-      - Hanfanbau zertifiziert Betrieb Kontakt
-      - Sonnenblumen Ernte Hof Direktverkauf
-      - Safrananbau Betrieb Adresse Kontakt
-      - Tabakanbau Hof Adresse Deutschland
-      - Zuckerrüben Erzeuger Betrieb Kontakt
-      - Minze Erzeuger Hof Direktverkauf Adresse
-      - Basilikum Anbau Betrieb Telefon Kontakt
-      - Rosmarin Erzeuger Hof Adresse
-      - Thymian Produzent Betrieb Direktverkauf
-      - Gewürzkräuter Erzeuger Hof Adresse Kontakt
-      - Wildkräuter Hof Direktverkauf Adresse
-      - Teekräuter Anbau Betrieb Direktverkauf Kontakt
-      - Arzneipflanzen Erzeuger Hof Adresse
+      - Bioland zertifiziert Hof Direktverkauf Adresse
+      - Demeter Betrieb Direktverkauf Kontakt Adresse
+      - Naturland zertifiziert Hof Direktverkauf
+      - EU Bio Siegel Hof Direktverkauf Adresse
+      - Biokreis zertifiziert Hof Direktverkauf Kontakt
+      - Gäa zertifiziert Betrieb Direktverkauf Adresse
+      - Verbandsmitglied Bioland Hof Kontakt Adresse
+      - Ökologischer Landbau Hof Direktverkauf Adresse
+      - Bio zertifiziert Betrieb Hofladen Adresse
+      - Demeter Hof Gemüse Direktverkauf Kontakt
+      - Bioland Hof Obst Direktverkauf Adresse
+      - Naturland Betrieb Fleisch Direktverkauf Kontakt
+      - Bioland Käserei Direktverkauf Adresse
+      - Demeter Gärtnerei Direktverkauf Kontakt
+      - Naturland Imkerei Direktverkauf Adresse
 
       # =========================
-      # DAIRY / MILK PRODUCTS
+      # MEDIA SPOŁECZNOŚCIOWE / STRONY (NOWE KANAŁY)
+      # Query trafiające w strony które mają social media
       # =========================
-      - Milcherzeuger Hof Direktverkauf Adresse
-      - Milchbauer Direktverkauf Adresse Telefon
-      - Käserei Betrieb Direktverkauf Adresse
-      - Rohmilch Direktverkauf Hof Adresse
-      - Joghurt Hersteller Hof Direktverkauf Kontakt
-      - Molkerei Direktverkauf Adresse Telefon
-      - Butter Hersteller Hof Direktverkauf Adresse
-      - Ziegenmilch Erzeuger Hof Adresse
-      - Schafmilch Betrieb Direktverkauf Kontakt
-      - Milchbauer Hof Direktverkauf Adresse
-      - Büffelmilch Erzeuger Betrieb Adresse
-      - Mozzarella Hersteller Hof Direktverkauf
-      - Frischkäse Hersteller Betrieb Adresse
-      - Direktmilch Erzeuger Hof Adresse Telefon
-      - Milchautomat Hof Standort Adresse
-      - Käse ab Hof Direktverkauf Adresse
-      - Kefir Hersteller Betrieb Direktverkauf
-      - Quark Hersteller Hof Adresse Telefon
-      - Bio Milch Erzeuger Hof Direktverkauf
-      - Weidemilch Hof Direktverkauf Adresse
+      - 'Hofladen Bayern "Facebook" Kontakt Adresse'
+      - 'Bauernhof Direktverkauf "Instagram" Kontakt'
+      - 'Hof Gemüse "WhatsApp" Bestellung Kontakt'
+      - 'Hofladen "WhatsApp" Bestellung Direktverkauf'
+      - 'Bauernhof "Newsletter" Anmeldung Direktverkauf'
+      - 'Hof "Online-Shop" Direktverkauf Adresse'
+      - 'Hofladen Onlineshop Bestellung Adresse'
+      - 'Bauernhof Webshop Direktverkauf Kontakt'
+      - 'Hof "bestellen" Online Direktverkauf Adresse'
+      - 'Hofladen "Lieferung" Online bestellen Kontakt'
 
       # =========================
-      # POULTRY / EGGS
+      # AGROTURYSTYKA / EDUKACJA (WYSOKA WARTOŚĆ LEADU)
       # =========================
-      - Hühnerhaltung Betrieb Direktverkauf Adresse
-      - Eier ab Hof Direktverkauf Telefon
-      - Eiererzeuger Betrieb Adresse Kontakt
-      - Freilandeier Direktverkauf Hof Adresse
-      - Puten Betrieb Direktverkauf Adresse
-      - Gänse Direktverkauf Hof Adresse Telefon
-      - Enten Betrieb Direktverkauf Adresse Kontakt
-      - Hähnchen Erzeuger Hof Kontakt Adresse
-      - Wachtel Erzeuger Betrieb Direktverkauf
-      - Bio Eier Direktverkauf Hof Adresse
-      - Freilandhühner Direktverkauf Betrieb Adresse
-      - Eier Erzeuger Hof Direktverkauf Telefon
-      - Ökoeier Direktverkauf Hof Adresse
-      - Truthahn Erzeuger Betrieb Direktverkauf
-      - Perlhuhn Erzeuger Hof Adresse Kontakt
-      - Fasan Züchter Betrieb Direktverkauf Adresse
-      - Gänse Erzeuger Hof Direktverkauf Kontakt
-      - Freilandgeflügel Direktverkauf Hof Adresse
-      - Masthähnchen Betrieb Direktverkauf Kontakt
-      - Eier Bodenhaltung Hof Direktverkauf Adresse
+      - Ferienwohnung Bauernhof Bayern Adresse Telefon
+      - Urlaub auf dem Bauernhof NRW Kontakt
+      - Agrotourismus Hof Niedersachsen Adresse
+      - Ferien Bauernhof Baden-Württemberg Kontakt
+      - Hofurlaub Sachsen Adresse Telefon
+      - Bauernhof Ferienwohnung Kontakt Adresse
+      - Erlebnisbauernhof Kindergeburtstag Kontakt
+      - Schulausflug Bauernhof Adresse Kontakt
+      - Kindergeburtstag Hof Adresse Telefon
+      - Erlebnispädagogik Bauernhof Kontakt
+      - Hofführung Bauernhof Adresse Anmeldung
+      - Käsemachen Kurs Hof Adresse Kontakt
+      - Brotbacken Hof Kurs Adresse Telefon
+      - Imkerkurs Imkerei Adresse Anmeldung
+      - Käserei Kurs Mitmachen Hof Kontakt
 
       # =========================
-      # MEAT FARMS
+      # SEZONOWE / EVENTY (WYSOKA ŚWIEŻOŚĆ)
       # =========================
-      - Fleischerzeuger Direktverkauf Hof Adresse
-      - Hofeigene Metzgerei Direktverkauf Kontakt
-      - Rindfleisch Erzeuger Direktverkauf Adresse
-      - Schweinefleisch Erzeuger Hof Adresse
-      - Lammfleisch Direktverkauf Betrieb Adresse
-      - Wildfleisch Direktverkauf Hof Adresse
-      - Geflügelfleisch Erzeuger Direktverkauf Adresse
-      - Bio Fleisch Direktverkauf Hof Adresse
-      - Weiderind Erzeuger Direktverkauf Adresse
-      - Naturland Fleisch Direktverkauf Hof Kontakt
-      - Ziegenfleisch Direktverkauf Betrieb Adresse
-      - Kalbfleisch Erzeuger Direktverkauf Adresse
-      - Pferdefleisch Betrieb Direktverkauf Kontakt
-      - Wild Erzeuger Direktvermarktung Adresse
-      - Wildschwein Erzeuger Betrieb Direktverkauf
-      - Kaninchen Erzeuger Hof Direktverkauf Adresse
-      - Büffelfleisch Betrieb Direktverkauf Adresse
-      - Wurst Hersteller Hof Direktverkauf Kontakt
-      - Fleischpaket Erzeuger Hof Direktverkauf
-      - Dry Aged Beef Hof Direktverkauf Adresse
+      - Erdbeerfest Hof Adresse Öffnungszeiten
+      - Kürbisfest Bauernhof Adresse Kontakt
+      - Spargelzeit Hof Direktverkauf Adresse
+      - Apfelfest Obstbetrieb Adresse Kontakt
+      - Weinfest Winzer Direktverkauf Adresse
+      - Erntefest Bauernhof Adresse Telefon
+      - Hoffest Bauernhof Adresse Kontakt
+      - Tag der offenen Höfe Adresse Kontakt
+      - Hofmarkt Bauernhof Adresse Öffnungszeiten
+      - Wochenmarkt Hof Stand Adresse Kontakt
+      - Bauernmarkt Anbieter Hof Kontakt Adresse
+      - Ökomarkt Hof Stand Direktverkauf Kontakt
+      - Regionalmarkt Hof Anbieter Adresse
+      - Naturmarkt Hof Direktverkauf Kontakt
+      - Frischemarkt Hof Stand Adresse Telefon
 
       # =========================
-      # HONEY / BEE PRODUCTS
+      # WYSZUKIWANIE DOSTAWCÓW B2B
+      # Gospodarstwa szukające kanałów B2B = duże ilości
       # =========================
-      - Imker Direktverkauf Adresse Telefon
-      - Honig Erzeuger Hof Direktverkauf Adresse
-      - Imker Bayern Direktverkauf Adresse Kontakt
-      - Honig frisch Imkerei Direktverkauf Adresse
-      - Bienenprodukte Direktverkauf Imkerei Adresse
-      - Propolis Erzeuger Direktverkauf Adresse
-      - Bienenwachs Imkerei Direktverkauf Adresse
-      - Waldhonig Erzeuger Imkerei Adresse
-      - Blütenhonig Imkerei Direktverkauf Adresse
-      - Bio Honig Erzeuger Imkerei Adresse
-      - Manuka Imkerei Deutschland Direktverkauf
-      - Rapshonig Imkerei Direktverkauf Adresse
-      - Lindenhonig Erzeuger Imkerei Adresse
-      - Akazienhonig Imkerei Direktverkauf Adresse
-      - Wildbienen Imkerei Direktverkauf Kontakt
-      - Gelee Royal Erzeuger Imkerei Adresse
-      - Imkerei Niedersachsen Direktverkauf Adresse
-      - Honig Erzeuger Imkerei Telefon Adresse
-      - Honig Ernte Imkerei Direktverkauf Kontakt
-      - Wachsprodukte Erzeuger Imkerei Adresse
+      - Gemüselieferant Restaurant Bayern Kontakt
+      - Hofladen Großabnehmer Direktlieferung Kontakt
+      - Landwirtschaft Gastronomie Lieferant Kontakt
+      - Bauernhof Großhandel Direktverkauf Kontakt
+      - Hof Catering Lieferant Adresse Kontakt
+      - Gemüse Erzeuger Großkunde Lieferant Kontakt
+      - Obst Erzeuger Gastronomie Direktlieferung
+      - Fleisch Erzeuger Gastronomie Kontakt Bayern
+      - Milch Erzeuger Gastronomie Direktlieferung
+      - Hof Schule Kindergarten Lieferant Kontakt
+      - Landwirtschaft Kantinen Lieferant Kontakt
+      - Obst Gemüse Lieferant Einzelhandel Kontakt
+      - Hof Bäckerei Lieferant Getreide Kontakt
+      - Bio Hof Gastronomie Direktlieferung Kontakt
+      - Landwirtschaft Wochenmarkt Händler Kontakt
 
       # =========================
-      # WINE / VINEYARD
+      # ZDROWIE / DIETA (TREND)
       # =========================
-      - Winzer Direktverkauf Adresse Telefon
-      - Weinbauer Direktverkauf Adresse Kontakt
-      - Weingut Verkostung Direktverkauf Adresse
-      - Winzer Hof Weinverkauf Adresse
-      - Rotwein Erzeuger Direktverkauf Adresse
-      - Weißwein Erzeuger Winzer Adresse Kontakt
-      - Biowein Winzer Direktverkauf Adresse
-      - Sekt Erzeuger Direktverkauf Adresse
-      - Obstwein Betrieb Direktverkauf Adresse
-      - Most Erzeuger Hof Direktverkauf Adresse
-      - Apfelwein Erzeuger Direktverkauf Adresse
-      - Federweißer Winzer Direktverkauf Kontakt
-      - Winzer Württemberg Direktverkauf Adresse
-      - Weingut Kaiserstuhl Direktverkauf Adresse
-      - Mosel Winzer Direktverkauf Adresse
-      - Rheingau Winzer Direktverkauf Adresse
-      - Pfalz Winzer Direktverkauf Adresse
-      - Franken Winzer Direktverkauf Adresse
-      - Württemberg Winzer Direktverkauf Adresse
-      - Saarland Winzer Direktverkauf Adresse
+      - glutenfreies Getreide Hof Direktverkauf Adresse
+      - Dinkel Emmer Einkorn Hof Direktverkauf
+      - Urgetreide Mühle Hof Direktverkauf Kontakt
+      - laktosefreie Milchprodukte Hof Direktverkauf
+      - vegane Produkte Hof Direktverkauf Adresse
+      - rohköstliche Produkte Hof Direktverkauf Kontakt
+      - zuckerfreie Marmelade Hof Direktverkauf
+      - Keimsprossen Erzeuger Hof Direktverkauf Adresse
+      - Microgreens Erzeuger Betrieb Direktverkauf
+      - Sprossen Erzeuger Hof Direktverkauf Kontakt
+      - Alfalfa Erzeuger Betrieb Direktverkauf Adresse
+      - Kimchi Hersteller Hof Direktverkauf Kontakt
+      - Kombucha Hersteller Betrieb Direktverkauf
+      - Kefir Hersteller Hof Direktverkauf Adresse
+      - fermentierte Lebensmittel Hof Direktverkauf
 
       # =========================
-      # HERBS / MEDICINAL PLANTS
+      # UZUPEŁNIENIE DO 500
+      # Mix regionalny + produktowy
       # =========================
-      - Kräuterbauer Direktverkauf Adresse Telefon
-      - Heilkräuter Erzeuger Betrieb Adresse
-      - Kräuteranbau Hof Direktverkauf Adresse
-      - Naturheilmittel Pflanzen Erzeuger Adresse
-      - Teepflanzen Erzeuger Betrieb Adresse
-      - Arzneipflanzen Bauer Direktverkauf Adresse
-      - Kräutertrocknung Hof Direktverkauf Kontakt
-      - Kräuter frisch Hof Direktverkauf Adresse
-      - Wildkräuter Erzeuger Betrieb Adresse
-      - Kräuterverarbeitung Betrieb Direktverkauf Adresse
-      - Kamille Erzeuger Hof Direktverkauf Adresse
-      - Baldrian Produzent Betrieb Adresse
-      - Melisse Erzeuger Hof Direktverkauf Kontakt
-      - Lavendel Erzeuger Betrieb Direktverkauf Adresse
-      - Pfefferminze Erzeuger Betrieb Adresse
-      - Schafgarbe Produzent Hof Direktverkauf
-      - Rotklee Erzeuger Betrieb Adresse Kontakt
-      - Johanniskraut Produzent Hof Direktverkauf
-      - Holunder Erzeuger Betrieb Adresse Kontakt
-      - Brennnessel Produzent Hof Direktverkauf Adresse
+      - Bauernhof Chiemgau Direktverkauf Adresse Kontakt
+      - Hof Bodensee Gemüse Direktverkauf Adresse
+      - Landwirtschaft Spreewald Direktverkauf Kontakt
+      - Bauernhof Lüneburger Heide Hofladen Adresse
+      - Hof Rhön Gemüse Direktverkauf Kontakt
+      - Landwirtschaft Mosel Hof Direktverkauf Adresse
+      - Bauernhof Sauerland Hofladen Kontakt
+      - Hof Bergisches Land Gemüse Direktverkauf
+      - Landwirtschaft Odenwald Hofladen Adresse
+      - Bauernhof Taunus Direktverkauf Kontakt
+      - Hof Vogelsberg Gemüse Direktverkauf Adresse
+      - Landwirtschaft Westerwald Hofladen Kontakt
+      - Bauernhof Eifel Direktverkauf Adresse Telefon
+      - Hof Hunsrück Gemüse Direktverkauf Kontakt
+      - Landwirtschaft Pfalz Hofladen Adresse
+      - Bauernhof Kraichgau Direktverkauf Kontakt
+      - Hof Hohenlohe Gemüse Direktverkauf Adresse
+      - Landwirtschaft Schwäbische Alb Hofladen
+      - Bauernhof Oberschwaben Direktverkauf Kontakt
+      - Hof Hegau Gemüse Direktverkauf Adresse
+      - Landwirtschaft Markgräflerland Hofladen Kontakt
+      - Bauernhof Kaiserstuhl Direktverkauf Adresse
+      - Hof Breisgau Gemüse Direktverkauf Kontakt
+      - Landwirtschaft Ortenau Hofladen Adresse
+      - Bauernhof Kinzigtal Direktverkauf Kontakt
+      - Hof Schwarzwald Gemüse Direktverkauf Adresse
+      - Landwirtschaft Baar Hofladen Kontakt
+      - Bauernhof Hegau Direktverkauf Adresse Telefon
+      - Hof Bodenseekreis Gemüse Direktverkauf
+      - Landwirtschaft Sigmaringen Hofladen Kontakt
+      - Bauernhof Biberach Direktverkauf Adresse
+      - Hof Ravensburg Gemüse Direktverkauf Kontakt
+      - Landwirtschaft Lindau Hofladen Adresse
+      - Bauernhof Kempten Land Direktverkauf Kontakt
+      - Hof Oberallgäu Gemüse Direktverkauf Adresse
+      - Landwirtschaft Ostallgäu Hofladen Kontakt
+      - Bauernhof Kaufbeuren Land Direktverkauf
+      - Hof Füssen Gemüse Direktverkauf Adresse
+      - Landwirtschaft Garmisch Hofladen Kontakt
+      - Bauernhof Berchtesgaden Direktverkauf Adresse
 
       # =========================
-      # DIRECTORY BUT CLEANABLE
+      # DOPEŁNIENIE DO 500
       # =========================
-      - Bauernhöfe Bayern Adressen Übersicht
-      - Landwirtschaftsbetriebe Niedersachsen Adressen
-      - Agrarbetriebe NRW Verzeichnis Kontakt
-      - Bauernhöfe Baden-Württemberg Adressen
-      - Hofläden Sachsen Übersicht Adressen
-      - Landwirtschaft Thüringen Betriebe Adressen
-      - Bauernhöfe Brandenburg Verzeichnis Kontakt
-      - Agrarbetriebe Schleswig-Holstein Adressen
-      - Bauernhöfe Hessen Übersicht Direktverkauf
-      - Landwirtschaft Sachsen-Anhalt Betriebe Liste
-      - Bauernhöfe Mecklenburg Verzeichnis Adressen
-      - Hofläden Rheinland-Pfalz Übersicht
-      - Landwirtschaft Saarland Betriebe Liste
-      - Bauernhöfe Oberbayern Verzeichnis Direktverkauf
-      - Hofläden Schwaben Übersicht Adressen
-      - Landwirtschaft Allgäu Betriebe Verzeichnis
-      - Agrarbetriebe Franken Adressen Liste
-      - Bauernhöfe Oberpfalz Verzeichnis Direktverkauf
-      - Landwirtschaft Münsterland Betriebe Adressen
-      - Bauernhöfe Eifel Übersicht Direktverkauf
-
-      # =========================
-      # FLOWER / NURSERY FARMS
-      # =========================
-      - Blumenbauer Direktverkauf Adresse Telefon
-      - Gärtnerei Adresse Öffnungszeiten Telefon
-      - Blumenzüchter Betrieb Direktverkauf Adresse
-      - Schnittblumen Erzeuger Hof Direktverkauf
-      - Rosen Züchter Betrieb Direktverkauf Adresse
-      - Tulpen Erzeuger Hof Direktverkauf Adresse
-      - Chrysanthemen Erzeuger Betrieb Adresse
-      - Pflanzenhof Direktverkauf Adresse Telefon
-      - Baumschule Direktverkauf Adresse Telefon
-      - Gartenbau Betrieb Direktverkauf Adresse
-      - Topfpflanzen Erzeuger Hof Adresse Kontakt
-      - Zierpflanzen Erzeuger Betrieb Direktverkauf
-      - Sommerblumen Erzeuger Hof Adresse Telefon
-      - Freilandblumen Erzeuger Betrieb Direktverkauf
-      - Saisonblumen Erzeuger Hof Adresse Kontakt
-      - Wildblumen Erzeuger Betrieb Direktverkauf Adresse
-      - Pflückgarten Hof Adresse Öffnungszeiten
-      - Blumenbetrieb Adresse Telefon Direktverkauf
-      - Schnittblumen Erzeuger Direktverkauf Adresse
-      - Blumenzucht Betrieb Direktverkauf Adresse
-
-      # =========================
-      # MIX HIGH INTENT
-      # =========================
-      - Hof Gemüse Obst Eier Direktverkauf
-      - Landwirtschaft Obst Kartoffeln Bayern Adresse
-      - Hof Milch Butter Käse Direktverkauf
-      - Bauernhof Kartoffeln Zwiebeln Direktverkauf
-      - Landwirtschaft Eigenprodukte Direktverkauf Adresse
-      - Bauernhof Obst Beeren Direktverkauf Adresse
-      - Hof Gemüse Kräuter Verkauf Kontakt
-      - Landwirtschaft Fleisch Wurst Direktverkauf Adresse
-      - Bauernhof Gemüse Eier Verkauf Adresse
-      - Hof Kartoffel Möhren Direktverkauf Adresse
-      - Bauernhof Fleisch Eier Wurst Adresse
-      - Hof Honig Käse Eier Direktverkauf
-      - Landwirtschaft Kräuter Beeren Direktverkauf
-      - Bauernhof Obst Kräuter Direktverkauf Adresse
-      - Hof Bio Gemüse Fleisch Direktverkauf Adresse
-      - Landwirtschaft Kartoffel Kohl Direktverkauf
-      - Bauernhof Brot Getreide Direktverkauf Adresse
-      - Hof Wein Obst Direktverkauf Adresse
-      - Landwirtschaft Honig Marmelade Direktverkauf
-      - Bauernhof Mischprodukte Direktverkauf Adresse
-
-      # =========================
-      # AGRITOURISM / CSA
-      # =========================
-      - Urlaub Bauernhof Adresse Telefon Deutschland
-      - Ferienhof Adresse Öffnungszeiten Telefon
-      - Agrotourismus Betrieb Adresse Kontakt
-      - Erlebnisbauernhof Adresse Telefon Kontakt
-      - Solidarische Landwirtschaft Betrieb Adresse
-      - SoLaWi Betrieb Adresse Kontakt Deutschland
-      - CSA Hof Adresse Kontakt
-      - Gemüseabo Betrieb Anmeldung Kontakt
-      - Gemüsekiste Lieferservice Adresse Kontakt
-      - Gemüselieferung Hof Bestellung Adresse
-      - Abokiste Hof Bestellung Direktlieferung
-      - Ernteanteile Hof Anmeldung Kontakt
-      - Hofbesichtigung Bauernhof Adresse Telefon
-      - Selbsternte Hof Adresse Öffnungszeiten
-      - Pädagogischer Bauernhof Adresse Kontakt
-      - Hofschule Betrieb Adresse Kontakt
-      - Naturerlebnishof Adresse Telefon
-      - Bauernhof Schulausflug Adresse Kontakt
-      - Ernteeinsatz Hof Adresse Kontakt
-      - Selbstpflücken Betrieb Adresse Öffnungszeiten
-
-      # =========================
-      # SUPPLEMENT TO 500
-      # =========================
-      - Bauernhof Sachsen-Anhalt Hofladen Adresse
-      - Landwirtschaft Ostbrandenburg Direktverkauf Kontakt
-      - Agrarbetrieb Westfalen-Lippe Adresse Telefon
-      - Bauernhof Vorpommern Hofladen Adresse
-      - Hofladen Oberfranken Adresse Öffnungszeiten
-      - Bauernhof Erzgebirge Hofladen Adresse
-      - Landwirtschaft Niederbayern Direktverkauf Adresse
-      - Agrarbetrieb Hunsrück Direktverkauf Adresse
-      - Bauernhof Schwarzwald Hofladen Adresse
-      - Hofladen Lüneburger Heide Adresse Telefon
+      - Gurkenanbau Betrieb Direktverkauf Adresse Telefon
+      - Tomatenbetrieb Gewächshaus Direktverkauf Kontakt
+      - Paprikaanbau Gewächshaus Direktverkauf Adresse
+      - Salatproduktion Betrieb Direktverkauf Kontakt
+      - Radieschenanbau Hof Direktverkauf Adresse
+      - Petersilie Erzeuger Hof Direktverkauf Kontakt
+      - Schnittlauch Erzeuger Betrieb Direktverkauf
+      - Dill Erzeuger Hof Direktverkauf Adresse
+      - Basilikum Erzeuger Betrieb Direktverkauf Kontakt
+      - Koriander Erzeuger Hof Direktverkauf Adresse
+      - Bauernhof Krefeld Hofladen Direktverkauf Kontakt
+      - Hof Mönchengladbach Gemüse Direktverkauf Adresse
+      - Landwirtschaft Viersen Hofladen Kontakt
+      - Bauernhof Neuss Direktverkauf Adresse Telefon
+      - Hof Grevenbroich Gemüse Direktverkauf Kontakt
+      - Landwirtschaft Dormagen Hofladen Adresse
+      - Bauernhof Leverkusen Land Direktverkauf Kontakt
+      - Hof Bergisch Gladbach Gemüse Direktverkauf
+      - Landwirtschaft Overath Hofladen Adresse Kontakt
+      - Bauernhof Siegburg Direktverkauf Adresse
+      - Hof Troisdorf Gemüse Direktverkauf Kontakt
+      - Landwirtschaft Sankt Augustin Hofladen Adresse
+      - Bauernhof Hennef Direktverkauf Kontakt Telefon
+      - Hof Lohmar Gemüse Direktverkauf Adresse
+      - Landwirtschaft Ruppichteroth Hofladen Kontakt
+      - Hopfenanbau Hallertau Bayern Betrieb Kontakt
+      - Flachs Anbau Hof Direktverkauf Adresse Kontakt
+      - Hanf Anbau legal Betrieb Direktverkauf Adresse
+      - Nachtkerze Anbau Hof Direktverkauf Kontakt
+      - Borretschöl Erzeuger Betrieb Direktverkauf Adresse
+      - Schwarzkümmel Anbau Hof Direktverkauf Kontakt
+      - Leinsamen Erzeuger Betrieb Direktverkauf Adresse
+      - Sonnenblumenkerne Erzeuger Hof Direktverkauf
+      - Kürbiskerne Erzeuger Betrieb Direktverkauf Adresse
+      - Mohn Anbau Hof Direktverkauf Kontakt
+      - Erdnuss Anbau Hof Deutschland Direktverkauf
+      - Walnuss Erzeuger Hof Direktverkauf Bayern Adresse
+      - Kastanien Erzeuger Hof Direktverkauf Kontakt
+      - Holunder Saft Hersteller Betrieb Direktverkauf
+      - Sanddorn Erzeuger Norddeutschland Direktverkauf Kontakt
+      - Aronia Beeren Erzeuger Hof Direktverkauf Adresse
+      - Rhabarber Erzeuger Betrieb Direktverkauf Kontakt
+      - Zitronenmelisse Erzeuger Hof Direktverkauf Adresse
+      - Oregano Erzeuger Betrieb Direktverkauf Kontakt
+      - Salbei Erzeuger Hof Direktverkauf Adresse Telefon
+      - Estragon Erzeuger Betrieb Direktverkauf Kontakt
+      - Liebstöckel Erzeuger Hof Direktverkauf Adresse
+      - Bärlauch Erzeuger Betrieb Direktverkauf Kontakt
+      - Sauerampfer Erzeuger Hof Direktverkauf Adresse
+      - Brunnenkresse Erzeuger Betrieb Direktverkauf Kontakt
+      - '"Wir sind" Bauernhof Direktverkauf Adresse Bayern'
+      - '"Familienbetrieb seit" Hof Direktverkauf Kontakt'
+      - '"seit" Jahren Hof Direktverkauf Gemüse Adresse'
+      - '"in der" Generation Bauernhof Direktverkauf'
+      - '"traditionell" Hof Direktverkauf Adresse Kontakt'
+      - '"nachhaltig" Hof Direktverkauf Adresse Telefon'
+      - '"regional" Hof Direktverkauf Kontakt Adresse'
+      - '"saisonal" Hof Direktverkauf Adresse Kontakt'
+      - '"handverlesen" Hof Direktverkauf Adresse'
+      - '"frisch geerntet" Hof Direktverkauf Kontakt'
+      - Bauernhof Aurich Direktverkauf Adresse Kontakt
+      - Hof Leer Gemüse Direktverkauf Adresse
+      - Landwirtschaft Wittmund Hofladen Kontakt
+      - Bauernhof Friesland Direktverkauf Adresse
+      - Hof Wilhelmshaven Land Gemüse Direktverkauf
+      - Landwirtschaft Oldenburg Land Hofladen Adresse
+      - Bauernhof Cloppenburg Direktverkauf Kontakt
+      - Hof Vechta Gemüse Direktverkauf Adresse
+      - Landwirtschaft Osnabrück Land Hofladen Kontakt
+      - Bauernhof Emsland Direktverkauf Adresse Telefon
+      - Hof Grafschaft Bentheim Direktverkauf Kontakt
+      - Landwirtschaft Nienburg Hofladen Adresse
+      - Bauernhof Schaumburg Direktverkauf Kontakt
+      - Hof Hameln-Pyrmont Gemüse Direktverkauf Adresse
+      - Landwirtschaft Holzminden Hofladen Kontakt
+      - Bauernhof Northeim Direktverkauf Adresse Telefon
+      - Hof Göttingen Land Gemüse Direktverkauf
+      - Landwirtschaft Osterode Hofladen Adresse Kontakt
+      - Bauernhof Goslar Land Direktverkauf Kontakt
+      - Hof Wolfenbüttel Gemüse Direktverkauf Adresse
 
 app:
   outreach:
