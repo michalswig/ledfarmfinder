@@ -139,7 +139,7 @@ leadfinder:
     max-pages-per-run: 2
     default-max-serp-page: 10
     limit-per-run: 100
-    queries-per-run: ${DISCOVERY_QUERIES_PER_RUN:2}
+    queries-per-run: ${DISCOVERY_QUERIES_PER_RUN:3}
 
     queries:
 
