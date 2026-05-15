@@ -590,3 +590,77 @@ databaseChangeLog:
             columns:
               - column:
                   name: created_at
+
+  # -------------------------------------------------------
+  # serp_query_override
+  # -------------------------------------------------------
+  - changeSet:
+      id: 2026-05-13-03-create-serp-query-override
+      author: mike
+      changes:
+        - createTable:
+            tableName: serp_query_override
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: original_query
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: override_query
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: original_score
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: tested_score
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - createIndex:
+            tableName: serp_query_override
+            indexName: idx_serp_query_override_active
+            columns:
+              - column:
+                  name: active
+
+        - createIndex:
+            tableName: serp_query_override
+            indexName: idx_serp_query_override_original_query
+            columns:
+              - column:
+                  name: original_query
