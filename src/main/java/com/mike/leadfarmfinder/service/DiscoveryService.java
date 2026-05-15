@@ -3,14 +3,7 @@ package com.mike.leadfarmfinder.service;
 import com.mike.leadfarmfinder.config.LeadFinderProperties;
 import com.mike.leadfarmfinder.dto.FarmClassificationResult;
 import com.mike.leadfarmfinder.entity.SerpQueryCursor;
-import com.mike.leadfarmfinder.service.discovery.DiscoveredUrlWriter;
-import com.mike.leadfarmfinder.service.discovery.DiscoveryDuplicateChecker;
-import com.mike.leadfarmfinder.service.discovery.DiscoveryQueryScheduler;
-import com.mike.leadfarmfinder.service.discovery.DiscoveryRunStatsWriter;
-import com.mike.leadfarmfinder.service.discovery.DiscoverySnippetFetcher;
-import com.mike.leadfarmfinder.service.discovery.DiscoveryUrlFilter;
-import com.mike.leadfarmfinder.service.discovery.DiscoveryUrlNormalizer;
-import com.mike.leadfarmfinder.service.discovery.DiscoveryUrlScorer;
+import com.mike.leadfarmfinder.service.discovery.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -43,6 +36,7 @@ public class DiscoveryService {
     private final SerpApiService serpApiService;
     private final OpenAiFarmClassifier farmClassifier;
     private final LeadFinderProperties leadFinderProperties;
+    private final DiscoveryQueryProvider discoveryQueryProvider;
 
     private static final List<String> QUERY_NEGATIVE_TOKENS = List.of(
             "-branchenbuch",
@@ -81,7 +75,7 @@ public class DiscoveryService {
 
         LeadFinderProperties.Discovery discovery = leadFinderProperties.getDiscovery();
 
-        List<String> queries = discovery.getQueries();
+        List<String> queries = discoveryQueryProvider.getQueries();
         if (queries == null || queries.isEmpty()) {
             throw new IllegalStateException("Discovery queries are not configured! Add leadfinder.discovery.queries[]");
         }

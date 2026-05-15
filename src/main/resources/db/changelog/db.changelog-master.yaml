@@ -444,3 +444,223 @@ databaseChangeLog:
                   name: review_required
                   type: BOOLEAN
                   defaultValueBoolean: false
+  # -------------------------------------------------------
+  # serp_query_score
+  # -------------------------------------------------------
+  - changeSet:
+      id: 2026-05-13-01-create-serp-query-score
+      author: mike
+      changes:
+        - createTable:
+            tableName: serp_query_score
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: query
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+              - column:
+                  name: score
+                  type: INT
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: accepted_urls
+                  type: INT
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: rejected_urls
+                  type: INT
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: pages_visited
+                  type: INT
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: runs_count
+                  type: INT
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: last_evaluated_at
+                  type: TIMESTAMP
+
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - createIndex:
+            tableName: serp_query_score
+            indexName: idx_serp_query_score_score
+            columns:
+              - column:
+                  name: score
+
+  # -------------------------------------------------------
+  # serp_query_history
+  # -------------------------------------------------------
+  - changeSet:
+      id: 2026-05-13-02-create-serp-query-history
+      author: mike
+      changes:
+        - createTable:
+            tableName: serp_query_history
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: replaced_query
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: new_query
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: replaced_query_score
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: new_query_score
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: ai_reason
+                  type: VARCHAR(1000)
+
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - createIndex:
+            tableName: serp_query_history
+            indexName: idx_serp_query_history_replaced_query
+            columns:
+              - column:
+                  name: replaced_query
+
+        - createIndex:
+            tableName: serp_query_history
+            indexName: idx_serp_query_history_created_at
+            columns:
+              - column:
+                  name: created_at
+
+  # -------------------------------------------------------
+  # serp_query_override
+  # -------------------------------------------------------
+  - changeSet:
+      id: 2026-05-13-03-create-serp-query-override
+      author: mike
+      changes:
+        - createTable:
+            tableName: serp_query_override
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: original_query
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: override_query
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: original_score
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: tested_score
+                  type: INT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - createIndex:
+            tableName: serp_query_override
+            indexName: idx_serp_query_override_active
+            columns:
+              - column:
+                  name: active
+
+        - createIndex:
+            tableName: serp_query_override
+            indexName: idx_serp_query_override_original_query
+            columns:
+              - column:
+                  name: original_query

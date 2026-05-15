@@ -32,7 +32,16 @@ public class DiscoveryQueryScheduler {
                 return Optional.of(new QueryPick(idx, query, cursor));
             }
         }
-        return Optional.empty();
+
+        log.info("DiscoveryQueryScheduler: all {} cursors exhausted — resetting and restarting",
+                queries.size());
+        resetAllCursors(queries);
+        queryIndex = 0;
+
+        String firstQuery = queries.get(0);
+        queryIndex = 1 % queries.size();
+        SerpQueryCursor cursor = loadOrCreateCursor(firstQuery);
+        return Optional.of(new QueryPick(0, firstQuery, cursor));
     }
 
     public boolean isExhausted(SerpQueryCursor cursor) {
@@ -51,6 +60,16 @@ public class DiscoveryQueryScheduler {
         cursor.setCurrentPage(currentPage);
         cursor.setLastRunAt(LocalDateTime.now());
         serpQueryCursorRepository.save(cursor);
+    }
+
+    private void resetAllCursors(List<String> queries) {
+        for (String query : queries) {
+            serpQueryCursorRepository.findByQuery(query).ifPresent(cursor -> {
+                cursor.setCurrentPage(1);
+                serpQueryCursorRepository.save(cursor);
+                log.info("DiscoveryQueryScheduler: reset cursor for query='{}'", query);
+            });
+        }
     }
 
     private SerpQueryCursor loadOrCreateCursor(String query) {

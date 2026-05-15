@@ -21,6 +21,10 @@ spring:
     enabled: true
 
 leadfinder:
+  query-cycle:
+    cron: "-"
+    score-threshold: 40
+    test-limit: 5
   rabbit:
     outreach-events-exchange: outreach.events.exchange
     outreach-events-queue: outreach.event.queue
