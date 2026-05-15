@@ -17,8 +17,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class DiscoveryQuerySchedulerTest {
@@ -55,20 +54,6 @@ class DiscoveryQuerySchedulerTest {
             assertThat(result.get().index()).isEqualTo(1);
             assertThat(result.get().query()).isEqualTo("q2");
             assertThat(result.get().cursor().getCurrentPage()).isEqualTo(2);
-        }
-
-        @Test
-        @DisplayName("should return empty when all queries are exhausted")
-        void shouldReturnEmptyWhenAllQueriesAreExhausted() {
-            when(serpQueryCursorRepository.findByQuery("q1"))
-                    .thenReturn(Optional.of(cursor("q1", 6, 5)));
-            when(serpQueryCursorRepository.findByQuery("q2"))
-                    .thenReturn(Optional.of(cursor("q2", 7, 5)));
-
-            Optional<DiscoveryQueryScheduler.QueryPick> result =
-                    scheduler.pickNextNonExhaustedQuery(List.of("q1", "q2"));
-
-            assertThat(result).isEmpty();
         }
 
         @Test
@@ -151,6 +136,40 @@ class DiscoveryQuerySchedulerTest {
             SerpQueryCursor saved = captor.getValue();
             assertThat(saved.getCurrentPage()).isEqualTo(4);
             assertThat(saved.getLastRunAt()).isNotNull();
+        }
+    }
+
+    @Nested
+    @DisplayName("pickNextNonExhaustedQuery — auto reset")
+    class AutoResetTests {
+
+        @Test
+        @DisplayName("should reset all cursors and return first query when all are exhausted")
+        void shouldResetAllCursorsWhenAllExhausted() {
+            // Oba queries wyczerpane
+            SerpQueryCursor exhaustedQ1 = cursor("q1", 6, 5);
+            SerpQueryCursor exhaustedQ2 = cursor("q2", 6, 5);
+
+            when(serpQueryCursorRepository.findByQuery("q1"))
+                    .thenReturn(Optional.of(exhaustedQ1));
+            when(serpQueryCursorRepository.findByQuery("q2"))
+                    .thenReturn(Optional.of(exhaustedQ2));
+            when(serpQueryCursorRepository.save(any(SerpQueryCursor.class)))
+                    .thenAnswer(invocation -> invocation.getArgument(0));
+
+            Optional<DiscoveryQueryScheduler.QueryPick> result =
+                    scheduler.pickNextNonExhaustedQuery(List.of("q1", "q2"));
+
+            // Powinien zwrócić wynik (nie empty) po resecie
+            assertThat(result).isPresent();
+            assertThat(result.get().query()).isEqualTo("q1");
+
+            // Powinien zresetować cursory — save wywołany dla q1 i q2
+            verify(serpQueryCursorRepository, atLeast(2)).save(any(SerpQueryCursor.class));
+
+            // Cursor q1 powinien mieć currentPage = 1 po resecie
+            assertThat(exhaustedQ1.getCurrentPage()).isEqualTo(1);
+            assertThat(exhaustedQ2.getCurrentPage()).isEqualTo(1);
         }
     }
 
