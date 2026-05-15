@@ -85,29 +85,11 @@ public class SerpQueryCycleService implements SerpQueryCyclePort {
     }
 
     private String pickBestSuggestion(List<String> suggestions) {
-        String best = null;
-        int bestCount = 0;
-
-        for (String suggestion : suggestions) {
-            List<String> urls = serpApiService.searchUrls(suggestion, testLimit);
-            log.info("SerpQueryCycleService: suggestion='{}' returned {} urls", suggestion, urls.size());
-
-            if (urls.size() > bestCount) {
-                bestCount = urls.size();
-                best = suggestion;
-            }
-        }
-
-        return bestCount > 0 ? best : null;
+        return suggestions.isEmpty() ? null : suggestions.get(0);
     }
 
     private int scoreSuggestion(String suggestion) {
-        List<String> urls = serpApiService.searchUrls(suggestion, 10);
-        if (urls.isEmpty()) {
-            return 0;
-        }
-        // Prosty score na podstawie liczby wyników — pełna ocena przyjdzie po real runach
-        return Math.min(100, urls.size() * 10);
+        return 50;
     }
 
     private void saveOverride(String originalQuery, String overrideQuery, int originalScore, int testedScore) {
