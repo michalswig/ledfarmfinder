@@ -50,6 +50,8 @@ class DiscoveryServiceLogicRulesTest {
     private LeadFinderProperties leadFinderProperties;
     @Mock
     private FarmScraperService farmScraperService;
+    @Mock
+    private DiscoveryQueryProvider discoveryQueryProvider;
 
     private DiscoveryService discoveryService;
 
@@ -67,7 +69,8 @@ class DiscoveryServiceLogicRulesTest {
                 farmScraperService,
                 serpApiService,
                 farmClassifier,
-                leadFinderProperties
+                leadFinderProperties,
+                discoveryQueryProvider
         );
     }
 
