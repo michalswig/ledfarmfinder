@@ -13,7 +13,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.testcontainers.containers.RabbitMQContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
@@ -21,8 +26,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@Testcontainers
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 class MailEventIntegrationTest {
+
+    @Container
+    static final RabbitMQContainer RABBIT =
+            new RabbitMQContainer("rabbitmq:3.13-management")
+                    .withVhost("/")
+                    .withUser("guest", "guest");
+
+    @DynamicPropertySource
+    static void rabbitProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.rabbitmq.host", RABBIT::getHost);
+        registry.add("spring.rabbitmq.port", RABBIT::getAmqpPort);
+        registry.add("spring.rabbitmq.username", () -> "guest");
+        registry.add("spring.rabbitmq.password", () -> "guest");
+        registry.add("spring.rabbitmq.virtual-host", () -> "/");
+    }
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -39,7 +60,6 @@ class MailEventIntegrationTest {
     @BeforeEach
     void cleanUp() {
         repository.deleteAll();
-
         rabbitAdmin.purgeQueue("outreach.event.queue", true);
         rabbitAdmin.purgeQueue("outreach.event.retry.queue", true);
         rabbitAdmin.purgeQueue("outreach.event.dlq", true);
@@ -60,16 +80,11 @@ class MailEventIntegrationTest {
         message.setLeadEmail("info@kartoffelhof-walter.de");
         message.setSesMessageId("test-ses-message-dns-1");
 
-        rabbitTemplate.convertAndSend(
-                "outreach.events.exchange",
-                "outreach.event",
-                message
-        );
+        rabbitTemplate.convertAndSend("outreach.events.exchange", "outreach.event", message);
 
         await().atMost(5, SECONDS).untilAsserted(() -> {
             FarmLead updated = repository.findByEmailIgnoreCase("info@kartoffelhof-walter.de")
                     .orElseThrow();
-
             assertTrue(updated.isBounce());
             assertFalse(updated.isActive());
             assertEquals("DNS_FAILURE", updated.getBounceType());
@@ -89,16 +104,11 @@ class MailEventIntegrationTest {
         message.setLeadEmail("complaint@farm-example.de");
         message.setSesMessageId("test-ses-message-complaint-1");
 
-        rabbitTemplate.convertAndSend(
-                "outreach.events.exchange",
-                "outreach.event",
-                message
-        );
+        rabbitTemplate.convertAndSend("outreach.events.exchange", "outreach.event", message);
 
         await().atMost(5, SECONDS).untilAsserted(() -> {
             FarmLead updated = repository.findByEmailIgnoreCase("complaint@farm-example.de")
                     .orElseThrow();
-
             assertTrue(updated.isBounce());
             assertFalse(updated.isActive());
             assertEquals("COMPLAINT", updated.getBounceType());
@@ -121,16 +131,11 @@ class MailEventIntegrationTest {
         message.setLeadEmail("softbounce@farm-example.de");
         message.setSesMessageId("test-ses-message-softbounce-1");
 
-        rabbitTemplate.convertAndSend(
-                "outreach.events.exchange",
-                "outreach.event",
-                message
-        );
+        rabbitTemplate.convertAndSend("outreach.events.exchange", "outreach.event", message);
 
         await().atMost(5, SECONDS).untilAsserted(() -> {
             FarmLead updated = repository.findByEmailIgnoreCase("softbounce@farm-example.de")
                     .orElseThrow();
-
             assertTrue(updated.isBounce());
             assertTrue(updated.isActive());
             assertEquals("SOFT_BOUNCE", updated.getBounceType());

@@ -12,7 +12,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.testcontainers.containers.RabbitMQContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -26,8 +31,24 @@ import static org.mockito.Mockito.doAnswer;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@Testcontainers
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 class MailEventRetryIntegrationTest {
+
+    @Container
+    static final RabbitMQContainer RABBIT =
+            new RabbitMQContainer("rabbitmq:3.13-management")
+                    .withVhost("/")
+                    .withUser("guest", "guest");
+
+    @DynamicPropertySource
+    static void rabbitProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.rabbitmq.host", RABBIT::getHost);
+        registry.add("spring.rabbitmq.port", RABBIT::getAmqpPort);
+        registry.add("spring.rabbitmq.username", () -> "guest");
+        registry.add("spring.rabbitmq.password", () -> "guest");
+        registry.add("spring.rabbitmq.virtual-host", () -> "/");
+    }
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -55,11 +76,9 @@ class MailEventRetryIntegrationTest {
 
         doAnswer(invocation -> {
             MailEventMessage msg = invocation.getArgument(0);
-
             if (sesMessageId.equals(msg.getSesMessageId())) {
                 attempts.incrementAndGet();
             }
-
             throw new RuntimeException("Forced processing failure");
         }).when(mailEventProcessingService).process(any(MailEventMessage.class));
 
@@ -71,11 +90,7 @@ class MailEventRetryIntegrationTest {
                 .diagnosticCode("Forced retry test")
                 .build();
 
-        rabbitTemplate.convertAndSend(
-                "outreach.events.exchange",
-                "outreach.event",
-                message
-        );
+        rabbitTemplate.convertAndSend("outreach.events.exchange", "outreach.event", message);
 
         await().atMost(10, SECONDS).untilAsserted(() ->
                 assertTrue(attempts.get() >= 3)
