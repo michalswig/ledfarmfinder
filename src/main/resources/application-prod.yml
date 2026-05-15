@@ -49,6 +49,9 @@ spring:
       mail.debug: false
 
 leadfinder:
+  query-cycle:
+    score-threshold: 40
+    test-limit: 5
   rabbit:
     outreach-events-exchange: outreach.events.exchange
     outreach-events-queue: outreach.event.queue
