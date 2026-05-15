@@ -50,6 +50,7 @@ spring:
 
 leadfinder:
   query-cycle:
+    cron: "0 0 3 * * SUN"
     score-threshold: 40
     test-limit: 5
   rabbit:
