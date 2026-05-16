@@ -35,43 +35,81 @@ public class SerpQueryGenerator {
     );
 
     static final List<String> REGIONS = List.of(
+            // Bayern — silnie rolnicze Landkreise
             "Landsberg am Lech", "Ebersberg", "Dachau", "Freising",
-            "Erding", "Starnberg", "Weilheim-Schongau", "Rosenheim",
-            "Miesbach", "Traunstein", "Altötting", "Mühldorf am Inn",
+            "Erding", "Rosenheim", "Traunstein", "Altötting", "Mühldorf am Inn",
             "Passau", "Deggendorf", "Straubing-Bogen", "Regensburg",
             "Neumarkt", "Amberg-Sulzbach", "Weiden", "Bayreuth",
             "Coburg", "Bamberg", "Ansbach", "Weißenburg-Gunzenhausen",
             "Ingolstadt", "Pfaffenhofen", "Aichach-Friedberg",
-            "Dillingen", "Günzburg", "Neu-Ulm", "Kempten",
-            "Oberallgäu", "Ostallgäu", "Garmisch-Partenkirchen",
-            "Berchtesgadener Land", "Chiemgau",
+            "Dillingen", "Günzburg", "Neu-Ulm",
+            "Oberallgäu", "Ostallgäu", "Chiemgau",
             "Allgäu", "Franken", "Oberbayern", "Oberpfalz",
+            // Bayern — nowe rolnicze
+            "Dingolfing-Landau", "Rottal-Inn", "Kelheim", "Regen",
+            "Cham", "Schwandorf", "Tirschenreuth",
+
+            // Niedersachsen — bardzo rolnicze
             "Lüneburg", "Uelzen", "Celle", "Verden", "Rotenburg Wümme",
             "Cuxhaven", "Stade", "Harburg", "Heidekreis", "Soltau",
             "Hameln-Pyrmont", "Northeim", "Göttingen", "Wolfenbüttel",
-            "Goslar", "Osnabrück", "Emsland", "Cloppenburg", "Vechta",
-            "Nienburg", "Schaumburg", "Holzminden",
+            "Osnabrück", "Emsland", "Cloppenburg", "Vechta",
+            "Nienburg", "Schaumburg",
             "Lüneburger Heide",
-            "Krefeld", "Mönchengladbach", "Viersen", "Neuss",
-            "Grevenbroich", "Dormagen", "Bergisch Gladbach",
-            "Siegburg", "Hennef", "Münsterland",
+            // Niedersachsen — nowe
+            "Wesermarsch", "Friesland", "Wittmund", "Aurich",
+            "Oldenburg Land", "Diepholz", "Gifhorn",
+
+            // NRW — rolnicze (bez przemysłowych)
+            "Viersen", "Neuss", "Münsterland",
+            "Borken", "Coesfeld", "Steinfurt", "Warendorf",
+            "Soest", "Paderborn", "Gütersloh", "Minden-Lübbecke",
+            "Kleve", "Wesel",
+
+            // Brandenburg — bardzo rolnicze
             "Oder-Spree", "Havelland", "Prignitz", "Uckermark",
-            "Barnim", "Dahme-Spreewald", "Elbe-Elster", "Fläming",
+            "Dahme-Spreewald", "Elbe-Elster", "Fläming",
             "Märkisch-Oderland", "Spreewald",
+            "Ostprignitz-Ruppin", "Oberspreewald-Lausitz",
+
+            // Sachsen — rolnicze
             "Nordsachsen", "Meißen", "Bautzen", "Görlitz",
-            "Zwickau", "Vogtland", "Erzgebirge", "Mittelsachsen",
-            "Leipzig Land",
+            "Mittelsachsen", "Leipzig Land",
+
+            // Thüringen — rolnicze
             "Nordhausen", "Kyffhäuserkreis", "Eichsfeld",
             "Unstrut-Hainich", "Wartburgkreis", "Hildburghausen",
-            "Sonneberg", "Saale-Orla-Kreis", "Greiz", "Altenburger Land",
+            "Altenburger Land",
+
+            // Sachsen-Anhalt — bardzo rolnicze, duże gospodarstwa
+            "Börde", "Jerichower Land", "Altmarkkreis Salzwedel",
+            "Anhalt-Bitterfeld", "Wittenberg", "Mansfeld-Südharz",
+
+            // Hessen — rolnicze
             "Wetteraukreis", "Rheingau-Taunus", "Main-Kinzig",
+            "Vogelsbergkreis", "Marburg-Biedenkopf",
+
+            // Baden-Württemberg — rolnicze i winiarskie
             "Kraichgau", "Hohenlohe", "Schwäbische Alb", "Oberschwaben",
             "Hegau", "Markgräflerland", "Kaiserstuhl", "Breisgau",
-            "Ortenau", "Kinzigtal", "Schwarzwald", "Bodenseekreis",
-            "Pfalz", "Eifel", "Hunsrück", "Mosel", "Westerwald",
-            "Taunus", "Vogelsberg", "Odenwald", "Rhön",
-            "Mecklenburg", "Schleswig", "Pinneberg",
-            "Bodensee", "Sauerland", "Bergisches Land"
+            "Ortenau", "Bodenseekreis",
+            "Rhein-Neckar-Kreis", "Heilbronn Land", "Ludwigsburg Land",
+
+            // Rheinland-Pfalz — rolnicze i winiarskie
+            "Pfalz", "Eifel", "Hunsrück", "Mosel",
+            "Rhein-Hunsrück", "Bad Kreuznach", "Alzey-Worms",
+
+            // Mecklenburg-Vorpommern — duże gospodarstwa zbożowe
+            "Mecklenburg", "Vorpommern-Rügen", "Vorpommern-Greifswald",
+            "Mecklenburgische Seenplatte", "Rostock Land",
+
+            // Schleswig-Holstein — rolnicze
+            "Schleswig", "Pinneberg",
+            "Dithmarschen", "Steinburg", "Rendsburg-Eckernförde",
+            "Schleswig-Flensburg", "Nordfriesland",
+
+            // Bodensee
+            "Bodensee"
     );
 
     static final List<String> IMPRESSUM_FILTERS = List.of(
