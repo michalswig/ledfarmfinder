@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @RestController
@@ -45,9 +46,8 @@ public class QueryCycleController {
         }
 
         log.info("QueryCycleController: manual cycle triggered for {} queries", queries.size());
-        List<String> replaced = serpQueryCyclePort.runCycle(queries);
-
-        return ResponseEntity.ok(new RunResponse(queries.size(), replaced.size(), "OK"));
+        CompletableFuture.runAsync(() -> serpQueryCyclePort.runCycle(queries));
+        return ResponseEntity.ok(new RunResponse(queries.size(), 0, "STARTED"));
     }
 
     @GetMapping("/scores")
