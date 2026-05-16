@@ -1,18 +1,19 @@
 package com.mike.leadfarmfinder.service.serpquery;
 
+import com.mike.leadfarmfinder.config.LeadFinderProperties;
 import com.mike.leadfarmfinder.entity.SerpQueryHistory;
 import com.mike.leadfarmfinder.entity.SerpQueryOverride;
 import com.mike.leadfarmfinder.repository.SerpQueryHistoryRepository;
 import com.mike.leadfarmfinder.repository.SerpQueryOverrideRepository;
-import com.mike.leadfarmfinder.service.SerpApiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -20,102 +21,87 @@ import java.util.List;
 public class SerpQueryCycleService implements SerpQueryCyclePort {
 
     private final SerpQueryScoringPort scoringPort;
-    private final SerpQueryImproverPort improverPort;
-    private final SerpApiService serpApiService;
+    private final SerpQueryGenerator queryGenerator;
     private final SerpQueryOverrideRepository overrideRepository;
     private final SerpQueryHistoryRepository historyRepository;
-
-    @Value("${leadfinder.query-cycle.score-threshold:40}")
-    private int scoreThreshold;
-
-    @Value("${leadfinder.query-cycle.test-limit:5}")
-    private int testLimit;
+    private final LeadFinderProperties leadFinderProperties;
 
     @Override
     @Transactional
     public List<String> runCycle(List<String> queries) {
-        List<String> replaced = new ArrayList<>();
+        int threshold = leadFinderProperties.getQueryCycle().getScoreThreshold();
 
-        log.info("SerpQueryCycleService: starting cycle for {} queries, threshold={}", queries.size(), scoreThreshold);
+        log.info("SerpQueryCycleService: starting cycle for {} queries, threshold={}", queries.size(), threshold);
+
+        Set<String> existingQueries = buildExistingQueriesSet(queries);
+        List<String> replaced = new ArrayList<>();
+        int cycleIndex = 0;
 
         for (String query : queries) {
-            try {
-                int score = scoringPort.scoreAndSave(query);
+            int score = scoringPort.scoreAndSave(query);
 
-                if (score == -1) {
-                    log.debug("SerpQueryCycleService: no data for query='{}', skipping", query);
-                    continue;
-                }
-
-                if (score >= scoreThreshold) {
-                    log.debug("SerpQueryCycleService: query='{}' score={} is above threshold, skipping", query, score);
-                    continue;
-                }
-
-                log.info("SerpQueryCycleService: query='{}' score={} is below threshold={}, improving",
-                        query, score, scoreThreshold);
-
-                List<String> suggestions = improverPort.suggestImprovements(query, score);
-                if (suggestions.isEmpty()) {
-                    log.warn("SerpQueryCycleService: no suggestions from agent for query='{}'", query);
-                    continue;
-                }
-
-                String bestSuggestion = pickBestSuggestion(suggestions);
-                if (bestSuggestion == null) {
-                    log.warn("SerpQueryCycleService: all suggestions returned 0 SERP results for query='{}'", query);
-                    continue;
-                }
-
-                int testedScore = scoreSuggestion(bestSuggestion);
-                saveOverride(query, bestSuggestion, score, testedScore);
-                saveHistory(query, bestSuggestion, score, testedScore);
-
-                replaced.add(query);
-                log.info("SerpQueryCycleService: replaced query='{}' with='{}' (oldScore={}, testedScore={})",
-                        query, bestSuggestion, score, testedScore);
-
-            } catch (Exception e) {
-                log.error("SerpQueryCycleService: error processing query='{}', skipping", query, e);
+            if (score == -1) {
+                log.info("SerpQueryCycleService: no data for query='{}', skipping", query);
+                cycleIndex++;
+                continue;
             }
+
+            if (score >= threshold) {
+                log.info("SerpQueryCycleService: query='{}' score={} OK", query, score);
+                cycleIndex++;
+                continue;
+            }
+
+            log.info("SerpQueryCycleService: query='{}' score={} below threshold={}, replacing",
+                    query, score, threshold);
+
+            String newQuery = queryGenerator.generate(cycleIndex, existingQueries);
+            existingQueries.add(newQuery);
+
+            saveOverride(query, newQuery, score);
+            replaced.add(query);
+
+            cycleIndex++;
         }
 
         log.info("SerpQueryCycleService: cycle finished, replaced {}/{} queries", replaced.size(), queries.size());
         return replaced;
     }
 
-    private String pickBestSuggestion(List<String> suggestions) {
-        return suggestions.isEmpty() ? null : suggestions.get(0);
+    private Set<String> buildExistingQueriesSet(List<String> yamlQueries) {
+        Set<String> existing = new HashSet<>(yamlQueries);
+        overrideRepository.findByActiveTrue()
+                .forEach(o -> {
+                    existing.add(o.getOriginalQuery());
+                    existing.add(o.getOverrideQuery());
+                });
+        return existing;
     }
 
-    private int scoreSuggestion(String suggestion) {
-        return 50;
-    }
-
-    private void saveOverride(String originalQuery, String overrideQuery, int originalScore, int testedScore) {
-        // Deaktywuj poprzedni aktywny override dla tego query
+    private void saveOverride(String originalQuery, String newQuery, int oldScore) {
         overrideRepository.findByOriginalQueryAndActiveTrue(originalQuery)
                 .ifPresent(existing -> {
                     existing.setActive(false);
                     overrideRepository.save(existing);
+                    log.info("SerpQueryCycleService: deactivated old override for query='{}'", originalQuery);
                 });
 
         SerpQueryOverride override = new SerpQueryOverride();
         override.setOriginalQuery(originalQuery);
-        override.setOverrideQuery(overrideQuery);
-        override.setOriginalScore(originalScore);
-        override.setTestedScore(testedScore);
+        override.setOverrideQuery(newQuery);
+        override.setOriginalScore(oldScore);
+        override.setTestedScore(50);
         override.setActive(true);
         overrideRepository.save(override);
-    }
 
-    private void saveHistory(String replacedQuery, String newQuery, int replacedScore, int newScore) {
         SerpQueryHistory history = new SerpQueryHistory();
-        history.setReplacedQuery(replacedQuery);
+        history.setReplacedQuery(originalQuery);
         history.setNewQuery(newQuery);
-        history.setReplacedQueryScore(replacedScore);
-        history.setNewQueryScore(newScore);
-        history.setAiReason("AI-generated replacement via SerpQueryCycleService");
+        history.setReplacedQueryScore(oldScore);
+        history.setNewQueryScore(50);
         historyRepository.save(history);
+
+        log.info("SerpQueryCycleService: replaced query='{}' with='{}' (oldScore={})",
+                originalQuery, newQuery, oldScore);
     }
 }
