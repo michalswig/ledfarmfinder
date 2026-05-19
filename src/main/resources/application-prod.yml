@@ -147,450 +147,506 @@ leadfinder:
 
     queries:
 
-      # =========================
-      # ERDBEERHOF — IMPRESSUM TRIGGER
-      # Structural filter najsilniejszy (3 pkt) × Erdbeer
-      # =========================
-      - '"Verantwortlich für den Inhalt" Erdbeerhof Bayern Kontakt'
-      - '"Verantwortlich für den Inhalt" Erdbeeranbau NRW Adresse'
-      - '"Verantwortlich für den Inhalt" Erdbeerhof Niedersachsen'
-      - '"Verantwortlich für den Inhalt" Erdbeerplantage Baden-Württemberg'
-      - '"Verantwortlich für den Inhalt" Erdbeerhof Sachsen Direktverkauf'
-      - '"Verantwortlich für den Inhalt" Erdbeerfeld Hessen Kontakt'
-      - '"Verantwortlich für den Inhalt" Erdbeerhof Brandenburg Adresse'
-      - '"Verantwortlich für den Inhalt" Erdbeeranbau Thüringen Kontakt'
-      - '"Verantwortlich für den Inhalt" Erdbeerhof Rheinland-Pfalz'
-      - '"Verantwortlich für den Inhalt" Erdbeerfeld Schleswig-Holstein Adresse'
-      - '"Inhaber" Erdbeerhof Bayern Direktverkauf Kontakt'
-      - '"Inhaber" Erdbeeranbau NRW Adresse Telefon'
-      - '"Inhaber" Erdbeerhof Niedersachsen Kontakt'
-      - '"Inhaber" Erdbeerplantage Sachsen Adresse'
-      - '"Inhaber" Erdbeerfeld Baden-Württemberg Kontakt'
-      - '"Betreiber" Erdbeerhof Bayern Impressum Kontakt'
-      - '"Betreiber" Erdbeeranbau NRW Impressum Adresse'
-      - '"Betreiber" Erdbeerhof Niedersachsen Direktverkauf'
-      - '"GbR" Erdbeerhof Direktverkauf Kontakt Adresse'
-      - '"GbR" Erdbeeranbau Hof Direktverkauf Bayern'
-      - '"Einzelunternehmen" Erdbeerhof Direktverkauf Adresse'
-      - '"Landwirt" Erdbeeranbau Impressum Kontakt Deutschland'
-      - '"Landwirtin" Erdbeerhof Impressum Direktverkauf'
-      - '"USt-IdNr" Erdbeerhof Direktverkauf Kontakt'
-      - '"Steuernummer" Erdbeeranbau Hof Kontakt Adresse'
-
-      # =========================
-      # ERDBEERHOF — SELBSTPFLÜCKEN / PFLÜCKFELD
-      # Kluczowy model sprzedaży przy truskawkach
-      # =========================
-      - Selbstpflücken Erdbeeren Hof Bayern Adresse
-      - Selbstpflücken Erdbeeren NRW Kontakt Telefon
-      - Selbstpflücken Erdbeeren Niedersachsen Adresse
-      - Selbstpflücken Erdbeeren Baden-Württemberg Kontakt
-      - Selbstpflücken Erdbeeren Sachsen Adresse Telefon
-      - Selbstpflücken Erdbeeren Hessen Kontakt Adresse
-      - Selbstpflücken Erdbeeren Brandenburg Adresse
-      - Selbstpflücken Erdbeeren Thüringen Kontakt
-      - Selbstpflücken Erdbeeren Rheinland-Pfalz Adresse
-      - Selbstpflücken Erdbeeren Schleswig-Holstein Kontakt
-      - Pflückfeld Erdbeeren Hof Bayern Adresse Öffnungszeiten
-      - Pflückfeld Erdbeeren NRW Kontakt Adresse
-      - Pflückfeld Erdbeeren Niedersachsen Direktverkauf
-      - Pflückfeld Erdbeeren Baden-Württemberg Adresse
-      - Pflückfeld Erdbeeren Sachsen Kontakt Telefon
-      - Erdbeeren selbst pflücken Hof Adresse Bayern
-      - Erdbeeren selbst pflücken NRW Kontakt Telefon
-      - Erdbeeren selbst pflücken Niedersachsen Adresse
-      - Erdbeeren selbst pflücken Hessen Öffnungszeiten
-      - Erdbeerpflücken Hof Direktverkauf Adresse Bayern
-      - Erdbeerpflücken Betrieb Kontakt NRW Adresse
-      - Erdbeerfeld selbst pflücken Landkreis Kontakt
-      - Erdbeerfeld Öffnungszeiten heute Adresse Bayern
-      - Erdbeerfeld geöffnet Direktverkauf Kontakt NRW
-      - Pflücken Erdbeeren Termin Hof Anmeldung Adresse
-
-      # =========================
-      # ERDBEERHOF — AB HOF / DIREKTVERKAUF
-      # Sygnały sprzedaży bezpośredniej
-      # =========================
-      - '"ab Hof" Erdbeeren Direktverkauf Bayern Adresse'
-      - '"ab Hof" Erdbeeren Kontakt Niedersachsen'
-      - '"ab Hof" Erdbeeren frisch NRW Adresse'
-      - '"ab Hof" Erdbeeren Sachsen Direktverkauf Kontakt'
-      - '"frisch vom Hof" Erdbeeren Direktverkauf Bayern'
-      - '"frisch vom Hof" Erdbeeren Kontakt Adresse NRW'
-      - '"direkt vom Hof" Erdbeeren Direktverkauf Bayern'
-      - '"direkt vom Hof" Erdbeeren Kontakt Niedersachsen'
-      - '"vom eigenen Hof" Erdbeeren Direktverkauf Adresse'
-      - '"aus eigenem Anbau" Erdbeeren Hof Direktverkauf'
-      - '"eigener Anbau" Erdbeeren Hofladen Kontakt Adresse'
-      - '"hofeigene" Erdbeeren Direktverkauf Adresse Kontakt'
-      - '"selbst angebaut" Erdbeeren Hof Direktverkauf'
-      - '"eigene Ernte" Erdbeeren Hof Direktverkauf Kontakt'
-      - Erdbeerverkauf ab Hof Adresse Bayern Telefon
-      - Erdbeerverkauf Direktverkauf Hof NRW Kontakt
-      - Erdbeerverkauf Hof Niedersachsen Adresse Telefon
-      - Erdbeerverkauf Betrieb Baden-Württemberg Kontakt
-      - Erdbeerverkauf Hof Sachsen Direktverkauf Adresse
-      - Erdbeerverkauf frisch Betrieb Hessen Kontakt
-
-      # =========================
-      # ERDBEERHOF — ÖFFNUNGSZEITEN / SAISON
-      # Wysoka intencja zakupowa w sezonie
-      # =========================
-      - Erdbeerhof Öffnungszeiten Bayern Adresse
-      - Erdbeerhof Öffnungszeiten NRW Kontakt
-      - Erdbeerhof Öffnungszeiten Niedersachsen Telefon
-      - Erdbeerhof Öffnungszeiten Baden-Württemberg Adresse
-      - Erdbeerhof Öffnungszeiten Sachsen Kontakt
-      - Erdbeerhof Öffnungszeiten Hessen Adresse
-      - Erdbeerhof Öffnungszeiten Brandenburg Kontakt
-      - Erdbeerhof geöffnet heute Adresse Bayern
-      - Erdbeerhof geöffnet NRW Kontakt Telefon
-      - Erdbeerhof Saison Öffnungszeiten Adresse Bayern
-      - Erdbeerzeit Hof Direktverkauf Öffnungszeiten Bayern
-      - Erdbeerzeit Betrieb Kontakt NRW Adresse
-      - Erdbeersaison Hof Direktverkauf Bayern Kontakt
-      - Erdbeersaison Öffnungszeiten Hof NRW Adresse
-      - Erdbeerstand Hof Adresse Öffnungszeiten Bayern
-      - Erdbeerstand Direktverkauf NRW Kontakt Adresse
-      - Erdbeerstand Betrieb Niedersachsen Adresse Telefon
-      - Erdbeerverkauf Saisonstart Hof Kontakt Bayern
-      - Erdbeerverkauf täglich frisch Hof Adresse
-      - Erdbeeren Verkaufsstelle Hof Öffnungszeiten
-
-      # =========================
-      # ERDBEERHOF — LANDKREISE BAYERN (NIEDOCENIONE)
-      # Poziom Landkreis — mniej konkurencji w SERP
-      # =========================
-      - Erdbeerhof Landsberg am Lech Adresse Kontakt
-      - Erdbeerhof Ebersberg Direktverkauf Adresse
-      - Erdbeeranbau Dachau Hof Kontakt Telefon
-      - Erdbeerhof Freising Direktverkauf Adresse
-      - Erdbeerfeld Erding Öffnungszeiten Kontakt
-      - Erdbeerhof Starnberg Adresse Telefon
-      - Erdbeeranbau Weilheim Direktverkauf Kontakt
-      - Erdbeerhof Rosenheim Land Adresse Kontakt
-      - Erdbeerfeld Miesbach Öffnungszeiten Adresse
-      - Erdbeeranbau Traunstein Hof Direktverkauf
-      - Erdbeerhof Altötting Adresse Kontakt Telefon
-      - Erdbeerfeld Mühldorf Direktverkauf Adresse
-      - Erdbeerhof Passau Land Kontakt Adresse
-      - Erdbeeranbau Deggendorf Hof Direktverkauf
-      - Erdbeerhof Straubing Land Adresse Kontakt
-      - Erdbeerfeld Regensburg Land Direktverkauf Adresse
-      - Erdbeerhof Neumarkt Oberpfalz Kontakt
-      - Erdbeeranbau Amberg Hof Direktverkauf Adresse
-      - Erdbeerhof Bayreuth Land Kontakt Telefon
-      - Erdbeerfeld Bamberg Land Direktverkauf Adresse
-      - Erdbeeranbau Ansbach Hof Kontakt Adresse
-      - Erdbeerhof Ingolstadt Land Direktverkauf
-      - Erdbeerfeld Pfaffenhofen Adresse Öffnungszeiten
-      - Erdbeeranbau Aichach Hof Direktverkauf Kontakt
-      - Erdbeerhof Günzburg Adresse Telefon Direktverkauf
-
-      # =========================
-      # ERDBEERHOF — LANDKREISE NRW
-      # =========================
-      - Erdbeerhof Krefeld Direktverkauf Adresse Kontakt
-      - Erdbeerfeld Mönchengladbach Öffnungszeiten
-      - Erdbeeranbau Viersen Hof Direktverkauf Kontakt
-      - Erdbeerhof Neuss Adresse Telefon Direktverkauf
-      - Erdbeerfeld Grevenbroich Öffnungszeiten Kontakt
-      - Erdbeeranbau Dormagen Hof Adresse Direktverkauf
-      - Erdbeerhof Bergisch Gladbach Direktverkauf
-      - Erdbeerfeld Siegburg Hof Öffnungszeiten Adresse
-      - Erdbeeranbau Hennef Direktverkauf Kontakt
-      - Erdbeerhof Lohmar Adresse Telefon Kontakt
-      - Erdbeerfeld Troisdorf Hof Direktverkauf Adresse
-      - Erdbeeranbau Overath Betrieb Kontakt Adresse
-      - Erdbeerhof Münster Land Direktverkauf Kontakt
-      - Erdbeerfeld Warendorf Öffnungszeiten Adresse
-      - Erdbeeranbau Coesfeld Hof Direktverkauf
-
-      # =========================
-      # ERDBEERHOF — OSTDEUTSCHLAND (NIEDOREPREZENTOWANE)
-      # Brandenburg, Sachsen, Thüringen — historycznie mało queries
-      # =========================
-      - Erdbeerhof Oder-Spree Direktverkauf Kontakt
-      - Erdbeerfeld Havelland Öffnungszeiten Adresse
-      - Erdbeerhof Prignitz Direktverkauf Kontakt
-      - Erdbeeranbau Uckermark Hof Adresse Telefon
-      - Erdbeerhof Barnim Direktverkauf Kontakt Adresse
-      - Erdbeerfeld Dahme-Spreewald Öffnungszeiten
-      - Erdbeerhof Elbe-Elster Kontakt Direktverkauf
-      - Erdbeeranbau Fläming Hof Adresse Kontakt
-      - Erdbeerhof Märkisch-Oderland Direktverkauf
-      - Erdbeerfeld Spreewald Öffnungszeiten Adresse Kontakt
-      - Erdbeerhof Nordsachsen Direktverkauf Adresse
-      - Erdbeeranbau Meißen Hof Direktverkauf Kontakt
-      - Erdbeerhof Bautzen Adresse Telefon Direktverkauf
-      - Erdbeerfeld Görlitz Öffnungszeiten Kontakt
-      - Erdbeerhof Zwickau Land Direktverkauf Adresse
-      - Erdbeeranbau Vogtland Hof Kontakt Adresse
-      - Erdbeerhof Erzgebirge Direktverkauf Kontakt
-      - Erdbeerfeld Mittelsachsen Öffnungszeiten Adresse
-      - Erdbeerhof Leipzig Land Adresse Kontakt
-      - Erdbeeranbau Nordhausen Hof Direktverkauf
-      - Erdbeerhof Kyffhäuserkreis Adresse Telefon
-      - Erdbeerfeld Eichsfeld Öffnungszeiten Kontakt
-      - Erdbeerhof Unstrut-Hainich Direktverkauf Adresse
-      - Erdbeeranbau Wartburgkreis Hof Kontakt Adresse
-      - Erdbeerhof Hildburghausen Direktverkauf Telefon
-      - Erdbeerfeld Altenburger Land Adresse Kontakt
-      - Erdbeerhof Burgenlandkreis Direktverkauf Adresse
-      - Erdbeeranbau Saale-Orla-Kreis Hof Kontakt
-      - Erdbeerhof Greiz Adresse Telefon Direktverkauf
-      - Erdbeerfeld Sonneberg Öffnungszeiten Kontakt
-
-      # =========================
-      # ERDBEERHOF — LANDSCHAFTEN REGIONALNE
-      # Region krajobrazowy = mniej katalogów w SERP
-      # =========================
-      - Erdbeerhof Chiemgau Direktverkauf Adresse Kontakt
-      - Erdbeeranbau Allgäu Hof Direktverkauf Kontakt
-      - Erdbeerhof Bodensee Adresse Öffnungszeiten
-      - Erdbeerfeld Lüneburger Heide Kontakt Adresse
-      - Erdbeerhof Spreewald Direktverkauf Adresse
-      - Erdbeeranbau Rhön Hof Kontakt Adresse
-      - Erdbeerhof Eifel Direktverkauf Kontakt Adresse
-      - Erdbeerfeld Sauerland Öffnungszeiten Adresse
-      - Erdbeeranbau Bergisches Land Hof Kontakt
-      - Erdbeerhof Taunus Direktverkauf Adresse Kontakt
-      - Erdbeerfeld Odenwald Öffnungszeiten Kontakt
-      - Erdbeerhof Kraichgau Direktverkauf Adresse
-      - Erdbeeranbau Hohenlohe Hof Kontakt Adresse
-      - Erdbeerhof Schwäbische Alb Direktverkauf
-      - Erdbeerfeld Mosel Öffnungszeiten Kontakt Adresse
-      - Erdbeerhof Pfalz Direktverkauf Adresse Telefon
-      - Erdbeeranbau Hunsrück Hof Direktverkauf Kontakt
-      - Erdbeerhof Westerwald Adresse Öffnungszeiten
-      - Erdbeerfeld Münsterland Kontakt Direktverkauf
-      - Erdbeerhof Niederrhein Adresse Telefon Kontakt
-
-      # =========================
-      # ERDBEERHOF — PRZETWÓRSTWO NA FARMIE
-      # Wyższy ticket — sprzedaż przetworów
-      # =========================
-      - Erdbeermarmelade Hof selbst hergestellt Direktverkauf Adresse
-      - Erdbeermarmelade Erzeuger Betrieb Direktverkauf Kontakt
-      - Erdbeermarmelade ab Hof Direktverkauf Bayern Adresse
-      - Erdbeerlikör Hof selbst hergestellt Direktverkauf
-      - Erdbeerwein Erzeuger Betrieb Direktverkauf Kontakt
-      - Erdbeersirup Hof Direktverkauf Adresse Telefon
-      - Erdbeereis Hof selbst hergestellt Direktverkauf
-      - Erdbeertorte Hof Café Direktverkauf Adresse
-      - Erdbeergelee Erzeuger Betrieb Direktverkauf
-      - Erdbeersaft Erzeuger Hof Direktverkauf Adresse
-      - gefrorene Erdbeeren Hof Direktverkauf Kontakt
-      - getrocknete Erdbeeren Erzeuger Betrieb Adresse
-      - Erdbeerchips Erzeuger Betrieb Direktverkauf
-      - Erdbeer Fruchtaufstrich Hof Direktverkauf Adresse
-      - Erdbeer Fruchtessig Erzeuger Direktverkauf Kontakt
-
-      # =========================
-      # ERDBEERHOF — CERTYFIKATY BIO
-      # Filtr jakości — wyższy lead score
-      # =========================
-      - Bioland Erdbeerhof Direktverkauf Adresse Kontakt
-      - Demeter Erdbeerhof Direktverkauf Bayern Kontakt
-      - Naturland Erdbeeranbau Hof Direktverkauf Adresse
-      - Bio zertifiziert Erdbeerhof Direktverkauf Kontakt
-      - Biokreis Erdbeeranbau Betrieb Direktverkauf
-      - Ökologischer Erdbeeranbau Hof Direktverkauf Adresse
-      - EU Bio Siegel Erdbeerhof Direktverkauf Kontakt
-      - Bio Erdbeeren ab Hof zertifiziert Adresse
-      - Demeter Erdbeeren Selbstpflücken Hof Adresse
-      - Bioland Erdbeerfeld Öffnungszeiten Kontakt
-
-      # =========================
-      # ERDBEERHOF — CSA / ABONNEMENT / LIEFERSERVICE
-      # Nowoczesne modele — niszowe query
-      # =========================
-      - Erdbeerkiste Lieferung Hof Anmeldung Bayern
-      - Erdbeerabo Direktlieferung Betrieb Kontakt
-      - Erdbeeren Lieferservice Hof wöchentlich Kontakt
-      - Erdbeerbox Hof Direktlieferung Anmeldung
-      - Ernteanteile Erdbeeren Hof Anmeldung Kontakt
-      - Erdbeerkiste Hof Direktlieferung Kontakt Adresse
-      - Selbsternte Erdbeeren Hof Anmeldung Adresse
-      - CSA Erdbeerhof Anmeldung Kontakt Deutschland
-      - SoLaWi Erdbeeranbau Betrieb Anmeldung Adresse
-      - Ernteteiler Erdbeeren Hof Anmeldung Kontakt
-      - Mietbeet Erdbeeren Hof Kontakt Adresse
-      - Erdbeerabo Selbstpflücken Hof Anmeldung Kontakt
-      - Erntebox Erdbeeren Hof wöchentlich Kontakt
-      - Erdbeerkiste wöchentlich Hof Direktlieferung
-      - Erdbeer Saisonabo Hof Anmeldung Direktverkauf
-
-      # =========================
-      # ERDBEERHOF — EVENTY / SEZONY
-      # Wysoka świeżość intencji w sezonie
-      # =========================
-      - Erdbeerfest Hof Adresse Öffnungszeiten Bayern
-      - Erdbeerfest Betrieb Direktverkauf Kontakt NRW
-      - Erdbeermarkt Hof Adresse Telefon Niedersachsen
-      - Erdbeer Hoffest Direktverkauf Kontakt Bayern
-      - Erdbeer Tag der offenen Höfe Adresse Kontakt
-      - Erdbeer Hoffest Öffnungszeiten Adresse NRW
-      - Erdbeeröffnung Hof Saison Adresse Kontakt
-      - Saisonstart Erdbeeren Hof Direktverkauf Adresse
-      - erste Erdbeeren Hof Direktverkauf Kontakt Bayern
-      - Erdbeerernte Hof Öffnungszeiten Direktverkauf
-
-      # =========================
-      # ERDBEERHOF — B2B / GASTRONOMIE
-      # Duże wolumeny — wyższy ticket
-      # =========================
-      - Erdbeerlieferant Restaurant Bayern Kontakt
-      - Erdbeeren Großabnehmer Direktlieferung Kontakt
-      - Erdbeeranbau Gastronomie Lieferant Kontakt NRW
-      - Erdbeeren Erzeuger Catering Direktlieferung
-      - Erdbeerlieferant Bäckerei Konditorei Kontakt
-      - Erdbeeren Erzeuger Großkunde Lieferant Bayern
-      - Erdbeerlieferant Eisdiele Direktlieferung Kontakt
-      - Erdbeeren Großhandel Hof Direktverkauf Kontakt
-      - Erdbeeranbau Kantinen Lieferant Kontakt
-      - Erdbeerlieferant Wochenmarkt Händler Kontakt
-
-      # =========================
-      # ERDBEERHOF — AGROTURYSTYKA / EDUKACJA
-      # Wysoka wartość leadu
-      # =========================
-      - Erlebnisbauernhof Erdbeeren Kindergeburtstag Kontakt
-      - Erdbeerhof Schulausflug Adresse Anmeldung
-      - Erdbeerpflücken Kindergeburtstag Hof Adresse
-      - Erdbeerhof Hofführung Adresse Anmeldung
-      - Erdbeeranbau Erlebnispädagogik Hof Kontakt
-      - Erdbeerhof Ferienwohnung Bayern Adresse Kontakt
-      - Urlaub Erdbeerhof Direktverkauf Kontakt Adresse
-      - Erdbeerhof Schulklasse Besuch Anmeldung
-      - Erdbeerfeld Kindergartenausflug Adresse Kontakt
-      - Erdbeerhof Erlebnistag Buchung Adresse Bayern
-
-      # =========================
-      # ERDBEERHOF — FRAZY "UNSER HOF" / FIRST PERSON VOICE
-      # Strukturalnie eliminuje katalogi
-      # =========================
-      - '"unser Erdbeerhof" Direktverkauf Adresse Kontakt'
-      - '"unser Erdbeerhof" Öffnungszeiten Bayern'
-      - '"unser Erdbeerfeld" Direktverkauf Kontakt Adresse'
-      - '"auf unserem Hof" Erdbeeren Direktverkauf Kontakt'
+      - Spargelhof Beelitz Hofverkauf Adresse
+      - Spargelhof Beelitz Direktvermarktung Telefon
+      - Spargelhof Schrobenhausen Hofverkauf Adresse
+      - Spargelhof Schrobenhausen Direktvermarktung Telefon
+      - Spargelhof Niedersachsen Hofverkauf Adresse
+      - Spargelhof Niedersachsen Direktvermarktung Telefon
+      - Spargelhof Schwetzingen Hofverkauf Adresse
+      - Spargelhof Schwetzingen Direktvermarktung Telefon
+      - Spargelhof Nienburg Hofverkauf Adresse
+      - Spargelhof Nienburg Direktvermarktung Telefon
+      - Spargelhof Walbeck Hofverkauf Adresse
+      - Spargelhof Walbeck Direktvermarktung Telefon
+      - Spargelhof Abensberg Hofverkauf Adresse
+      - Spargelhof Abensberg Direktvermarktung Telefon
+      - Spargelhof Bornheim Hofverkauf Adresse
+      - Spargelhof Bornheim Direktvermarktung Telefon
+      - Spargelhof Diepholz Hofverkauf Adresse
+      - Spargelhof Diepholz Direktvermarktung Telefon
+      - Spargelhof Vechta Hofverkauf Adresse
+      - Spargelhof Vechta Direktvermarktung Telefon
+      - Spargelhof Burgdorf Hofverkauf Adresse
+      - Spargelhof Burgdorf Direktvermarktung Telefon
+      - Spargelhof Bruchsal Hofverkauf Adresse
+      - Spargelhof Bruchsal Direktvermarktung Telefon
+      - Spargelhof Hoyerswerda Hofverkauf Adresse
+      - Spargelhof Hoyerswerda Direktvermarktung Telefon
+      - '"Verantwortlich für den Inhalt" Spargelhof Hofladen'
+      - '"Inhaber" Spargelhof Direktvermarktung Adresse'
+      - '"GbR" Spargelhof Hofverkauf Telefon'
+      - '"Steuernummer" Spargelhof Hofladen'
+      - '"auf unserem Hof" Spargel frisch gestochen'
+      - '"wir stechen" Spargel täglich Hofverkauf'
+      - '"eigener Anbau" Spargel Hofverkauf Adresse'
+      - '"frisch gestochen" Spargel Hof Telefon'
+      - '"Spargelverkauf" Hofladen Adresse Telefon'
+      - '"Spargelsaison" Hofladen Direktvermarktung'
+      - Spargelhof Erdbeerhof Hofverkauf Telefon Adresse
+      - Spargelhof Hofladen geöffnet Adresse Telefon
+      - Spargelernte Hofverkauf Direktvermarktung Adresse
+      - Spargelfeld Hofverkauf Adresse Telefon
+      - Erdbeerhof Niedersachsen Hofverkauf Adresse Telefon
+      - Erdbeeren Selbstpflücken Hof Niedersachsen Adresse
+      - Erdbeerhof Bayern Hofverkauf Adresse Telefon
+      - Erdbeeren Selbstpflücken Hof Bayern Adresse
+      - Erdbeerhof Baden-Württemberg Hofverkauf Adresse Telefon
+      - Erdbeeren Selbstpflücken Hof Baden-Württemberg Adresse
+      - Erdbeerhof Brandenburg Hofverkauf Adresse Telefon
+      - Erdbeeren Selbstpflücken Hof Brandenburg Adresse
+      - Erdbeerhof Sachsen Hofverkauf Adresse Telefon
+      - Erdbeeren Selbstpflücken Hof Sachsen Adresse
+      - Erdbeerhof Hessen Hofverkauf Adresse Telefon
+      - Erdbeeren Selbstpflücken Hof Hessen Adresse
+      - Erdbeerhof Schleswig-Holstein Hofverkauf Adresse Telefon
+      - Erdbeeren Selbstpflücken Hof Schleswig-Holstein Adresse
+      - Erdbeerhof Mecklenburg Hofverkauf Adresse Telefon
+      - Erdbeeren Selbstpflücken Hof Mecklenburg Adresse
+      - Erdbeerhof Rheinland-Pfalz Hofverkauf Adresse Telefon
+      - Erdbeeren Selbstpflücken Hof Rheinland-Pfalz Adresse
+      - Erdbeerhof Lüneburg Hofverkauf Adresse Telefon
+      - Erdbeeren Selbstpflücken Hof Lüneburg Adresse
+      - '"Verantwortlich für den Inhalt" Erdbeerhof Selbstpflücken'
+      - '"Inhaber" Erdbeerhof Hofverkauf Direktvermarktung'
+      - '"GbR" Erdbeerhof Hofladen Adresse'
+      - '"Steuernummer" Erdbeerhof Direktvermarktung'
       - '"auf unserem Hof" Erdbeeren Selbstpflücken Adresse'
-      - '"unsere Erdbeeren" ab Hof Direktverkauf Kontakt'
-      - '"unsere Erdbeeren" frisch Direktverkauf Adresse'
-      - '"Wir verkaufen" Erdbeeren Hof Direktverkauf Adresse'
-      - '"Wir ernten" Erdbeeren Hof Direktverkauf Kontakt'
-      - '"Wir bieten" Erdbeeren Selbstpflücken Hof Adresse'
-      - '"bei uns kaufen" Erdbeeren Hof Adresse Telefon'
-      - '"bei uns erhältlich" Erdbeeren Direktverkauf Hof'
-      - '"jetzt erntefrisch" Erdbeeren Hof Direktverkauf'
-      - '"jetzt erhältlich" Erdbeeren Hof Direktverkauf Kontakt'
-      - '"frisch geerntet" Erdbeeren Hof Direktverkauf Adresse'
-      - '"Familienbetrieb seit" Erdbeerhof Direktverkauf Kontakt'
-      - '"traditionell" Erdbeerhof Direktverkauf Adresse'
-      - '"nachhaltig" Erdbeeranbau Hof Direktverkauf Adresse'
-      - '"saisonal" Erdbeeren Hof Direktverkauf Kontakt'
-      - '"handverlesen" Erdbeeren Hof Direktverkauf Adresse'
-
-      # =========================
-      # ERDBEERHOF — TECHNICZNE / PODSTRONY KONTAKTOWE
-      # Query trafiające w konkretne podstrony
-      # =========================
-      - 'Erdbeerhof "Kontaktformular" Direktverkauf Bayern'
-      - 'Erdbeerhof "Telefon" "Email" Adresse Direktverkauf'
-      - 'Erdbeerfeld "Anfahrt" Öffnungszeiten Kontakt'
-      - 'Erdbeerhof "Anfahrtsbeschreibung" Adresse Direktverkauf'
-      - 'Erdbeerfeld "So finden Sie uns" Direktverkauf'
-      - 'Erdbeerhof "Google Maps" Direktverkauf Adresse'
-      - 'Erdbeerfeld "Routenplaner" Adresse Öffnungszeiten'
-      - 'Erdbeerhof "schreiben Sie uns" Direktverkauf Kontakt'
-      - 'Erdbeerhof "rufen Sie uns an" Direktverkauf Adresse'
-      - 'Erdbeerfeld "Vorbestellung" Direktverkauf Kontakt'
-      - 'Erdbeerhof "Abholung" Direktverkauf Adresse Kontakt'
-      - 'Erdbeerhof "Abholtermin" Direktverkauf Bayern'
-      - 'Erdbeerfeld "Öffnungszeiten" "Telefon" Direktverkauf'
-      - 'Erdbeerhof "bestellen" Online Direktverkauf Adresse'
-      - 'Erdbeerfeld "WhatsApp" Bestellung Direktverkauf Kontakt'
-
-      # =========================
-      # ERDBEERHOF — MEDIA SPOŁECZNOŚCIOWE
-      # Farmy aktywne online = wyższy response rate na outreach
-      # =========================
-      - 'Erdbeerhof Bayern "Facebook" Kontakt Adresse'
-      - 'Erdbeerfeld "Instagram" Direktverkauf Kontakt'
-      - 'Erdbeerhof "WhatsApp" Bestellung Direktverkauf'
-      - 'Erdbeerhof "Newsletter" Anmeldung Direktverkauf'
-      - 'Erdbeerfeld "Online-Shop" Direktverkauf Adresse'
-      - 'Erdbeerhof Onlineshop Bestellung Kontakt Adresse'
-      - 'Erdbeerhof Webshop Direktverkauf Kontakt Bayern'
-
-      # =========================
-      # ERDBEERHOF — ODMIANA I NISZOWE PRODUKTY
-      # Prestiżowe odmiany = farmy dbające o jakość
-      # =========================
-      - Erdbeere Sorte Elsanta Hof Direktverkauf Adresse
-      - Erdbeere Sorte Honeoye Erzeuger Direktverkauf
-      - Erdbeere Sorte Senga Sengana Hof Direktverkauf
-      - Erdbeere Sorte Mara des Bois Erzeuger Kontakt
-      - alte Erdbeersorten Hof Direktverkauf Adresse
-      - Monatserdbeere Erzeuger Hof Direktverkauf Kontakt
-      - Walderdbeere Erzeuger Hof Direktverkauf Adresse
-      - Erdbeere überdacht Anbau Hof Direktverkauf Kontakt
-      - Tunnelerdbeere Erzeuger Betrieb Direktverkauf
-      - Freilanderdbeere Erzeuger Hof Direktverkauf Adresse
-      - Erdbeer Topfpflanze Hof Direktverkauf Bayern
-      - Erdbeerpflänzchen Hof Direktverkauf Adresse
-      - Erdbeersetzlinge Erzeuger Hof Direktverkauf Kontakt
-      - Erdbeerimker kombiniert Hof Direktverkauf Adresse
-      - Erdbeer Rhabarber kombiniert Hof Direktverkauf
-
-      # =========================
-      # ERDBEERHOF — ZDROWIE / DIETA (TREND)
-      # Niszowe query, mniejsza konkurencja SERP
-      # =========================
-      - Bio Erdbeeren ungespritzt Hof Direktverkauf Adresse
-      - unbehandelte Erdbeeren Hof Direktverkauf Kontakt
-      - pestizidfreie Erdbeeren Erzeuger Betrieb Adresse
-      - zuckerarme Erdbeeren Hof Direktverkauf Kontakt
-      - Erdbeeren ohne Pestizide Hof Direktverkauf Adresse
-      - Rohkost Erdbeeren Hof Direktverkauf Kontakt
-      - vegane Erdbeerprodukte Hof Direktverkauf Adresse
-      - Erdbeeren integriert Anbau Hof Direktverkauf
-      - Erdbeeren Niedertunnel Anbau Hof Kontakt Adresse
-      - Erdbeeren Folientunnel Hof Direktverkauf Kontakt
-
-      # =========================
-      # UZUPEŁNIENIE — LANDKREISE NIEDERSACHSEN / SCHLESWIG
-      # =========================
-      - Erdbeerhof Lüneburg Land Adresse Telefon
-      - Erdbeerfeld Uelzen Öffnungszeiten Kontakt
-      - Erdbeerhof Celle Direktverkauf Adresse
-      - Erdbeeranbau Verden Hof Kontakt Adresse
-      - Erdbeerhof Rotenburg Wümme Direktverkauf
-      - Erdbeerfeld Cuxhaven Öffnungszeiten Adresse
-      - Erdbeerhof Stade Direktverkauf Kontakt Telefon
-      - Erdbeeranbau Harburg Land Hof Adresse
-      - Erdbeerhof Heidekreis Direktverkauf Kontakt
-      - Erdbeerfeld Soltau Öffnungszeiten Adresse Kontakt
-      - Erdbeerhof Aurich Direktverkauf Adresse Kontakt
-      - Erdbeeranbau Leer Ostfriesland Hof Kontakt
-      - Erdbeerhof Friesland Direktverkauf Adresse
-      - Erdbeerfeld Cloppenburg Öffnungszeiten Kontakt
-      - Erdbeerhof Emsland Direktverkauf Adresse Telefon
-      - Erdbeeranbau Grafschaft Bentheim Hof Kontakt
-      - Erdbeerhof Nienburg Weser Direktverkauf Adresse
-      - Erdbeerfeld Schaumburg Öffnungszeiten Kontakt
-      - Erdbeerhof Hameln-Pyrmont Direktverkauf Adresse
-      - Erdbeeranbau Holzminden Hof Kontakt Adresse
-      - Erdbeerhof Northeim Direktverkauf Kontakt Telefon
-      - Erdbeerfeld Göttingen Land Öffnungszeiten Adresse
-      - Erdbeerhof Rendsburg-Eckernförde Direktverkauf
-      - Erdbeeranbau Schleswig-Flensburg Hof Kontakt
-      - Erdbeerhof Pinneberg Direktverkauf Adresse Kontakt
-      - Erdbeerfeld Segeberg Öffnungszeiten Kontakt
-      - Erdbeerhof Stormarn Direktverkauf Adresse
-      - Erdbeeranbau Herzogtum Lauenburg Hof Kontakt
-      - Erdbeerhof Steinburg Direktverkauf Kontakt Adresse
-      - Erdbeerfeld Dithmarschen Öffnungszeiten Adresse
+      - '"unser Erdbeerfeld" Selbstpflücken Adresse Telefon'
+      - '"eigener Anbau" Erdbeeren Hofverkauf Adresse'
+      - '"frisch geerntet" Erdbeeren Hof Telefon'
+      - '"Erdbeerfelder" Selbstpflücken Adresse Hof'
+      - '"Erdbeersaison" Hofverkauf Direktvermarktung'
+      - Erdbeerhof Hofladen geöffnet Adresse Telefon
+      - Erdbeerernte Hofverkauf Direktvermarktung Adresse
+      - Erdbeerplantage Hofverkauf Adresse Telefon
+      - Selbstpflücke Erdbeeren Hof Adresse Telefon
+      - Erdbeeren pflücken Hof Adresse Telefon
+      - Erdbeerverkaufsstand Hof Adresse Telefon
+      - Erdbeeren ab Hof Hofverkauf Adresse
+      - Erdbeeren direkt vom Hof Adresse Telefon
+      - Erdbeerhof Spargelhof Hofverkauf Adresse
+      - Erdbeeren Hofverkauf täglich frisch Adresse
+      - '"Verantwortlich für den Inhalt" Kirschhof Direktvermarktung'
+      - '"Inhaber" Kirschplantage Hofverkauf Adresse'
+      - '"GbR" Süßkirschen Hof Direktvermarktung'
+      - '"auf unserem Hof" Kirschen Selbstpflücken Adresse'
+      - '"eigener Anbau" Süßkirschen Hofverkauf Adresse'
+      - '"frisch gepflückt" Kirschen Hof Adresse'
+      - Süßkirschen Selbstpflücken Hof Adresse Telefon
+      - Sauerkirschen Hofverkauf Direktvermarktung Adresse
+      - Kirschplantage Hofverkauf Adresse Telefon
+      - Kirschernte Selbstpflücken Hof Adresse
+      - Süßkirschen Bayern Hofverkauf Direktvermarktung
+      - Süßkirschen Baden-Württemberg Hof Adresse
+      - Kirschhof Hofladen Adresse Telefon
+      - Kirschen ab Hof Hofverkauf Adresse
+      - Kirschen direkt vom Hof Adresse Telefon
+      - Kirschplantage Selbstpflücken Adresse Telefon
+      - Kirschen frisch Hofverkauf Direktvermarktung
+      - Kirschhof Spargelhof Hofverkauf Adresse
+      - Kirschen pflücken Hof Adresse Telefon
+      - Süßkirschen Hofverkauf täglich Adresse
+      - Kirschhof Mosel Direktvermarktung Adresse
+      - Kirschhof Niedersachsen Hofverkauf Adresse
+      - Kirschhof Sachsen Direktvermarktung Telefon
+      - Süßkirschen Rheinland Hof Adresse
+      - Kirschen Hofverkauf Selbstpflücken Adresse
+      - '"Verantwortlich für den Inhalt" Himbeerhof Direktvermarktung'
+      - '"Inhaber" Heidelbeerhof Hofverkauf Adresse'
+      - '"GbR" Beerenhof Direktvermarktung Adresse'
+      - '"auf unserem Hof" Himbeeren Selbstpflücken Adresse'
+      - '"auf unserem Hof" Heidelbeeren Hofverkauf Adresse'
+      - '"eigener Anbau" Beeren Hofverkauf Adresse'
+      - '"frisch gepflückt" Himbeeren Hof Adresse'
+      - '"frisch gepflückt" Heidelbeeren Hof Adresse'
+      - Himbeerhof Hofverkauf Direktvermarktung Adresse
+      - Heidelbeerhof Hofverkauf Adresse Telefon
+      - Heidelbeeren Selbstpflücken Hof Adresse
+      - Himbeeren Selbstpflücken Hof Adresse
+      - Brombeeren Hofverkauf Direktvermarktung Adresse
+      - Johannisbeeren Hof Selbstpflücken Adresse
+      - Stachelbeeren Hofverkauf Hof Adresse
+      - Beerenhof Hofverkauf Adresse Telefon
+      - Beerenobst Hofverkauf Direktvermarktung Adresse
+      - Heidelbeerplantage Selbstpflücken Adresse
+      - Himbeerplantage Hofverkauf Adresse Telefon
+      - Heidelbeeren Niedersachsen Hofverkauf Adresse
+      - Heidelbeeren Lüneburger Heide Hof Adresse
+      - Himbeeren Bayern Hofverkauf Direktvermarktung
+      - Johannisbeeren Hof Direktvermarktung Adresse
+      - Aronia Hof Hofverkauf Direktvermarktung Adresse
+      - Beeren ab Hof Hofverkauf Adresse
+      - Beerenobst direkt vom Hof Adresse Telefon
+      - Beerenhof Erdbeerhof Hofverkauf Adresse
+      - Heidelbeeren pflücken Hof Adresse Telefon
+      - Himbeeren ab Hof Hofverkauf Adresse
+      - Beerenhof Hofladen Adresse Telefon
+      - Salat Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Salat Hofverkauf Adresse'
+      - Radieschen Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Radieschen Hofverkauf Adresse'
+      - Spinat Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Spinat Hofverkauf Adresse'
+      - Mangold Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Mangold Hofverkauf Adresse'
+      - Möhren Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Möhren Hofverkauf Adresse'
+      - Karotten Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Karotten Hofverkauf Adresse'
+      - Zwiebeln Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Zwiebeln Hofverkauf Adresse'
+      - Knoblauch Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Knoblauch Hofverkauf Adresse'
+      - Kohlrabi Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Kohlrabi Hofverkauf Adresse'
+      - Brokkoli Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Brokkoli Hofverkauf Adresse'
+      - Blumenkohl Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Blumenkohl Hofverkauf Adresse'
+      - Weißkohl Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Weißkohl Hofverkauf Adresse'
+      - Rotkohl Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Rotkohl Hofverkauf Adresse'
+      - Wirsing Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Wirsing Hofverkauf Adresse'
+      - Bohnen Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Bohnen Hofverkauf Adresse'
+      - Erbsen Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Erbsen Hofverkauf Adresse'
+      - Zucchini Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Zucchini Hofverkauf Adresse'
+      - Gurken Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Gurken Hofverkauf Adresse'
+      - Tomaten Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Tomaten Hofverkauf Adresse'
+      - Paprika Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Paprika Hofverkauf Adresse'
+      - Sellerie Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Sellerie Hofverkauf Adresse'
+      - Rote Bete Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Rote Bete Hofverkauf Adresse'
+      - Pastinaken Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Pastinaken Hofverkauf Adresse'
+      - Lauch Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Lauch Hofverkauf Adresse'
+      - Porree Hofverkauf Direktvermarktung Adresse Telefon
+      - '"eigener Anbau" Porree Hofverkauf Adresse'
+      - '"Verantwortlich für den Inhalt" Kartoffelhof Hofverkauf'
+      - '"Inhaber" Kartoffelhof Direktvermarktung Adresse'
+      - '"GbR" Kartoffelhof Hofladen Adresse'
+      - '"auf unserem Hof" Kartoffeln Hofverkauf Adresse'
+      - '"eigener Anbau" Kartoffeln Hofverkauf Adresse'
+      - '"frisch geerntet" Kartoffeln Hof Adresse'
+      - Kartoffelhof Hofverkauf Direktvermarktung Adresse
+      - Kartoffeln Hofverkauf Adresse Telefon
+      - Frühkartoffeln Hofverkauf Adresse Telefon
+      - Speisekartoffeln Hofverkauf Direktvermarktung
+      - Kartoffeln ab Hof Direktvermarktung Adresse
+      - Kartoffeln Bayern Hofverkauf Adresse
+      - Kartoffeln Niedersachsen Hofverkauf Adresse
+      - Kartoffeln Brandenburg Direktvermarktung Adresse
+      - Kartoffeln Mecklenburg Hofverkauf Adresse
+      - Kartoffelsorten Hofverkauf Hof Adresse
+      - Bio Kartoffeln Hofverkauf Direktvermarktung Adresse
+      - Kartoffel Hof 25kg Sack Direktvermarktung Adresse
+      - Kartoffeln Hofladen Adresse Telefon
+      - Kartoffelhof Gemüsehof Hofverkauf Adresse
+      - Kartoffeln direkt vom Hof Adresse Telefon
+      - Kartoffeln Hofverkauf täglich Adresse Telefon
+      - Kartoffelhof Direktvermarktung Hofladen Adresse
+      - Kartoffeln frisch Hofverkauf Adresse
+      - Kartoffeln pro Kilo Hof Direktvermarktung
+      - '"Verantwortlich für den Inhalt" Obsthof Hofverkauf'
+      - '"Inhaber" Apfelhof Direktvermarktung Adresse'
+      - '"GbR" Obsthof Hofladen Adresse'
+      - '"auf unserem Hof" Äpfel Hofverkauf Adresse'
+      - '"unser Obsthof" Hofverkauf Direktvermarktung Adresse'
+      - '"eigener Anbau" Äpfel Hofverkauf Adresse'
+      - '"frisch geerntet" Äpfel Obsthof Adresse'
+      - Apfelhof Hofverkauf Direktvermarktung Adresse
+      - Obsthof Hofverkauf Adresse Telefon
+      - Äpfel Hofverkauf Direktvermarktung Adresse
+      - Birnen Hofverkauf Direktvermarktung Adresse
+      - Zwetschgen Hofverkauf Adresse Telefon
+      - Pflaumen Hofverkauf Direktvermarktung Adresse
+      - Mirabellen Hofverkauf Adresse Telefon
+      - Renekloden Hof Direktvermarktung Adresse
+      - Apfelplantage Hofverkauf Adresse
+      - Streuobsthof Hofverkauf Direktvermarktung Adresse
+      - Streuobstwiese Hof Direktvermarktung Adresse
+      - Äpfel ab Hof Hofverkauf Adresse
+      - Äpfel direkt vom Hof Adresse Telefon
+      - Birnen ab Hof Hofverkauf Adresse
+      - Apfelhof Bodensee Hofverkauf Adresse
+      - Apfelhof Alte Land Hofverkauf Adresse
+      - Apfelhof Sachsen Direktvermarktung Adresse
+      - Apfelhof Brandenburg Hofverkauf Adresse
+      - Apfelhof Bayern Direktvermarktung Adresse
+      - Apfelsorten alte Hofverkauf Adresse
+      - Bio Äpfel Hofverkauf Direktvermarktung Adresse
+      - Obsthof Selbstpflücken Adresse Telefon
+      - Apfelernte Obsthof Direktvermarktung Adresse
+      - Apfelhof Birnenhof Hofverkauf Adresse
+      - Apfelhof Erdbeerhof Hofverkauf Adresse
+      - Obst ab Hof Hofverkauf Adresse Telefon
+      - Obsthof Apfelhof Birnenhof Hofverkauf Adresse
+      - Obsthof Hofladen Adresse Telefon
+      - '"auf unserem Hof" Kürbis Hofverkauf Adresse'
+      - '"eigener Anbau" Kürbis Hofverkauf Adresse'
+      - Kürbishof Hofverkauf Direktvermarktung Adresse
+      - Kürbis ab Hof Hofverkauf Adresse
+      - Hokkaido Kürbis Hof Direktvermarktung Adresse
+      - Butternut Kürbis Hofverkauf Adresse
+      - Speisekürbis Hofverkauf Direktvermarktung Adresse
+      - Kürbis Selbsternte Hof Adresse Telefon
+      - Kürbisfeld Hofverkauf Adresse Telefon
+      - Kürbisernte Hofverkauf Direktvermarktung Adresse
+      - Kürbissorten Hof Hofverkauf Adresse
+      - Kürbis Hofladen Adresse Telefon
+      - Kürbis Bayern Hofverkauf Adresse
+      - Kürbis Niedersachsen Hofverkauf Adresse
+      - Kürbishof Brandenburg Direktvermarktung Adresse
+      - '"Verantwortlich für den Inhalt" Hofmetzgerei Direktvermarktung'
+      - '"Inhaber" Hofkäserei Direktvermarktung Adresse'
+      - '"GbR" Milchhof Hofverkauf Adresse'
+      - '"auf unserem Hof" Rindfleisch Direktvermarktung Adresse'
+      - '"unsere Tiere" Rinder Direktvermarktung Adresse'
+      - '"eigener Schlachthof" Direktvermarktung Hofverkauf Adresse'
+      - Hofmetzgerei Direktvermarktung Adresse Telefon
+      - Hofkäserei Direktvermarktung Adresse Telefon
+      - Hofschlachterei Direktvermarktung Adresse Telefon
+      - Rindfleisch ab Hof Direktvermarktung Adresse
+      - Schweinefleisch ab Hof Direktvermarktung Adresse
+      - Lammfleisch Hofverkauf Direktvermarktung Adresse
+      - Geflügel Hof Direktvermarktung Adresse Telefon
+      - Wurst Hof Direktvermarktung Adresse Telefon
+      - Eier vom Bauernhof Direktvermarktung Adresse
+      - Bio Eier Hof Direktvermarktung Adresse
+      - Freilandeier Hof Direktvermarktung Adresse
+      - Legehennen Hof Direktvermarktung Adresse
+      - Milchvieh Hof Direktvermarktung Adresse
+      - Rohmilch Hof Direktvermarktung Adresse Telefon
+      - Hofmilch Direktvermarktung Adresse Telefon
+      - Käse vom Hof Direktvermarktung Adresse Telefon
+      - Schafkäse Hof Direktvermarktung Adresse
+      - Ziegenkäse Hof Direktvermarktung Adresse
+      - Bio Fleisch Hof Direktvermarktung Adresse
+      - Weidefleisch Hof Direktvermarktung Adresse
+      - Wild Hof Direktvermarktung Adresse Telefon
+      - Hofladen Fleisch Adresse Telefon
+      - Hofladen Käse Eier Direktvermarktung Adresse
+      - Hofschlachtung Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Landsberg am Lech'
+      - Hofladen Landsberg am Lech Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Ebersberg'
+      - Hofladen Ebersberg Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Dachau'
+      - Hofladen Dachau Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Freising'
+      - Hofladen Freising Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Erding'
+      - Hofladen Erding Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Starnberg'
+      - Hofladen Starnberg Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Weilheim'
+      - Hofladen Weilheim Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Rosenheim'
+      - Hofladen Rosenheim Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Miesbach'
+      - Hofladen Miesbach Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Traunstein'
+      - Hofladen Traunstein Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Cloppenburg'
+      - Hofladen Cloppenburg Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Vechta'
+      - Hofladen Vechta Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Emsland'
+      - Hofladen Emsland Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Diepholz'
+      - Hofladen Diepholz Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Nienburg'
+      - Hofladen Nienburg Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Celle'
+      - Hofladen Celle Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Uelzen'
+      - Hofladen Uelzen Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Lüneburg'
+      - Hofladen Lüneburg Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Stade'
+      - Hofladen Stade Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Cuxhaven'
+      - Hofladen Cuxhaven Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Oder-Spree'
+      - Hofladen Oder-Spree Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Havelland'
+      - Hofladen Havelland Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Uckermark'
+      - Hofladen Uckermark Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Barnim'
+      - Hofladen Barnim Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Märkisch-Oderland'
+      - Hofladen Märkisch-Oderland Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Dahme-Spreewald'
+      - Hofladen Dahme-Spreewald Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Prignitz'
+      - Hofladen Prignitz Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Bautzen'
+      - Hofladen Bautzen Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Görlitz'
+      - Hofladen Görlitz Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Vogtland'
+      - Hofladen Vogtland Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Mittelsachsen'
+      - Hofladen Mittelsachsen Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Soest'
+      - Hofladen Soest Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Warendorf'
+      - Hofladen Warendorf Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Borken'
+      - Hofladen Borken Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Steinfurt'
+      - Hofladen Steinfurt Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Bauernhof Coesfeld'
+      - Hofladen Coesfeld Direktvermarktung Adresse Telefon
+      - '"Verantwortlich für den Inhalt" Hofladen Direktvermarktung'
+      - '"Verantwortlich für den Inhalt" Bauernhof Hofverkauf'
+      - '"Verantwortlich für den Inhalt" Gemüsehof Direktvermarktung'
+      - '"Verantwortlich für den Inhalt" Obsthof Direktvermarktung'
+      - '"Verantwortlich für den Inhalt" Beerenhof Hofverkauf'
+      - '"Verantwortlich für den Inhalt" Milchhof Direktvermarktung'
+      - '"Verantwortlich für den Inhalt" Biohof Hofverkauf'
+      - '"Inhaber" Bauernhof Direktvermarktung Adresse'
+      - '"Inhaber" Hofladen Hofverkauf Telefon Adresse'
+      - '"Inhaber" Gemüsehof Direktvermarktung Adresse'
+      - '"Inhaber" Obsthof Direktvermarktung Adresse'
+      - '"GbR" Bauernhof Direktvermarktung Adresse'
+      - '"GbR" Hofladen Hofverkauf Adresse Telefon'
+      - '"GbR" Gemüsehof Direktvermarktung Adresse'
+      - '"GbR" Obsthof Hofverkauf Adresse'
+      - '"GbR" Milchhof Direktvermarktung Adresse'
+      - '"Steuernummer" Bauernhof Hofverkauf Adresse'
+      - '"Steuernummer" Hofladen Direktvermarktung Adresse'
+      - '"USt-IdNr" Bauernhof Direktvermarktung Adresse'
+      - '"USt-IdNr" Hofladen Hofverkauf Adresse'
+      - '"Einzelunternehmen" Hofladen Direktvermarktung'
+      - '"Einzelunternehmen" Bauernhof Direktvermarktung'
+      - '"e.K." Hofladen Direktvermarktung Adresse'
+      - '"Betreiber" Hofladen Direktvermarktung Adresse'
+      - '"Betreiber" Bauernhof Hofverkauf Adresse'
+      - '"Landwirt" Direktvermarktung Hofverkauf Adresse'
+      - '"Landwirtin" Direktvermarktung Hofverkauf Adresse'
+      - '"Familienbetrieb" Hofladen Direktvermarktung Adresse'
+      - '"Familienbetrieb seit" Hofladen Direktvermarktung'
+      - '"in der" Generation Bauernhof Direktvermarktung'
+      - '"auf unserem Hof" Direktvermarktung Hofverkauf Adresse'
+      - '"auf unserem Hof" Gemüse Obst Hofverkauf Adresse'
+      - '"auf unserem Hof" Selbstpflücken Direktvermarktung Adresse'
+      - '"unser Hofladen" Hofverkauf Direktvermarktung Adresse'
+      - '"unser Hofladen" Adresse Telefon Direktvermarktung'
+      - '"unser Betrieb" Landwirtschaft Direktvermarktung Adresse'
+      - '"unser Familienbetrieb" Hofladen Direktvermarktung'
+      - '"wir bauen an" Gemüse Hofverkauf Adresse'
+      - '"wir bauen an" Obst Hofverkauf Adresse'
+      - '"wir ernten" Gemüse Hof Direktvermarktung Adresse'
+      - '"wir verkaufen" Gemüse Hofladen Adresse'
+      - '"wir bieten" Hofladen Direktvermarktung Adresse'
+      - '"wir bieten frisch" Hofladen Direktvermarktung'
+      - '"bei uns" Hofladen Hofverkauf Direktvermarktung Adresse'
+      - '"unsere Familie" Hofladen Direktvermarktung Adresse'
+      - '"unsere Produkte" Hofladen Direktvermarktung Adresse'
+      - '"unser Hof" Direktvermarktung Hofverkauf Adresse'
+      - '"ab Hof" Direktvermarktung Hofverkauf Adresse'
+      - '"ab Hof" Gemüse Obst Direktvermarktung Adresse'
+      - '"ab Hof" Eier Milch Direktvermarktung Adresse'
+      - '"frisch vom Hof" Direktvermarktung Adresse Telefon'
+      - '"direkt vom Hof" Direktvermarktung Adresse Telefon'
+      - '"vom eigenen Hof" Direktvermarktung Adresse'
+      - '"aus eigenem Anbau" Hofverkauf Adresse'
+      - '"aus eigener Erzeugung" Hofverkauf Adresse'
+      - '"selbst angebaut" Gemüse Hofverkauf Adresse'
+      - '"selbst geerntet" Hofverkauf Adresse Telefon'
+      - '"hofeigene" Produkte Hofverkauf Adresse'
+      - '"unsere Ernte" Hofverkauf Direktvermarktung Adresse'
+      - '"unser Anbau" Hofverkauf Direktvermarktung Adresse'
+      - '"Abholtermin" Hofladen Direktvermarktung Adresse'
+      - '"Abholzeiten" Hofladen Direktvermarktung Adresse'
+      - '"Vorbestellung" Hofladen Direktvermarktung Adresse'
+      - '"telefonische Vorbestellung" Hof Direktvermarktung'
+      - '"Bestellung per Email" Hofladen Direktvermarktung'
+      - '"Liefertag" Hofladen Direktvermarktung Adresse'
+      - '"Erntefrisch" Hofladen Direktvermarktung Adresse'
+      - '"aktuell verfügbar" Hofladen Direktvermarktung Adresse'
+      - '"diese Woche erhältlich" Hof Hofverkauf Adresse'
+      - '"Hofladen geöffnet" Adresse Telefon Direktvermarktung'
+      - '"ganzjährig geöffnet" Hofladen Adresse Direktvermarktung'
+      - '"saisonal geöffnet" Hofladen Adresse Direktvermarktung'
+      - '"Öffnungszeiten" Samstag Hofladen Adresse'
+      - '"Öffnungszeiten" Hofladen Direktvermarktung Adresse'
+      - '"Hofverkauf" Adresse Telefon Direktvermarktung'
+      - '"Selbstbedienung" Hofladen Adresse Telefon'
+      - '"Verkaufshütte" Hof Adresse Telefon'
+      - '"Hofverkaufstand" Adresse Telefon'
+      - '"Direktvermarktung" Hofladen Adresse Telefon'
+      - '"Direktvermarkter" Hofladen Adresse Telefon'
+      - '"jetzt erntereif" Hof Direktvermarktung Adresse'
+      - '"jetzt erhältlich" Hofladen Direktvermarktung Adresse'
+      - '"Saison beginnt" Hofladen Direktvermarktung Adresse'
+      - '"Saison hat begonnen" Hofladen Direktvermarktung'
+      - '"frisch geerntet" Hofverkauf Adresse Telefon'
+      - Hofbäckerei Direktvermarktung Adresse Telefon
+      - Hofbrennerei Direktvermarktung Adresse Telefon
+      - Hofkelterei Direktvermarktung Adresse Telefon
+      - Hofmühle Direktvermarktung Adresse Telefon
+      - Hofmosterei Direktvermarktung Adresse Telefon
+      - Apfelsaftkelterei Hof Direktvermarktung Adresse
+      - Obstmosterei Hof Direktvermarktung Adresse
+      - Schaukäserei Direktvermarktung Adresse Telefon
+      - Imkerei Honig Direktvermarktung Adresse Telefon
+      - Hofimkerei Direktvermarktung Adresse Telefon
+      - Honig Imker Direktvermarktung Adresse Telefon
+      - Getreidemühle Hof Direktvermarktung Adresse
+      - Ölmühle Hof Direktvermarktung Adresse
+      - Rapsöl Hof Direktvermarktung Adresse Telefon
+      - Leinöl Hof Direktvermarktung Adresse
+      - Kürbiskernöl Hof Direktvermarktung Adresse
+      - Saft Hof Direktvermarktung Adresse Telefon
+      - Apfelsaft Hof Direktvermarktung Adresse
+      - Sauerkraut Hof Direktvermarktung Adresse
+      - Marmelade Hof Direktvermarktung Adresse Telefon
+      - Konfitüre Hof Direktvermarktung Adresse
+      - Wurstwaren Hof Direktvermarktung Adresse Telefon
+      - Schinken Hof Direktvermarktung Adresse Telefon
+      - Rhabarber Hofverkauf Direktvermarktung Adresse
+      - Rhabarber ab Hof Direktvermarktung Adresse
+      - Bärlauch Hofverkauf Direktvermarktung Adresse
+      - Spargelhof Rhabarber Hofverkauf Adresse
+      - Topinambur Hofverkauf Direktvermarktung Adresse
+      - Pastinaken Hof Direktvermarktung Adresse
+      - Schwarzwurzel Hof Direktvermarktung Adresse
+      - Meerrettich Hof Direktvermarktung Adresse
+      - Rote Bete Hof Direktvermarktung Adresse
+      - Pak Choi Hofverkauf Direktvermarktung Adresse
+      - Mangold Hof Direktvermarktung Adresse Telefon
+      - Rucola Hofverkauf Direktvermarktung Adresse
+      - Artischocken Hof Direktvermarktung Adresse
+      - Zuckermais Hofverkauf Direktvermarktung Adresse
+      - Süßkartoffel Hof Direktvermarktung Adresse
+      - Quitten Hof Direktvermarktung Adresse Telefon
+      - Sanddorn Hof Direktvermarktung Adresse Telefon
+      - Holunder Hof Direktvermarktung Adresse Telefon
+      - Aronia Hofverkauf Direktvermarktung Adresse
+      - Walnüsse Hof Direktvermarktung Adresse Telefon
+      - Haselnüsse Hof Direktvermarktung Adresse
+      - Esskastanien Hof Direktvermarktung Adresse
+      - Edelpilze Hof Direktvermarktung Adresse Telefon
+      - Shiitake Hof Direktvermarktung Adresse Telefon
+      - Austernpilze Hof Direktvermarktung Adresse
+      - Champignons Hof Direktvermarktung Adresse
+      - Kräuterhof Direktvermarktung Adresse Telefon
+      - Heilkräuter Hof Direktvermarktung Adresse
+      - Kräuter Hof Direktvermarktung Adresse Telefon
+      - Lavendel Hof Direktvermarktung Adresse Telefon
 
 app:
   outreach:
