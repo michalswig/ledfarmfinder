@@ -52,7 +52,7 @@ public class DiscoverySnippetFetcher {
 
             if (result.hostBlocked()) {
                 blockedHost = extractHost(candidateUrl);
-                log.info("DiscoverySnippetFetcher: host blocked (403), skipping remaining candidates host={}", blockedHost);
+                log.info("DiscoverySnippetFetcher: host blocked, skipping remaining candidates host={}", blockedHost);
                 continue;
             }
 
@@ -123,10 +123,10 @@ public class DiscoverySnippetFetcher {
                         e.getStatusCode()
                 );
                 if (e.getStatusCode() == 403) {
-                    return FetchResult.blocked(); // <-- sygnalizuje: zablokuj cały host
+                    return FetchResult.blocked();
                 }
                 if (e.getStatusCode() == 404) {
-                    return FetchResult.empty();   // 404 = ta ścieżka nie istnieje, nie host
+                    return FetchResult.empty();
                 }
 
             } catch (Exception e) {
@@ -137,10 +137,39 @@ public class DiscoverySnippetFetcher {
                         MAX_ATTEMPTS_PER_URL,
                         e.getMessage()
                 );
+
+                if (isHostLevelError(e)) {
+                    return FetchResult.blocked();
+                }
             }
         }
 
         return FetchResult.empty();
+    }
+
+    private boolean isHostLevelError(Exception e) {
+        String chainMessages = extractChainMessages(e);
+        return chainMessages.contains("PKIX path")
+                || chainMessages.contains("certificate")
+                || chainMessages.contains("SSL")
+                || chainMessages.contains("handshake")
+                || chainMessages.contains("Connection refused")
+                || chainMessages.contains("Connection reset")
+                || chainMessages.contains("UnknownHostException")
+                || chainMessages.contains("No route to host");
+    }
+
+    private String extractChainMessages(Exception e) {
+        StringBuilder sb = new StringBuilder();
+        Throwable current = e;
+        while (current != null) {
+            if (current.getMessage() != null) {
+                sb.append(current.getMessage()).append(' ');
+            }
+            sb.append(current.getClass().getSimpleName()).append(' ');
+            current = current.getCause();
+        }
+        return sb.toString();
     }
 
     private String extractHost(String url) {
