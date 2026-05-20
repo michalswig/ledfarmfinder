@@ -52,7 +52,7 @@ public class OutreachService {
         }
 
         if (!result.sent() && !outreachProperties.isSimulateOnly()) {
-            log.info("OutreachService: not sent (no simulate, no hardBounce) -> no timestamps update for {}", to);
+            log.warn("OutreachService: not sent and not simulated. leadId={}", lead.getId());
             return;
         }
 
@@ -68,7 +68,7 @@ public class OutreachService {
 
     private boolean isOutreachEnabledOrLog() {
         if (!outreachProperties.isEnabled()) {
-            log.info("OutreachService: outreach disabled, skipping");
+            log.debug("OutreachService: outreach disabled, skipping");
             return false;
         }
         return true;
@@ -76,7 +76,7 @@ public class OutreachService {
 
     private SendResult sendOrSimulate(PreparedMail mail) {
         if (outreachProperties.isSimulateOnly()) {
-            log.info("OutreachService: simulate-only=true, skipping real mail send");
+            log.debug("OutreachService: simulate-only=true, skipping real send");
             return new SendResult(true, false);
         }
         return mailSenderGateway.send(mail);
@@ -86,6 +86,7 @@ public class OutreachService {
         lead.setBounce(true);
         lead.setActive(false);
         farmLeadRepository.save(lead);
+        log.info("OutreachService: hard bounce marked. leadId={}", lead.getId());
     }
 
     private void applyFirstEmailTimestamps(FarmLead lead, LocalDateTime now) {

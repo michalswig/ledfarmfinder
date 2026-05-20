@@ -92,9 +92,7 @@ public class DiscoveryService {
 
         for (int i = 0; i < queriesPerRun && acceptedAcrossQueries.size() < limit; i++) {
             int remainingLimit = limit - acceptedAcrossQueries.size();
-
             List<String> acceptedForQuery = findCandidateFarmUrlsForSingleQuery(remainingLimit, queries);
-
             if (!acceptedForQuery.isEmpty()) {
                 acceptedAcrossQueries.addAll(acceptedForQuery);
             }
@@ -141,13 +139,11 @@ public class DiscoveryService {
         LocalDateTime startedAt = LocalDateTime.now();
 
         log.info(
-                "DiscoveryService: searching farms for query='{}' (queryIndex={}), limit={}, resultsPerPage={}, maxPagesPerRun={}",
+                "DiscoveryService: query='{}' (index={}) limit={} resultsPerPage={} maxPagesPerRun={}",
                 rawQuery, currentQueryIndex, limit, resultsPerPage, maxPagesPerRun
         );
 
-        if (!query.equals(rawQuery)) {
-            log.info("DiscoveryService: SERP query after negatives='{}'", query);
-        }
+        log.debug("DiscoveryService: SERP query after negatives='{}'", query);
 
         int startPage = cursor.getCurrentPage();
         int currentPage = startPage;
@@ -155,13 +151,13 @@ public class DiscoveryService {
 
         if (queryScheduler.isExhausted(cursor)) {
             log.info(
-                    "DiscoveryService: picked query is already exhausted (DONE). query='{}', currentPage={}, maxPage={}",
+                    "DiscoveryService: query already exhausted (DONE). query='{}' currentPage={} maxPage={}",
                     rawQuery, startPage, maxPage
             );
             return List.of();
         }
 
-        log.info(
+        log.debug(
                 "DiscoveryService: starting SERP from page={} (maxPage={}) for query='{}'",
                 startPage, maxPage, rawQuery
         );
@@ -179,7 +175,7 @@ public class DiscoveryService {
         int consecutiveEmptySerpPages = 0;
 
         for (int i = 0; i < maxPagesPerRun && accepted.size() < limit; i++) {
-            log.info(
+            log.debug(
                     "DiscoveryService: fetching SERP page={} (runPageIndex={}) for query='{}'",
                     currentPage, i, rawQuery
             );
@@ -187,7 +183,7 @@ public class DiscoveryService {
             List<String> rawUrls = serpApiService.searchUrls(query, resultsPerPage, currentPage);
             rawUrlsTotal += rawUrls.size();
 
-            log.info("DiscoveryService: raw urls from SerpAPI (page={}) = {}", currentPage, rawUrls.size());
+            log.debug("DiscoveryService: raw urls from SerpAPI page={} count={}", currentPage, rawUrls.size());
 
             if (rawUrls.isEmpty()) {
                 EmptySerpPageOutcome emptySerpPageOutcome = handleEmptySerpPage(
@@ -206,7 +202,7 @@ public class DiscoveryService {
             List<String> cleaned = cleanSerpUrls(rawUrls);
             cleanedUrlsTotal += cleaned.size();
 
-            log.info("DiscoveryService: urls after domain filter (page={}) = {}", currentPage, cleaned.size());
+            log.debug("DiscoveryService: urls after domain filter page={} count={}", currentPage, cleaned.size());
 
             NewUrlSelectionOutcome newUrlSelectionOutcome = selectNewUrlsForClassification(cleaned, accepted.size(), limit);
             List<String> newUrlsOnly = newUrlSelectionOutcome.newUrlsOnly();
@@ -217,8 +213,8 @@ public class DiscoveryService {
 
             openAiCandidates += newUrlsOnly.size();
 
-            log.info(
-                    "DiscoveryService: new urls for OpenAI after discovered filter (page={}) = {}",
+            log.debug(
+                    "DiscoveryService: new urls for classification page={} count={}",
                     currentPage, newUrlsOnly.size()
             );
 
@@ -243,8 +239,8 @@ public class DiscoveryService {
 
             List<ScoredUrl> scored = scoreNewUrls(newUrlsOnly);
 
-            log.info(
-                    "DiscoveryService: scored {} NEW urls (top example: {})",
+            log.debug(
+                    "DiscoveryService: scored {} urls, top={}",
                     scored.size(),
                     scored.isEmpty() ? "none" : (scored.get(0).url() + " score=" + scored.get(0).score())
             );
@@ -253,10 +249,9 @@ public class DiscoveryService {
                 if (accepted.size() >= limit) {
                     break;
                 }
-
-                ScoredUrlProcessingOutcome scoredUrlProcessingOutcome = processScoredUrl(scoredUrl, accepted);
-                rejectedCount += scoredUrlProcessingOutcome.rejectedDelta();
-                errorsCount += scoredUrlProcessingOutcome.errorsDelta();
+                ScoredUrlProcessingOutcome outcome = processScoredUrl(scoredUrl, accepted);
+                rejectedCount += outcome.rejectedDelta();
+                errorsCount += outcome.errorsDelta();
             }
 
             currentPage = queryScheduler.advancePageOrExhaust(currentPage, maxPage);
@@ -281,9 +276,9 @@ public class DiscoveryService {
         );
 
         log.info(
-                "DiscoveryService: returning {} accepted urls (query='{}', startPage={}, endPage={}, done={}, pagesVisited={}, alreadySeenSkippedUrl={}, openAiCandidates={}, normalizedChanged={})",
-                distinctAccepted.size(), rawQuery, startPage, currentPage, (currentPage > maxPage), pagesVisited,
-                alreadySeenSkipped, openAiCandidates, normalizedChanged
+                "DiscoveryService: query='{}' done. accepted={} pages={} rawUrls={} cleaned={} newCandidates={} rejected={} errors={} alreadySeen={} normalizedChanged={}",
+                rawQuery, distinctAccepted.size(), pagesVisited, rawUrlsTotal, cleanedUrlsTotal,
+                openAiCandidates, rejectedCount, errorsCount, alreadySeenSkipped, normalizedChanged
         );
 
         return distinctAccepted;
@@ -367,16 +362,16 @@ public class DiscoveryService {
         if (newUrlsOnly.isEmpty()) {
             int nextEmptyNewUrls = consecutiveEmptyNewUrls + 1;
 
-            log.info(
-                    "DiscoveryService: empty NEW candidates streak = {} (page={})",
+            log.debug(
+                    "DiscoveryService: empty new candidates streak={} page={}",
                     nextEmptyNewUrls, currentPage
             );
 
             if (nextEmptyNewUrls >= EXHAUST_AFTER_EMPTY_NEW_URL_PAGES) {
                 int donePage = maxPage + 1;
                 log.info(
-                        "DiscoveryService: marking query as DONE after {} empty NEW pages. query='{}', pageNow={}",
-                        nextEmptyNewUrls, rawQuery, donePage
+                        "DiscoveryService: marking query='{}' as DONE after {} empty-new-url pages",
+                        rawQuery, nextEmptyNewUrls
                 );
                 return new EmptyNewCandidatesOutcome(
                         donePage,
@@ -421,16 +416,16 @@ public class DiscoveryService {
     ) {
         int nextEmptySerpPages = consecutiveEmptySerpPages + 1;
 
-        log.info(
-                "DiscoveryService: empty SERP page streak = {} (page={})",
+        log.debug(
+                "DiscoveryService: empty SERP page streak={} page={}",
                 nextEmptySerpPages, currentPage
         );
 
         if (nextEmptySerpPages >= EXHAUST_AFTER_EMPTY_SERP_PAGES) {
             int donePage = maxPage + 1;
             log.info(
-                    "DiscoveryService: marking query as DONE due to empty SERP response. query='{}', pageNow={}",
-                    rawQuery, donePage
+                    "DiscoveryService: marking query='{}' as DONE due to empty SERP response",
+                    rawQuery
             );
             return new EmptySerpPageOutcome(donePage, nextEmptySerpPages);
         }
@@ -549,23 +544,21 @@ public class DiscoveryService {
 
                     if (recoveredLeads != null && !recoveredLeads.isEmpty()) {
                         accepted.add(url);
-
                         log.info(
-                                "DiscoveryService: RECOVERED via direct scrape url={} score={} leadsFound={}",
+                                "DiscoveryService: RECOVERED via direct scrape url={} score={} leads={}",
                                 url, scoredUrl.score(), recoveredLeads.size()
                         );
-
                         return new ScoredUrlProcessingOutcome(0, 0);
                     }
 
-                    log.info(
-                            "DiscoveryService: direct scrape found no leads for high-score url={} score={}",
+                    log.debug(
+                            "DiscoveryService: direct scrape found no leads url={} score={}",
                             url, scoredUrl.score()
                     );
                 }
 
-                log.info(
-                        "DiscoveryService: SKIP (empty/low-quality snippet - no OpenAI, no DB save) url={} score={}",
+                log.debug(
+                        "DiscoveryService: SKIP empty/blank snippet url={} score={}",
                         url, scoredUrl.score()
                 );
                 return new ScoredUrlProcessingOutcome(1, 0);
@@ -577,7 +570,7 @@ public class DiscoveryService {
 
         } catch (Exception e) {
             log.warn(
-                    "DiscoveryService: error for url={} (score={}): {}",
+                    "DiscoveryService: error processing url={} score={} msg={}",
                     url, scoredUrl.score(), e.getMessage()
             );
             return new ScoredUrlProcessingOutcome(0, 1);
@@ -623,15 +616,15 @@ public class DiscoveryService {
             }
 
             log.info(
-                    "DiscoveryService: ACCEPTED (FARM) sourceUrl={} contactUrl={} score={} seasonalJobs={} reason={}",
+                    "DiscoveryService: ACCEPTED url={} contactUrl={} score={} seasonalJobs={} reason={}",
                     url, contactUrl, scoredUrl.score(), result.isSeasonalJobs(), result.reason()
             );
             return new ScoredUrlProcessingOutcome(0, 0);
         }
 
         log.info(
-                "DiscoveryService: REJECTED (NOT A FARM) url={} score={} seasonalJobs={} reason={}",
-                url, scoredUrl.score(), result.isSeasonalJobs(), result.reason()
+                "DiscoveryService: REJECTED url={} score={} reason={}",
+                url, scoredUrl.score(), result.reason()
         );
         return new ScoredUrlProcessingOutcome(1, 0);
     }

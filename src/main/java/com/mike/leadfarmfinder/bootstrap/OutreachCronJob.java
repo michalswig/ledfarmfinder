@@ -29,12 +29,12 @@ public class OutreachCronJob {
     @Scheduled(fixedDelayString = "${leadfinder.outreach.interval-millis:900000}")
     public void runOutreachBatch() {
         if (!outreachProperties.isEnabled()) {
-            log.info("OutreachCronJob: outreach disabled, skipping");
+            log.debug("OutreachCronJob: outreach disabled, skipping");
             return;
         }
 
         if (!running.compareAndSet(false, true)) {
-            log.info("OutreachCronJob: already running, skipping");
+            log.debug("OutreachCronJob: already running, skipping");
             return;
         }
 
@@ -45,52 +45,42 @@ public class OutreachCronJob {
                 return;
             }
 
-            LocalDateTime start = LocalDateTime.now();
-            log.info("OutreachCronJob: started batch run at {}, batchSize={}", start, batchSize);
-
             Pageable pageable = PageRequest.of(0, batchSize);
-
             List<FarmLead> leads = farmLeadRepository
                     .findByActiveTrueAndBounceFalseAndFirstEmailSentAtIsNullOrderByCreatedAtAsc(pageable);
 
             if (leads.isEmpty()) {
-                log.info("OutreachCronJob: no new leads to email");
+                log.debug("OutreachCronJob: no new leads to email");
                 return;
             }
 
-            log.info("OutreachCronJob: processing {} leads (limit={})", leads.size(), batchSize);
+            LocalDateTime start = LocalDateTime.now();
+            log.info("OutreachCronJob: started. leads={} batchSize={}", leads.size(), batchSize);
 
             int successCount = 0;
             int errorCount = 0;
-
             long delayMs = outreachProperties.getDelayBetweenEmailsMillis();
 
-            for (int i = 0; i < leads.size(); i++) {
-                FarmLead lead = leads.get(i);
-
+            for (FarmLead lead : leads) {
                 try {
                     outreachService.sendFirstEmail(lead);
                     successCount++;
+
+                    if (delayMs > 0 && successCount < leads.size()) {
+                        Thread.sleep(delayMs);
+                    }
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    log.warn("OutreachCronJob: interrupted during delay");
+                    break;
                 } catch (Exception e) {
                     errorCount++;
-                    log.warn("OutreachCronJob: error while sending email to leadId={}, email={}: {}",
-                            lead.getId(), lead.getEmail(), e.getMessage());
-                }
-
-                boolean isLast = (i == leads.size() - 1);
-                if (delayMs > 0 && !isLast) {
-                    try {
-                        Thread.sleep(delayMs);
-                    } catch (InterruptedException ie) {
-                        Thread.currentThread().interrupt();
-                        log.warn("OutreachCronJob: interrupted during delay, stopping batch");
-                        break;
-                    }
+                    log.warn("OutreachCronJob: error sending to leadId={} msg={}", lead.getId(), e.getMessage());
                 }
             }
 
-            log.info("OutreachCronJob: finished at {}, processed={}, success={}, errors={}",
-                    LocalDateTime.now(), leads.size(), successCount, errorCount);
+            log.info("OutreachCronJob: finished. sent={} errors={} duration={}ms",
+                    successCount, errorCount, java.time.Duration.between(start, LocalDateTime.now()).toMillis());
 
         } finally {
             running.set(false);

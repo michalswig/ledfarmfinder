@@ -45,8 +45,6 @@ class DefaultLeadEligibilityPolicyTest {
         @DisplayName("should return false when lead is inactive")
         void shouldReturnFalseWhenLeadIsInactive() {
             when(lead.isActive()).thenReturn(false);
-            when(lead.getId()).thenReturn(1L);
-            when(lead.getEmail()).thenReturn("info@example.com");
 
             boolean result = policy.isEligibleOrLog(lead, EmailType.FIRST, now);
 
@@ -58,8 +56,6 @@ class DefaultLeadEligibilityPolicyTest {
         void shouldReturnFalseWhenLeadIsMarkedAsBounce() {
             when(lead.isActive()).thenReturn(true);
             when(lead.isBounce()).thenReturn(true);
-            when(lead.getId()).thenReturn(1L);
-            when(lead.getEmail()).thenReturn("info@example.com");
 
             boolean result = policy.isEligibleOrLog(lead, EmailType.FIRST, now);
 
@@ -83,8 +79,6 @@ class DefaultLeadEligibilityPolicyTest {
             when(lead.isActive()).thenReturn(true);
             when(lead.isBounce()).thenReturn(false);
             when(lead.getFirstEmailSentAt()).thenReturn(null);
-            when(lead.getId()).thenReturn(1L);
-            when(lead.getEmail()).thenReturn("info@example.com");
 
             boolean result = policy.isEligibleOrLog(lead, EmailType.FOLLOW_UP, now);
 
@@ -111,8 +105,6 @@ class DefaultLeadEligibilityPolicyTest {
             when(lead.isBounce()).thenReturn(false);
             when(lead.getFirstEmailSentAt()).thenReturn(now.minusDays(10));
             when(lead.getLastEmailSentAt()).thenReturn(now.minusDays(2));
-            when(lead.getId()).thenReturn(1L);
-            when(lead.getEmail()).thenReturn("info@example.com");
             when(outreachProperties.getFollowUpMinDaysSinceLastEmail()).thenReturn(3);
 
             boolean result = policy.isEligibleOrLog(lead, EmailType.FOLLOW_UP, now);
@@ -140,8 +132,8 @@ class DefaultLeadEligibilityPolicyTest {
             when(lead.isActive()).thenReturn(true);
             when(lead.isBounce()).thenReturn(false);
             when(lead.getFirstEmailSentAt()).thenReturn(now.minusDays(10));
-            when(outreachProperties.getFollowUpMinDaysSinceLastEmail()).thenReturn(3);
             when(lead.getLastEmailSentAt()).thenReturn(now.minusDays(3));
+            when(outreachProperties.getFollowUpMinDaysSinceLastEmail()).thenReturn(3);
 
             boolean result = policy.isEligibleOrLog(lead, EmailType.FOLLOW_UP, now);
 

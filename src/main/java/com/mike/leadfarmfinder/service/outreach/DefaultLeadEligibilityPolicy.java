@@ -1,12 +1,12 @@
 package com.mike.leadfarmfinder.service.outreach;
 
-
 import com.mike.leadfarmfinder.config.OutreachProperties;
 import com.mike.leadfarmfinder.entity.FarmLead;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Slf4j
@@ -19,15 +19,15 @@ public class DefaultLeadEligibilityPolicy implements LeadEligibilityPolicy {
     @Override
     public boolean isEligibleOrLog(FarmLead lead, EmailType type, LocalDateTime now) {
         if (lead == null) {
-            log.warn("Outreach: lead is null, skipping");
+            log.warn("OutreachEligibility: lead is null, skipping");
             return false;
         }
         if (!lead.isActive()) {
-            log.info("OutreachService: lead inactive, skipping (id={}, email={})", lead.getId(), lead.getEmail());
+            log.debug("OutreachEligibility: inactive leadId={}", lead.getId());
             return false;
         }
         if (lead.isBounce()) {
-            log.info("OutreachService: lead bounce=true, skipping (id={}, email={})", lead.getId(), lead.getEmail());
+            log.debug("OutreachEligibility: bounce leadId={}", lead.getId());
             return false;
         }
         if (type == EmailType.FOLLOW_UP) {
@@ -39,9 +39,7 @@ public class DefaultLeadEligibilityPolicy implements LeadEligibilityPolicy {
 
     private boolean hasFirstEmailOrLog(FarmLead lead) {
         if (lead.getFirstEmailSentAt() != null) return true;
-
-        log.info("OutreachService: follow-up skipped, firstEmailSentAt is null (id={}, email={})",
-                lead.getId(), lead.getEmail());
+        log.debug("OutreachEligibility: follow-up skipped, no first email yet. leadId={}", lead.getId());
         return false;
     }
 
@@ -53,13 +51,10 @@ public class DefaultLeadEligibilityPolicy implements LeadEligibilityPolicy {
         LocalDateTime cutoff = now.minusDays(minDays);
 
         if (last.isAfter(cutoff)) {
-            log.info("OutreachService: follow-up skipped, lastEmailSentAt={} is younger than {} days (id={}, email={})",
-                    last, minDays, lead.getId(), lead.getEmail());
+            log.debug("OutreachEligibility: follow-up too soon. leadId={} daysSince={}",
+                    lead.getId(), Duration.between(last, now).toDays());
             return true;
         }
-
         return false;
     }
-
-
 }

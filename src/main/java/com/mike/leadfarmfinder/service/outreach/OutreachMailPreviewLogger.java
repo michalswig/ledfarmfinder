@@ -9,12 +9,13 @@ public class OutreachMailPreviewLogger {
 
     public void logPreview(PreparedMail mail) {
         if (mail == null) return;
+        if (!log.isDebugEnabled()) return;
 
-        log.info("=== OUTREACH EMAIL PREVIEW ===");
-        log.info("From: {}", mail.from());
-        log.info("To: {}", mail.to());
-        log.info("Subject: {}", mail.subject());
-        log.info("Body:\n{}", mail.body());
-        log.info("=== END OUTREACH EMAIL PREVIEW ===");
+        log.debug("=== OUTREACH EMAIL PREVIEW ===");
+        log.debug("From: {}", mail.from());
+        log.debug("To: {}", mail.to());
+        log.debug("Subject: {}", mail.subject());
+        log.debug("Body:\n{}", mail.body());
+        log.debug("=== END OUTREACH EMAIL PREVIEW ===");
     }
 }
