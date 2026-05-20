@@ -1,6 +1,7 @@
 package com.mike.leadfarmfinder.service.discovery;
 
 import org.jsoup.Connection;
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.UnsupportedMimeTypeException;
 import org.jsoup.nodes.Document;
@@ -20,11 +21,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class DiscoverySnippetFetcherTest {
@@ -288,6 +285,61 @@ class DiscoverySnippetFetcherTest {
                 assertThat(result).isEqualTo(longText);
                 verify(contentTypeChecker).check(url);
                 jsoupMock.verify(() -> Jsoup.connect(url));
+            }
+        }
+
+        @Test
+        @DisplayName("should skip remaining candidates when host returns 403")
+        void shouldSkipRemainingCandidatesWhenHostReturns403() throws Exception {
+            String url = "https://blocked.example.com/some-path";
+
+            when(contentTypeChecker.check(anyString())).thenReturn(probeOkHtml());
+
+            try (MockedStatic<Jsoup> jsoupMock = mockStatic(Jsoup.class)) {
+                Connection connection = mock(Connection.class);
+
+                jsoupMock.when(() -> Jsoup.connect(anyString())).thenReturn(connection);
+                when(connection.userAgent(anyString())).thenReturn(connection);
+                when(connection.referrer(anyString())).thenReturn(connection);
+                when(connection.timeout(anyInt())).thenReturn(connection);
+                when(connection.followRedirects(true)).thenReturn(connection);
+                when(connection.ignoreHttpErrors(false)).thenReturn(connection);
+                when(connection.get()).thenThrow(new HttpStatusException("Forbidden", 403, url));
+
+                String result = fetcher.fetchTextSnippet(url);
+
+                assertThat(result).isEmpty();
+                // 8 kandydatów (original + root + 6 ścieżek), ale wszystkie ten sam host —
+                // po pierwszym 403 reszta powinna być skipped bez wywołania Jsoup.connect
+                jsoupMock.verify(() -> Jsoup.connect(anyString()), times(1));
+            }
+        }
+
+        @Test
+        @DisplayName("should not skip candidates from different hosts after 403")
+        void shouldNotSkipCandidatesFromDifferentHostsAfter403() throws Exception {
+            // Ten test jest bardziej edukacyjny niż praktyczny (buildCandidateUrls zawsze
+            // generuje jeden host), ale chroni przed błędem jeśli ktoś kiedyś zmieni logikę.
+            String url = "https://blocked.example.com";
+
+            when(contentTypeChecker.check(anyString())).thenReturn(probeOkHtml());
+
+            try (MockedStatic<Jsoup> jsoupMock = mockStatic(Jsoup.class)) {
+                Connection connection = mock(Connection.class);
+
+                jsoupMock.when(() -> Jsoup.connect(anyString())).thenReturn(connection);
+                when(connection.userAgent(anyString())).thenReturn(connection);
+                when(connection.referrer(anyString())).thenReturn(connection);
+                when(connection.timeout(anyInt())).thenReturn(connection);
+                when(connection.followRedirects(true)).thenReturn(connection);
+                when(connection.ignoreHttpErrors(false)).thenReturn(connection);
+                when(connection.get()).thenThrow(new HttpStatusException("Forbidden", 403, url));
+
+                String result = fetcher.fetchTextSnippet(url);
+
+                assertThat(result).isEmpty();
+                // Po 403 na pierwszym URL — pozostałe 7 (ten sam host) pominięte
+                jsoupMock.verify(() -> Jsoup.connect(anyString()), times(1));
             }
         }
     }

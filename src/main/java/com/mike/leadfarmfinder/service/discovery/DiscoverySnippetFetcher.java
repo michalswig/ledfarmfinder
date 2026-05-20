@@ -31,23 +31,43 @@ public class DiscoverySnippetFetcher {
 
     private final DiscoveryContentTypeChecker contentTypeChecker;
 
+    private record FetchResult(String snippet, boolean hostBlocked) {
+        static FetchResult blocked() { return new FetchResult("", true); }
+        static FetchResult empty()   { return new FetchResult("", false); }
+        static FetchResult of(String s) { return new FetchResult(s, false); }
+    }
+
     public String fetchTextSnippet(String url) {
         Set<String> candidates = buildCandidateUrls(url);
+        String blockedHost = null;
 
         for (String candidateUrl : candidates) {
-            String snippet = fetchSingleCandidate(candidateUrl);
-            if (!snippet.isBlank()) {
+
+            if (blockedHost != null && blockedHost.equals(extractHost(candidateUrl))) {
+                log.debug("DiscoverySnippetFetcher: SKIP (host blocked) url={}", candidateUrl);
+                continue;
+            }
+
+            FetchResult result = fetchSingleCandidate(candidateUrl);
+
+            if (result.hostBlocked()) {
+                blockedHost = extractHost(candidateUrl);
+                log.info("DiscoverySnippetFetcher: host blocked (403), skipping remaining candidates host={}", blockedHost);
+                continue;
+            }
+
+            if (!result.snippet().isBlank()) {
                 if (!candidateUrl.equals(url)) {
                     log.info("DiscoverySnippetFetcher: fallback success originalUrl={} fallbackUrl={}", url, candidateUrl);
                 }
-                return snippet;
+                return result.snippet();
             }
         }
 
         return "";
     }
 
-    private String fetchSingleCandidate(String url) {
+    private FetchResult fetchSingleCandidate(String url) {
         DiscoveryContentTypeResult typeResult = contentTypeChecker.check(url);
 
         if (typeResult != null && typeResult.shouldSkipFullFetch()) {
@@ -57,7 +77,7 @@ public class DiscoverySnippetFetcher {
                     typeResult.contentTypeOr("missing"),
                     url
             );
-            return "";
+            return FetchResult.empty();
         }
 
         for (int attempt = 1; attempt <= MAX_ATTEMPTS_PER_URL; attempt++) {
@@ -74,17 +94,19 @@ public class DiscoverySnippetFetcher {
 
                 String text = document.text();
                 if (text == null) {
-                    return "";
+                    return FetchResult.empty();
                 }
 
                 String trimmedText = text.trim();
                 if (trimmedText.length() < MIN_TEXT_LENGTH) {
-                    return "";
+                    return FetchResult.empty();
                 }
 
-                return trimmedText.length() > MAX_TEXT_LENGTH
+                String snippet = trimmedText.length() > MAX_TEXT_LENGTH
                         ? trimmedText.substring(0, MAX_TEXT_LENGTH)
                         : trimmedText;
+
+                return FetchResult.of(snippet);
 
             } catch (UnsupportedMimeTypeException e) {
                 log.warn(
@@ -92,18 +114,21 @@ public class DiscoverySnippetFetcher {
                         url,
                         e.getMimeType()
                 );
-                return "";
+                return FetchResult.empty();
+
             } catch (HttpStatusException e) {
                 log.warn(
                         "DiscoverySnippetFetcher: failed to fetch text from {}: HTTP {}",
                         url,
                         e.getStatusCode()
                 );
-
-                // dla 403/404 nie ma sensu robić wielu prób na ten sam URL
-                if (e.getStatusCode() == 403 || e.getStatusCode() == 404) {
-                    return "";
+                if (e.getStatusCode() == 403) {
+                    return FetchResult.blocked(); // <-- sygnalizuje: zablokuj cały host
                 }
+                if (e.getStatusCode() == 404) {
+                    return FetchResult.empty();   // 404 = ta ścieżka nie istnieje, nie host
+                }
+
             } catch (Exception e) {
                 log.warn(
                         "DiscoverySnippetFetcher: failed to fetch text from {} (attempt {}/{}): {}",
@@ -115,7 +140,16 @@ public class DiscoverySnippetFetcher {
             }
         }
 
-        return "";
+        return FetchResult.empty();
+    }
+
+    private String extractHost(String url) {
+        try {
+            String host = new URI(url).getHost();
+            return host != null ? host : url;
+        } catch (Exception e) {
+            return url;
+        }
     }
 
     private Set<String> buildCandidateUrls(String originalUrl) {
