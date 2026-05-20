@@ -41,7 +41,12 @@ public class DiscoveryUrlFilter {
             "airbnb.de",
             "booking.com",
             "kleinanzeigen.de",
-            "obstbaufachbetriebe.de"
+            "obstbaufachbetriebe.de",
+            "tripadvisor.at",
+            "tripadvisor.de",
+            "tripadvisor.com",
+            "threads.com",
+            "agrartechnik-magazin.com"
     );
 
     private static final List<String> HARD_NEGATIVE_PATH_TOKENS = List.of(
