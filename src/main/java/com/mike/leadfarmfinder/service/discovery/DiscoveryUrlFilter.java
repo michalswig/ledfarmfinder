@@ -207,7 +207,21 @@ public class DiscoveryUrlFilter {
             "jobvermittlung",
             "leiharbeit",
             "arbeitnehmerüberlassung",
-            "obstbaufachbetriebe"
+            "obstbaufachbetriebe",
+            "amt-",
+            "frauenbund",
+            "heimatverein",
+            "drk-",
+            "awo-",
+            "caritas",
+            "diakonie",
+            "immobilien",
+            "immoscout",
+            "immonet",
+            "immowelt",
+            "magazin",
+            "tripadvisor",
+            "trustpilot"
     );
 
     public boolean isAllowedDomain(String url) {
