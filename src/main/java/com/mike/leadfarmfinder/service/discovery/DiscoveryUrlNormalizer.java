@@ -69,13 +69,13 @@ public class DiscoveryUrlNormalizer {
             String p = path.toLowerCase(Locale.ROOT);
             for (String ext : BLOCKED_EXTENSIONS) {
                 if (p.endsWith(ext)) {
-                    log.info("DiscoveryService: dropping url={} (blocked file extension={})", url, ext);
+                    log.debug("DiscoveryUrlNormalizer: dropping file url={} ext={}", url, ext);
                     return false;
                 }
             }
             return true;
         } catch (Exception e) {
-            log.info("DiscoveryService: dropping url={} (invalid url for file-check: {})", url, e.getMessage());
+            log.debug("DiscoveryUrlNormalizer: dropping invalid url={} reason={}", url, e.getMessage());
             return false;
         }
     }
@@ -90,10 +90,8 @@ public class DiscoveryUrlNormalizer {
             if (host.startsWith("www.")) host = host.substring(4);
             return host;
         } catch (Exception e) {
-            log.warn("DiscoveryService: failed to extract domain from {}: {}", url, e.getMessage());
+            log.warn("DiscoveryUrlNormalizer: failed to extract domain from url={} reason={}", url, e.getMessage());
             return null;
         }
     }
-
-
 }

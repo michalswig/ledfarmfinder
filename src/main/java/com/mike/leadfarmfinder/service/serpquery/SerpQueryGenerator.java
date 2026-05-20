@@ -35,7 +35,6 @@ public class SerpQueryGenerator {
     );
 
     static final List<String> REGIONS = List.of(
-            // Bayern — silnie rolnicze Landkreise
             "Landsberg am Lech", "Ebersberg", "Dachau", "Freising",
             "Erding", "Rosenheim", "Traunstein", "Altötting", "Mühldorf am Inn",
             "Passau", "Deggendorf", "Straubing-Bogen", "Regensburg",
@@ -45,70 +44,44 @@ public class SerpQueryGenerator {
             "Dillingen", "Günzburg", "Neu-Ulm",
             "Oberallgäu", "Ostallgäu", "Chiemgau",
             "Allgäu", "Franken", "Oberbayern", "Oberpfalz",
-            // Bayern — nowe rolnicze
             "Dingolfing-Landau", "Rottal-Inn", "Kelheim", "Regen",
             "Cham", "Schwandorf", "Tirschenreuth",
-
-            // Niedersachsen — bardzo rolnicze
             "Lüneburg", "Uelzen", "Celle", "Verden", "Rotenburg Wümme",
             "Cuxhaven", "Stade", "Harburg", "Heidekreis", "Soltau",
             "Hameln-Pyrmont", "Northeim", "Göttingen", "Wolfenbüttel",
             "Osnabrück", "Emsland", "Cloppenburg", "Vechta",
             "Nienburg", "Schaumburg",
             "Lüneburger Heide",
-            // Niedersachsen — nowe
             "Wesermarsch", "Friesland", "Wittmund", "Aurich",
             "Oldenburg Land", "Diepholz", "Gifhorn",
-
-            // NRW — rolnicze (bez przemysłowych)
             "Viersen", "Neuss", "Münsterland",
             "Borken", "Coesfeld", "Steinfurt", "Warendorf",
             "Soest", "Paderborn", "Gütersloh", "Minden-Lübbecke",
             "Kleve", "Wesel",
-
-            // Brandenburg — bardzo rolnicze
             "Oder-Spree", "Havelland", "Prignitz", "Uckermark",
             "Dahme-Spreewald", "Elbe-Elster", "Fläming",
             "Märkisch-Oderland", "Spreewald",
             "Ostprignitz-Ruppin", "Oberspreewald-Lausitz",
-
-            // Sachsen — rolnicze
             "Nordsachsen", "Meißen", "Bautzen", "Görlitz",
             "Mittelsachsen", "Leipzig Land",
-
-            // Thüringen — rolnicze
             "Nordhausen", "Kyffhäuserkreis", "Eichsfeld",
             "Unstrut-Hainich", "Wartburgkreis", "Hildburghausen",
             "Altenburger Land",
-
-            // Sachsen-Anhalt — bardzo rolnicze, duże gospodarstwa
             "Börde", "Jerichower Land", "Altmarkkreis Salzwedel",
             "Anhalt-Bitterfeld", "Wittenberg", "Mansfeld-Südharz",
-
-            // Hessen — rolnicze
             "Wetteraukreis", "Rheingau-Taunus", "Main-Kinzig",
             "Vogelsbergkreis", "Marburg-Biedenkopf",
-
-            // Baden-Württemberg — rolnicze i winiarskie
             "Kraichgau", "Hohenlohe", "Schwäbische Alb", "Oberschwaben",
             "Hegau", "Markgräflerland", "Kaiserstuhl", "Breisgau",
             "Ortenau", "Bodenseekreis",
             "Rhein-Neckar-Kreis", "Heilbronn Land", "Ludwigsburg Land",
-
-            // Rheinland-Pfalz — rolnicze i winiarskie
             "Pfalz", "Eifel", "Hunsrück", "Mosel",
             "Rhein-Hunsrück", "Bad Kreuznach", "Alzey-Worms",
-
-            // Mecklenburg-Vorpommern — duże gospodarstwa zbożowe
             "Mecklenburg", "Vorpommern-Rügen", "Vorpommern-Greifswald",
             "Mecklenburgische Seenplatte", "Rostock Land",
-
-            // Schleswig-Holstein — rolnicze
             "Schleswig", "Pinneberg",
             "Dithmarschen", "Steinburg", "Rendsburg-Eckernförde",
             "Schleswig-Flensburg", "Nordfriesland",
-
-            // Bodensee
             "Bodensee"
     );
 
@@ -179,10 +152,10 @@ public class SerpQueryGenerator {
             int fallbackRegionIdx = (cycleIndex * 7 + 13) % REGIONS.size();
             String fallbackRegion = REGIONS.get(fallbackRegionIdx);
             query = query.replace(region, fallbackRegion);
-            log.debug("SerpQueryGenerator: collision, fallback region='{}' for index={}", fallbackRegion, cycleIndex);
+            log.debug("SerpQueryGenerator: collision fallback region='{}' index={}", fallbackRegion, cycleIndex);
         }
 
-        log.info("SerpQueryGenerator: generated query='{}' (index={}, product='{}', region='{}')",
+        log.debug("SerpQueryGenerator: generated query='{}' (index={}, product='{}', region='{}')",
                 query, cycleIndex, product, region);
         return query;
     }
@@ -192,7 +165,7 @@ public class SerpQueryGenerator {
         Set<String> generated = new HashSet<>(existingQueries);
 
         for (int i = 0; result.size() < count; i++) {
-            String query = generate( i, generated);
+            String query = generate(i, generated);
             if (!generated.contains(query)) {
                 result.add(query);
                 generated.add(query);
@@ -202,6 +175,8 @@ public class SerpQueryGenerator {
                 break;
             }
         }
+
+        log.info("SerpQueryGenerator: generated batch count={}", result.size());
         return Collections.unmodifiableList(result);
     }
 }

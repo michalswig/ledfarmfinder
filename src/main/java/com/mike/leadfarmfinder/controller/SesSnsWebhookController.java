@@ -32,17 +32,18 @@ public class SesSnsWebhookController {
         try {
             root = objectMapper.readTree(body);
         } catch (JsonProcessingException e) {
-            log.warn("Invalid SNS webhook JSON received", e);
+            log.warn("SesSnsWebhook: invalid JSON received", e);
             return ResponseEntity.badRequest().body("Invalid SNS JSON");
         }
 
-        log.info("SNS RAW BODY: {}", body);
+        log.debug("SesSnsWebhook: raw body={}", body);
 
         String type = text(root, "Type");
         String topicArn = text(root, "TopicArn");
+        String messageId = text(root, "MessageId");
 
-        log.info("SES SNS webhook received: headerType={}, bodyType={}, topicArn={}",
-                messageTypeHeader, type, topicArn);
+        log.info("SesSnsWebhook: type={} messageId={} topicArn={}",
+                type, messageId, topicArn);
 
         try {
             if ("SubscriptionConfirmation".equals(type)) {
@@ -54,23 +55,23 @@ public class SesSnsWebhookController {
             }
 
             if ("UnsubscribeConfirmation".equals(type)) {
-                log.warn("SNS sent UnsubscribeConfirmation. topicArn={}", topicArn);
+                log.warn("SesSnsWebhook: UnsubscribeConfirmation received topicArn={}", topicArn);
                 return ResponseEntity.ok("Ignored unsubscribe confirmation");
             }
 
-            log.warn("Unknown SNS message type: {}", type);
+            log.warn("SesSnsWebhook: unknown type={}", type);
             return ResponseEntity.ok("Ignored unknown SNS message type");
 
         } catch (SesEventBadRequestException e) {
-            log.warn("SES SNS notification rejected: {}", e.getMessage(), e);
+            log.warn("SesSnsWebhook: notification rejected msg={}", e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
 
         } catch (SesEventProcessingException e) {
-            log.error("SES SNS notification processing failed. Returning 500 so SNS can retry.", e);
+            log.error("SesSnsWebhook: processing failed, returning 500 for SNS retry", e);
             return ResponseEntity.internalServerError().body("Temporary processing failure");
 
         } catch (RestClientException e) {
-            log.error("SNS subscription confirmation failed. Returning 500.", e);
+            log.error("SesSnsWebhook: subscription confirmation failed, returning 500", e);
             return ResponseEntity.internalServerError().body("Subscription confirmation failed");
         }
     }
@@ -79,11 +80,11 @@ public class SesSnsWebhookController {
         String subscribeUrl = text(root, "SubscribeURL");
 
         if (subscribeUrl == null || subscribeUrl.isBlank()) {
-            log.warn("SNS SubscriptionConfirmation received without SubscribeURL");
+            log.warn("SesSnsWebhook: SubscriptionConfirmation missing SubscribeURL");
             return ResponseEntity.badRequest().body("Missing SubscribeURL");
         }
 
-        log.info("Confirming SNS subscription via {}", subscribeUrl);
+        log.info("SesSnsWebhook: confirming SNS subscription");
         restTemplate.getForObject(subscribeUrl, String.class);
 
         return ResponseEntity.ok("Subscription confirmed");
@@ -93,7 +94,7 @@ public class SesSnsWebhookController {
         String message = text(root, "Message");
 
         if (message == null || message.isBlank()) {
-            log.warn("SNS Notification received without Message payload");
+            log.warn("SesSnsWebhook: Notification missing Message payload");
             return ResponseEntity.badRequest().body("Missing SNS Message");
         }
 

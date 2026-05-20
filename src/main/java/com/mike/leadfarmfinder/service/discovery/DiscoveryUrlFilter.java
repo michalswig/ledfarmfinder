@@ -89,8 +89,8 @@ public class DiscoveryUrlFilter {
             "/informationen/",
             "/einheit.php",
             "?dl=",
-             "mam/cms",
-             "/fileadmin/"
+            "mam/cms",
+            "/fileadmin/"
     );
 
     private static final List<String> HARD_NEGATIVE_KEYWORDS = List.of(
@@ -227,22 +227,22 @@ public class DiscoveryUrlFilter {
     public boolean isAllowedDomain(String url) {
         String domain = urlNormalizer.extractNormalizedDomain(url);
         if (domain == null) {
-            log.info("DiscoveryUrlFilter: dropping url={} (no domain)", url);
+            log.debug("DiscoveryUrlFilter: dropping url={} (no domain)", url);
             return false;
         }
 
         if (BLOCKED_DOMAINS.contains(domain)) {
-            log.info("DiscoveryUrlFilter: dropping url={} (blocked domain={})", url, domain);
+            log.debug("DiscoveryUrlFilter: dropping url={} (blocked domain={})", url, domain);
             return false;
         }
 
         if (isHardNegative(domain)) {
-            log.info("DiscoveryUrlFilter: dropping url={} (hard-negative domain={})", url, domain);
+            log.debug("DiscoveryUrlFilter: dropping url={} (hard-negative domain={})", url, domain);
             return false;
         }
 
         if (domain.contains("zeitung") || domain.contains("news")) {
-            log.info("DiscoveryUrlFilter: dropping url={} (looks like news/media domain={})", url, domain);
+            log.debug("DiscoveryUrlFilter: dropping url={} (news/media domain={})", url, domain);
             return false;
         }
 

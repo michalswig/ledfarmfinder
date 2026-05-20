@@ -31,18 +31,11 @@ public class SerpApiService {
                 .build();
     }
 
-    /**
-     * Fetches organic result links from SerpAPI with proper pagination (start = (page-1) * num).
-     *
-     * @param query search query
-     * @param limit max number of links the caller wants to handle (does NOT have to equal SerpAPI "num")
-     * @param page  1-based page index
-     */
     public List<String> searchUrls(String query, int limit, int page) {
         try {
             String apiKey = props.apiKey();
             if (apiKey == null || apiKey.isBlank()) {
-                log.warn("SerpApiClient.searchUrls: missing serpapi.api-key -> returning empty (query='{}')", query);
+                log.warn("SerpApiClient.searchUrls: missing serpapi.api-key (query='{}')", query);
                 return Collections.emptyList();
             }
 
@@ -53,42 +46,39 @@ public class SerpApiService {
                 configured = DEFAULT_RESULTS_PER_PAGE;
             }
 
-            // "num" = ile prosimy SerpAPI na jedną stronę (stabilne i przewidywalne)
             int num = Math.min(configured, SERPAPI_MAX_NUM);
 
-            // "limit" = ile maksymalnie caller chce przetworzyć; nie wymuszamy nim num
-            // (DiscoveryService może i tak uciąć listę po swoich filtrach)
             if (limit < 1) {
                 limit = num;
             }
 
             int start = (safePage - 1) * num;
 
-            log.info("SerpApiClient.searchUrls: querying SerpAPI. query='{}', limit={}, page={}, num={}, start={}",
-                    query, limit, safePage, num, start);
+            log.debug("SerpApiClient.searchUrls: querying SerpAPI. query='{}', page={}, num={}, start={}",
+                    query, safePage, num, start);
 
             SerpApiSearchResponse response = restClient.get()
                     .uri(uriBuilder -> uriBuilder
-                            .path("") // base-url już zawiera /search
+                            .path("")
                             .queryParam("engine", props.defaultEngine())
                             .queryParam("hl", props.defaultLanguage())
                             .queryParam("gl", props.defaultCountry())
                             .queryParam("num", num)
-                            .queryParam("start", start) // <<< KLUCZ DO PAGINACJI
+                            .queryParam("start", start)
                             .queryParam("q", query)
                             .queryParam("api_key", apiKey)
                             .build()
                     )
                     .retrieve()
                     .onStatus(HttpStatusCode::isError, (req, res) -> {
-                        // Nie próbujemy czytać body "w ciemno" (bywa stream/nieczytelne); status wystarczy do diagnozy
-                        log.error("SerpApiClient.searchUrls: HTTP error from SerpAPI: status={}, query='{}', page={}, start={}",
+                        log.error("SerpApiClient.searchUrls: HTTP error status={} query='{}' page={} start={}",
                                 res.getStatusCode(), query, safePage, start);
                     })
                     .body(SerpApiSearchResponse.class);
 
             if (response == null || response.organicResults() == null) {
-                log.warn("SerpApiClient.searchUrls: empty response or no organic_results (query='{}', page={})", query, safePage);
+                log.warn("SerpApiClient.searchUrls: empty response or no organic_results (query='{}', page={})",
+                        query, safePage);
                 return Collections.emptyList();
             }
 
@@ -98,21 +88,16 @@ public class SerpApiService {
                     .map(String::trim)
                     .filter(s -> !s.isBlank())
                     .distinct()
-                    // honorujemy limit dopiero na końcu
                     .limit(limit)
                     .toList();
 
-            log.info("SerpApiClient.searchUrls: got {} organic links from SerpAPI (query='{}', page={})",
+            log.debug("SerpApiClient.searchUrls: got {} links (query='{}', page={})",
                     links.size(), query, safePage);
-
-            if (!links.isEmpty()) {
-                log.debug("SerpApiClient.searchUrls: links={}", links);
-            }
 
             return links;
 
         } catch (Exception e) {
-            log.error("SerpApiClient.searchUrls: exception while calling SerpAPI (query='{}')", query, e);
+            log.error("SerpApiClient.searchUrls: exception calling SerpAPI (query='{}')", query, e);
             return Collections.emptyList();
         }
     }

@@ -25,8 +25,8 @@ public class OpenAiService {
     }
 
     public String classify(String prompt) {
-        try{
-            log.info("OpenAiClient.classify: sending prompt to OpenAI, length={}", prompt.length());
+        try {
+            log.debug("OpenAiClient.classify: sending prompt length={}", prompt.length());
 
             Map<String, Object> requestBody = Map.of(
                     "model", openAiProperties.model(),
@@ -44,7 +44,6 @@ public class OpenAiService {
                     "temperature", 0
             );
 
-            // surowa odpowiedź OpenAI jako String
             String rawResponse = restClient.post()
                     .uri("/chat/completions")
                     .header("Authorization", "Bearer " + openAiProperties.apiKey())
@@ -55,7 +54,6 @@ public class OpenAiService {
 
             log.debug("OpenAiClient.classify: rawResponse={}", rawResponse);
 
-            // wyciągamy choices[0].message.content
             JsonNode root = objectMapper.readTree(rawResponse);
             JsonNode choices = root.path("choices");
             if (!choices.isArray() || choices.isEmpty()) {
@@ -66,13 +64,14 @@ public class OpenAiService {
             JsonNode firstChoice = choices.get(0);
             String content = firstChoice.path("message").path("content").asText("");
 
-            log.info("OpenAiClient.classify: extracted content length={}", content.length());
+            log.debug("OpenAiClient.classify: extracted content length={}", content.length());
             log.debug("OpenAiClient.classify: content='{}'",
                     content.substring(0, Math.min(300, content.length())));
 
             return content;
+
         } catch (Exception e) {
-            log.error("OpenAiClient.classify: error while calling OpenAI", e);
+            log.error("OpenAiClient.classify: error calling OpenAI", e);
             return "";
         }
     }
