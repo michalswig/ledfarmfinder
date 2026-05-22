@@ -664,3 +664,25 @@ databaseChangeLog:
             columns:
               - column:
                   name: original_query
+  # -------------------------------------------------------
+  # cap serp_query_cursor.max_page to 2 (DE farm market)
+  # -------------------------------------------------------
+  - changeSet:
+      id: 2026-05-22-01-cap-serp-cursor-max-page
+      author: mike
+      changes:
+        - update:
+            tableName: serp_query_cursor
+            columns:
+              - column:
+                  name: max_page
+                  valueNumeric: "2"
+            where: max_page > 2
+      rollback:
+        - update:
+            tableName: serp_query_cursor
+            columns:
+              - column:
+                  name: max_page
+                  valueNumeric: "10"
+            where: max_page = 2
