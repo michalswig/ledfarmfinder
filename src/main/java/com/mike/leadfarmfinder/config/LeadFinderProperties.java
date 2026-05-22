@@ -16,8 +16,8 @@ public class LeadFinderProperties {
     @Data
     public static class Discovery {
         private int resultsPerPage = 10;
-        private int maxPagesPerRun = 3;
-        private int defaultMaxSerpPage = 10;
+        private int maxPagesPerRun = 2;
+        private int defaultMaxSerpPage = 2;
         private int limitPerRun = 100;
         private int queriesPerRun = 1;
         private List<String> queries = List.of();
