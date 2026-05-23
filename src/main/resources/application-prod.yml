@@ -146,507 +146,523 @@ leadfinder:
     queries-per-run: ${DISCOVERY_QUERIES_PER_RUN:5}
 
     queries:
-      - Spargelhof Beelitz Hofverkauf Adresse Telefon
-      - Spargelhof Beelitz Direktvermarktung Telefon
-      - Spargelhof Schrobenhausen Hofverkauf Adresse Telefon
-      - Spargelhof Schrobenhausen Direktvermarktung Telefon
-      - Spargelhof Schwetzingen Hofverkauf Adresse Telefon
-      - Spargelhof Schwetzingen Direktvermarktung Telefon
-      - Spargelhof Nienburg Hofverkauf Adresse Telefon
-      - Spargelhof Nienburg Direktvermarktung Telefon
-      - Spargelhof Abensberg Hofverkauf Adresse Telefon
-      - Spargelhof Abensberg Direktvermarktung Telefon
-      - Spargelhof Bornheim Hofverkauf Adresse Telefon
-      - Spargelhof Bornheim Direktvermarktung Telefon
-      - Spargelhof Diepholz Hofverkauf Adresse Telefon
-      - Spargelhof Diepholz Direktvermarktung Telefon
-      - Spargelhof Vechta Hofverkauf Adresse Telefon
-      - Spargelhof Vechta Direktvermarktung Telefon
-      - Spargelhof Burgdorf Hofverkauf Adresse Telefon
-      - Spargelhof Burgdorf Direktvermarktung Telefon
-      - Spargelhof Bruchsal Hofverkauf Adresse Telefon
-      - Spargelhof Bruchsal Direktvermarktung Telefon
-      - Spargelhof Hoyerswerda Hofverkauf Adresse Telefon
-      - Spargelhof Hoyerswerda Direktvermarktung Telefon
-      - Spargelhof Niedersachsen Hofverkauf Adresse Telefon
-      - Spargelhof Niedersachsen Direktvermarktung Telefon
-      - Spargelhof Bayern Hofverkauf Adresse Telefon
-      - Spargelhof Bayern Direktvermarktung Telefon
-      - Spargelhof Baden-Württemberg Hofverkauf Adresse Telefon
-      - Spargelhof Baden-Württemberg Direktvermarktung Telefon
-      - Spargelhof Brandenburg Hofverkauf Adresse Telefon
-      - Spargelhof Brandenburg Direktvermarktung Telefon
-      - '"Verantwortlich für den Inhalt" Spargelhof Landsberg am Lech'
-      - '"Inhaber" Spargelhof Landsberg am Lech Direktvermarktung'
-      - '"Verantwortlich für den Inhalt" Spargelhof Ebersberg'
-      - '"Inhaber" Spargelhof Ebersberg Direktvermarktung'
-      - '"Verantwortlich für den Inhalt" Spargelhof Dachau'
-      - '"Inhaber" Spargelhof Dachau Direktvermarktung'
-      - '"Verantwortlich für den Inhalt" Spargelhof Freising'
-      - '"Inhaber" Spargelhof Freising Direktvermarktung'
-      - '"Verantwortlich für den Inhalt" Spargelhof Erding'
-      - '"Inhaber" Spargelhof Erding Direktvermarktung'
-      - '"Verantwortlich für den Inhalt" Spargelhof Starnberg'
-      - '"Inhaber" Spargelhof Starnberg Direktvermarktung'
-      - '"Verantwortlich für den Inhalt" Spargelhof Weilheim'
-      - '"Inhaber" Spargelhof Weilheim Direktvermarktung'
-      - '"Verantwortlich für den Inhalt" Spargelhof Rosenheim'
-      - '"Inhaber" Spargelhof Rosenheim Direktvermarktung'
-      - '"Verantwortlich für den Inhalt" Spargelhof Miesbach'
-      - '"Inhaber" Spargelhof Miesbach Direktvermarktung'
-      - '"Verantwortlich für den Inhalt" Spargelhof Traunstein'
-      - '"Inhaber" Spargelhof Traunstein Direktvermarktung'
-      - Erdbeerhof Niedersachsen Hofverkauf Adresse Telefon
-      - Erdbeeren Selbstpflücken Hof Niedersachsen Adresse
-      - Erdbeerhof Bayern Hofverkauf Adresse Telefon
-      - Erdbeeren Selbstpflücken Hof Bayern Adresse
-      - Erdbeerhof Baden-Württemberg Hofverkauf Adresse Telefon
-      - Erdbeeren Selbstpflücken Hof Baden-Württemberg Adresse
-      - Erdbeerhof Brandenburg Hofverkauf Adresse Telefon
-      - Erdbeeren Selbstpflücken Hof Brandenburg Adresse
-      - Erdbeerhof Sachsen Hofverkauf Adresse Telefon
-      - Erdbeeren Selbstpflücken Hof Sachsen Adresse
-      - Erdbeerhof Hessen Hofverkauf Adresse Telefon
-      - Erdbeeren Selbstpflücken Hof Hessen Adresse
-      - Erdbeerhof Schleswig-Holstein Hofverkauf Adresse Telefon
-      - Erdbeeren Selbstpflücken Hof Schleswig-Holstein Adresse
-      - Erdbeerhof Mecklenburg-Vorpommern Hofverkauf Adresse Telefon
-      - Erdbeeren Selbstpflücken Hof Mecklenburg-Vorpommern Adresse
-      - Erdbeerhof Rheinland-Pfalz Hofverkauf Adresse Telefon
-      - Erdbeeren Selbstpflücken Hof Rheinland-Pfalz Adresse
-      - Erdbeerhof Lüneburg Hofverkauf Adresse Telefon
-      - Erdbeeren Selbstpflücken Hof Lüneburg Adresse
-      - Erdbeerhof Celle Hofverkauf Adresse Telefon
-      - Erdbeeren Selbstpflücken Hof Celle Adresse
-      - Erdbeerhof Uelzen Hofverkauf Adresse Telefon
-      - Erdbeeren Selbstpflücken Hof Uelzen Adresse
-      - Erdbeerhof Lüneburger Heide Hofverkauf Adresse Telefon
-      - Erdbeeren Selbstpflücken Hof Lüneburger Heide Adresse
-      - Erdbeerhof Altes Land Hofverkauf Adresse Telefon
-      - Erdbeeren Selbstpflücken Hof Altes Land Adresse
-      - Erdbeerhof Wendland Hofverkauf Adresse Telefon
-      - Erdbeeren Selbstpflücken Hof Wendland Adresse
-      - '"Verantwortlich für den Inhalt" Erdbeerhof Altötting'
-      - '"auf unserem Hof" Erdbeeren Altötting Adresse'
-      - '"Verantwortlich für den Inhalt" Erdbeerhof Mühldorf'
-      - '"auf unserem Hof" Erdbeeren Mühldorf Adresse'
-      - '"Verantwortlich für den Inhalt" Erdbeerhof Passau'
-      - '"auf unserem Hof" Erdbeeren Passau Adresse'
-      - '"Verantwortlich für den Inhalt" Erdbeerhof Deggendorf'
-      - '"auf unserem Hof" Erdbeeren Deggendorf Adresse'
-      - '"Verantwortlich für den Inhalt" Erdbeerhof Straubing'
-      - '"auf unserem Hof" Erdbeeren Straubing Adresse'
-      - '"Verantwortlich für den Inhalt" Erdbeerhof Regensburg Land'
-      - '"auf unserem Hof" Erdbeeren Regensburg Land Adresse'
-      - '"Verantwortlich für den Inhalt" Erdbeerhof Neumarkt'
-      - '"auf unserem Hof" Erdbeeren Neumarkt Adresse'
-      - '"Verantwortlich für den Inhalt" Erdbeerhof Amberg Land'
-      - '"auf unserem Hof" Erdbeeren Amberg Land Adresse'
-      - Süßkirschen Niedersachsen Hofverkauf Direktvermarktung Adresse
-      - Kirschhof Niedersachsen Hofverkauf Adresse Telefon
-      - Sauerkirschen Niedersachsen Hofverkauf Adresse
-      - Süßkirschen Bayern Hofverkauf Direktvermarktung Adresse
-      - Kirschhof Bayern Hofverkauf Adresse Telefon
-      - Sauerkirschen Bayern Hofverkauf Adresse
-      - Süßkirschen Baden-Württemberg Hofverkauf Direktvermarktung Adresse
-      - Kirschhof Baden-Württemberg Hofverkauf Adresse Telefon
-      - Sauerkirschen Baden-Württemberg Hofverkauf Adresse
-      - Süßkirschen Sachsen Hofverkauf Direktvermarktung Adresse
-      - Kirschhof Sachsen Hofverkauf Adresse Telefon
-      - Sauerkirschen Sachsen Hofverkauf Adresse
-      - Süßkirschen Brandenburg Hofverkauf Direktvermarktung Adresse
-      - Kirschhof Brandenburg Hofverkauf Adresse Telefon
-      - Sauerkirschen Brandenburg Hofverkauf Adresse
-      - Süßkirschen Mosel Hofverkauf Direktvermarktung Adresse
-      - Kirschhof Mosel Hofverkauf Adresse Telefon
-      - Sauerkirschen Mosel Hofverkauf Adresse
-      - Süßkirschen Bodensee Hofverkauf Direktvermarktung Adresse
-      - Kirschhof Bodensee Hofverkauf Adresse Telefon
-      - Sauerkirschen Bodensee Hofverkauf Adresse
-      - Süßkirschen Altes Land Hofverkauf Direktvermarktung Adresse
-      - Kirschhof Altes Land Hofverkauf Adresse Telefon
-      - Sauerkirschen Altes Land Hofverkauf Adresse
-      - Süßkirschen Hohenlohe Hofverkauf Direktvermarktung Adresse
-      - Kirschhof Hohenlohe Hofverkauf Adresse Telefon
-      - Sauerkirschen Hohenlohe Hofverkauf Adresse
-      - Süßkirschen Franken Hofverkauf Direktvermarktung Adresse
-      - Kirschhof Franken Hofverkauf Adresse Telefon
-      - Sauerkirschen Franken Hofverkauf Adresse
-      - Süßkirschen Allgäu Hofverkauf Direktvermarktung Adresse
-      - Kirschhof Allgäu Hofverkauf Adresse Telefon
-      - Sauerkirschen Allgäu Hofverkauf Adresse
-      - Heidelbeeren Niedersachsen Hofverkauf Selbstpflücken Adresse
-      - Himbeeren Niedersachsen Hofverkauf Direktvermarktung Adresse
-      - Beerenhof Niedersachsen Hofverkauf Adresse Telefon
-      - Heidelbeeren Bayern Hofverkauf Selbstpflücken Adresse
-      - Himbeeren Bayern Hofverkauf Direktvermarktung Adresse
-      - Beerenhof Bayern Hofverkauf Adresse Telefon
-      - Heidelbeeren Baden-Württemberg Hofverkauf Selbstpflücken Adresse
-      - Himbeeren Baden-Württemberg Hofverkauf Direktvermarktung Adresse
-      - Beerenhof Baden-Württemberg Hofverkauf Adresse Telefon
-      - Heidelbeeren Brandenburg Hofverkauf Selbstpflücken Adresse
-      - Himbeeren Brandenburg Hofverkauf Direktvermarktung Adresse
-      - Beerenhof Brandenburg Hofverkauf Adresse Telefon
-      - Heidelbeeren Sachsen Hofverkauf Selbstpflücken Adresse
-      - Himbeeren Sachsen Hofverkauf Direktvermarktung Adresse
-      - Beerenhof Sachsen Hofverkauf Adresse Telefon
-      - Heidelbeeren Lüneburger Heide Hofverkauf Selbstpflücken Adresse
-      - Himbeeren Lüneburger Heide Hofverkauf Direktvermarktung Adresse
-      - Beerenhof Lüneburger Heide Hofverkauf Adresse Telefon
-      - Heidelbeeren Spreewald Hofverkauf Selbstpflücken Adresse
-      - Himbeeren Spreewald Hofverkauf Direktvermarktung Adresse
-      - Beerenhof Spreewald Hofverkauf Adresse Telefon
-      - Heidelbeeren Wendland Hofverkauf Selbstpflücken Adresse
-      - Himbeeren Wendland Hofverkauf Direktvermarktung Adresse
-      - Beerenhof Wendland Hofverkauf Adresse Telefon
-      - Heidelbeeren Mecklenburg-Vorpommern Hofverkauf Selbstpflücken Adresse
-      - Himbeeren Mecklenburg-Vorpommern Hofverkauf Direktvermarktung Adresse
-      - Beerenhof Mecklenburg-Vorpommern Hofverkauf Adresse Telefon
-      - Heidelbeeren Hessen Hofverkauf Selbstpflücken Adresse
-      - Himbeeren Hessen Hofverkauf Direktvermarktung Adresse
-      - Beerenhof Hessen Hofverkauf Adresse Telefon
-      - Johannisbeeren Hof Niedersachsen Direktvermarktung Adresse
-      - Stachelbeeren Hof Bayern Hofverkauf Adresse
-      - Brombeeren Hof Brandenburg Direktvermarktung Adresse
-      - Aronia Hof Sachsen Direktvermarktung Adresse
-      - Aronia Hof Brandenburg Hofverkauf Adresse
-      - Salat Hofverkauf Weiden Land Adresse Telefon
-      - '"eigener Anbau" Salat Hof Bayreuth Land Adresse'
-      - Radieschen Hofverkauf Coburg Land Adresse Telefon
-      - '"eigener Anbau" Radieschen Hof Bamberg Land Adresse'
-      - Spinat Hofverkauf Ansbach Land Adresse Telefon
-      - '"eigener Anbau" Spinat Hof Weißenburg Adresse'
-      - Mangold Hofverkauf Ingolstadt Land Adresse Telefon
-      - '"eigener Anbau" Mangold Hof Pfaffenhofen Adresse'
-      - Möhren Hofverkauf Aichach-Friedberg Adresse Telefon
-      - '"eigener Anbau" Möhren Hof Dillingen Donau Adresse'
-      - Karotten Hofverkauf Günzburg Adresse Telefon
-      - '"eigener Anbau" Karotten Hof Neu-Ulm Adresse'
-      - Zwiebeln Hofverkauf Schrobenhausen Adresse Telefon
-      - '"eigener Anbau" Zwiebeln Hof Abensberg Adresse'
-      - Knoblauch Hofverkauf Cloppenburg Adresse Telefon
-      - '"eigener Anbau" Knoblauch Hof Vechta Adresse'
-      - Kohlrabi Hofverkauf Emsland Adresse Telefon
-      - '"eigener Anbau" Kohlrabi Hof Diepholz Adresse'
-      - Brokkoli Hofverkauf Nienburg Adresse Telefon
-      - '"eigener Anbau" Brokkoli Hof Celle Adresse'
-      - Blumenkohl Hofverkauf Uelzen Adresse Telefon
-      - '"eigener Anbau" Blumenkohl Hof Lüneburg Adresse'
-      - Weißkohl Hofverkauf Stade Adresse Telefon
-      - '"eigener Anbau" Weißkohl Hof Cuxhaven Adresse'
-      - Rotkohl Hofverkauf Rotenburg Wümme Adresse Telefon
-      - '"eigener Anbau" Rotkohl Hof Verden Adresse'
-      - Wirsing Hofverkauf Harburg Adresse Telefon
-      - '"eigener Anbau" Wirsing Hof Heidekreis Adresse'
-      - Bohnen Hofverkauf Aurich Adresse Telefon
-      - '"eigener Anbau" Bohnen Hof Leer Adresse'
-      - Erbsen Hofverkauf Wittmund Adresse Telefon
-      - '"eigener Anbau" Erbsen Hof Friesland Adresse'
-      - Zucchini Hofverkauf Wesermarsch Adresse Telefon
-      - '"eigener Anbau" Zucchini Hof Oldenburg Land Adresse'
-      - Gurken Hofverkauf Osnabrück Land Adresse Telefon
-      - '"eigener Anbau" Gurken Hof Grafschaft Bentheim Adresse'
-      - Tomaten Hofverkauf Schaumburg Adresse Telefon
-      - '"eigener Anbau" Tomaten Hof Hameln-Pyrmont Adresse'
-      - Paprika Hofverkauf Holzminden Adresse Telefon
-      - '"eigener Anbau" Paprika Hof Northeim Adresse'
-      - Sellerie Hofverkauf Göttingen Land Adresse Telefon
-      - '"eigener Anbau" Sellerie Hof Goslar Land Adresse'
-      - Rote Bete Hofverkauf Wolfenbüttel Adresse Telefon
-      - '"eigener Anbau" Rote Bete Hof Burgdorf Adresse'
-      - Pastinaken Hofverkauf Oder-Spree Adresse Telefon
-      - '"eigener Anbau" Pastinaken Hof Havelland Adresse'
-      - Lauch Hofverkauf Uckermark Adresse Telefon
-      - '"eigener Anbau" Lauch Hof Barnim Adresse'
-      - Porree Hofverkauf Märkisch-Oderland Adresse Telefon
-      - '"eigener Anbau" Porree Hof Dahme-Spreewald Adresse'
-      - Kartoffelhof Niedersachsen Hofverkauf Direktvermarktung Adresse
-      - Kartoffeln Niedersachsen Hofverkauf Adresse Telefon
-      - Kartoffelhof Bayern Hofverkauf Direktvermarktung Adresse
-      - Kartoffeln Bayern Hofverkauf Adresse Telefon
-      - Kartoffelhof Brandenburg Hofverkauf Direktvermarktung Adresse
-      - Kartoffeln Brandenburg Hofverkauf Adresse Telefon
-      - Kartoffelhof Mecklenburg-Vorpommern Hofverkauf Direktvermarktung Adresse
-      - Kartoffeln Mecklenburg-Vorpommern Hofverkauf Adresse Telefon
-      - Kartoffelhof Sachsen-Anhalt Hofverkauf Direktvermarktung Adresse
-      - Kartoffeln Sachsen-Anhalt Hofverkauf Adresse Telefon
-      - Kartoffelhof Cloppenburg Hofverkauf Direktvermarktung Adresse
-      - Kartoffeln Cloppenburg Hofverkauf Adresse Telefon
-      - Kartoffelhof Vechta Hofverkauf Direktvermarktung Adresse
-      - Kartoffeln Vechta Hofverkauf Adresse Telefon
-      - Kartoffelhof Emsland Hofverkauf Direktvermarktung Adresse
-      - Kartoffeln Emsland Hofverkauf Adresse Telefon
-      - Kartoffelhof Uckermark Hofverkauf Direktvermarktung Adresse
-      - Kartoffeln Uckermark Hofverkauf Adresse Telefon
-      - Kartoffelhof Prignitz Hofverkauf Direktvermarktung Adresse
-      - Kartoffeln Prignitz Hofverkauf Adresse Telefon
-      - Kartoffelhof Havelland Hofverkauf Direktvermarktung Adresse
-      - Kartoffeln Havelland Hofverkauf Adresse Telefon
-      - Kartoffelhof Altmarkkreis Hofverkauf Direktvermarktung Adresse
-      - Kartoffeln Altmarkkreis Hofverkauf Adresse Telefon
-      - Kartoffelhof Diepholz Hofverkauf Direktvermarktung Adresse
-      - Kartoffeln Diepholz Hofverkauf Adresse Telefon
-      - Kartoffelhof Nienburg Hofverkauf Direktvermarktung Adresse
-      - Kartoffeln Nienburg Hofverkauf Adresse Telefon
-      - '"Verantwortlich für den Inhalt" Kartoffelhof Prignitz'
-      - '"eigener Anbau" Kartoffeln Prignitz Hofverkauf Adresse'
-      - '"Verantwortlich für den Inhalt" Kartoffelhof Ostprignitz-Ruppin'
-      - '"eigener Anbau" Kartoffeln Ostprignitz-Ruppin Hofverkauf Adresse'
-      - '"Verantwortlich für den Inhalt" Kartoffelhof Elbe-Elster'
-      - '"eigener Anbau" Kartoffeln Elbe-Elster Hofverkauf Adresse'
-      - '"Verantwortlich für den Inhalt" Kartoffelhof Oberspreewald'
-      - '"eigener Anbau" Kartoffeln Oberspreewald Hofverkauf Adresse'
-      - '"Verantwortlich für den Inhalt" Kartoffelhof Teltow-Fläming'
-      - '"eigener Anbau" Kartoffeln Teltow-Fläming Hofverkauf Adresse'
-      - '"Verantwortlich für den Inhalt" Kartoffelhof Potsdam-Mittelmark'
-      - '"eigener Anbau" Kartoffeln Potsdam-Mittelmark Hofverkauf Adresse'
-      - '"Verantwortlich für den Inhalt" Kartoffelhof Beelitz'
-      - '"eigener Anbau" Kartoffeln Beelitz Hofverkauf Adresse'
-      - '"Verantwortlich für den Inhalt" Kartoffelhof Bautzen'
-      - '"eigener Anbau" Kartoffeln Bautzen Hofverkauf Adresse'
-      - Frühkartoffeln Niedersachsen Hofverkauf Adresse Telefon
-      - Frühkartoffeln Bayern Hofverkauf Adresse
-      - Frühkartoffeln Pfalz Direktvermarktung Adresse
-      - Apfelhof Altes Land Hofverkauf Adresse Telefon
-      - Obsthof Altes Land Direktvermarktung Adresse
-      - Apfelhof Bodensee Hofverkauf Adresse Telefon
-      - Obsthof Bodensee Direktvermarktung Adresse
-      - Apfelhof Sachsen Hofverkauf Adresse Telefon
-      - Obsthof Sachsen Direktvermarktung Adresse
-      - Apfelhof Brandenburg Hofverkauf Adresse Telefon
-      - Obsthof Brandenburg Direktvermarktung Adresse
-      - Apfelhof Niedersachsen Hofverkauf Adresse Telefon
-      - Obsthof Niedersachsen Direktvermarktung Adresse
-      - Apfelhof Bayern Hofverkauf Adresse Telefon
-      - Obsthof Bayern Direktvermarktung Adresse
-      - Apfelhof Baden-Württemberg Hofverkauf Adresse Telefon
-      - Obsthof Baden-Württemberg Direktvermarktung Adresse
-      - Apfelhof Hessen Hofverkauf Adresse Telefon
-      - Obsthof Hessen Direktvermarktung Adresse
-      - Apfelhof Vierlande Hofverkauf Adresse Telefon
-      - Obsthof Vierlande Direktvermarktung Adresse
-      - Apfelhof Mecklenburg-Vorpommern Hofverkauf Adresse Telefon
-      - Obsthof Mecklenburg-Vorpommern Direktvermarktung Adresse
-      - Apfelhof Hohenlohe Hofverkauf Adresse Telefon
-      - Obsthof Hohenlohe Direktvermarktung Adresse
-      - Apfelhof Schwäbische Alb Hofverkauf Adresse Telefon
-      - Obsthof Schwäbische Alb Direktvermarktung Adresse
-      - Zwetschgen Hof Görlitz Direktvermarktung Adresse
-      - Pflaumen Hof Görlitz Hofverkauf Adresse
-      - Zwetschgen Hof Vogtland Direktvermarktung Adresse
-      - Pflaumen Hof Vogtland Hofverkauf Adresse
-      - Zwetschgen Hof Mittelsachsen Direktvermarktung Adresse
-      - Pflaumen Hof Mittelsachsen Hofverkauf Adresse
-      - Zwetschgen Hof Erzgebirge Direktvermarktung Adresse
-      - Pflaumen Hof Erzgebirge Hofverkauf Adresse
-      - Zwetschgen Hof Nordsachsen Direktvermarktung Adresse
-      - Pflaumen Hof Nordsachsen Hofverkauf Adresse
-      - Zwetschgen Hof Leipzig Land Direktvermarktung Adresse
-      - Pflaumen Hof Leipzig Land Hofverkauf Adresse
-      - Zwetschgen Hof Meißen Direktvermarktung Adresse
-      - Pflaumen Hof Meißen Hofverkauf Adresse
-      - Zwetschgen Hof Sächsische Schweiz Direktvermarktung Adresse
-      - Pflaumen Hof Sächsische Schweiz Hofverkauf Adresse
-      - Mirabellen Hof Rheinland-Pfalz Direktvermarktung Adresse
-      - Mirabellen Hof Bayern Hofverkauf Adresse
-      - Renekloden Hof Sachsen-Anhalt Direktvermarktung Adresse
-      - Streuobsthof Hohenlohe Hofverkauf Adresse
-      - Streuobsthof Schwäbische Alb Direktvermarktung Adresse
-      - Streuobsthof Hessen Hofverkauf Adresse Telefon
-      - Kürbishof Bayern Hofverkauf Direktvermarktung Adresse
-      - Kürbis Bayern Hofverkauf Selbsternte Adresse
-      - Kürbishof Brandenburg Hofverkauf Direktvermarktung Adresse
-      - Kürbis Brandenburg Hofverkauf Selbsternte Adresse
-      - Kürbishof Niedersachsen Hofverkauf Direktvermarktung Adresse
-      - Kürbis Niedersachsen Hofverkauf Selbsternte Adresse
-      - Kürbishof Sachsen Hofverkauf Direktvermarktung Adresse
-      - Kürbis Sachsen Hofverkauf Selbsternte Adresse
-      - Kürbishof Mecklenburg-Vorpommern Hofverkauf Direktvermarktung Adresse
-      - Kürbis Mecklenburg-Vorpommern Hofverkauf Selbsternte Adresse
-      - Kürbishof Sachsen-Anhalt Hofverkauf Direktvermarktung Adresse
-      - Kürbis Sachsen-Anhalt Hofverkauf Selbsternte Adresse
-      - Kürbishof NRW Hofverkauf Direktvermarktung Adresse
-      - Kürbis NRW Hofverkauf Selbsternte Adresse
-      - Hokkaido Kürbis Hof Niedersachsen Direktvermarktung Adresse
-      - Butternut Kürbis Hof Bayern Hofverkauf Adresse
-      - Speisekürbis Hof Brandenburg Direktvermarktung Adresse
-      - Hofmetzgerei Landsberg am Lech Direktvermarktung Adresse Telefon
-      - Hofkäserei Ebersberg Direktvermarktung Adresse Telefon
-      - Hofschlachterei Dachau Direktvermarktung Adresse Telefon
-      - Rindfleisch ab Hof Freising Direktvermarktung Adresse Telefon
-      - Schweinefleisch ab Hof Erding Direktvermarktung Adresse Telefon
-      - Lammfleisch Hof Starnberg Direktvermarktung Adresse Telefon
-      - Geflügel Hof Weilheim Direktvermarktung Adresse Telefon
-      - Wurst Hof Rosenheim Direktvermarktung Adresse Telefon
-      - Eier vom Bauernhof Miesbach Direktvermarktung Adresse Telefon
-      - Bio Eier Hof Traunstein Direktvermarktung Adresse Telefon
-      - Freilandeier Hof Altötting Direktvermarktung Adresse Telefon
-      - Legehennen Hof Mühldorf Direktvermarktung Adresse Telefon
-      - Milchvieh Hof Passau Direktvermarktung Adresse Telefon
-      - Rohmilch Hof Deggendorf Direktvermarktung Adresse Telefon
-      - Hofmilch Straubing Direktvermarktung Adresse Telefon
-      - Käse vom Hof Regensburg Land Direktvermarktung Adresse Telefon
-      - Schafkäse Hof Neumarkt Direktvermarktung Adresse Telefon
-      - Ziegenkäse Hof Amberg Land Direktvermarktung Adresse Telefon
-      - Bio Fleisch Hof Weiden Land Direktvermarktung Adresse Telefon
-      - Weidefleisch Hof Bayreuth Land Direktvermarktung Adresse Telefon
-      - '"Verantwortlich für den Inhalt" Bauernhof Landsberg am Lech'
-      - '"Inhaber" Hofladen Ebersberg'
-      - '"GbR" Gemüsehof Dachau'
-      - '"Steuernummer" Obsthof Freising'
-      - '"Einzelunternehmen" Biohof Erding'
-      - '"Verantwortlich für den Inhalt" Bauernhof Starnberg'
-      - '"Inhaber" Hofladen Weilheim'
-      - '"GbR" Gemüsehof Rosenheim'
-      - '"Steuernummer" Obsthof Miesbach'
-      - '"Einzelunternehmen" Biohof Traunstein'
-      - '"Verantwortlich für den Inhalt" Bauernhof Altötting'
-      - '"Inhaber" Hofladen Mühldorf'
-      - '"GbR" Gemüsehof Passau'
-      - '"Steuernummer" Obsthof Deggendorf'
-      - '"Einzelunternehmen" Biohof Straubing'
-      - '"Verantwortlich für den Inhalt" Bauernhof Regensburg Land'
-      - '"Inhaber" Hofladen Neumarkt'
-      - '"GbR" Gemüsehof Amberg Land'
-      - '"Steuernummer" Obsthof Weiden Land'
-      - '"Einzelunternehmen" Biohof Bayreuth Land'
-      - '"Verantwortlich für den Inhalt" Bauernhof Coburg Land'
-      - '"Inhaber" Hofladen Bamberg Land'
-      - '"GbR" Gemüsehof Ansbach Land'
-      - '"Steuernummer" Obsthof Weißenburg'
-      - '"Einzelunternehmen" Biohof Ingolstadt Land'
-      - '"Verantwortlich für den Inhalt" Bauernhof Pfaffenhofen'
-      - '"Inhaber" Hofladen Aichach-Friedberg'
-      - '"GbR" Gemüsehof Dillingen Donau'
-      - '"Steuernummer" Obsthof Günzburg'
-      - '"Einzelunternehmen" Biohof Neu-Ulm'
-      - '"Verantwortlich für den Inhalt" Bauernhof Schrobenhausen'
-      - '"Inhaber" Hofladen Abensberg'
-      - '"GbR" Gemüsehof Cloppenburg'
-      - '"Steuernummer" Obsthof Vechta'
-      - '"Einzelunternehmen" Biohof Emsland'
-      - '"Verantwortlich für den Inhalt" Bauernhof Diepholz'
-      - '"Inhaber" Hofladen Nienburg'
-      - '"GbR" Gemüsehof Celle'
-      - '"Steuernummer" Obsthof Uelzen'
-      - '"Einzelunternehmen" Biohof Lüneburg'
-      - '"Verantwortlich für den Inhalt" Bauernhof Stade'
-      - '"Inhaber" Hofladen Cuxhaven'
-      - '"GbR" Gemüsehof Rotenburg Wümme'
-      - '"Steuernummer" Obsthof Verden'
-      - '"Einzelunternehmen" Biohof Harburg'
-      - '"Verantwortlich für den Inhalt" Bauernhof Heidekreis'
-      - '"Inhaber" Hofladen Aurich'
-      - '"GbR" Gemüsehof Leer'
-      - '"Steuernummer" Obsthof Wittmund'
-      - '"Einzelunternehmen" Biohof Friesland'
-      - '"auf unserem Hof" Direktvermarktung Zwickau Land'
-      - '"unser Hofladen" Adresse Soest'
-      - '"wir bauen an" Hofverkauf Warendorf'
-      - '"wir ernten" Direktvermarktung Borken'
-      - '"eigener Anbau" Hofverkauf Steinfurt'
-      - '"aus eigener Erzeugung" Hofverkauf Coesfeld'
-      - '"vom eigenen Hof" Direktvermarktung Kleve'
-      - '"frisch vom Hof" Adresse Wesel'
-      - '"direkt vom Hof" Adresse Heinsberg'
-      - '"hofeigene" Produkte Direktvermarktung Düren'
-      - '"auf unserem Hof" Direktvermarktung Euskirchen'
-      - '"unser Hofladen" Adresse Höxter'
-      - '"wir bauen an" Hofverkauf Paderborn'
-      - '"wir ernten" Direktvermarktung Gütersloh'
-      - '"eigener Anbau" Hofverkauf Minden-Lübbecke'
-      - '"aus eigener Erzeugung" Hofverkauf Herford'
-      - '"vom eigenen Hof" Direktvermarktung Lippe'
-      - '"frisch vom Hof" Adresse Rhein-Sieg'
-      - '"direkt vom Hof" Adresse Schwetzingen'
-      - '"hofeigene" Produkte Direktvermarktung Bruchsal'
-      - '"auf unserem Hof" Direktvermarktung Hockenheim'
-      - '"unser Hofladen" Adresse Ortenau'
-      - '"wir bauen an" Hofverkauf Breisgau'
-      - '"wir ernten" Direktvermarktung Ravensburg'
-      - '"eigener Anbau" Hofverkauf Biberach'
-      - '"aus eigener Erzeugung" Hofverkauf Sigmaringen'
-      - '"vom eigenen Hof" Direktvermarktung Bodenseekreis'
-      - '"frisch vom Hof" Adresse Lindau Land'
-      - '"direkt vom Hof" Adresse Heilbronn Land'
-      - '"hofeigene" Produkte Direktvermarktung Karlsruhe Land'
-      - '"Abholtermin" Hofladen Rastatt Adresse'
-      - '"Vorbestellung" Hofladen Marburg-Biedenkopf Adresse'
-      - '"telefonische Vorbestellung" Hof Lahn-Dill Adresse'
-      - '"Hofverkauf" Direktvermarktung Vogelsberg Adresse'
-      - '"Selbstbedienung" Hofladen Wetterau Adresse'
-      - '"Hofladen geöffnet" Adresse Bergstraße Adresse'
-      - '"ganzjährig geöffnet" Hofladen Odenwald Adresse'
-      - '"Direktvermarkter" Hofladen Bad Kreuznach Adresse'
-      - '"Abholtermin" Hofladen Mainz-Bingen Adresse'
-      - '"Vorbestellung" Hofladen Alzey-Worms Adresse'
-      - '"telefonische Vorbestellung" Hof Cochem-Zell Adresse'
-      - '"Hofverkauf" Direktvermarktung Bernkastel-Wittlich Adresse'
-      - '"Selbstbedienung" Hofladen Trier-Saarburg Adresse'
-      - '"Hofladen geöffnet" Adresse Südliche Weinstraße Adresse'
-      - '"ganzjährig geöffnet" Hofladen Bad Dürkheim Land Adresse'
-      - '"Direktvermarkter" Hofladen Vorpommern-Rügen Adresse'
-      - '"Abholtermin" Hofladen Vorpommern-Greifswald Adresse'
-      - '"Vorbestellung" Hofladen Nordwestmecklenburg Adresse'
-      - '"telefonische Vorbestellung" Hof Ludwigslust-Parchim Adresse'
-      - '"Hofverkauf" Direktvermarktung Mecklenburgische Seenplatte Adresse'
-      - '"Selbstbedienung" Hofladen Rostock Land Adresse'
-      - '"Hofladen geöffnet" Adresse Dithmarschen Adresse'
-      - '"ganzjährig geöffnet" Hofladen Nordfriesland Adresse'
-      - '"Direktvermarkter" Hofladen Ostholstein Adresse'
-      - Hofbäckerei Landsberg am Lech Direktvermarktung Adresse Telefon
-      - Hofmetzgerei Dachau Direktvermarktung Adresse Telefon
-      - Hofbrennerei Freising Direktvermarktung Adresse Telefon
-      - Hofkelterei Erding Direktvermarktung Adresse Telefon
-      - Hofmühle Starnberg Direktvermarktung Adresse Telefon
-      - Hofmosterei Weilheim Direktvermarktung Adresse Telefon
-      - Apfelsaftkelterei Rosenheim Direktvermarktung Adresse Telefon
-      - Obstmosterei Miesbach Direktvermarktung Adresse Telefon
-      - Schaukäserei Traunstein Direktvermarktung Adresse Telefon
-      - Hofimkerei Altötting Direktvermarktung Adresse Telefon
-      - Honig Imker Mühldorf Direktvermarktung Adresse Telefon
-      - Getreidemühle Hof Passau Direktvermarktung Adresse Telefon
-      - Ölmühle Hof Deggendorf Direktvermarktung Adresse Telefon
-      - Rapsöl Hof Straubing Direktvermarktung Adresse Telefon
-      - Leinöl Hof Regensburg Land Direktvermarktung Adresse Telefon
-      - Kürbiskernöl Hof Neumarkt Direktvermarktung Adresse Telefon
-      - Saft Hof Amberg Land Direktvermarktung Adresse Telefon
-      - Apfelsaft Hof Weiden Land Direktvermarktung Adresse Telefon
-      - Sauerkraut Hof Bayreuth Land Direktvermarktung Adresse Telefon
-      - Marmelade Hof Coburg Land Direktvermarktung Adresse Telefon
-      - Schinken Hof Bamberg Land Direktvermarktung Adresse Telefon
-      - Rhabarber Hof Niedersachsen Direktvermarktung Adresse
-      - Rhabarber Hof Brandenburg Direktvermarktung Adresse
-      - Rhabarber Hof Bayern Direktvermarktung Adresse
-      - Bärlauch Hof Bayern Direktvermarktung Adresse
-      - Bärlauch Hof Baden-Württemberg Direktvermarktung Adresse
-      - Topinambur Hof Sachsen Direktvermarktung Adresse
-      - Topinambur Hof Brandenburg Direktvermarktung Adresse
-      - Pastinaken Hof Niedersachsen Direktvermarktung Adresse
-      - Pastinaken Hof Mecklenburg-Vorpommern Direktvermarktung Adresse
-      - Schwarzwurzel Hof Niedersachsen Direktvermarktung Adresse
-      - Meerrettich Hof Bayern Direktvermarktung Adresse
-      - Meerrettich Hof Spreewald Direktvermarktung Adresse
-      - Rote Bete Hof Niedersachsen Direktvermarktung Adresse
-      - Pak Choi Hof Niedersachsen Direktvermarktung Adresse
-      - Pak Choi Hof Bayern Direktvermarktung Adresse
-      - Mangold Hof Bayern Direktvermarktung Adresse
-      - Rucola Hof Niedersachsen Direktvermarktung Adresse
-      - Artischocken Hof Baden-Württemberg Direktvermarktung Adresse
-      - Zuckermais Hof Niedersachsen Direktvermarktung Adresse
-      - Zuckermais Hof Brandenburg Direktvermarktung Adresse
-      - Süßkartoffel Hof Bayern Direktvermarktung Adresse
-      - Süßkartoffel Hof Baden-Württemberg Direktvermarktung Adresse
-      - Quitten Hof Bayern Direktvermarktung Adresse
-      - Sanddorn Hof Mecklenburg-Vorpommern Direktvermarktung Adresse
-      - Sanddorn Hof Brandenburg Direktvermarktung Adresse
-      - Holunder Hof Sachsen Direktvermarktung Adresse
-      - Walnüsse Hof Bayern Direktvermarktung Adresse
-      - Walnüsse Hof Baden-Württemberg Direktvermarktung Adresse
-      - Haselnüsse Hof Niedersachsen Direktvermarktung Adresse
-      - Esskastanien Hof Baden-Württemberg Direktvermarktung Adresse
-      - Shiitake Pilze Hof Niedersachsen Direktvermarktung Adresse
-
+      # === FRESH QUERIES: high-yield type × unused Landkreis ===
+      # Generated from per_run analysis; all filtered against 4913 historical queries
+      - Gärtnerei Heilbronn Direktvermarktung
+      - Baumschule Heilbronn Hofladen
+      - Staudengärtnerei Heilbronn Hofverkauf
+      - Staudenbetrieb Ludwigsburg Direktvermarktung
+      - Jungpflanzenbetrieb Ludwigsburg Hofladen
+      - Zierpflanzenbetrieb Ludwigsburg Hofverkauf
+      - Topfpflanzen Betrieb Esslingen Direktvermarktung
+      - Blumenhof Esslingen Hofladen
+      - Schnittblumen Betrieb Esslingen Hofverkauf
+      - Gartenbaubetrieb Reutlingen Direktvermarktung
+      - Beerenhof Reutlingen Hofladen
+      - Himbeerhof Reutlingen Hofverkauf
+      - Heidelbeerhof Tübingen Direktvermarktung
+      - Brombeerhof Tübingen Hofladen
+      - Obsthof Tübingen Hofverkauf
+      - Apfelhof Rems-Murr Direktvermarktung
+      - Streuobsthof Rems-Murr Hofladen
+      - Kirschhof Rems-Murr Hofverkauf
+      - Gemüsehof Ostalbkreis Direktvermarktung
+      - Gemüsebaubetrieb Ostalbkreis Hofladen
+      - Spargelhof Ostalbkreis Hofverkauf
+      - Kürbishof Heidenheim Direktvermarktung
+      - Tomatenbetrieb Heidenheim Hofladen
+      - Gurkenbetrieb Heidenheim Hofverkauf
+      - Salatbetrieb Schwäbisch Hall Direktvermarktung
+      - Kräuterhof Schwäbisch Hall Hofladen
+      - Kräutergärtnerei Schwäbisch Hall Hofverkauf
+      - Pilzfarm Hohenlohekreis Direktvermarktung
+      - Champignonzucht Hohenlohekreis Hofladen
+      - Weingut Hohenlohekreis Hofverkauf
+      - Rebschule Calw Direktvermarktung
+      - Hopfenhof Calw Hofladen
+      - Kartoffelhof Calw Hofverkauf
+      - Zwiebelhof Freudenstadt Direktvermarktung
+      - Möhrenhof Freudenstadt Hofladen
+      - Rhabarberhof Freudenstadt Hofverkauf
+      - Erdbeerhof Rottweil Direktvermarktung
+      - Bioland Gemüsehof Rottweil Hofladen
+      - Demeter Gärtnerei Rottweil Hofverkauf
+      - Zierpflanzengärtnerei Tuttlingen Direktvermarktung
+      - Gärtnerei Tuttlingen Hofladen
+      - Baumschule Tuttlingen Hofverkauf
+      - Staudengärtnerei Konstanz Direktvermarktung
+      - Staudenbetrieb Konstanz Hofladen
+      - Jungpflanzenbetrieb Konstanz Hofverkauf
+      - Zierpflanzenbetrieb Waldshut Direktvermarktung
+      - Topfpflanzen Betrieb Waldshut Hofladen
+      - Blumenhof Waldshut Hofverkauf
+      - Schnittblumen Betrieb Lörrach Direktvermarktung
+      - Gartenbaubetrieb Lörrach Hofladen
+      - Beerenhof Lörrach Hofverkauf
+      - Himbeerhof Emmendingen Direktvermarktung
+      - Heidelbeerhof Emmendingen Hofladen
+      - Brombeerhof Emmendingen Hofverkauf
+      - Obsthof Rastatt Direktvermarktung
+      - Apfelhof Rastatt Hofladen
+      - Streuobsthof Rastatt Hofverkauf
+      - Kirschhof Enzkreis Direktvermarktung
+      - Gemüsehof Enzkreis Hofladen
+      - Gemüsebaubetrieb Enzkreis Hofverkauf
+      - Spargelhof Zollernalbkreis Direktvermarktung
+      - Kürbishof Zollernalbkreis Hofladen
+      - Tomatenbetrieb Zollernalbkreis Hofverkauf
+      - Gurkenbetrieb Biberach Direktvermarktung
+      - Salatbetrieb Biberach Hofladen
+      - Kräuterhof Biberach Hofverkauf
+      - Kräutergärtnerei Ravensburg Direktvermarktung
+      - Pilzfarm Ravensburg Hofladen
+      - Champignonzucht Ravensburg Hofverkauf
+      - Weingut Sigmaringen Direktvermarktung
+      - Rebschule Sigmaringen Hofladen
+      - Hopfenhof Sigmaringen Hofverkauf
+      - Kartoffelhof Alb-Donau-Kreis Direktvermarktung
+      - Zwiebelhof Alb-Donau-Kreis Hofladen
+      - Möhrenhof Alb-Donau-Kreis Hofverkauf
+      - Rhabarberhof Göppingen Direktvermarktung
+      - Erdbeerhof Göppingen Hofladen
+      - Bioland Gemüsehof Göppingen Hofverkauf
+      - Demeter Gärtnerei Schwarzwald-Baar Direktvermarktung
+      - Zierpflanzengärtnerei Schwarzwald-Baar Hofladen
+      - Gärtnerei Schwarzwald-Baar Hofverkauf
+      - Baumschule Gifhorn Direktvermarktung
+      - Staudengärtnerei Gifhorn Hofladen
+      - Staudenbetrieb Gifhorn Hofverkauf
+      - Jungpflanzenbetrieb Goslar Direktvermarktung
+      - Zierpflanzenbetrieb Goslar Hofladen
+      - Topfpflanzen Betrieb Goslar Hofverkauf
+      - Blumenhof Helmstedt Direktvermarktung
+      - Schnittblumen Betrieb Helmstedt Hofladen
+      - Gartenbaubetrieb Helmstedt Hofverkauf
+      - Beerenhof Peine Direktvermarktung
+      - Himbeerhof Peine Hofladen
+      - Heidelbeerhof Peine Hofverkauf
+      - Brombeerhof Wolfenbüttel Direktvermarktung
+      - Obsthof Wolfenbüttel Hofladen
+      - Apfelhof Wolfenbüttel Hofverkauf
+      - Streuobsthof Hildesheim Direktvermarktung
+      - Kirschhof Hildesheim Hofladen
+      - Gemüsehof Hildesheim Hofverkauf
+      - Gemüsebaubetrieb Holzminden Direktvermarktung
+      - Spargelhof Holzminden Hofladen
+      - Kürbishof Holzminden Hofverkauf
+      - Tomatenbetrieb Nienburg Direktvermarktung
+      - Gurkenbetrieb Nienburg Hofladen
+      - Salatbetrieb Nienburg Hofverkauf
+      - Kräuterhof Schaumburg Direktvermarktung
+      - Kräutergärtnerei Schaumburg Hofladen
+      - Pilzfarm Schaumburg Hofverkauf
+      - Champignonzucht Hameln-Pyrmont Direktvermarktung
+      - Weingut Hameln-Pyrmont Hofladen
+      - Rebschule Hameln-Pyrmont Hofverkauf
+      - Hopfenhof Ammerland Direktvermarktung
+      - Kartoffelhof Ammerland Hofladen
+      - Zwiebelhof Ammerland Hofverkauf
+      - Möhrenhof Aurich Direktvermarktung
+      - Rhabarberhof Aurich Hofladen
+      - Erdbeerhof Aurich Hofverkauf
+      - Bioland Gemüsehof Wesermarsch Direktvermarktung
+      - Demeter Gärtnerei Wesermarsch Hofladen
+      - Zierpflanzengärtnerei Wesermarsch Hofverkauf
+      - Gärtnerei Wittmund Direktvermarktung
+      - Baumschule Wittmund Hofladen
+      - Staudengärtnerei Wittmund Hofverkauf
+      - Staudenbetrieb Leer Direktvermarktung
+      - Jungpflanzenbetrieb Leer Hofladen
+      - Zierpflanzenbetrieb Leer Hofverkauf
+      - Topfpflanzen Betrieb Friesland Direktvermarktung
+      - Blumenhof Friesland Hofladen
+      - Schnittblumen Betrieb Friesland Hofverkauf
+      - Gartenbaubetrieb Grafschaft Bentheim Direktvermarktung
+      - Beerenhof Grafschaft Bentheim Hofladen
+      - Himbeerhof Grafschaft Bentheim Hofverkauf
+      - Heidelbeerhof Osnabrück Direktvermarktung
+      - Brombeerhof Osnabrück Hofladen
+      - Obsthof Osnabrück Hofverkauf
+      - Apfelhof Vechta Direktvermarktung
+      - Streuobsthof Vechta Hofladen
+      - Kirschhof Vechta Hofverkauf
+      - Gemüsehof Oldenburg Direktvermarktung
+      - Gemüsebaubetrieb Oldenburg Hofladen
+      - Spargelhof Oldenburg Hofverkauf
+      - Kürbishof Rotenburg Wümme Direktvermarktung
+      - Tomatenbetrieb Rotenburg Wümme Hofladen
+      - Gurkenbetrieb Rotenburg Wümme Hofverkauf
+      - Salatbetrieb Verden Direktvermarktung
+      - Kräuterhof Verden Hofladen
+      - Kräutergärtnerei Verden Hofverkauf
+      - Pilzfarm Heidekreis Direktvermarktung
+      - Champignonzucht Heidekreis Hofladen
+      - Weingut Heidekreis Hofverkauf
+      - Rebschule Borken Direktvermarktung
+      - Hopfenhof Borken Hofladen
+      - Kartoffelhof Borken Hofverkauf
+      - Zwiebelhof Coesfeld Direktvermarktung
+      - Möhrenhof Coesfeld Hofladen
+      - Rhabarberhof Coesfeld Hofverkauf
+      - Erdbeerhof Steinfurt Direktvermarktung
+      - Bioland Gemüsehof Steinfurt Hofladen
+      - Demeter Gärtnerei Steinfurt Hofverkauf
+      - Zierpflanzengärtnerei Warendorf Direktvermarktung
+      - Geflügelhof Warendorf Hofladen
+      - Hühnerhof Warendorf Hofverkauf
+      - Putenhof Gütersloh Direktvermarktung
+      - Gänsehof Gütersloh Hofladen
+      - Rinderhof Gütersloh Hofverkauf
+      - Reiterhof Herford Direktvermarktung
+      - Imkerei Herford Hofladen
+      - Schäferei Herford Hofverkauf
+      - Gärtnerei Höxter Direktvermarktung
+      - Baumschule Höxter Hofladen
+      - Staudengärtnerei Höxter Hofverkauf
+      - Staudenbetrieb Lippe Direktvermarktung
+      - Jungpflanzenbetrieb Lippe Hofladen
+      - Zierpflanzenbetrieb Lippe Hofverkauf
+      - Topfpflanzen Betrieb Minden-Lübbecke Direktvermarktung
+      - Blumenhof Minden-Lübbecke Hofladen
+      - Schnittblumen Betrieb Minden-Lübbecke Hofverkauf
+      - Gartenbaubetrieb Paderborn Direktvermarktung
+      - Beerenhof Paderborn Hofladen
+      - Himbeerhof Paderborn Hofverkauf
+      - Heidelbeerhof Soest Direktvermarktung
+      - Brombeerhof Soest Hofladen
+      - Obsthof Soest Hofverkauf
+      - Apfelhof Unna Direktvermarktung
+      - Streuobsthof Unna Hofladen
+      - Kirschhof Unna Hofverkauf
+      - Gemüsebaubetrieb Kleve Hofladen
+      - Spargelhof Kleve Hofverkauf
+      - Kürbishof Wesel Direktvermarktung
+      - Tomatenbetrieb Wesel Hofladen
+      - Gurkenbetrieb Wesel Hofverkauf
+      - Salatbetrieb Viersen Direktvermarktung
+      - Kräuterhof Viersen Hofladen
+      - Kräutergärtnerei Viersen Hofverkauf
+      - Pilzfarm Heinsberg Direktvermarktung
+      - Champignonzucht Heinsberg Hofladen
+      - Weingut Heinsberg Hofverkauf
+      - Rebschule Düren Direktvermarktung
+      - Hopfenhof Düren Hofladen
+      - Kartoffelhof Düren Hofverkauf
+      - Zwiebelhof Euskirchen Direktvermarktung
+      - Möhrenhof Euskirchen Hofladen
+      - Rhabarberhof Euskirchen Hofverkauf
+      - Erdbeerhof Rhein-Erft Direktvermarktung
+      - Bioland Gemüsehof Rhein-Erft Hofladen
+      - Demeter Gärtnerei Rhein-Erft Hofverkauf
+      - Zierpflanzengärtnerei Rhein-Sieg Direktvermarktung
+      - Gärtnerei Rhein-Sieg Hofladen
+      - Baumschule Rhein-Sieg Hofverkauf
+      - Staudengärtnerei Mettmann Direktvermarktung
+      - Staudenbetrieb Mettmann Hofladen
+      - Jungpflanzenbetrieb Mettmann Hofverkauf
+      - Zierpflanzenbetrieb Oberbergischer Kreis Direktvermarktung
+      - Topfpflanzen Betrieb Oberbergischer Kreis Hofladen
+      - Blumenhof Oberbergischer Kreis Hofverkauf
+      - Schnittblumen Betrieb Märkischer Kreis Direktvermarktung
+      - Gartenbaubetrieb Märkischer Kreis Hofladen
+      - Beerenhof Märkischer Kreis Hofverkauf
+      - Himbeerhof Bergstraße Direktvermarktung
+      - Heidelbeerhof Bergstraße Hofladen
+      - Brombeerhof Bergstraße Hofverkauf
+      - Obsthof Darmstadt-Dieburg Direktvermarktung
+      - Apfelhof Darmstadt-Dieburg Hofladen
+      - Streuobsthof Darmstadt-Dieburg Hofverkauf
+      - Kirschhof Groß-Gerau Direktvermarktung
+      - Gemüsehof Groß-Gerau Hofladen
+      - Gemüsebaubetrieb Groß-Gerau Hofverkauf
+      - Spargelhof Odenwaldkreis Direktvermarktung
+      - Kürbishof Odenwaldkreis Hofladen
+      - Tomatenbetrieb Odenwaldkreis Hofverkauf
+      - Gurkenbetrieb Marburg-Biedenkopf Direktvermarktung
+      - Salatbetrieb Marburg-Biedenkopf Hofladen
+      - Kräuterhof Marburg-Biedenkopf Hofverkauf
+      - Kräutergärtnerei Gießen Direktvermarktung
+      - Pilzfarm Gießen Hofladen
+      - Champignonzucht Gießen Hofverkauf
+      - Weingut Vogelsbergkreis Direktvermarktung
+      - Rebschule Vogelsbergkreis Hofladen
+      - Hopfenhof Vogelsbergkreis Hofverkauf
+      - Kartoffelhof Wetterau Direktvermarktung
+      - Zwiebelhof Wetterau Hofladen
+      - Möhrenhof Wetterau Hofverkauf
+      - Rhabarberhof Fulda Direktvermarktung
+      - Erdbeerhof Fulda Hofladen
+      - Bioland Gemüsehof Fulda Hofverkauf
+      - Demeter Gärtnerei Hersfeld-Rotenburg Direktvermarktung
+      - Zierpflanzengärtnerei Hersfeld-Rotenburg Hofladen
+      - Gärtnerei Hersfeld-Rotenburg Hofverkauf
+      - Baumschule Kassel Direktvermarktung
+      - Staudengärtnerei Kassel Hofladen
+      - Staudenbetrieb Kassel Hofverkauf
+      - Jungpflanzenbetrieb Schwalm-Eder Direktvermarktung
+      - Zierpflanzenbetrieb Schwalm-Eder Hofladen
+      - Topfpflanzen Betrieb Schwalm-Eder Hofverkauf
+      - Blumenhof Werra-Meißner Direktvermarktung
+      - Schnittblumen Betrieb Werra-Meißner Hofladen
+      - Gartenbaubetrieb Werra-Meißner Hofverkauf
+      - Beerenhof Waldeck-Frankenberg Direktvermarktung
+      - Himbeerhof Waldeck-Frankenberg Hofladen
+      - Heidelbeerhof Waldeck-Frankenberg Hofverkauf
+      - Brombeerhof Limburg-Weilburg Direktvermarktung
+      - Obsthof Limburg-Weilburg Hofladen
+      - Apfelhof Limburg-Weilburg Hofverkauf
+      - Streuobsthof Lahn-Dill Direktvermarktung
+      - Kirschhof Lahn-Dill Hofladen
+      - Gemüsehof Lahn-Dill Hofverkauf
+      - Gemüsebaubetrieb Main-Kinzig Direktvermarktung
+      - Spargelhof Main-Kinzig Hofladen
+      - Kürbishof Main-Kinzig Hofverkauf
+      - Tomatenbetrieb Alzey-Worms Direktvermarktung
+      - Gurkenbetrieb Alzey-Worms Hofladen
+      - Salatbetrieb Alzey-Worms Hofverkauf
+      - Kräuterhof Bad Kreuznach Direktvermarktung
+      - Kräutergärtnerei Bad Kreuznach Hofladen
+      - Pilzfarm Bad Kreuznach Hofverkauf
+      - Champignonzucht Bad Dürkheim Direktvermarktung
+      - Weingut Bad Dürkheim Hofladen
+      - Rebschule Bad Dürkheim Hofverkauf
+      - Hopfenhof Donnersbergkreis Direktvermarktung
+      - Kartoffelhof Donnersbergkreis Hofladen
+      - Zwiebelhof Donnersbergkreis Hofverkauf
+      - Möhrenhof Germersheim Direktvermarktung
+      - Rhabarberhof Germersheim Hofladen
+      - Erdbeerhof Germersheim Hofverkauf
+      - Bioland Gemüsehof Kaiserslautern Direktvermarktung
+      - Demeter Gärtnerei Kaiserslautern Hofladen
+      - Zierpflanzengärtnerei Kaiserslautern Hofverkauf
+      - Gärtnerei Mainz-Bingen Direktvermarktung
+      - Baumschule Mainz-Bingen Hofladen
+      - Staudengärtnerei Mainz-Bingen Hofverkauf
+      - Staudenbetrieb Rhein-Pfalz-Kreis Direktvermarktung
+      - Jungpflanzenbetrieb Rhein-Pfalz-Kreis Hofladen
+      - Zierpflanzenbetrieb Rhein-Pfalz-Kreis Hofverkauf
+      - Topfpflanzen Betrieb Südliche Weinstraße Direktvermarktung
+      - Blumenhof Südliche Weinstraße Hofladen
+      - Schnittblumen Betrieb Südliche Weinstraße Hofverkauf
+      - Gartenbaubetrieb Südwestpfalz Direktvermarktung
+      - Beerenhof Südwestpfalz Hofladen
+      - Himbeerhof Südwestpfalz Hofverkauf
+      - Heidelbeerhof Trier-Saarburg Direktvermarktung
+      - Brombeerhof Trier-Saarburg Hofladen
+      - Obsthof Trier-Saarburg Hofverkauf
+      - Apfelhof Bernkastel-Wittlich Direktvermarktung
+      - Streuobsthof Bernkastel-Wittlich Hofladen
+      - Kirschhof Bernkastel-Wittlich Hofverkauf
+      - Gemüsehof Cochem-Zell Direktvermarktung
+      - Gemüsebaubetrieb Cochem-Zell Hofladen
+      - Spargelhof Cochem-Zell Hofverkauf
+      - Kürbishof Bitburg-Prüm Direktvermarktung
+      - Tomatenbetrieb Bitburg-Prüm Hofladen
+      - Gurkenbetrieb Bitburg-Prüm Hofverkauf
+      - Salatbetrieb Mayen-Koblenz Direktvermarktung
+      - Kräuterhof Mayen-Koblenz Hofladen
+      - Kräutergärtnerei Mayen-Koblenz Hofverkauf
+      - Pilzfarm Neuwied Direktvermarktung
+      - Champignonzucht Neuwied Hofladen
+      - Weingut Neuwied Hofverkauf
+      - Rebschule Westerwaldkreis Direktvermarktung
+      - Hopfenhof Westerwaldkreis Hofladen
+      - Kartoffelhof Westerwaldkreis Hofverkauf
+      - Zwiebelhof Gotha Direktvermarktung
+      - Möhrenhof Gotha Hofladen
+      - Rhabarberhof Gotha Hofverkauf
+      - Erdbeerhof Ilm-Kreis Direktvermarktung
+      - Bioland Gemüsehof Ilm-Kreis Hofladen
+      - Demeter Gärtnerei Ilm-Kreis Hofverkauf
+      - Zierpflanzengärtnerei Saale-Holzland Direktvermarktung
+      - Geflügelhof Saale-Holzland Hofladen
+      - Hühnerhof Saale-Holzland Hofverkauf
+      - Putenhof Saalfeld-Rudolstadt Direktvermarktung
+      - Gänsehof Saalfeld-Rudolstadt Hofladen
+      - Rinderhof Saalfeld-Rudolstadt Hofverkauf
+      - Reiterhof Schmalkalden-Meiningen Direktvermarktung
+      - Imkerei Schmalkalden-Meiningen Hofladen
+      - Schäferei Schmalkalden-Meiningen Hofverkauf
+      - Gärtnerei Sömmerda Direktvermarktung
+      - Baumschule Sömmerda Hofladen
+      - Staudengärtnerei Sömmerda Hofverkauf
+      - Staudenbetrieb Unstrut-Hainich Direktvermarktung
+      - Jungpflanzenbetrieb Unstrut-Hainich Hofladen
+      - Zierpflanzenbetrieb Unstrut-Hainich Hofverkauf
+      - Topfpflanzen Betrieb Weimarer Land Direktvermarktung
+      - Blumenhof Weimarer Land Hofladen
+      - Schnittblumen Betrieb Weimarer Land Hofverkauf
+      - Gartenbaubetrieb Greiz Direktvermarktung
+      - Beerenhof Greiz Hofladen
+      - Himbeerhof Greiz Hofverkauf
+      - Heidelbeerhof Altenburger Land Direktvermarktung
+      - Brombeerhof Altenburger Land Hofladen
+      - Obsthof Altenburger Land Hofverkauf
+      - Apfelhof Wartburgkreis Direktvermarktung
+      - Streuobsthof Wartburgkreis Hofladen
+      - Kirschhof Wartburgkreis Hofverkauf
+      - Gemüsehof Hildburghausen Direktvermarktung
+      - Gemüsebaubetrieb Hildburghausen Hofladen
+      - Spargelhof Hildburghausen Hofverkauf
+      - Kürbishof Sonneberg Direktvermarktung
+      - Tomatenbetrieb Sonneberg Hofladen
+      - Gurkenbetrieb Sonneberg Hofverkauf
+      - Salatbetrieb Anhalt-Bitterfeld Direktvermarktung
+      - Kräuterhof Anhalt-Bitterfeld Hofladen
+      - Kräutergärtnerei Anhalt-Bitterfeld Hofverkauf
+      - Pilzfarm Börde Direktvermarktung
+      - Champignonzucht Börde Hofladen
+      - Weingut Börde Hofverkauf
+      - Rebschule Burgenlandkreis Direktvermarktung
+      - Hopfenhof Burgenlandkreis Hofladen
+      - Kartoffelhof Burgenlandkreis Hofverkauf
+      - Zwiebelhof Harz Direktvermarktung
+      - Möhrenhof Harz Hofladen
+      - Rhabarberhof Harz Hofverkauf
+      - Erdbeerhof Jerichower Land Direktvermarktung
+      - Bioland Gemüsehof Jerichower Land Hofladen
+      - Demeter Gärtnerei Jerichower Land Hofverkauf
+      - Zierpflanzengärtnerei Mansfeld-Südharz Direktvermarktung
+      - Gärtnerei Mansfeld-Südharz Hofladen
+      - Baumschule Mansfeld-Südharz Hofverkauf
+      - Staudengärtnerei Saalekreis Direktvermarktung
+      - Staudenbetrieb Saalekreis Hofladen
+      - Jungpflanzenbetrieb Saalekreis Hofverkauf
+      - Zierpflanzenbetrieb Salzlandkreis Direktvermarktung
+      - Topfpflanzen Betrieb Salzlandkreis Hofladen
+      - Blumenhof Salzlandkreis Hofverkauf
+      - Schnittblumen Betrieb Stendal Direktvermarktung
+      - Gartenbaubetrieb Stendal Hofladen
+      - Beerenhof Stendal Hofverkauf
+      - Himbeerhof Wittenberg Direktvermarktung
+      - Heidelbeerhof Wittenberg Hofladen
+      - Brombeerhof Wittenberg Hofverkauf
+      - Obsthof Altmarkkreis Salzwedel Direktvermarktung
+      - Apfelhof Altmarkkreis Salzwedel Hofladen
+      - Streuobsthof Altmarkkreis Salzwedel Hofverkauf
+      - Kirschhof Bautzen Direktvermarktung
+      - Gemüsehof Bautzen Hofladen
+      - Gemüsebaubetrieb Bautzen Hofverkauf
+      - Spargelhof Erzgebirgskreis Direktvermarktung
+      - Kürbishof Erzgebirgskreis Hofladen
+      - Tomatenbetrieb Erzgebirgskreis Hofverkauf
+      - Gurkenbetrieb Görlitz Direktvermarktung
+      - Salatbetrieb Görlitz Hofladen
+      - Kräuterhof Görlitz Hofverkauf
+      - Kräutergärtnerei Leipzig Land Direktvermarktung
+      - Pilzfarm Leipzig Land Hofladen
+      - Champignonzucht Leipzig Land Hofverkauf
+      - Weingut Meißen Direktvermarktung
+      - Rebschule Meißen Hofladen
+      - Hopfenhof Meißen Hofverkauf
+      - Kartoffelhof Mittelsachsen Direktvermarktung
+      - Zwiebelhof Mittelsachsen Hofladen
+      - Möhrenhof Mittelsachsen Hofverkauf
+      - Rhabarberhof Nordsachsen Direktvermarktung
+      - Erdbeerhof Nordsachsen Hofladen
+      - Bioland Gemüsehof Nordsachsen Hofverkauf
+      - Demeter Gärtnerei Sächsische Schweiz Direktvermarktung
+      - Zierpflanzengärtnerei Sächsische Schweiz Hofladen
+      - Gärtnerei Sächsische Schweiz Hofverkauf
+      - Baumschule Vogtlandkreis Direktvermarktung
+      - Staudengärtnerei Vogtlandkreis Hofladen
+      - Staudenbetrieb Vogtlandkreis Hofverkauf
+      - Jungpflanzenbetrieb Zwickau Direktvermarktung
+      - Zierpflanzenbetrieb Zwickau Hofladen
+      - Topfpflanzen Betrieb Zwickau Hofverkauf
+      - Blumenhof Barnim Direktvermarktung
+      - Schnittblumen Betrieb Barnim Hofladen
+      - Gartenbaubetrieb Barnim Hofverkauf
+      - Beerenhof Dahme-Spreewald Direktvermarktung
+      - Himbeerhof Dahme-Spreewald Hofladen
+      - Heidelbeerhof Dahme-Spreewald Hofverkauf
+      - Brombeerhof Elbe-Elster Direktvermarktung
+      - Obsthof Elbe-Elster Hofladen
+      - Apfelhof Elbe-Elster Hofverkauf
+      - Streuobsthof Havelland Direktvermarktung
+      - Kirschhof Havelland Hofladen
+      - Gemüsehof Havelland Hofverkauf
+      - Gemüsebaubetrieb Märkisch-Oderland Direktvermarktung
+      - Spargelhof Märkisch-Oderland Hofladen
+      - Kürbishof Märkisch-Oderland Hofverkauf
+      - Tomatenbetrieb Oberhavel Direktvermarktung
+      - Gurkenbetrieb Oberhavel Hofladen
+      - Salatbetrieb Oberhavel Hofverkauf
+      - Kräuterhof Oberspreewald-Lausitz Direktvermarktung
+      - Kräutergärtnerei Oberspreewald-Lausitz Hofladen
+      - Pilzfarm Oberspreewald-Lausitz Hofverkauf
+      - Champignonzucht Oder-Spree Direktvermarktung
+      - Weingut Oder-Spree Hofladen
+      - Rebschule Oder-Spree Hofverkauf
+      - Hopfenhof Ostprignitz-Ruppin Direktvermarktung
+      - Kartoffelhof Ostprignitz-Ruppin Hofladen
+      - Zwiebelhof Ostprignitz-Ruppin Hofverkauf
+      - Möhrenhof Potsdam-Mittelmark Direktvermarktung
+      - Rhabarberhof Potsdam-Mittelmark Hofladen
+      - Erdbeerhof Potsdam-Mittelmark Hofverkauf
+      - Bioland Gemüsehof Prignitz Direktvermarktung
+      - Demeter Gärtnerei Prignitz Hofladen
+      - Zierpflanzengärtnerei Prignitz Hofverkauf
+      - Gärtnerei Spree-Neiße Direktvermarktung
+      - Baumschule Spree-Neiße Hofladen
+      - Staudengärtnerei Spree-Neiße Hofverkauf
+      - Staudenbetrieb Teltow-Fläming Direktvermarktung
+      - Jungpflanzenbetrieb Teltow-Fläming Hofladen
+      - Zierpflanzenbetrieb Teltow-Fläming Hofverkauf
+      - Topfpflanzen Betrieb Uckermark Direktvermarktung
+      - Blumenhof Uckermark Hofladen
+      - Schnittblumen Betrieb Uckermark Hofverkauf
+      - Gartenbaubetrieb Dithmarschen Direktvermarktung
+      - Beerenhof Dithmarschen Hofladen
+      - Himbeerhof Dithmarschen Hofverkauf
+      - Heidelbeerhof Herzogtum Lauenburg Direktvermarktung
+      - Brombeerhof Herzogtum Lauenburg Hofladen
+      - Obsthof Herzogtum Lauenburg Hofverkauf
+      - Apfelhof Nordfriesland Direktvermarktung
+      - Streuobsthof Nordfriesland Hofladen
+      - Kirschhof Nordfriesland Hofverkauf
+      - Gemüsehof Ostholstein Direktvermarktung
+      - Gemüsebaubetrieb Ostholstein Hofladen
+      - Spargelhof Ostholstein Hofverkauf
+      - Kürbishof Pinneberg Direktvermarktung
+      - Tomatenbetrieb Pinneberg Hofladen
+      - Gurkenbetrieb Pinneberg Hofverkauf
+      - Salatbetrieb Plön Direktvermarktung
+      - Kräuterhof Plön Hofladen
+      - Kräutergärtnerei Plön Hofverkauf
+      - Pilzfarm Rendsburg-Eckernförde Direktvermarktung
+      - Champignonzucht Rendsburg-Eckernförde Hofladen
+      - Weingut Rendsburg-Eckernförde Hofverkauf
+      - Rebschule Schleswig-Flensburg Direktvermarktung
+      - Hopfenhof Schleswig-Flensburg Hofladen
+      - Kartoffelhof Schleswig-Flensburg Hofverkauf
+      - Zwiebelhof Segeberg Direktvermarktung
+      - Möhrenhof Segeberg Hofladen
+      - Rhabarberhof Segeberg Hofverkauf
+      - Erdbeerhof Steinburg Direktvermarktung
+      - Bioland Gemüsehof Steinburg Hofladen
+      - Demeter Gärtnerei Steinburg Hofverkauf
+      - Zierpflanzengärtnerei Stormarn Direktvermarktung
+      - Geflügelhof Stormarn Hofladen
+      - Hühnerhof Stormarn Hofverkauf
+      - Putenhof Ludwigslust-Parchim Direktvermarktung
+      - Gänsehof Ludwigslust-Parchim Hofladen
+      - Rinderhof Ludwigslust-Parchim Hofverkauf
+      - Reiterhof Mecklenburgische Seenplatte Direktvermarktung
+      - Imkerei Mecklenburgische Seenplatte Hofladen
+      - Schäferei Mecklenburgische Seenplatte Hofverkauf
+      - Gärtnerei Nordwestmecklenburg Direktvermarktung
+      - Baumschule Nordwestmecklenburg Hofladen
+      - Staudengärtnerei Nordwestmecklenburg Hofverkauf
+      - Staudenbetrieb Rostock Direktvermarktung
+      - Jungpflanzenbetrieb Rostock Hofladen
+      - Zierpflanzenbetrieb Rostock Hofverkauf
+      - Topfpflanzen Betrieb Vorpommern-Greifswald Direktvermarktung
+      - Blumenhof Vorpommern-Greifswald Hofladen
+      - Schnittblumen Betrieb Vorpommern-Greifswald Hofverkauf
+      - Gartenbaubetrieb Vorpommern-Rügen Direktvermarktung
+      - Beerenhof Vorpommern-Rügen Hofladen
+      - Himbeerhof Vorpommern-Rügen Hofverkauf
 app:
   outreach:
     unsubscribe-base-url: ${UNSUBSCRIBE_BASE_URL:https://leadfarmfinder.onrender.com/unsubscribe/}
