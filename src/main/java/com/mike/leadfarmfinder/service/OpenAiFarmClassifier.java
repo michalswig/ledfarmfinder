@@ -24,16 +24,15 @@ public class OpenAiFarmClassifier {
                 - page_text: extracted plain text of the page (possibly truncated)
                 
                 OVERALL GOAL:
-                We only want SMALL or MEDIUM-SIZED GERMAN FARMS that primarily produce
-                fruits, vegetables, potatoes, grains, berries, asparagus, flowers or similar crops
-                (including e.g. Erdbeerhof, Spargelhof, Obsthof, Gemüsehof, Gärtnerei, Kartoffelhof).
-                The main business should be AGRICULTURAL PRODUCTION, not tourism.
+                We only want SMALL or MEDIUM-SIZED GERMAN AGRICULTURAL or HORTICULTURAL BUSINESSES
+                that produce plants, crops, flowers, trees, mushrooms, wine, hops, or keep livestock.
+                The main business should be PRODUCTION (growing, cultivating, breeding), not tourism.
                 
                 YOUR TASK:
-                1) Decide if this website represents ONE specific small or medium German FARM business.
+                1) Decide if this website represents ONE specific small or medium German
+                   agricultural or horticultural production business.
                 2) Decide if this farm offers SEASONAL AGRICULTURAL JOBS
-                   (fruit / vegetable harvesting, asparagus, berries, apples, vineyards,
-                    Christmas trees, flowers, greenhouse work, sorting / packing produce, etc.).
+                   (harvesting, planting, greenhouse work, sorting / packing, pruning, etc.).
                 
                 STRICT NEGATIVE RULES (VERY IMPORTANT):
                 - Regional newspapers, news portals, city magazines, lifestyle portals, blogs,
@@ -78,21 +77,49 @@ public class OpenAiFarmClassifier {
                   you MUST answer "is_farm": false.
                 
                 POSITIVE RULES (WHEN TO RETURN is_farm = true):
-                - Only consider "is_farm": true if the website clearly represents ONE specific
-                  agricultural production business, for example:
+                - Return "is_farm": true if the website clearly represents ONE specific
+                  agricultural or horticultural production business. This includes:
+                
+                  FRUIT & VEGETABLE FARMS:
                   * Hof, Landhof, Bauernhof, Biohof
-                  * Erdbeerhof, Beerenhof, Himbeerhof
-                  * Spargelhof, Kartoffelhof
-                  * Obsthof, Apfelhof, Streuobsthof
-                  * Gemüsehof, Gemüsebau-Betrieb
-                  * Gärtnerei, Gartenbau (especially with vegetables, herbs, flowers)
-                  * Milchviehbetrieb, Rinderhof (OK, but our main interest is still plant production)
+                  * Erdbeerhof, Beerenhof, Himbeerhof, Heidelbeerhof, Brombeerhof
+                  * Spargelhof, Kartoffelhof, Möhrenhof, Zwiebelhof
+                  * Obsthof, Apfelhof, Streuobsthof, Kirschhof
+                  * Gemüsehof, Gemüsebau-Betrieb, Gemüsebaubetrieb
+                  * Kürbishof, Tomatenbetrieb, Gurkenbetrieb, Salatbetrieb
+                  * Kräuterhof, Kräutergärtnerei
+                
+                  HORTICULTURE & NURSERIES:
+                  * Gärtnerei, Gartenbau, Gartenbaubetrieb
+                  * Baumschule (tree nursery)
+                  * Staudengärtnerei, Staudenbetrieb (perennial nursery)
+                  * Jungpflanzenbetrieb (young plant nursery)
+                  * Zierpflanzenbetrieb, Zierpflanzengärtnerei (ornamental plants)
+                  * Topfpflanzenbetrieb (potted plant nursery)
+                  * Schnittblumenbetrieb, Blumenhof, Blumenbetrieb (cut flowers)
+                
+                  MUSHROOMS:
+                  * Pilzfarm, Pilzzucht, Pilzbetrieb, Champignonzucht
+                
+                  WINE & HOPS:
+                  * Weingut, Winzerbetrieb, Weinbaubetrieb, Rebschule
+                  * Hopfenhof, Hopfenbetrieb
+                
+                  LIVESTOCK (also valid):
+                  * Geflügelhof, Hühnerhof, Putenhof, Gänsehof, Entenhof
+                  * Rinderhof, Milchviehbetrieb
+                  * Schäferei, Ziegenhof
+                  * Imkerei, Bienenhof
+                
+                  PROCESSING ON FARM (also valid if the farm grows its own produce):
+                  * Hofkäserei, Hofmetzgerei, Hofbäckerei, Hofmosterei
+                  * Hofladen (if it belongs to ONE specific farm)
                 
                 - Typical signs for a single farm business:
-                  * there is ONE main farm name (e.g. "Erdbeerhof Müller", "Obsthof Schmidt"),
-                  * there is an address and contact data for THIS farm,
+                  * there is ONE main farm/business name,
+                  * there is an address and contact data for THIS business,
                   * the content describes THEIR OWN products, fields, orchards, greenhouses,
-                    animals, etc.
+                    nurseries, animals, etc.
                 
                 SEASONAL JOBS (is_seasonal_jobs):
                 - "is_seasonal_jobs" should be true ONLY if the text clearly mentions
@@ -108,7 +135,7 @@ public class OpenAiFarmClassifier {
                   In that case you MUST set "is_seasonal_jobs": false.
                 
                 DECISION POLICY:
-                - If you are NOT clearly sure that this is ONE specific farm business,
+                - If you are NOT clearly sure that this is ONE specific production business,
                   you MUST answer "is_farm": false.
                 - Portals, media, city / regional magazines, tourism pages and directories
                   are always "is_farm": false.
@@ -128,6 +155,9 @@ public class OpenAiFarmClassifier {
                 "reason" should be a short explanation like:
                 - "single-farm-website-with-products-and-contact"
                 - "single-farm-website-with-seasonal-jobs"
+                - "nursery-with-own-production"
+                - "winery-with-own-vineyards"
+                - "mushroom-farm-with-production"
                 - "regional-media-portal-not-a-farm"
                 - "tourism-portal-listing-many-farms"
                 - "holiday-farm-focused-on-tourism"
@@ -183,4 +213,3 @@ public class OpenAiFarmClassifier {
         }
     }
 }
-
