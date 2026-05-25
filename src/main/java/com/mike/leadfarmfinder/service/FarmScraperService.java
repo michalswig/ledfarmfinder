@@ -16,7 +16,6 @@ import java.net.URI;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -88,11 +87,7 @@ public class FarmScraperService {
 
         log.info("Urls to scrape for {}: {}", resolvedStartUrl, urlsToScrape);
 
-        Set<String> knownEmails = repository.findAll().stream()
-                .map(FarmLead::getEmail)
-                .filter(Objects::nonNull)
-                .map(String::toLowerCase)
-                .collect(Collectors.toSet());
+        Set<String> knownEmails = new HashSet<>(repository.findAllEmailsLowercase());
 
         Set<FarmLead> newFarmLeads = new LinkedHashSet<>();
 
@@ -165,17 +160,17 @@ public class FarmScraperService {
                 if (pageEmail.isBlank()) continue;
 
                 if (!isRelevantEmailForDomain(pageEmail, resolvedStartUrl)) {
-                    log.info("Skipping non-relevant email '{}' for startUrl '{}'", pageEmail, resolvedStartUrl);
+                    log.debug("Skipping non-relevant email for domain={}", extractBaseDomainFromUrl(resolvedStartUrl));
                     continue;
                 }
 
                 String lower = pageEmail.toLowerCase(Locale.ROOT);
                 if (knownEmails.contains(lower)) {
-                    log.info("Email '{}' already exists, skipping", pageEmail);
+                    log.debug("Email already exists for domain={}, skipping", extractBaseDomainFromUrl(resolvedStartUrl));
                     continue;
                 }
 
-                log.info("New farm lead on {} -> {}", url, lower);
+                log.info("New farm lead on {} (domain={})", url, extractBaseDomainFromUrl(resolvedStartUrl));
 
                 FarmLead farmLead = FarmLead.builder()
                         .email(lower)
@@ -551,6 +546,9 @@ public class FarmScraperService {
         }
     }
 
-    private record UrlProbeResult(boolean ok, int status, String finalUrl) {}
-    private record FetchResult(boolean anyPageFetchedOk) {}
+    private record UrlProbeResult(boolean ok, int status, String finalUrl) {
+    }
+
+    private record FetchResult(boolean anyPageFetchedOk) {
+    }
 }

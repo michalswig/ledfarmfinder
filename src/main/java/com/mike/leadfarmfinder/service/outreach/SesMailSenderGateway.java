@@ -30,8 +30,8 @@ public class SesMailSenderGateway implements MailSenderGateway {
             SendEmailRequest request = buildRequest(mail);
             var response = sesV2Client.sendEmail(request);
 
-            log.info("Outreach: email accepted by SES for {}, providerMessageId={}",
-                    mail.to(), response.messageId());
+            log.info("Outreach: email accepted by SES for leadId={}, providerMessageId={}",
+                    mail.leadId(), response.messageId());
 
             return new SendResult(true, false, response.messageId());
 
@@ -44,12 +44,12 @@ public class SesMailSenderGateway implements MailSenderGateway {
                     ? e.awsErrorDetails().errorCode()
                     : "UNKNOWN";
 
-            log.warn("Outreach: SES rejected email to {}: code={}, message={}",
-                    mail.to(), errorCode, errorMessage);
+            log.warn("Outreach: SES rejected email for leadId={}: code={}, message={}",
+                    mail.leadId(), errorCode, errorMessage);
 
             return new SendResult(false, false);
         } catch (Exception e) {
-            log.warn("Outreach: FAILED to send email to {}: {}", mail.to(), e.getMessage(), e);
+            log.warn("Outreach: FAILED to send email for leadId={}: {}", mail.leadId(), e.getMessage(), e);
             return new SendResult(false, false);
         }
     }

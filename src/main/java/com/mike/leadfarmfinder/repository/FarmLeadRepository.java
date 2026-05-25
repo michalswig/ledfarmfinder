@@ -58,4 +58,7 @@ public interface FarmLeadRepository extends JpaRepository<FarmLead, Long> {
             @Param("d2") String d2,
             Pageable pageable
     );
+
+    @Query("SELECT LOWER(f.email) FROM FarmLead f WHERE f.email IS NOT NULL")
+    List<String> findAllEmailsLowercase();
 }

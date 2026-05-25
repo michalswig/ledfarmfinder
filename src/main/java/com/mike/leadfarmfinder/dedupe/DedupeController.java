@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/dedupe")
@@ -26,11 +25,7 @@ public class DedupeController {
             return ResponseEntity.ok(List.of());
         }
 
-        Set<String> knownEmails = farmLeadRepository.findAll().stream()
-                .map(FarmLead::getEmail)
-                .filter(Objects::nonNull)
-                .map(String::toLowerCase)
-                .collect(Collectors.toSet());
+        Set<String> knownEmails = new HashSet<>(farmLeadRepository.findAllEmailsLowercase());
 
         Set<String> batchEmails = new HashSet<>();
 
