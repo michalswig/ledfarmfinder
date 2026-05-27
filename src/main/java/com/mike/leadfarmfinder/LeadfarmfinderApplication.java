@@ -1,6 +1,7 @@
 package com.mike.leadfarmfinder;
 
 import com.mike.leadfarmfinder.config.*;
+import com.mike.leadfarmfinder.service.directory.DirectoryProperties;
 import com.mike.leadfarmfinder.service.directory.HofladenFinderProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,7 +16,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         EmailProperties.class,
         AwsSesProperties.class,
         LeadFinderRabbitProperties.class,
-        HofladenFinderProperties.class,})
+        HofladenFinderProperties.class,
+        DirectoryProperties.class,})
 public class LeadfarmfinderApplication {
 
     public static void main(String[] args) {
