@@ -521,3 +521,13 @@ logging:
   level:
     com.mike.leadfarmfinder.service.ajb: INFO
     com.mike.leadfarmfinder.bootstrap: INFO
+
+directory:
+  enabled: false
+  max-urls-per-run: 1
+
+hofladenfinder:
+  base-url: https://www.hofladenfinder.org/farmshop/search
+  max-pages-per-product: 1
+  products:
+    - spargel
