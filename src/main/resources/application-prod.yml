@@ -146,360 +146,388 @@ leadfinder:
     queries-per-run: ${DISCOVERY_QUERIES_PER_RUN:3}
 
     queries:
-      - '"Verantwortlich für den Inhalt" Hofladen Oberbayern'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Oberbayern'
-      - '"Verantwortlich für den Inhalt" Hofverkauf Oberbayern'
-      - '"Verantwortlich für den Inhalt" Hofladen Niederbayern'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Niederbayern'
-      - '"Verantwortlich für den Inhalt" Hofverkauf Niederbayern'
-      - '"Verantwortlich für den Inhalt" Hofladen Oberpfalz'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Oberpfalz'
-      - '"Verantwortlich für den Inhalt" Hofverkauf Oberpfalz'
-      - '"Verantwortlich für den Inhalt" Hofladen Schwaben'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Schwaben'
-      - '"Verantwortlich für den Inhalt" Hofverkauf Schwaben'
-      - '"Verantwortlich für den Inhalt" Hofladen Unterfranken'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Unterfranken'
-      - '"Verantwortlich für den Inhalt" Hofverkauf Unterfranken'
-      - '"Verantwortlich für den Inhalt" Hofladen Oberfranken'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Oberfranken'
-      - '"Verantwortlich für den Inhalt" Hofverkauf Oberfranken'
-      - '"Verantwortlich für den Inhalt" Hofladen Mittelfranken'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Mittelfranken'
-      - '"Verantwortlich für den Inhalt" Hofverkauf Mittelfranken'
-      - '"Verantwortlich für den Inhalt" Spargel Oberbayern'
-      - '"Verantwortlich für den Inhalt" Erdbeeren Oberbayern'
-      - '"Verantwortlich für den Inhalt" Gemüse Oberbayern'
-      - '"Verantwortlich für den Inhalt" Spargel Niederbayern'
-      - '"Verantwortlich für den Inhalt" Erdbeeren Niederbayern'
-      - '"Verantwortlich für den Inhalt" Gemüse Niederbayern'
-      - '"Verantwortlich für den Inhalt" Spargel Oberpfalz'
-      - '"Verantwortlich für den Inhalt" Erdbeeren Oberpfalz'
-      - '"Verantwortlich für den Inhalt" Gemüse Oberpfalz'
-      - '"Verantwortlich für den Inhalt" Spargel Schwaben'
-      - '"Verantwortlich für den Inhalt" Erdbeeren Schwaben'
-      - '"Verantwortlich für den Inhalt" Gemüse Schwaben'
-      - '"Verantwortlich für den Inhalt" Spargel Unterfranken'
-      - '"Verantwortlich für den Inhalt" Erdbeeren Unterfranken'
-      - '"Verantwortlich für den Inhalt" Gemüse Unterfranken'
-      - '"Verantwortlich für den Inhalt" Spargel Oberfranken'
-      - '"Verantwortlich für den Inhalt" Erdbeeren Oberfranken'
-      - '"Verantwortlich für den Inhalt" Gemüse Oberfranken'
-      - '"Verantwortlich für den Inhalt" Spargel Mittelfranken'
-      - '"Verantwortlich für den Inhalt" Erdbeeren Mittelfranken'
-      - '"Verantwortlich für den Inhalt" Gemüse Mittelfranken'
-      - '"Inhaber" Hofladen Oberbayern'
-      - '"Inhaber" Direktverkauf Oberbayern'
-      - '"Inhaber" Bauernhof Oberbayern'
-      - '"Inhaber" Hofladen Niederbayern'
-      - '"Inhaber" Direktverkauf Niederbayern'
-      - '"Inhaber" Bauernhof Niederbayern'
-      - '"Inhaber" Hofladen Oberpfalz'
-      - '"Inhaber" Direktverkauf Oberpfalz'
-      - '"Inhaber" Bauernhof Oberpfalz'
-      - '"Inhaber" Hofladen Schwaben'
-      - '"Inhaber" Direktverkauf Schwaben'
-      - '"Inhaber" Bauernhof Schwaben'
-      - '"Inhaber" Hofladen Unterfranken'
-      - '"Inhaber" Direktverkauf Unterfranken'
-      - '"Inhaber" Bauernhof Unterfranken'
-      - '"Inhaber" Hofladen Oberfranken'
-      - '"Inhaber" Direktverkauf Oberfranken'
-      - '"Inhaber" Bauernhof Oberfranken'
-      - '"Inhaber" Hofladen Mittelfranken'
-      - '"Inhaber" Direktverkauf Mittelfranken'
-      - '"Inhaber" Bauernhof Mittelfranken'
-      - '"GbR" Hofladen Oberbayern'
-      - '"GbR" Bauernhof Oberbayern'
-      - '"GbR" Hofladen Niederbayern'
-      - '"GbR" Bauernhof Niederbayern'
-      - '"GbR" Hofladen Oberpfalz'
-      - '"GbR" Bauernhof Oberpfalz'
-      - '"GbR" Hofladen Schwaben'
-      - '"GbR" Bauernhof Schwaben'
-      - '"GbR" Hofladen Unterfranken'
-      - '"GbR" Bauernhof Unterfranken'
-      - '"GbR" Hofladen Oberfranken'
-      - '"GbR" Bauernhof Oberfranken'
-      - '"GbR" Hofladen Mittelfranken'
-      - '"GbR" Bauernhof Mittelfranken'
-      - '"Verantwortlich für den Inhalt" Hofladen Münsterland'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Münsterland'
-      - '"Verantwortlich für den Inhalt" Spargel Münsterland'
-      - '"Verantwortlich für den Inhalt" Erdbeeren Münsterland'
-      - '"Inhaber" Hofladen Münsterland'
-      - '"Inhaber" Bauernhof Münsterland'
-      - '"GbR" Hofladen Münsterland'
-      - '"Verantwortlich für den Inhalt" Hofladen Sauerland'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Sauerland'
-      - '"Verantwortlich für den Inhalt" Spargel Sauerland'
-      - '"Verantwortlich für den Inhalt" Erdbeeren Sauerland'
-      - '"Inhaber" Hofladen Sauerland'
-      - '"Inhaber" Bauernhof Sauerland'
-      - '"GbR" Hofladen Sauerland'
-      - '"Verantwortlich für den Inhalt" Hofladen Bergisches Land'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Bergisches Land'
-      - '"Verantwortlich für den Inhalt" Spargel Bergisches Land'
-      - '"Verantwortlich für den Inhalt" Erdbeeren Bergisches Land'
-      - '"Inhaber" Hofladen Bergisches Land'
-      - '"Inhaber" Bauernhof Bergisches Land'
-      - '"GbR" Hofladen Bergisches Land'
-      - '"Verantwortlich für den Inhalt" Hofladen Niederrhein'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Niederrhein'
-      - '"Verantwortlich für den Inhalt" Spargel Niederrhein'
-      - '"Verantwortlich für den Inhalt" Erdbeeren Niederrhein'
-      - '"Inhaber" Hofladen Niederrhein'
-      - '"Inhaber" Bauernhof Niederrhein'
-      - '"GbR" Hofladen Niederrhein'
-      - '"Verantwortlich für den Inhalt" Hofladen Ruhrgebiet'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Ruhrgebiet'
-      - '"Verantwortlich für den Inhalt" Spargel Ruhrgebiet'
-      - '"Verantwortlich für den Inhalt" Erdbeeren Ruhrgebiet'
-      - '"Inhaber" Hofladen Ruhrgebiet'
-      - '"Inhaber" Bauernhof Ruhrgebiet'
-      - '"GbR" Hofladen Ruhrgebiet'
-      - '"Verantwortlich für den Inhalt" Hofladen Ostwestfalen'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Ostwestfalen'
-      - '"Verantwortlich für den Inhalt" Spargel Ostwestfalen'
-      - '"Verantwortlich für den Inhalt" Erdbeeren Ostwestfalen'
-      - '"Inhaber" Hofladen Ostwestfalen'
-      - '"Inhaber" Bauernhof Ostwestfalen'
-      - '"GbR" Hofladen Ostwestfalen'
-      - '"Verantwortlich für den Inhalt" Hofladen Eifel'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Eifel'
-      - '"Verantwortlich für den Inhalt" Spargel Eifel'
-      - '"Verantwortlich für den Inhalt" Erdbeeren Eifel'
-      - '"Inhaber" Hofladen Eifel'
-      - '"Inhaber" Bauernhof Eifel'
-      - '"GbR" Hofladen Eifel'
-      - '"Verantwortlich für den Inhalt" Hofladen Lüneburger Heide'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Lüneburger Heide'
-      - '"Verantwortlich für den Inhalt" Spargel Lüneburger Heide'
-      - '"Inhaber" Hofladen Lüneburger Heide'
-      - '"GbR" Bauernhof Lüneburger Heide'
-      - '"Verantwortlich für den Inhalt" Hofladen Wendland'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Wendland'
-      - '"Verantwortlich für den Inhalt" Spargel Wendland'
-      - '"Inhaber" Hofladen Wendland'
-      - '"GbR" Bauernhof Wendland'
-      - '"Verantwortlich für den Inhalt" Hofladen Ostfriesland'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Ostfriesland'
-      - '"Verantwortlich für den Inhalt" Spargel Ostfriesland'
-      - '"Inhaber" Hofladen Ostfriesland'
-      - '"GbR" Bauernhof Ostfriesland'
-      - '"Verantwortlich für den Inhalt" Hofladen Emsland'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Emsland'
-      - '"Verantwortlich für den Inhalt" Spargel Emsland'
-      - '"Inhaber" Hofladen Emsland'
-      - '"GbR" Bauernhof Emsland'
-      - '"Verantwortlich für den Inhalt" Hofladen Calenberger Land'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Calenberger Land'
-      - '"Verantwortlich für den Inhalt" Spargel Calenberger Land'
-      - '"Inhaber" Hofladen Calenberger Land'
-      - '"GbR" Bauernhof Calenberger Land'
-      - '"Verantwortlich für den Inhalt" Hofladen Harz Niedersachsen'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Harz Niedersachsen'
-      - '"Verantwortlich für den Inhalt" Spargel Harz Niedersachsen'
-      - '"Inhaber" Hofladen Harz Niedersachsen'
-      - '"GbR" Bauernhof Harz Niedersachsen'
-      - '"Verantwortlich für den Inhalt" Hofladen Brandenburg'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Brandenburg'
-      - '"Verantwortlich für den Inhalt" Bauernhof Brandenburg'
-      - '"Verantwortlich für den Inhalt" Biohof Brandenburg'
-      - '"Verantwortlich für den Inhalt" Spargel Brandenburg'
-      - '"Verantwortlich für den Inhalt" Erdbeeren Brandenburg'
-      - '"Verantwortlich für den Inhalt" Gemüse Brandenburg'
-      - '"Verantwortlich für den Inhalt" Kartoffeln Brandenburg'
-      - '"Inhaber" Hofladen Brandenburg'
-      - '"Inhaber" Bauernhof Brandenburg'
-      - '"GbR" Hofladen Brandenburg'
-      - '"GbR" Bauernhof Brandenburg'
-      - '"Verantwortlich für den Inhalt" Hofladen Sachsen'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Sachsen'
-      - '"Verantwortlich für den Inhalt" Bauernhof Sachsen'
-      - '"Verantwortlich für den Inhalt" Biohof Sachsen'
-      - '"Verantwortlich für den Inhalt" Spargel Sachsen'
-      - '"Verantwortlich für den Inhalt" Erdbeeren Sachsen'
-      - '"Verantwortlich für den Inhalt" Gemüse Sachsen'
-      - '"Verantwortlich für den Inhalt" Kartoffeln Sachsen'
-      - '"Inhaber" Hofladen Sachsen'
-      - '"Inhaber" Bauernhof Sachsen'
-      - '"GbR" Hofladen Sachsen'
-      - '"GbR" Bauernhof Sachsen'
-      - '"Verantwortlich für den Inhalt" Hofladen Thüringen'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Thüringen'
-      - '"Verantwortlich für den Inhalt" Bauernhof Thüringen'
-      - '"Verantwortlich für den Inhalt" Biohof Thüringen'
-      - '"Verantwortlich für den Inhalt" Spargel Thüringen'
-      - '"Verantwortlich für den Inhalt" Erdbeeren Thüringen'
-      - '"Verantwortlich für den Inhalt" Gemüse Thüringen'
-      - '"Verantwortlich für den Inhalt" Kartoffeln Thüringen'
-      - '"Inhaber" Hofladen Thüringen'
-      - '"Inhaber" Bauernhof Thüringen'
-      - '"GbR" Hofladen Thüringen'
-      - '"GbR" Bauernhof Thüringen'
-      - '"Verantwortlich für den Inhalt" Hofladen Sachsen-Anhalt'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Sachsen-Anhalt'
-      - '"Verantwortlich für den Inhalt" Bauernhof Sachsen-Anhalt'
-      - '"Verantwortlich für den Inhalt" Biohof Sachsen-Anhalt'
-      - '"Verantwortlich für den Inhalt" Spargel Sachsen-Anhalt'
-      - '"Verantwortlich für den Inhalt" Erdbeeren Sachsen-Anhalt'
-      - '"Verantwortlich für den Inhalt" Gemüse Sachsen-Anhalt'
-      - '"Verantwortlich für den Inhalt" Kartoffeln Sachsen-Anhalt'
-      - '"Inhaber" Hofladen Sachsen-Anhalt'
-      - '"Inhaber" Bauernhof Sachsen-Anhalt'
-      - '"GbR" Hofladen Sachsen-Anhalt'
-      - '"GbR" Bauernhof Sachsen-Anhalt'
-      - '"Verantwortlich für den Inhalt" Hofladen Mecklenburg-Vorpommern'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Mecklenburg-Vorpommern'
-      - '"Verantwortlich für den Inhalt" Bauernhof Mecklenburg-Vorpommern'
-      - '"Verantwortlich für den Inhalt" Biohof Mecklenburg-Vorpommern'
-      - '"Verantwortlich für den Inhalt" Spargel Mecklenburg-Vorpommern'
-      - '"Verantwortlich für den Inhalt" Erdbeeren Mecklenburg-Vorpommern'
-      - '"Verantwortlich für den Inhalt" Gemüse Mecklenburg-Vorpommern'
-      - '"Verantwortlich für den Inhalt" Kartoffeln Mecklenburg-Vorpommern'
-      - '"Inhaber" Hofladen Mecklenburg-Vorpommern'
-      - '"Inhaber" Bauernhof Mecklenburg-Vorpommern'
-      - '"GbR" Hofladen Mecklenburg-Vorpommern'
-      - '"GbR" Bauernhof Mecklenburg-Vorpommern'
-      - '"Verantwortlich für den Inhalt" Hofladen Bodensee'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Bodensee'
-      - '"Verantwortlich für den Inhalt" Obst Bodensee'
-      - '"Inhaber" Hofladen Bodensee'
-      - '"GbR" Obstbau Bodensee'
-      - '"Verantwortlich für den Inhalt" Hofladen Schwarzwald'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Schwarzwald'
-      - '"Verantwortlich für den Inhalt" Obst Schwarzwald'
-      - '"Inhaber" Hofladen Schwarzwald'
-      - '"GbR" Obstbau Schwarzwald'
-      - '"Verantwortlich für den Inhalt" Hofladen Schwäbische Alb'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Schwäbische Alb'
-      - '"Verantwortlich für den Inhalt" Obst Schwäbische Alb'
-      - '"Inhaber" Hofladen Schwäbische Alb'
-      - '"GbR" Obstbau Schwäbische Alb'
-      - '"Verantwortlich für den Inhalt" Hofladen Hohenlohe'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Hohenlohe'
-      - '"Verantwortlich für den Inhalt" Obst Hohenlohe'
-      - '"Inhaber" Hofladen Hohenlohe'
-      - '"GbR" Obstbau Hohenlohe'
-      - '"Verantwortlich für den Inhalt" Hofladen Kraichgau'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Kraichgau'
-      - '"Verantwortlich für den Inhalt" Obst Kraichgau'
-      - '"Inhaber" Hofladen Kraichgau'
-      - '"GbR" Obstbau Kraichgau'
-      - '"Verantwortlich für den Inhalt" Hofladen Breisgau'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Breisgau'
-      - '"Verantwortlich für den Inhalt" Obst Breisgau'
-      - '"Inhaber" Hofladen Breisgau'
-      - '"GbR" Obstbau Breisgau'
-      - '"Verantwortlich für den Inhalt" Hofladen Ortenau'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Ortenau'
-      - '"Verantwortlich für den Inhalt" Obst Ortenau'
-      - '"Inhaber" Hofladen Ortenau'
-      - '"GbR" Obstbau Ortenau'
-      - '"Verantwortlich für den Inhalt" Hofladen Hessen'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Hessen'
-      - '"Verantwortlich für den Inhalt" Bauernhof Hessen'
-      - '"Inhaber" Hofladen Hessen'
-      - '"GbR" Bauernhof Hessen'
-      - '"Verantwortlich für den Inhalt" Hofladen Rheinland-Pfalz'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Rheinland-Pfalz'
-      - '"Verantwortlich für den Inhalt" Bauernhof Rheinland-Pfalz'
-      - '"Inhaber" Hofladen Rheinland-Pfalz'
-      - '"GbR" Bauernhof Rheinland-Pfalz'
-      - '"Verantwortlich für den Inhalt" Hofladen Schleswig-Holstein'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Schleswig-Holstein'
-      - '"Verantwortlich für den Inhalt" Bauernhof Schleswig-Holstein'
-      - '"Inhaber" Hofladen Schleswig-Holstein'
-      - '"GbR" Bauernhof Schleswig-Holstein'
-      - '"Verantwortlich für den Inhalt" Hofladen Saarland'
-      - '"Verantwortlich für den Inhalt" Direktverkauf Saarland'
-      - '"Verantwortlich für den Inhalt" Bauernhof Saarland'
-      - '"Inhaber" Hofladen Saarland'
-      - '"GbR" Bauernhof Saarland'
-      - '"USt-IdNr" Hofladen Bayern'
-      - '"USt-IdNr" Bauernhof Bayern'
-      - '"Steuernummer" Hofladen Bayern'
-      - '"Landwirt" Hofladen Bayern'
-      - '"USt-IdNr" Hofladen NRW'
-      - '"USt-IdNr" Bauernhof NRW'
-      - '"Steuernummer" Hofladen NRW'
-      - '"Landwirt" Hofladen NRW'
-      - '"USt-IdNr" Hofladen Niedersachsen'
-      - '"USt-IdNr" Bauernhof Niedersachsen'
-      - '"Steuernummer" Hofladen Niedersachsen'
-      - '"Landwirt" Hofladen Niedersachsen'
-      - '"USt-IdNr" Hofladen Baden-Württemberg'
-      - '"USt-IdNr" Bauernhof Baden-Württemberg'
-      - '"Steuernummer" Hofladen Baden-Württemberg'
-      - '"Landwirt" Hofladen Baden-Württemberg'
-      - '"USt-IdNr" Hofladen Hessen'
-      - '"USt-IdNr" Bauernhof Hessen'
-      - '"Steuernummer" Hofladen Hessen'
-      - '"Landwirt" Hofladen Hessen'
-      - '"USt-IdNr" Hofladen Sachsen'
-      - '"USt-IdNr" Bauernhof Sachsen'
-      - '"Steuernummer" Hofladen Sachsen'
-      - '"Landwirt" Hofladen Sachsen'
-      - '"USt-IdNr" Hofladen Brandenburg'
-      - '"USt-IdNr" Bauernhof Brandenburg'
-      - '"Steuernummer" Hofladen Brandenburg'
-      - '"Landwirt" Hofladen Brandenburg'
-      - '"USt-IdNr" Hofladen Thüringen'
-      - '"USt-IdNr" Bauernhof Thüringen'
-      - '"Steuernummer" Hofladen Thüringen'
-      - '"Landwirt" Hofladen Thüringen'
-      - '"USt-IdNr" Hofladen Sachsen-Anhalt'
-      - '"USt-IdNr" Bauernhof Sachsen-Anhalt'
-      - '"Steuernummer" Hofladen Sachsen-Anhalt'
-      - '"Landwirt" Hofladen Sachsen-Anhalt'
-      - '"USt-IdNr" Hofladen Mecklenburg-Vorpommern'
-      - '"USt-IdNr" Bauernhof Mecklenburg-Vorpommern'
-      - '"Steuernummer" Hofladen Mecklenburg-Vorpommern'
-      - '"Landwirt" Hofladen Mecklenburg-Vorpommern'
-      - '"USt-IdNr" Hofladen Rheinland-Pfalz'
-      - '"USt-IdNr" Bauernhof Rheinland-Pfalz'
-      - '"Steuernummer" Hofladen Rheinland-Pfalz'
-      - '"Landwirt" Hofladen Rheinland-Pfalz'
-      - '"USt-IdNr" Hofladen Schleswig-Holstein'
-      - '"USt-IdNr" Bauernhof Schleswig-Holstein'
-      - '"Steuernummer" Hofladen Schleswig-Holstein'
-      - '"Landwirt" Hofladen Schleswig-Holstein'
-      - '"Inhaber" Spargelhof Bayern'
-      - '"Inhaber" Obsthof Bayern'
-      - '"Inhaber" Gemüsehof Bayern'
-      - '"Inhaber" Biohof Bayern'
-      - '"GbR" Spargelhof Bayern'
-      - '"GbR" Obsthof Bayern'
-      - '"GbR" Gemüsehof Bayern'
-      - '"Inhaber" Spargelhof NRW'
-      - '"Inhaber" Obsthof NRW'
-      - '"Inhaber" Gemüsehof NRW'
-      - '"Inhaber" Biohof NRW'
-      - '"GbR" Spargelhof NRW'
-      - '"GbR" Obsthof NRW'
-      - '"GbR" Gemüsehof NRW'
-      - '"Inhaber" Spargelhof Niedersachsen'
-      - '"Inhaber" Obsthof Niedersachsen'
-      - '"Inhaber" Gemüsehof Niedersachsen'
-      - '"Inhaber" Biohof Niedersachsen'
-      - '"GbR" Spargelhof Niedersachsen'
-      - '"GbR" Obsthof Niedersachsen'
-      - '"GbR" Gemüsehof Niedersachsen'
-      - '"Inhaber" Spargelhof Baden-Württemberg'
-      - '"Inhaber" Obsthof Baden-Württemberg'
-      - '"Inhaber" Gemüsehof Baden-Württemberg'
-      - '"Inhaber" Biohof Baden-Württemberg'
-      - '"GbR" Spargelhof Baden-Württemberg'
-      - '"GbR" Obsthof Baden-Württemberg'
-      - '"GbR" Gemüsehof Baden-Württemberg'
-      - '"Inhaber" Spargelhof Hessen'
-      - '"Inhaber" Obsthof Hessen'
-      - '"Inhaber" Gemüsehof Hessen'
-      - '"Inhaber" Biohof Hessen'
-      - '"GbR" Spargelhof Hessen'
-      - '"GbR" Obsthof Hessen'
-      - '"GbR" Gemüsehof Hessen'
+      # Gärtnerei/Gewächshaus — TOP performers, rozszerzenie na nowe regiony
+      - Gärtnerei Familienbetrieb Bayern
+      - Gärtnerei Familienbetrieb Baden-Württemberg
+      - Gärtnerei Familienbetrieb Hessen
+      - Gärtnerei Familienbetrieb Rheinland-Pfalz
+      - Gärtnerei Familienbetrieb Schleswig-Holstein
+      - Gärtnerei Betrieb Bayern
+      - Gärtnerei Betrieb Baden-Württemberg
+      - Topfpflanzen Gärtnerei NRW
+      - Topfpflanzen Gärtnerei Bayern
+      - Topfpflanzen Gärtnerei Baden-Württemberg
+      - Staudenbetrieb Gärtnerei NRW
+      - Staudenbetrieb Gärtnerei Bayern
+      - Staudenbetrieb Gärtnerei Baden-Württemberg
+      - Zierpflanzenbetrieb Bayern
+      - Zierpflanzenbetrieb Baden-Württemberg
+      - Jungpflanzenbetrieb Bayern
+      - Jungpflanzenbetrieb NRW
+
+      # Gewächshaus — wysoki rate
+      - Gemüsebau Gewächshaus Bayern
+      - Gemüsebau Gewächshaus NRW
+      - Gemüsebau Gewächshaus Baden-Württemberg
+      - Kräuter Gewächshaus Betrieb Bayern
+      - Kräuter Gewächshaus Betrieb Baden-Württemberg
+      - Gurken Gewächshaus Bayern
+      - Gurken Gewächshaus NRW
+      - Tomaten Gewächshaus Betrieb Niedersachsen
+      - Tomaten Gewächshaus Betrieb Bayern
+      - Tomaten Gewächshaus Betrieb NRW
+
+      # Pilze — wysoki rate
+      - Pilzzuchtbetrieb Bayern
+      - Pilzzuchtbetrieb Niedersachsen
+      - Pilzzuchtbetrieb Baden-Württemberg
+      - Speisepilze Betrieb Bayern
+      - Speisepilze Betrieb Niedersachsen
+      - Champignonfarm Bayern
+      - Champignonfarm NRW
+      - Champignonfarm Baden-Württemberg
+
+      # Wzorzec "Hof Kontakt" — 43% rate, rozszerzenie
+      - Bauernhof Kontakt Niedersachsen
+      - Bauernhof Kontakt Bayern
+      - Bauernhof Kontakt NRW
+      - Hofladen Kontakt Bayern
+      - Hofladen Kontakt Niedersachsen
+      - Hofladen Kontakt Baden-Württemberg
+      - Spargelhof Kontakt Bayern
+      - Spargelhof Kontakt NRW
+      - Spargelhof Kontakt Niedersachsen
+      - Obsthof Kontakt Bayern
+      - Obsthof Kontakt NRW
+
+      # Baumschule — wysoki rate
+      - Baumschule Familienbetrieb Bayern
+      - Baumschule Familienbetrieb Niedersachsen
+      - Baumschule Familienbetrieb Baden-Württemberg
+      - Baumschule Familienbetrieb Hessen
+      - Baumschule Betrieb Bayern
+      - Baumschule Betrieb NRW
+
+      # Blumen — 69% rate to najlepszy w całej bazie
+      - Blumenbetrieb Bayern
+      - Blumenbetrieb NRW
+      - Blumenbetrieb Baden-Württemberg
+      - Blumenbetrieb Niedersachsen
+      - Blumenbetrieb Hessen
+      - Blumenhof Bayern
+      - Blumenhof NRW
+      - Blumenhof Niedersachsen
+
+      # Rinderhof/Tierhaltung
+      - Rinderhof Bayern
+      - Rinderhof NRW
+      - Rinderhof Baden-Württemberg
+      - Schweinehof Niedersachsen
+      - Schweinehof NRW
+      - Geflügelhof Bayern
+      - Geflügelhof NRW
+      - Geflügelhof Niedersachsen
+        # 200 nowych queries — wzorowane na top performers z discovery_run_stats
+        # Wzorce które działają najlepiej:
+        # - "[produkt] Direktverkauf" (rate 75-90%)
+        # - "[produkt] Betrieb Impressum E-Mail" (rate 80-92%)
+        # - "[typ] Kontakt/Kontaktinformation" (rate 70-85%)
+        # - "Gewächshaus [kontekst]" (rate 72-80%)
+        # - "Gärtnerei [region]" (rate 24-35%)
+        
+        # === DIREKTVERKAUF — wzorzec ~80% rate ===
+        - Spinat Direktverkauf Bayern
+        - Spinat Direktverkauf NRW
+        - Spinat Direktverkauf Baden-Württemberg
+        - Brokkoli Direktverkauf Bayern
+        - Brokkoli Direktverkauf NRW
+        - Brokkoli Direktverkauf Niedersachsen
+        - Paprika Direktverkauf Bayern
+        - Paprika Direktverkauf NRW
+        - Paprika Direktverkauf Baden-Württemberg
+        - Möhren Direktverkauf Bayern
+        - Möhren Direktverkauf NRW
+        - Möhren Direktverkauf Niedersachsen
+        - Möhren Direktverkauf Baden-Württemberg
+        - Lauch Direktverkauf Bayern
+        - Lauch Direktverkauf NRW
+        - Lauch Direktverkauf Niedersachsen
+        - Zwiebel Direktverkauf Bayern
+        - Zwiebel Direktverkauf NRW
+        - Zwiebel Direktverkauf Niedersachsen
+        - Zwiebel Direktverkauf Baden-Württemberg
+        - Birnen Direktverkauf Bayern
+        - Birnen Direktverkauf NRW
+        - Birnen Direktverkauf Baden-Württemberg
+        - Birnen Direktverkauf Niedersachsen
+        - Pflaumen Direktverkauf Bayern
+        - Pflaumen Direktverkauf NRW
+        - Pflaumen Direktverkauf Baden-Württemberg
+        - Blumenkohl Direktverkauf Bayern
+        - Blumenkohl Direktverkauf NRW
+        - Blumenkohl Direktverkauf Niedersachsen
+        - Schnittblumen Direktverkauf Bayern
+        - Schnittblumen Direktverkauf NRW
+        - Schnittblumen Direktverkauf Baden-Württemberg
+        - Schnittblumen Direktverkauf Niedersachsen
+        - Schnittblumen Direktverkauf Hessen
+        - Salatfeld Direktverkauf Bayern
+        - Salatfeld Direktverkauf NRW
+        - Salatfeld Direktverkauf Niedersachsen
+        - Kopfsalat Direktverkauf Bayern
+        - Kopfsalat Direktverkauf NRW
+        - Kopfsalat Direktverkauf Niedersachsen
+        - Zucchini Direktverkauf Bayern
+        - Zucchini Direktverkauf NRW
+        - Zucchini Direktverkauf Baden-Württemberg
+        - Feldsalat Direktverkauf Bayern
+        - Feldsalat Direktverkauf NRW
+        - Feldsalat Direktverkauf Niedersachsen
+        - Porree Direktverkauf Bayern
+        - Porree Direktverkauf NRW
+        - Porree Direktverkauf Niedersachsen
+        
+        # === IMPRESSUM E-MAIL — wzorzec ~85-92% rate ===
+        - Kohl Betrieb Impressum E-Mail Bayern
+        - Kohl Betrieb Impressum E-Mail NRW
+        - Kohl Betrieb Impressum E-Mail Niedersachsen
+        - Blumen Erzeuger Impressum E-Mail Bayern
+        - Blumen Erzeuger Impressum E-Mail NRW
+        - Blumen Erzeuger Impressum E-Mail Baden-Württemberg
+        - Kirschhof Impressum E-Mail Bayern
+        - Kirschhof Impressum E-Mail NRW
+        - Kirschhof Impressum E-Mail Baden-Württemberg
+        - Pflaumenhof Impressum E-Mail Bayern
+        - Pflaumenhof Impressum E-Mail NRW
+        - Pflaumenhof Impressum E-Mail Baden-Württemberg
+        - Pferdehof Impressum E-Mail Bayern
+        - Pferdehof Impressum E-Mail NRW
+        - Pferdehof Impressum E-Mail Niedersachsen
+        - Pferdehof Impressum E-Mail Baden-Württemberg
+        - Lauch Betrieb Impressum E-Mail Bayern
+        - Lauch Betrieb Impressum E-Mail NRW
+        - Lauch Betrieb Impressum E-Mail Niedersachsen
+        - Kirsch Betrieb Impressum Bayern
+        - Kirsch Betrieb Impressum NRW
+        - Kirsch Betrieb Impressum Niedersachsen
+        - Gemüsehof Impressum E-Mail Bayern
+        - Gemüsehof Impressum E-Mail NRW
+        - Gemüsehof Impressum E-Mail Niedersachsen
+        - Obsthof Impressum E-Mail Bayern
+        - Obsthof Impressum E-Mail NRW
+        - Obsthof Impressum E-Mail Baden-Württemberg
+        - Spargelhof Impressum E-Mail Bayern
+        - Spargelhof Impressum E-Mail NRW
+        - Spargelhof Impressum E-Mail Niedersachsen
+        - Erdbeerfeld Impressum E-Mail Bayern
+        - Erdbeerfeld Impressum E-Mail NRW
+        - Erdbeerfeld Impressum E-Mail Niedersachsen
+        - Biohof Impressum E-Mail Bayern
+        - Biohof Impressum E-Mail NRW
+        - Biohof Impressum E-Mail Niedersachsen
+        - Biohof Impressum E-Mail Baden-Württemberg
+        
+        # === KONTAKT/KONTAKTINFORMATION — wzorzec ~75-81% rate ===
+        - Kirschhof Kontakt Bayern
+        - Kirschhof Kontakt NRW
+        - Kirschhof Kontakt Baden-Württemberg
+        - Kirschhof Kontakt Niedersachsen
+        - Birnenhof Kontakt Bayern
+        - Birnenhof Kontakt NRW
+        - Birnenhof Kontakt Baden-Württemberg
+        - Pflaumenhof Kontakt Bayern
+        - Pflaumenhof Kontakt NRW
+        - Pflaumenhof Kontakt Baden-Württemberg
+        - Heidelbeerhof Kontakt Bayern
+        - Heidelbeerhof Kontakt NRW
+        - Heidelbeerhof Kontakt Niedersachsen
+        - Heidelbeerhof Kontaktinformationen Bayern
+        - Heidelbeerhof Kontaktinformationen NRW
+        - Kartoffel Anbieter Kontaktinformation Bayern
+        - Kartoffel Anbieter Kontaktinformation NRW
+        - Kartoffel Anbieter Kontaktinformation Niedersachsen
+        - Speisepilz Anbieter Kontakt Bayern
+        - Speisepilz Anbieter Kontakt NRW
+        - Speisepilz Anbieter Kontakt Niedersachsen
+        - Blumenhof Kontaktinformation Bayern
+        - Blumenhof Kontaktinformation NRW
+        - Blumenhof Kontaktinformation Niedersachsen
+        - Blumenhof Direktvermarktung Kontakt Bayern
+        - Blumenhof Direktvermarktung Kontakt NRW
+        - Erdbeer Anbieter Kontaktseite Bayern
+        - Erdbeer Anbieter Kontaktseite NRW
+        - Erdbeer Anbieter Kontaktseite Niedersachsen
+        - Bauernhof Inhaber Kontaktinformation Bayern
+        - Bauernhof Inhaber Kontaktinformation NRW
+        - Bauernhof Inhaber Kontaktinformation Niedersachsen
+        - Landwirtschaftlicher Hof Unternehmensadresse Bayern
+        - Landwirtschaftlicher Hof Unternehmensadresse NRW
+        - Landwirtschaftlicher Hof Unternehmensadresse Niedersachsen
+        - Schnittblumen Direktverkauf Kontakt Bayern
+        - Schnittblumen Direktverkauf Kontakt NRW
+        - Schnittblumen Direktverkauf Kontakt Baden-Württemberg
+        
+        # === GEWÄCHSHAUS — wzorzec ~72-80% rate ===
+        - Gewächshaus Kontaktformular Bayern
+        - Gewächshaus Kontaktformular NRW
+        - Gewächshaus Kontaktformular Niedersachsen
+        - Gewächshaus Betrieb Kontaktinformation Bayern
+        - Gewächshaus Betrieb Kontaktinformation NRW
+        - Gewächshaus Betrieb Kontaktinformation Baden-Württemberg
+        - Gewächshaus Verwaltung E-Mail Bayern
+        - Gewächshaus Verwaltung E-Mail NRW
+        - Gewächshaus Verwaltung E-Mail Niedersachsen
+        - Hydroponik Gewächshaus Kontakt Bayern
+        - Hydroponik Gewächshaus Kontakt NRW
+        - Hydroponik Gewächshaus Kontakt Baden-Württemberg
+        - Tomaten Gewächshaus Kontakt Bayern
+        - Tomaten Gewächshaus Kontakt NRW
+        - Tomaten Gewächshaus Kontakt Baden-Württemberg
+        - Gurken Gewächshaus Kontakt Bayern
+        - Gurken Gewächshaus Kontakt NRW
+        - Gurken Gewächshaus Kontakt Niedersachsen
+        - Paprika Gewächshaus Bayern
+        - Paprika Gewächshaus NRW
+        - Salat Gewächshaus Betrieb Bayern
+        - Salat Gewächshaus Betrieb NRW
+        - Kräuter Gewächshaus Bayern
+        - Kräuter Gewächshaus Baden-Württemberg
+        - Kräuter Gewächshaus Niedersachsen
+        
+        # === PILZE — wzorzec ~83-88% rate ===
+        - Pilzzucht Anbieter Kontaktinformation Bayern
+        - Pilzzucht Anbieter Kontaktinformation NRW
+        - Pilzzucht Anbieter Kontaktinformation Baden-Württemberg
+        - Pilzzucht Anbieter Firmenadresse Bayern
+        - Pilzzucht Anbieter Firmenadresse NRW
+        - Pilzzucht Anbieter Firmenadresse Niedersachsen
+        - Pilzfarm Unternehmensadresse Bayern
+        - Pilzfarm Unternehmensadresse NRW
+        - Pilzfarm Unternehmensadresse Niedersachsen
+        - Pilzfarm Unternehmensadresse Baden-Württemberg
+        - Speisepilze Betrieb Bayern
+        - Speisepilze Betrieb Baden-Württemberg
+        - Speisepilze Betrieb Hessen
+        - Champignonfarm Baden-Württemberg
+        - Champignonfarm Hessen
+        - Champignonfarm Rheinland-Pfalz
+        
+        # === GÄRTNEREI — wzorzec ~24-35% rate ale ogromna liczba ===
+        - Gärtnerei Familienbetrieb Bayern
+        - Gärtnerei Familienbetrieb Baden-Württemberg
+        - Gärtnerei Familienbetrieb Hessen
+        - Gärtnerei Familienbetrieb Rheinland-Pfalz
+        - Gärtnerei Familienbetrieb Schleswig-Holstein
+        - Gärtnerei Familienbetrieb Sachsen
+        - Gärtnerei Familienbetrieb Thüringen
+        - Gärtnerei Betrieb Bayern
+        - Gärtnerei Betrieb Baden-Württemberg
+        - Gärtnerei Betrieb Hessen
+        - Gärtnerei Betrieb Rheinland-Pfalz
+        - Topfpflanzen Gärtnerei Bayern
+        - Topfpflanzen Gärtnerei Baden-Württemberg
+        - Topfpflanzen Gärtnerei Hessen
+        - Topfpflanzen Gärtnerei Rheinland-Pfalz
+        - Topfpflanzen Gärtnerei Schleswig-Holstein
+        - Staudenbetrieb Gärtnerei Bayern
+        - Staudenbetrieb Gärtnerei Baden-Württemberg
+        - Staudenbetrieb Gärtnerei Hessen
+        - Staudenbetrieb Gärtnerei Rheinland-Pfalz
+        - Zierpflanzenbetrieb Bayern
+        - Zierpflanzenbetrieb Baden-Württemberg
+        - Zierpflanzenbetrieb Hessen
+        - Zierpflanzenbetrieb Rheinland-Pfalz
+        - Zierpflanzenbetrieb Schleswig-Holstein
+        - Jungpflanzenbetrieb Bayern
+        - Jungpflanzenbetrieb Baden-Württemberg
+        - Jungpflanzenbetrieb Hessen
+        - Weihnachtsstern Gärtnerei Bayern
+        - Weihnachtsstern Gärtnerei Baden-Württemberg
+        - Weihnachtsstern Gärtnerei Niedersachsen
+        - Baumschule Familienbetrieb Bayern
+        - Baumschule Familienbetrieb Baden-Württemberg
+        - Baumschule Familienbetrieb Hessen
+        - Baumschule Familienbetrieb Niedersachsen
+        - Baumschule Familienbetrieb Rheinland-Pfalz
+        - Baumschule Betrieb Bayern
+        - Baumschule Betrieb Baden-Württemberg
+        - Baumschule Betrieb Hessen
+        
+        # === BLUMEN — wzorzec ~69-76% rate ===
+        - Blumenbetrieb Bayern
+        - Blumenbetrieb NRW
+        - Blumenbetrieb Baden-Württemberg
+        - Blumenbetrieb Niedersachsen
+        - Blumenbetrieb Hessen
+        - Blumenbetrieb Rheinland-Pfalz
+        - Blumenbetrieb Schleswig-Holstein
+        - Blumenhof Bayern
+        - Blumenhof NRW
+        - Blumenhof Baden-Württemberg
+        - Blumenhof Niedersachsen
+        - Blumenhof Hessen
+        - Schnittblumen Betrieb Bayern
+        - Schnittblumen Betrieb NRW
+        - Schnittblumen Betrieb Niedersachsen
+        - Schnittblumen Erzeuger Bayern
+        - Schnittblumen Erzeuger NRW
+        - Schnittblumen Erzeuger Niedersachsen
+        
+        # === HOPFEN/SPEZIALITÄTEN ===
+        - Hopfenbau Unternehmen Kontaktseite Bayern
+        - Hopfenbau Unternehmen Kontaktseite NRW
+        - Hopfenbau Bayern Kontakt
+        - Hopfenbau Niedersachsen Kontakt
+        - Salatfeld Kontakt Bayern
+        - Salatfeld Kontakt NRW
+        - Salatfeld Kontakt Niedersachsen
+        
+        # === RINDERHOF/TIERHALTUNG — wzorzec ~13% rate ale wysoka skala ===
+        - Rinderhof Bayern
+        - Rinderhof NRW
+        - Rinderhof Baden-Württemberg
+        - Rinderhof Hessen
+        - Rinderhof Schleswig-Holstein
+        - Geflügelhof Bayern
+        - Geflügelhof NRW
+        - Geflügelhof Niedersachsen
+        - Geflügelhof Baden-Württemberg
+        - Geflügelhof Hessen
+        - Schweinehof Bayern
+        - Schweinehof NRW
+        - Schweinehof Niedersachsen
+        - Pferdehof Bayern
+        - Pferdehof NRW
+        - Pferdehof Niedersachsen
+        - Pferdehof Baden-Württemberg
+        - Lammhof Bayern
+        - Lammhof NRW
+        - Lammhof Niedersachsen
+        - Schäferei Bayern
+        - Schäferei NRW
+        - Schäferei Niedersachsen
+        - Schäferei Baden-Württemberg
+        - Imkerei Bayern Kontakt
+        - Imkerei NRW Kontakt
+        - Imkerei Niedersachsen Kontakt
+        - Imkerei Baden-Württemberg Kontakt
+        - Imkerei Hessen Kontakt
+        
+        # === BIO/ÖKOLABEL ===
+        - Bioland Betrieb Bayern Kontakt
+        - Bioland Betrieb NRW Kontakt
+        - Bioland Betrieb Niedersachsen Kontakt
+        - Demeter Hof Bayern Kontakt
+        - Demeter Hof NRW Kontakt
+        - Demeter Hof Baden-Württemberg Kontakt
+        - Naturland Betrieb Bayern Kontakt
+        - Naturland Betrieb NRW Kontakt
+        - Naturland Betrieb Niedersachsen Kontakt
+        - Biogärtnerei Bayern Kontakt
+        - Biogärtnerei NRW Kontakt
+        - Biogärtnerei Niedersachsen Kontakt
+        - Biogärtnerei Baden-Württemberg Kontakt
+
 app:
   outreach:
     unsubscribe-base-url: ${UNSUBSCRIBE_BASE_URL:https://leadfarmfinder.onrender.com/unsubscribe/}
