@@ -40,3 +40,30 @@ aws:
   ses:
     region: eu-central-1
     configuration-set: leadfarmfinder-test
+
+app:
+  admin-token: local-dev-token
+  outreach:
+    unsubscribe-base-url: "http://localhost:8080/unsubscribe/"
+
+openai:
+  api-key: dummy
+  base-url: https://api.openai.com/v1
+  model: gpt-4.1-mini
+
+serpapi:
+  api-key: dummy
+  base-url: https://serpapi.com/search
+  default-country: de
+  default-language: de
+  default-engine: google
+
+directory:
+  enabled: false
+  max-urls-per-run: 1
+
+hofladenfinder:
+  base-url: https://www.hofladenfinder.org/farmshop/search
+  max-pages-per-product: 1
+  products:
+    - spargel
