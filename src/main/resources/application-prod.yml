@@ -164,7 +164,6 @@ leadfinder:
       - Zierpflanzenbetrieb Baden-Württemberg
       - Jungpflanzenbetrieb Bayern
       - Jungpflanzenbetrieb NRW
-
       # Gewächshaus — wysoki rate
       - Gemüsebau Gewächshaus Bayern
       - Gemüsebau Gewächshaus NRW
@@ -176,7 +175,6 @@ leadfinder:
       - Tomaten Gewächshaus Betrieb Niedersachsen
       - Tomaten Gewächshaus Betrieb Bayern
       - Tomaten Gewächshaus Betrieb NRW
-
       # Pilze — wysoki rate
       - Pilzzuchtbetrieb Bayern
       - Pilzzuchtbetrieb Niedersachsen
@@ -186,7 +184,6 @@ leadfinder:
       - Champignonfarm Bayern
       - Champignonfarm NRW
       - Champignonfarm Baden-Württemberg
-
       # Wzorzec "Hof Kontakt" — 43% rate, rozszerzenie
       - Bauernhof Kontakt Niedersachsen
       - Bauernhof Kontakt Bayern
@@ -199,7 +196,6 @@ leadfinder:
       - Spargelhof Kontakt Niedersachsen
       - Obsthof Kontakt Bayern
       - Obsthof Kontakt NRW
-
       # Baumschule — wysoki rate
       - Baumschule Familienbetrieb Bayern
       - Baumschule Familienbetrieb Niedersachsen
@@ -207,7 +203,6 @@ leadfinder:
       - Baumschule Familienbetrieb Hessen
       - Baumschule Betrieb Bayern
       - Baumschule Betrieb NRW
-
       # Blumen — 69% rate to najlepszy w całej bazie
       - Blumenbetrieb Bayern
       - Blumenbetrieb NRW
@@ -217,7 +212,6 @@ leadfinder:
       - Blumenhof Bayern
       - Blumenhof NRW
       - Blumenhof Niedersachsen
-
       # Rinderhof/Tierhaltung
       - Rinderhof Bayern
       - Rinderhof NRW
@@ -227,306 +221,279 @@ leadfinder:
       - Geflügelhof Bayern
       - Geflügelhof NRW
       - Geflügelhof Niedersachsen
-        # 200 nowych queries — wzorowane na top performers z discovery_run_stats
-        # Wzorce które działają najlepiej:
-        # - "[produkt] Direktverkauf" (rate 75-90%)
-        # - "[produkt] Betrieb Impressum E-Mail" (rate 80-92%)
-        # - "[typ] Kontakt/Kontaktinformation" (rate 70-85%)
-        # - "Gewächshaus [kontekst]" (rate 72-80%)
-        # - "Gärtnerei [region]" (rate 24-35%)
-        
-        # === DIREKTVERKAUF — wzorzec ~80% rate ===
-        - Spinat Direktverkauf Bayern
-        - Spinat Direktverkauf NRW
-        - Spinat Direktverkauf Baden-Württemberg
-        - Brokkoli Direktverkauf Bayern
-        - Brokkoli Direktverkauf NRW
-        - Brokkoli Direktverkauf Niedersachsen
-        - Paprika Direktverkauf Bayern
-        - Paprika Direktverkauf NRW
-        - Paprika Direktverkauf Baden-Württemberg
-        - Möhren Direktverkauf Bayern
-        - Möhren Direktverkauf NRW
-        - Möhren Direktverkauf Niedersachsen
-        - Möhren Direktverkauf Baden-Württemberg
-        - Lauch Direktverkauf Bayern
-        - Lauch Direktverkauf NRW
-        - Lauch Direktverkauf Niedersachsen
-        - Zwiebel Direktverkauf Bayern
-        - Zwiebel Direktverkauf NRW
-        - Zwiebel Direktverkauf Niedersachsen
-        - Zwiebel Direktverkauf Baden-Württemberg
-        - Birnen Direktverkauf Bayern
-        - Birnen Direktverkauf NRW
-        - Birnen Direktverkauf Baden-Württemberg
-        - Birnen Direktverkauf Niedersachsen
-        - Pflaumen Direktverkauf Bayern
-        - Pflaumen Direktverkauf NRW
-        - Pflaumen Direktverkauf Baden-Württemberg
-        - Blumenkohl Direktverkauf Bayern
-        - Blumenkohl Direktverkauf NRW
-        - Blumenkohl Direktverkauf Niedersachsen
-        - Schnittblumen Direktverkauf Bayern
-        - Schnittblumen Direktverkauf NRW
-        - Schnittblumen Direktverkauf Baden-Württemberg
-        - Schnittblumen Direktverkauf Niedersachsen
-        - Schnittblumen Direktverkauf Hessen
-        - Salatfeld Direktverkauf Bayern
-        - Salatfeld Direktverkauf NRW
-        - Salatfeld Direktverkauf Niedersachsen
-        - Kopfsalat Direktverkauf Bayern
-        - Kopfsalat Direktverkauf NRW
-        - Kopfsalat Direktverkauf Niedersachsen
-        - Zucchini Direktverkauf Bayern
-        - Zucchini Direktverkauf NRW
-        - Zucchini Direktverkauf Baden-Württemberg
-        - Feldsalat Direktverkauf Bayern
-        - Feldsalat Direktverkauf NRW
-        - Feldsalat Direktverkauf Niedersachsen
-        - Porree Direktverkauf Bayern
-        - Porree Direktverkauf NRW
-        - Porree Direktverkauf Niedersachsen
-        
-        # === IMPRESSUM E-MAIL — wzorzec ~85-92% rate ===
-        - Kohl Betrieb Impressum E-Mail Bayern
-        - Kohl Betrieb Impressum E-Mail NRW
-        - Kohl Betrieb Impressum E-Mail Niedersachsen
-        - Blumen Erzeuger Impressum E-Mail Bayern
-        - Blumen Erzeuger Impressum E-Mail NRW
-        - Blumen Erzeuger Impressum E-Mail Baden-Württemberg
-        - Kirschhof Impressum E-Mail Bayern
-        - Kirschhof Impressum E-Mail NRW
-        - Kirschhof Impressum E-Mail Baden-Württemberg
-        - Pflaumenhof Impressum E-Mail Bayern
-        - Pflaumenhof Impressum E-Mail NRW
-        - Pflaumenhof Impressum E-Mail Baden-Württemberg
-        - Pferdehof Impressum E-Mail Bayern
-        - Pferdehof Impressum E-Mail NRW
-        - Pferdehof Impressum E-Mail Niedersachsen
-        - Pferdehof Impressum E-Mail Baden-Württemberg
-        - Lauch Betrieb Impressum E-Mail Bayern
-        - Lauch Betrieb Impressum E-Mail NRW
-        - Lauch Betrieb Impressum E-Mail Niedersachsen
-        - Kirsch Betrieb Impressum Bayern
-        - Kirsch Betrieb Impressum NRW
-        - Kirsch Betrieb Impressum Niedersachsen
-        - Gemüsehof Impressum E-Mail Bayern
-        - Gemüsehof Impressum E-Mail NRW
-        - Gemüsehof Impressum E-Mail Niedersachsen
-        - Obsthof Impressum E-Mail Bayern
-        - Obsthof Impressum E-Mail NRW
-        - Obsthof Impressum E-Mail Baden-Württemberg
-        - Spargelhof Impressum E-Mail Bayern
-        - Spargelhof Impressum E-Mail NRW
-        - Spargelhof Impressum E-Mail Niedersachsen
-        - Erdbeerfeld Impressum E-Mail Bayern
-        - Erdbeerfeld Impressum E-Mail NRW
-        - Erdbeerfeld Impressum E-Mail Niedersachsen
-        - Biohof Impressum E-Mail Bayern
-        - Biohof Impressum E-Mail NRW
-        - Biohof Impressum E-Mail Niedersachsen
-        - Biohof Impressum E-Mail Baden-Württemberg
-        
-        # === KONTAKT/KONTAKTINFORMATION — wzorzec ~75-81% rate ===
-        - Kirschhof Kontakt Bayern
-        - Kirschhof Kontakt NRW
-        - Kirschhof Kontakt Baden-Württemberg
-        - Kirschhof Kontakt Niedersachsen
-        - Birnenhof Kontakt Bayern
-        - Birnenhof Kontakt NRW
-        - Birnenhof Kontakt Baden-Württemberg
-        - Pflaumenhof Kontakt Bayern
-        - Pflaumenhof Kontakt NRW
-        - Pflaumenhof Kontakt Baden-Württemberg
-        - Heidelbeerhof Kontakt Bayern
-        - Heidelbeerhof Kontakt NRW
-        - Heidelbeerhof Kontakt Niedersachsen
-        - Heidelbeerhof Kontaktinformationen Bayern
-        - Heidelbeerhof Kontaktinformationen NRW
-        - Kartoffel Anbieter Kontaktinformation Bayern
-        - Kartoffel Anbieter Kontaktinformation NRW
-        - Kartoffel Anbieter Kontaktinformation Niedersachsen
-        - Speisepilz Anbieter Kontakt Bayern
-        - Speisepilz Anbieter Kontakt NRW
-        - Speisepilz Anbieter Kontakt Niedersachsen
-        - Blumenhof Kontaktinformation Bayern
-        - Blumenhof Kontaktinformation NRW
-        - Blumenhof Kontaktinformation Niedersachsen
-        - Blumenhof Direktvermarktung Kontakt Bayern
-        - Blumenhof Direktvermarktung Kontakt NRW
-        - Erdbeer Anbieter Kontaktseite Bayern
-        - Erdbeer Anbieter Kontaktseite NRW
-        - Erdbeer Anbieter Kontaktseite Niedersachsen
-        - Bauernhof Inhaber Kontaktinformation Bayern
-        - Bauernhof Inhaber Kontaktinformation NRW
-        - Bauernhof Inhaber Kontaktinformation Niedersachsen
-        - Landwirtschaftlicher Hof Unternehmensadresse Bayern
-        - Landwirtschaftlicher Hof Unternehmensadresse NRW
-        - Landwirtschaftlicher Hof Unternehmensadresse Niedersachsen
-        - Schnittblumen Direktverkauf Kontakt Bayern
-        - Schnittblumen Direktverkauf Kontakt NRW
-        - Schnittblumen Direktverkauf Kontakt Baden-Württemberg
-        
-        # === GEWÄCHSHAUS — wzorzec ~72-80% rate ===
-        - Gewächshaus Kontaktformular Bayern
-        - Gewächshaus Kontaktformular NRW
-        - Gewächshaus Kontaktformular Niedersachsen
-        - Gewächshaus Betrieb Kontaktinformation Bayern
-        - Gewächshaus Betrieb Kontaktinformation NRW
-        - Gewächshaus Betrieb Kontaktinformation Baden-Württemberg
-        - Gewächshaus Verwaltung E-Mail Bayern
-        - Gewächshaus Verwaltung E-Mail NRW
-        - Gewächshaus Verwaltung E-Mail Niedersachsen
-        - Hydroponik Gewächshaus Kontakt Bayern
-        - Hydroponik Gewächshaus Kontakt NRW
-        - Hydroponik Gewächshaus Kontakt Baden-Württemberg
-        - Tomaten Gewächshaus Kontakt Bayern
-        - Tomaten Gewächshaus Kontakt NRW
-        - Tomaten Gewächshaus Kontakt Baden-Württemberg
-        - Gurken Gewächshaus Kontakt Bayern
-        - Gurken Gewächshaus Kontakt NRW
-        - Gurken Gewächshaus Kontakt Niedersachsen
-        - Paprika Gewächshaus Bayern
-        - Paprika Gewächshaus NRW
-        - Salat Gewächshaus Betrieb Bayern
-        - Salat Gewächshaus Betrieb NRW
-        - Kräuter Gewächshaus Bayern
-        - Kräuter Gewächshaus Baden-Württemberg
-        - Kräuter Gewächshaus Niedersachsen
-        
-        # === PILZE — wzorzec ~83-88% rate ===
-        - Pilzzucht Anbieter Kontaktinformation Bayern
-        - Pilzzucht Anbieter Kontaktinformation NRW
-        - Pilzzucht Anbieter Kontaktinformation Baden-Württemberg
-        - Pilzzucht Anbieter Firmenadresse Bayern
-        - Pilzzucht Anbieter Firmenadresse NRW
-        - Pilzzucht Anbieter Firmenadresse Niedersachsen
-        - Pilzfarm Unternehmensadresse Bayern
-        - Pilzfarm Unternehmensadresse NRW
-        - Pilzfarm Unternehmensadresse Niedersachsen
-        - Pilzfarm Unternehmensadresse Baden-Württemberg
-        - Speisepilze Betrieb Bayern
-        - Speisepilze Betrieb Baden-Württemberg
-        - Speisepilze Betrieb Hessen
-        - Champignonfarm Baden-Württemberg
-        - Champignonfarm Hessen
-        - Champignonfarm Rheinland-Pfalz
-        
-        # === GÄRTNEREI — wzorzec ~24-35% rate ale ogromna liczba ===
-        - Gärtnerei Familienbetrieb Bayern
-        - Gärtnerei Familienbetrieb Baden-Württemberg
-        - Gärtnerei Familienbetrieb Hessen
-        - Gärtnerei Familienbetrieb Rheinland-Pfalz
-        - Gärtnerei Familienbetrieb Schleswig-Holstein
-        - Gärtnerei Familienbetrieb Sachsen
-        - Gärtnerei Familienbetrieb Thüringen
-        - Gärtnerei Betrieb Bayern
-        - Gärtnerei Betrieb Baden-Württemberg
-        - Gärtnerei Betrieb Hessen
-        - Gärtnerei Betrieb Rheinland-Pfalz
-        - Topfpflanzen Gärtnerei Bayern
-        - Topfpflanzen Gärtnerei Baden-Württemberg
-        - Topfpflanzen Gärtnerei Hessen
-        - Topfpflanzen Gärtnerei Rheinland-Pfalz
-        - Topfpflanzen Gärtnerei Schleswig-Holstein
-        - Staudenbetrieb Gärtnerei Bayern
-        - Staudenbetrieb Gärtnerei Baden-Württemberg
-        - Staudenbetrieb Gärtnerei Hessen
-        - Staudenbetrieb Gärtnerei Rheinland-Pfalz
-        - Zierpflanzenbetrieb Bayern
-        - Zierpflanzenbetrieb Baden-Württemberg
-        - Zierpflanzenbetrieb Hessen
-        - Zierpflanzenbetrieb Rheinland-Pfalz
-        - Zierpflanzenbetrieb Schleswig-Holstein
-        - Jungpflanzenbetrieb Bayern
-        - Jungpflanzenbetrieb Baden-Württemberg
-        - Jungpflanzenbetrieb Hessen
-        - Weihnachtsstern Gärtnerei Bayern
-        - Weihnachtsstern Gärtnerei Baden-Württemberg
-        - Weihnachtsstern Gärtnerei Niedersachsen
-        - Baumschule Familienbetrieb Bayern
-        - Baumschule Familienbetrieb Baden-Württemberg
-        - Baumschule Familienbetrieb Hessen
-        - Baumschule Familienbetrieb Niedersachsen
-        - Baumschule Familienbetrieb Rheinland-Pfalz
-        - Baumschule Betrieb Bayern
-        - Baumschule Betrieb Baden-Württemberg
-        - Baumschule Betrieb Hessen
-        
-        # === BLUMEN — wzorzec ~69-76% rate ===
-        - Blumenbetrieb Bayern
-        - Blumenbetrieb NRW
-        - Blumenbetrieb Baden-Württemberg
-        - Blumenbetrieb Niedersachsen
-        - Blumenbetrieb Hessen
-        - Blumenbetrieb Rheinland-Pfalz
-        - Blumenbetrieb Schleswig-Holstein
-        - Blumenhof Bayern
-        - Blumenhof NRW
-        - Blumenhof Baden-Württemberg
-        - Blumenhof Niedersachsen
-        - Blumenhof Hessen
-        - Schnittblumen Betrieb Bayern
-        - Schnittblumen Betrieb NRW
-        - Schnittblumen Betrieb Niedersachsen
-        - Schnittblumen Erzeuger Bayern
-        - Schnittblumen Erzeuger NRW
-        - Schnittblumen Erzeuger Niedersachsen
-        
-        # === HOPFEN/SPEZIALITÄTEN ===
-        - Hopfenbau Unternehmen Kontaktseite Bayern
-        - Hopfenbau Unternehmen Kontaktseite NRW
-        - Hopfenbau Bayern Kontakt
-        - Hopfenbau Niedersachsen Kontakt
-        - Salatfeld Kontakt Bayern
-        - Salatfeld Kontakt NRW
-        - Salatfeld Kontakt Niedersachsen
-        
-        # === RINDERHOF/TIERHALTUNG — wzorzec ~13% rate ale wysoka skala ===
-        - Rinderhof Bayern
-        - Rinderhof NRW
-        - Rinderhof Baden-Württemberg
-        - Rinderhof Hessen
-        - Rinderhof Schleswig-Holstein
-        - Geflügelhof Bayern
-        - Geflügelhof NRW
-        - Geflügelhof Niedersachsen
-        - Geflügelhof Baden-Württemberg
-        - Geflügelhof Hessen
-        - Schweinehof Bayern
-        - Schweinehof NRW
-        - Schweinehof Niedersachsen
-        - Pferdehof Bayern
-        - Pferdehof NRW
-        - Pferdehof Niedersachsen
-        - Pferdehof Baden-Württemberg
-        - Lammhof Bayern
-        - Lammhof NRW
-        - Lammhof Niedersachsen
-        - Schäferei Bayern
-        - Schäferei NRW
-        - Schäferei Niedersachsen
-        - Schäferei Baden-Württemberg
-        - Imkerei Bayern Kontakt
-        - Imkerei NRW Kontakt
-        - Imkerei Niedersachsen Kontakt
-        - Imkerei Baden-Württemberg Kontakt
-        - Imkerei Hessen Kontakt
-        
-        # === BIO/ÖKOLABEL ===
-        - Bioland Betrieb Bayern Kontakt
-        - Bioland Betrieb NRW Kontakt
-        - Bioland Betrieb Niedersachsen Kontakt
-        - Demeter Hof Bayern Kontakt
-        - Demeter Hof NRW Kontakt
-        - Demeter Hof Baden-Württemberg Kontakt
-        - Naturland Betrieb Bayern Kontakt
-        - Naturland Betrieb NRW Kontakt
-        - Naturland Betrieb Niedersachsen Kontakt
-        - Biogärtnerei Bayern Kontakt
-        - Biogärtnerei NRW Kontakt
-        - Biogärtnerei Niedersachsen Kontakt
-        - Biogärtnerei Baden-Württemberg Kontakt
+      - Spinat Direktverkauf Bayern
+      - Spinat Direktverkauf NRW
+      - Spinat Direktverkauf Baden-Württemberg
+      - Brokkoli Direktverkauf Bayern
+      - Brokkoli Direktverkauf NRW
+      - Brokkoli Direktverkauf Niedersachsen
+      - Paprika Direktverkauf Bayern
+      - Paprika Direktverkauf NRW
+      - Paprika Direktverkauf Baden-Württemberg
+      - Möhren Direktverkauf Bayern
+      - Möhren Direktverkauf NRW
+      - Möhren Direktverkauf Niedersachsen
+      - Möhren Direktverkauf Baden-Württemberg
+      - Lauch Direktverkauf Bayern
+      - Lauch Direktverkauf NRW
+      - Lauch Direktverkauf Niedersachsen
+      - Zwiebel Direktverkauf Bayern
+      - Zwiebel Direktverkauf NRW
+      - Zwiebel Direktverkauf Niedersachsen
+      - Zwiebel Direktverkauf Baden-Württemberg
+      - Birnen Direktverkauf Bayern
+      - Birnen Direktverkauf NRW
+      - Birnen Direktverkauf Baden-Württemberg
+      - Birnen Direktverkauf Niedersachsen
+      - Pflaumen Direktverkauf Bayern
+      - Pflaumen Direktverkauf NRW
+      - Pflaumen Direktverkauf Baden-Württemberg
+      - Blumenkohl Direktverkauf Bayern
+      - Blumenkohl Direktverkauf NRW
+      - Blumenkohl Direktverkauf Niedersachsen
+      - Schnittblumen Direktverkauf Bayern
+      - Schnittblumen Direktverkauf NRW
+      - Schnittblumen Direktverkauf Baden-Württemberg
+      - Schnittblumen Direktverkauf Niedersachsen
+      - Schnittblumen Direktverkauf Hessen
+      - Salatfeld Direktverkauf Bayern
+      - Salatfeld Direktverkauf NRW
+      - Salatfeld Direktverkauf Niedersachsen
+      - Kopfsalat Direktverkauf Bayern
+      - Kopfsalat Direktverkauf NRW
+      - Kopfsalat Direktverkauf Niedersachsen
+      - Zucchini Direktverkauf Bayern
+      - Zucchini Direktverkauf NRW
+      - Zucchini Direktverkauf Baden-Württemberg
+      - Feldsalat Direktverkauf Bayern
+      - Feldsalat Direktverkauf NRW
+      - Feldsalat Direktverkauf Niedersachsen
+      - Porree Direktverkauf Bayern
+      - Porree Direktverkauf NRW
+      - Porree Direktverkauf Niedersachsen
+      - Kohl Betrieb Impressum E-Mail Bayern
+      - Kohl Betrieb Impressum E-Mail NRW
+      - Kohl Betrieb Impressum E-Mail Niedersachsen
+      - Blumen Erzeuger Impressum E-Mail Bayern
+      - Blumen Erzeuger Impressum E-Mail NRW
+      - Blumen Erzeuger Impressum E-Mail Baden-Württemberg
+      - Kirschhof Impressum E-Mail Bayern
+      - Kirschhof Impressum E-Mail NRW
+      - Kirschhof Impressum E-Mail Baden-Württemberg
+      - Pflaumenhof Impressum E-Mail Bayern
+      - Pflaumenhof Impressum E-Mail NRW
+      - Pflaumenhof Impressum E-Mail Baden-Württemberg
+      - Pferdehof Impressum E-Mail Bayern
+      - Pferdehof Impressum E-Mail NRW
+      - Pferdehof Impressum E-Mail Niedersachsen
+      - Pferdehof Impressum E-Mail Baden-Württemberg
+      - Lauch Betrieb Impressum E-Mail Bayern
+      - Lauch Betrieb Impressum E-Mail NRW
+      - Lauch Betrieb Impressum E-Mail Niedersachsen
+      - Kirsch Betrieb Impressum Bayern
+      - Kirsch Betrieb Impressum NRW
+      - Kirsch Betrieb Impressum Niedersachsen
+      - Gemüsehof Impressum E-Mail Bayern
+      - Gemüsehof Impressum E-Mail NRW
+      - Gemüsehof Impressum E-Mail Niedersachsen
+      - Obsthof Impressum E-Mail Bayern
+      - Obsthof Impressum E-Mail NRW
+      - Obsthof Impressum E-Mail Baden-Württemberg
+      - Spargelhof Impressum E-Mail Bayern
+      - Spargelhof Impressum E-Mail NRW
+      - Spargelhof Impressum E-Mail Niedersachsen
+      - Erdbeerfeld Impressum E-Mail Bayern
+      - Erdbeerfeld Impressum E-Mail NRW
+      - Erdbeerfeld Impressum E-Mail Niedersachsen
+      - Biohof Impressum E-Mail Bayern
+      - Biohof Impressum E-Mail NRW
+      - Biohof Impressum E-Mail Niedersachsen
+      - Biohof Impressum E-Mail Baden-Württemberg
+      - Kirschhof Kontakt Bayern
+      - Kirschhof Kontakt NRW
+      - Kirschhof Kontakt Baden-Württemberg
+      - Kirschhof Kontakt Niedersachsen
+      - Birnenhof Kontakt Bayern
+      - Birnenhof Kontakt NRW
+      - Birnenhof Kontakt Baden-Württemberg
+      - Pflaumenhof Kontakt Bayern
+      - Pflaumenhof Kontakt NRW
+      - Pflaumenhof Kontakt Baden-Württemberg
+      - Heidelbeerhof Kontakt Bayern
+      - Heidelbeerhof Kontakt NRW
+      - Heidelbeerhof Kontakt Niedersachsen
+      - Heidelbeerhof Kontaktinformationen Bayern
+      - Heidelbeerhof Kontaktinformationen NRW
+      - Kartoffel Anbieter Kontaktinformation Bayern
+      - Kartoffel Anbieter Kontaktinformation NRW
+      - Kartoffel Anbieter Kontaktinformation Niedersachsen
+      - Speisepilz Anbieter Kontakt Bayern
+      - Speisepilz Anbieter Kontakt NRW
+      - Speisepilz Anbieter Kontakt Niedersachsen
+      - Blumenhof Kontaktinformation Bayern
+      - Blumenhof Kontaktinformation NRW
+      - Blumenhof Kontaktinformation Niedersachsen
+      - Blumenhof Direktvermarktung Kontakt Bayern
+      - Blumenhof Direktvermarktung Kontakt NRW
+      - Erdbeer Anbieter Kontaktseite Bayern
+      - Erdbeer Anbieter Kontaktseite NRW
+      - Erdbeer Anbieter Kontaktseite Niedersachsen
+      - Bauernhof Inhaber Kontaktinformation Bayern
+      - Bauernhof Inhaber Kontaktinformation NRW
+      - Bauernhof Inhaber Kontaktinformation Niedersachsen
+      - Landwirtschaftlicher Hof Unternehmensadresse Bayern
+      - Landwirtschaftlicher Hof Unternehmensadresse NRW
+      - Landwirtschaftlicher Hof Unternehmensadresse Niedersachsen
+      - Schnittblumen Direktverkauf Kontakt Bayern
+      - Schnittblumen Direktverkauf Kontakt NRW
+      - Schnittblumen Direktverkauf Kontakt Baden-Württemberg
+      - Gewächshaus Kontaktformular Bayern
+      - Gewächshaus Kontaktformular NRW
+      - Gewächshaus Kontaktformular Niedersachsen
+      - Gewächshaus Betrieb Kontaktinformation Bayern
+      - Gewächshaus Betrieb Kontaktinformation NRW
+      - Gewächshaus Betrieb Kontaktinformation Baden-Württemberg
+      - Gewächshaus Verwaltung E-Mail Bayern
+      - Gewächshaus Verwaltung E-Mail NRW
+      - Gewächshaus Verwaltung E-Mail Niedersachsen
+      - Hydroponik Gewächshaus Kontakt Bayern
+      - Hydroponik Gewächshaus Kontakt NRW
+      - Hydroponik Gewächshaus Kontakt Baden-Württemberg
+      - Tomaten Gewächshaus Kontakt Bayern
+      - Tomaten Gewächshaus Kontakt NRW
+      - Tomaten Gewächshaus Kontakt Baden-Württemberg
+      - Gurken Gewächshaus Kontakt Bayern
+      - Gurken Gewächshaus Kontakt NRW
+      - Gurken Gewächshaus Kontakt Niedersachsen
+      - Paprika Gewächshaus Bayern
+      - Paprika Gewächshaus NRW
+      - Salat Gewächshaus Betrieb Bayern
+      - Salat Gewächshaus Betrieb NRW
+      - Kräuter Gewächshaus Bayern
+      - Kräuter Gewächshaus Baden-Württemberg
+      - Kräuter Gewächshaus Niedersachsen
+      - Pilzzucht Anbieter Kontaktinformation Bayern
+      - Pilzzucht Anbieter Kontaktinformation NRW
+      - Pilzzucht Anbieter Kontaktinformation Baden-Württemberg
+      - Pilzzucht Anbieter Firmenadresse Bayern
+      - Pilzzucht Anbieter Firmenadresse NRW
+      - Pilzzucht Anbieter Firmenadresse Niedersachsen
+      - Pilzfarm Unternehmensadresse Bayern
+      - Pilzfarm Unternehmensadresse NRW
+      - Pilzfarm Unternehmensadresse Niedersachsen
+      - Pilzfarm Unternehmensadresse Baden-Württemberg
+      - Speisepilze Betrieb Bayern
+      - Speisepilze Betrieb Baden-Württemberg
+      - Speisepilze Betrieb Hessen
+      - Champignonfarm Baden-Württemberg
+      - Champignonfarm Hessen
+      - Champignonfarm Rheinland-Pfalz
+      - Gärtnerei Familienbetrieb Bayern
+      - Gärtnerei Familienbetrieb Baden-Württemberg
+      - Gärtnerei Familienbetrieb Hessen
+      - Gärtnerei Familienbetrieb Rheinland-Pfalz
+      - Gärtnerei Familienbetrieb Schleswig-Holstein
+      - Gärtnerei Familienbetrieb Sachsen
+      - Gärtnerei Familienbetrieb Thüringen
+      - Gärtnerei Betrieb Bayern
+      - Gärtnerei Betrieb Baden-Württemberg
+      - Gärtnerei Betrieb Hessen
+      - Gärtnerei Betrieb Rheinland-Pfalz
+      - Topfpflanzen Gärtnerei Bayern
+      - Topfpflanzen Gärtnerei Baden-Württemberg
+      - Topfpflanzen Gärtnerei Hessen
+      - Topfpflanzen Gärtnerei Rheinland-Pfalz
+      - Topfpflanzen Gärtnerei Schleswig-Holstein
+      - Staudenbetrieb Gärtnerei Bayern
+      - Staudenbetrieb Gärtnerei Baden-Württemberg
+      - Staudenbetrieb Gärtnerei Hessen
+      - Staudenbetrieb Gärtnerei Rheinland-Pfalz
+      - Zierpflanzenbetrieb Bayern
+      - Zierpflanzenbetrieb Baden-Württemberg
+      - Zierpflanzenbetrieb Hessen
+      - Zierpflanzenbetrieb Rheinland-Pfalz
+      - Zierpflanzenbetrieb Schleswig-Holstein
+      - Jungpflanzenbetrieb Bayern
+      - Jungpflanzenbetrieb Baden-Württemberg
+      - Jungpflanzenbetrieb Hessen
+      - Weihnachtsstern Gärtnerei Bayern
+      - Weihnachtsstern Gärtnerei Baden-Württemberg
+      - Weihnachtsstern Gärtnerei Niedersachsen
+      - Baumschule Familienbetrieb Bayern
+      - Baumschule Familienbetrieb Baden-Württemberg
+      - Baumschule Familienbetrieb Hessen
+      - Baumschule Familienbetrieb Niedersachsen
+      - Baumschule Familienbetrieb Rheinland-Pfalz
+      - Baumschule Betrieb Bayern
+      - Baumschule Betrieb Baden-Württemberg
+      - Baumschule Betrieb Hessen
+      - Blumenbetrieb Bayern
+      - Blumenbetrieb NRW
+      - Blumenbetrieb Baden-Württemberg
+      - Blumenbetrieb Niedersachsen
+      - Blumenbetrieb Hessen
+      - Blumenbetrieb Rheinland-Pfalz
+      - Blumenbetrieb Schleswig-Holstein
+      - Blumenhof Bayern
+      - Blumenhof NRW
+      - Blumenhof Baden-Württemberg
+      - Blumenhof Niedersachsen
+      - Blumenhof Hessen
+      - Schnittblumen Betrieb Bayern
+      - Schnittblumen Betrieb NRW
+      - Schnittblumen Betrieb Niedersachsen
+      - Schnittblumen Erzeuger Bayern
+      - Schnittblumen Erzeuger NRW
+      - Schnittblumen Erzeuger Niedersachsen
+      - Hopfenbau Unternehmen Kontaktseite Bayern
+      - Hopfenbau Unternehmen Kontaktseite NRW
+      - Hopfenbau Bayern Kontakt
+      - Hopfenbau Niedersachsen Kontakt
+      - Salatfeld Kontakt Bayern
+      - Salatfeld Kontakt NRW
+      - Salatfeld Kontakt Niedersachsen
+      - Rinderhof Bayern
+      - Rinderhof NRW
+      - Rinderhof Baden-Württemberg
+      - Rinderhof Hessen
+      - Rinderhof Schleswig-Holstein
+      - Geflügelhof Bayern
+      - Geflügelhof NRW
+      - Geflügelhof Niedersachsen
+      - Geflügelhof Baden-Württemberg
+      - Geflügelhof Hessen
+      - Schweinehof Bayern
+      - Schweinehof NRW
+      - Schweinehof Niedersachsen
+      - Pferdehof Bayern
+      - Pferdehof NRW
+      - Pferdehof Niedersachsen
+      - Pferdehof Baden-Württemberg
+      - Lammhof Bayern
+      - Lammhof NRW
+      - Lammhof Niedersachsen
+      - Schäferei Bayern
+      - Schäferei NRW
+      - Schäferei Niedersachsen
+      - Schäferei Baden-Württemberg
+      - Imkerei Bayern Kontakt
+      - Imkerei NRW Kontakt
+      - Imkerei Niedersachsen Kontakt
+      - Imkerei Baden-Württemberg Kontakt
+      - Imkerei Hessen Kontakt
+      - Bioland Betrieb Bayern Kontakt
+      - Bioland Betrieb NRW Kontakt
+      - Bioland Betrieb Niedersachsen Kontakt
+      - Demeter Hof Bayern Kontakt
+      - Demeter Hof NRW Kontakt
+      - Demeter Hof Baden-Württemberg Kontakt
+      - Naturland Betrieb Bayern Kontakt
+      - Naturland Betrieb NRW Kontakt
+      - Naturland Betrieb Niedersachsen Kontakt
+      - Biogärtnerei Bayern Kontakt
+      - Biogärtnerei NRW Kontakt
+      - Biogärtnerei Niedersachsen Kontakt
+      - Biogärtnerei Baden-Württemberg Kontakt
 
 app:
   outreach:
