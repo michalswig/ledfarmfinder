@@ -518,11 +518,22 @@ logging:
     com.mike.leadfarmfinder.bootstrap: INFO
 
 directory:
-  enabled: false
-  max-urls-per-run: 1
+  enabled: ${DIRECTORY_ENABLED:false}
+  max-urls-per-run: ${DIRECTORY_MAX-URLS-PER-RUN:200}
 
 hofladenfinder:
   base-url: https://www.hofladenfinder.org/farmshop/search
-  max-pages-per-product: 1
+  max-pages-per-product: 200
   products:
     - spargel
+    - erdbeeren
+    - kartoffeln
+    - tomaten
+    - gurken
+    - blumen
+    - gemüse
+    - obst
+    - kräuter
+    - kürbis
+    - zwiebeln
+    - möhren
