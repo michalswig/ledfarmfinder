@@ -18,7 +18,7 @@ public class DirectoryCronJob {
     private final DirectoryCrawlerService crawlerService;
     private final DirectoryProperties directoryProperties;
 
-    @Scheduled(cron = "${directory.cron:0 0 4 * * WED}")
+    @Scheduled(cron = "${directory.cron:0 0 4 * * *}")
     public void run() {
         if (!directoryProperties.enabled()) {
             log.info("DirectoryCronJob: disabled, skipping");
