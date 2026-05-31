@@ -60,7 +60,7 @@ public class OpenAiFarmClassifier {
                   }
                 
                 ADDITIONAL STRICT RULES – TOURISM / HOLIDAY FARMS:
-                - If the main focus of the website is tourism, holiday stays or accommodation 
+                - If the main focus of the website is tourism, holiday stays or accommodation
                   (for example: "Urlaub auf dem Bauernhof", "Ferienhof", "Ferienwohnungen",
                   "Ferienzimmer", "Ferienhaus", "Pension", "Camping", "Glamping", "Wellnesshof",
                   "Bauernhofurlaub") you MUST treat it as NOT a farm for this system.
@@ -75,6 +75,14 @@ public class OpenAiFarmClassifier {
                   or intermediary that recruits seasonal workers for MANY farms
                   (e.g. "Zeitarbeit", "Personaldienstleister", "Personalvermittlung"),
                   you MUST answer "is_farm": false.
+                
+                ADDITIONAL STRICT RULES – CITY / GOVERNMENT WEBSITES:
+                - If the page text contains words typical of city or municipal websites
+                  such as "Stadtverwaltung", "Bürgermeister", "Stadtrat", "Einwohner",
+                  "Stadtgebiet", "kommunal", "Gemeinderat", "Ortschaft", "Stadtwerke",
+                  "Kreistag", "Bürgerservice", "Verwaltungsportal",
+                  you MUST answer:
+                  "is_farm": false, "reason": "city-government-website".
                 
                 POSITIVE RULES (WHEN TO RETURN is_farm = true):
                 - Return "is_farm": true if the website clearly represents ONE specific
@@ -163,6 +171,7 @@ public class OpenAiFarmClassifier {
                 - "holiday-farm-focused-on-tourism"
                 - "job-portal-or-social-network"
                 - "staffing-agency-not-a-farm"
+                - "city-government-website"
                 - "no-clear-sign-of-farm"
                 
                 "main_contact_url" should be:
