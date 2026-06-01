@@ -126,8 +126,16 @@ public class FarmScraperService {
                                               Set<FarmLead> newFarmLeads) {
 
         boolean anyPageFetchedOk = false;
+        int emailsFoundThisDomain = 0;
+        final int MAX_EMAILS_PER_DOMAIN = 3;
 
         for (String url : urlsToScrape) {
+
+            if (emailsFoundThisDomain >= MAX_EMAILS_PER_DOMAIN) {
+                log.debug("FarmScraperService: max emails per domain reached, stopping (domain={})",
+                        extractBaseDomainFromUrl(resolvedStartUrl));
+                break;
+            }
 
             Document doc;
             try {
@@ -154,6 +162,12 @@ public class FarmScraperService {
             }
 
             for (String pageEmail : pageEmails) {
+                if (emailsFoundThisDomain >= MAX_EMAILS_PER_DOMAIN) {
+                    log.debug("FarmScraperService: max emails per domain reached mid-page (domain={})",
+                            extractBaseDomainFromUrl(resolvedStartUrl));
+                    break;
+                }
+
                 if (pageEmail == null) continue;
 
                 pageEmail = pageEmail.trim();
@@ -184,6 +198,7 @@ public class FarmScraperService {
 
                 knownEmails.add(lower);
                 newFarmLeads.add(farmLead);
+                emailsFoundThisDomain++;
             }
         }
 

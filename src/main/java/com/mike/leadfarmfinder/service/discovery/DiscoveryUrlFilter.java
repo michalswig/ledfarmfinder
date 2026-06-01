@@ -90,7 +90,21 @@ public class DiscoveryUrlFilter {
             "/einheit.php",
             "?dl=",
             "mam/cms",
-            "/fileadmin/"
+            "/fileadmin/",
+            // Strony urzędów miast — charakterystyczne ścieżki
+            "/rathaus/",
+            "/rathaus-",
+            "/stadtverwaltung/",
+            "/rathaus-politik/",
+            "/verwaltung/kontakt",
+            "/kontaktdaten",
+            "/kontakte-mitarb",
+            "/kontakte-mitarbeiter",
+            "/ansprechpartner",
+            "/custom-pages/impressum",
+            "/portal/seiten/",
+            "/desktopdefault.aspx",
+            "/wirtschaft/daten-und-kontakte/"
     );
 
     private static final List<String> HARD_NEGATIVE_KEYWORDS = List.of(
@@ -221,7 +235,14 @@ public class DiscoveryUrlFilter {
             "immowelt",
             "magazin",
             "tripadvisor",
-            "trustpilot"
+            "trustpilot",
+            "buergerbuero",
+            "bürgerbuero",
+            "stadtgut",
+            "wochenmarkt-",
+            "grossmarkt",
+            "stadtentwasser",
+            "stadtentwaesserung"
     );
 
     public boolean isAllowedDomain(String url) {

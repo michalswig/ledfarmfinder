@@ -28,7 +28,6 @@ public class DomainCrawler {
         try {
             crawl(startUrl, maxDepth, visited, result);
         } catch (IOException e) {
-            // w praktyce rzadko tu wejdziemy, bo w crawl() łapiemy soft-fail
             log.warn("Failed to crawl domain {}: {}", startUrl, e.toString());
         }
         return result;
@@ -41,14 +40,12 @@ public class DomainCrawler {
 
         if (maxDepth < 0) return;
 
-        // FIX C: visited po znormalizowanym URL (np. /kontakt vs /kontakt/)
         String normalizedVisitedKey = normalizeUrlForVisited(startUrl);
         if (normalizedVisitedKey == null || visited.contains(normalizedVisitedKey)) {
             return;
         }
         visited.add(normalizedVisitedKey);
 
-        // FIX B: dodaj do result ZANIM fetchujesz (żeby 404/timeout nie dawał pustego wyniku)
         result.add(startUrl);
 
         Document doc;
@@ -58,11 +55,11 @@ public class DomainCrawler {
                     .referrer(REFERRER)
                     .timeout(10_000)
                     .followRedirects(true)
-                    .ignoreHttpErrors(true) // FIX B: nie wywalaj wyjątku na 404/500, często i tak jest menu/linki
+                    .ignoreHttpErrors(true)
                     .get();
         } catch (Exception e) {
             log.warn("DomainCrawler: failed to fetch {} (depthLeft={}) reason={}", startUrl, maxDepth, e.toString());
-            return; // soft fail: wynik już ma startUrl
+            return;
         }
 
         if (maxDepth == 0) {
@@ -77,7 +74,6 @@ public class DomainCrawler {
 
             if (absUrl == null || absUrl.isBlank()) return;
 
-            // FIX A: nie porównuj host 1:1, tylko bazową domenę + subdomeny
             if (!isSameDomain(startUrl, absUrl)) return;
 
             boolean looksLikeContact = looksLikeContactLink(linkText, hrefLower);
@@ -98,6 +94,17 @@ public class DomainCrawler {
     }
 
     private boolean looksLikeContactLink(String linkTextLower, String hrefLower) {
+        // Wyklucz strony z listami pracowników urzędów
+        if (hrefLower.contains("mitarb")
+                || hrefLower.contains("mitarbeiter")
+                || hrefLower.contains("ansprechpartner")
+                || hrefLower.contains("team/")
+                || hrefLower.contains("rathaus")
+                || hrefLower.contains("stadtverwaltung")
+                || hrefLower.contains("kontaktdaten")) {
+            return false;
+        }
+
         return (linkTextLower.contains("kontakt")
                 || linkTextLower.contains("impressum")
                 || linkTextLower.contains("contact")
@@ -124,10 +131,8 @@ public class DomainCrawler {
 
             if (baseDomain == null || otherDomain == null) return false;
 
-            // to samo "secondLevel.tld"
             if (baseDomain.equalsIgnoreCase(otherDomain)) return true;
 
-            // subdomena tej samej bazy
             return otherHost.endsWith("." + baseDomain);
 
         } catch (Exception e) {
@@ -148,7 +153,6 @@ public class DomainCrawler {
         return parts[parts.length - 2] + "." + parts[parts.length - 1];
     }
 
-    // FIX C: normalizacja klucza dla visited
     private String normalizeUrlForVisited(String url) {
         if (url == null) return null;
         url = url.trim();

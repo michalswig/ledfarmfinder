@@ -77,12 +77,25 @@ public class OpenAiFarmClassifier {
                   you MUST answer "is_farm": false.
                 
                 ADDITIONAL STRICT RULES – CITY / GOVERNMENT WEBSITES:
-                - If the page text contains words typical of city or municipal websites
-                  such as "Stadtverwaltung", "Bürgermeister", "Stadtrat", "Einwohner",
-                  "Stadtgebiet", "kommunal", "Gemeinderat", "Ortschaft", "Stadtwerke",
-                  "Kreistag", "Bürgerservice", "Verwaltungsportal",
-                  you MUST answer:
-                  "is_farm": false, "reason": "city-government-website".
+                - If the URL domain looks like a German municipality — meaning the domain is a
+                  city or town name with NO farm/agriculture indicator in the domain itself
+                  (examples: manching.de, beckum.de, wolfsburg.de, mannheim.de, kevelaer.de,
+                  dietzenbach.de, buchholz.de, menden.de, or any <stadtname>.de pattern) —
+                  you MUST answer "is_farm": false, "reason": "city-government-website".
+                  Do NOT be fooled by snippets that mention Direktvermarktung or Landwirtschaft
+                  in passing — municipal websites often promote local agriculture without being farms.
+                
+                - If the page text OR url path contains words typical of city or municipal websites:
+                  "Stadtverwaltung", "Bürgermeister", "Stadtrat", "Einwohner", "Stadtgebiet",
+                  "kommunal", "Gemeinderat", "Ortschaft", "Stadtwerke", "Kreistag",
+                  "Bürgerservice", "Verwaltungsportal", "Gemeindeverwaltung", "Amt für",
+                  "Fachbereich", "Sachgebiet", "Rathaus", "Gemeinde", "Satzung",
+                  "Bebauungsplan", "Stadtentwicklung", "Bauleitplanung",
+                  you MUST answer: "is_farm": false, "reason": "city-government-website".
+                
+                - A real farm page will show: ONE owner name, specific own products, pickup times
+                  or contact data for THIS individual business — NOT a list of services for
+                  residents, NOT a regional overview, NOT links to municipal departments.
                 
                 POSITIVE RULES (WHEN TO RETURN is_farm = true):
                 - Return "is_farm": true if the website clearly represents ONE specific
@@ -149,6 +162,10 @@ public class OpenAiFarmClassifier {
                   are always "is_farm": false.
                 - Do NOT guess "is_farm": true only because the text talks about
                   farms in general or many different farms.
+                - If the domain appears to be a German town or city name (e.g. stadtname.de)
+                  and there is NO clear evidence this is a private farm business
+                  (own products, owner name, farm-specific content), you MUST answer
+                  "is_farm": false. When in doubt — REJECT.
                 - Be conservative: only mark "is_farm": true when the evidence is strong.
                 
                 OUTPUT FORMAT:
