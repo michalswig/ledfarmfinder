@@ -2,8 +2,10 @@ package com.mike.leadfarmfinder.service.directory;
 
 import com.mike.leadfarmfinder.dto.FarmClassificationResult;
 import com.mike.leadfarmfinder.service.FarmScraperService;
+import com.mike.leadfarmfinder.service.OpenAiFarmClassifier;
 import com.mike.leadfarmfinder.service.discovery.DiscoveredUrlWriter;
 import com.mike.leadfarmfinder.service.discovery.DiscoveryDuplicateChecker;
+import com.mike.leadfarmfinder.service.discovery.DiscoverySnippetFetcher;
 import com.mike.leadfarmfinder.service.discovery.DiscoveryUrlNormalizer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,8 @@ public class DirectoryCrawlerService {
     private final DiscoveryUrlNormalizer urlNormalizer;
     private final DiscoveredUrlWriter discoveredUrlWriter;
     private final FarmScraperService farmScraperService;
+    private final DiscoverySnippetFetcher snippetFetcher;
+    private final OpenAiFarmClassifier farmClassifier;
 
     public List<DirectoryCrawlResult> crawlAll(int maxUrlsPerRun) {
         log.info("DirectoryCrawlerService: starting, sources={}, maxUrlsPerRun={}",
@@ -42,8 +46,9 @@ public class DirectoryCrawlerService {
             remainingBudget -= result.urlsProcessed();
         }
 
-        log.info("DirectoryCrawlerService: finished, processed={}, ok={}, errors={}, skippedDuplicate={}",
+        log.info("DirectoryCrawlerService: finished. processed={}, rejectedByClassifier={}, ok={}, errors={}, skippedDuplicate={}",
                 results.stream().mapToInt(DirectoryCrawlResult::urlsProcessed).sum(),
+                results.stream().mapToInt(DirectoryCrawlResult::urlsRejectedByClassifier).sum(),
                 results.stream().mapToInt(DirectoryCrawlResult::urlsScrapedOk).sum(),
                 results.stream().mapToInt(DirectoryCrawlResult::urlsScrapedError).sum(),
                 results.stream().mapToInt(DirectoryCrawlResult::urlsSkippedDuplicate).sum());
@@ -61,14 +66,15 @@ public class DirectoryCrawlerService {
         try {
             rawUrls = source.fetchFarmUrls();
         } catch (Exception e) {
-            log.error("DirectoryCrawlerService: source={} failed: {}", name, e.getMessage(), e);
-            return new DirectoryCrawlResult(name, 0, 0, 0, 0, 0, elapsed(start));
+            log.error("DirectoryCrawlerService: source={} failed to fetch urls: {}", name, e.getMessage(), e);
+            return new DirectoryCrawlResult(name, 0, 0, 0, 0, 0, 0, elapsed(start));
         }
 
         log.info("DirectoryCrawlerService: source={} rawUrls={}", name, rawUrls.size());
 
         int skippedDuplicate = 0;
         int processed = 0;
+        int rejectedByClassifier = 0;
         int ok = 0;
         int errors = 0;
 
@@ -97,15 +103,25 @@ public class DirectoryCrawlerService {
 
             processed++;
 
+            // 1. Pobierz snippet strony
+            String snippet = snippetFetcher.fetchTextSnippet(url);
+
+            // 2. Klasyfikuj przez OpenAI
+            FarmClassificationResult classification = farmClassifier.classifyFarm(url, snippet);
+
+            // 3. Zawsze zapisz do discovered_urls — żeby dedup działał przy następnym runie
+            discoveredUrlWriter.save(url, classification);
+
+            if (!classification.isFarm()) {
+                rejectedByClassifier++;
+                log.info("DirectoryCrawlerService: REJECTED by classifier url={} reason={}",
+                        url, classification.reason());
+                continue;
+            }
+
+            // 4. Tylko potwierdzone farmy trafiają do scrapera
             try {
                 farmScraperService.scrapeFarmLeads(url);
-
-                // zapisz URL do bazy — bez tego dedup nie zadziała przy następnym runie
-                FarmClassificationResult directoryResult = new FarmClassificationResult(
-                        true, false, "directory:" + name, null
-                );
-                discoveredUrlWriter.save(url, directoryResult);
-
                 ok++;
                 log.debug("DirectoryCrawlerService: scraped ok url={}", url);
             } catch (Exception e) {
@@ -115,10 +131,11 @@ public class DirectoryCrawlerService {
         }
 
         long durationMs = elapsed(start);
-        log.info("DirectoryCrawlerService: source={} done. fetched={}, skippedDuplicate={}, processed={}, ok={}, errors={}, durationMs={}",
-                name, rawUrls.size(), skippedDuplicate, processed, ok, errors, durationMs);
+        log.info("DirectoryCrawlerService: source={} done. fetched={}, skippedDuplicate={}, processed={}, rejectedByClassifier={}, ok={}, errors={}, durationMs={}",
+                name, rawUrls.size(), skippedDuplicate, processed, rejectedByClassifier, ok, errors, durationMs);
 
-        return new DirectoryCrawlResult(name, rawUrls.size(), skippedDuplicate, processed, ok, errors, durationMs);
+        return new DirectoryCrawlResult(name, rawUrls.size(), skippedDuplicate, processed,
+                rejectedByClassifier, ok, errors, durationMs);
     }
 
     private long elapsed(Instant start) {
