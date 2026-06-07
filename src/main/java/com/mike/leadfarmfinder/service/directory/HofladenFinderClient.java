@@ -98,6 +98,7 @@ public class HofladenFinderClient implements DirectorySource {
                 .queryParam("Product", product)
                 .queryParam("ZipCodeOrPlace", "")
                 .queryParam("PageNumber", pageNumber)
+                .encode()
                 .build()
                 .toUri();
 
