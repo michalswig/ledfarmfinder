@@ -119,22 +119,26 @@ leadfinder:
     follow-up-email-body-template: |
       Guten Tag,
       
-      ich melde mich kurz.
+      ich melde mich kurz mit einer allgemeinen Information:
       
-      Falls das Thema noch aktuell ist –
-      wir sind weiterhin in Kontakt mit Arbeitskräften aus Polen,
-      die kurzfristig verfügbar sind (u. a. Ernte, Spargel, Obst).
+      Wir sind weiterhin in Kontakt mit Arbeitskräften aus Polen,
+      die kurzfristig verfügbar sind, u. a. für Ernte, Spargel und Obst.
       
-      Wenn sich bei Ihnen etwas ergibt oder im Laufe der Saison Bedarf entsteht,
-      geben Sie mir gerne kurz Bescheid – wir können in der Regel flexibel und kurzfristig unterstützen.
+      Da die Saison läuft, informiere ich gerade verschiedene Betriebe in der Region.
+      Falls bei Ihnen Bedarf entsteht oder sich etwas ergibt, geben Sie mir gerne kurz Bescheid.
       
-      Wenn wir dazu schon im Austausch sind, ist natürlich alles in Ordnung – wir bleiben in Kontakt.
+      Bei mehreren Personen lässt sich in der Regel einiges unkompliziert regeln.
+      
+      Wenn wir bereits im Austausch sind – alles gut, wir bleiben natürlich in Kontakt.
       
       Viele Grüße
       Patrycja
       o1jobs
       +49 160 6328144
-
+      www.o1jobs.de
+      
+      ---
+      Wenn Sie keine weiteren Nachrichten erhalten möchten: {{UNSUBSCRIBE_URL}}
   scraper:
     min-hours-between-scrapes: 12
 
