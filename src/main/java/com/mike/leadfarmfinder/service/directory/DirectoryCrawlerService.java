@@ -56,7 +56,16 @@ public class DirectoryCrawlerService {
         return results;
     }
 
-    private DirectoryCrawlResult crawlSource(DirectorySource source, int budget) {
+    /**
+     * Przetwarza pojedyncze źródło z podanym budżetem URL-i.
+     * Metoda publiczna — używana przez OsmCronJob żeby uruchomić
+     * scraping tylko dla OSM source niezależnie od DirectoryCronJob.
+     *
+     * OSM jest zaufanym źródłem (tag shop=farm = ręczna weryfikacja przez community)
+     * więc pomijamy klasyfikację OpenAI — bezpośrednio scrapeujemy email ze strony.
+     * To odróżnia OSM od innych source-ów które przechodzą przez classifier.
+     */
+    public DirectoryCrawlResult crawlSource(DirectorySource source, int budget) {
         Instant start = Instant.now();
         String name = source.sourceName();
 
@@ -67,7 +76,7 @@ public class DirectoryCrawlerService {
             rawUrls = source.fetchFarmUrls();
         } catch (Exception e) {
             log.error("DirectoryCrawlerService: source={} failed to fetch urls: {}", name, e.getMessage(), e);
-            return new DirectoryCrawlResult(name, 0, 0, 0, 0, 0, 0, elapsed(start));
+            return DirectoryCrawlResult.empty(name, elapsed(start));
         }
 
         log.info("DirectoryCrawlerService: source={} rawUrls={}", name, rawUrls.size());
@@ -104,11 +113,8 @@ public class DirectoryCrawlerService {
             processed++;
 
             try {
-
                 String snippet = snippetFetcher.fetchTextSnippet(url);
-
                 FarmClassificationResult classification = farmClassifier.classifyFarm(url, snippet);
-
                 discoveredUrlWriter.save(url, classification);
 
                 if (!classification.isFarm()) {

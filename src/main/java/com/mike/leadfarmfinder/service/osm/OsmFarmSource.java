@@ -3,12 +3,10 @@ package com.mike.leadfarmfinder.service.osm;
 import com.mike.leadfarmfinder.service.directory.DirectorySource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 
-@Component
 @RequiredArgsConstructor
 @Slf4j
 public class OsmFarmSource implements DirectorySource {
@@ -37,7 +35,7 @@ public class OsmFarmSource implements DirectorySource {
             return Collections.emptyList();
         }
 
-        // Sortowanie jest kluczowe — Overpass nie gwarantuje kolejności.
+        // Sortowanie kluczowe — Overpass nie gwarantuje kolejności.
         // Bez stabilnej kolejności dedup przez DiscoveredUrlRepository
         // nie działa poprawnie między tygodniowymi runami.
         List<String> sorted = urls.stream()
