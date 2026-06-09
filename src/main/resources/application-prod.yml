@@ -541,3 +541,10 @@ hofladenfinder:
     - kürbis
     - zwiebeln
     - möhren
+
+osm:
+  cron: "0 0 2 * * SUN"
+  overpass-url: https://overpass-api.de/api/interpreter
+  bbox: "47.3,5.9,55.1,15.0"
+  timeout-ms: 60000
+  max-urls-per-run: 300
