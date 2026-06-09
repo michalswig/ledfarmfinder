@@ -103,30 +103,28 @@ public class DirectoryCrawlerService {
 
             processed++;
 
-            // 1. Pobierz snippet strony
-            String snippet = snippetFetcher.fetchTextSnippet(url);
-
-            // 2. Klasyfikuj przez OpenAI
-            FarmClassificationResult classification = farmClassifier.classifyFarm(url, snippet);
-
-            // 3. Zawsze zapisz do discovered_urls — żeby dedup działał przy następnym runie
-            discoveredUrlWriter.save(url, classification);
-
-            if (!classification.isFarm()) {
-                rejectedByClassifier++;
-                log.info("DirectoryCrawlerService: REJECTED by classifier url={} reason={}",
-                        url, classification.reason());
-                continue;
-            }
-
-            // 4. Tylko potwierdzone farmy trafiają do scrapera
             try {
+
+                String snippet = snippetFetcher.fetchTextSnippet(url);
+
+                FarmClassificationResult classification = farmClassifier.classifyFarm(url, snippet);
+
+                discoveredUrlWriter.save(url, classification);
+
+                if (!classification.isFarm()) {
+                    rejectedByClassifier++;
+                    log.info("DirectoryCrawlerService: REJECTED by classifier url={} reason={}",
+                            url, classification.reason());
+                    continue;
+                }
+
                 farmScraperService.scrapeFarmLeads(url);
                 ok++;
                 log.debug("DirectoryCrawlerService: scraped ok url={}", url);
+
             } catch (Exception e) {
                 errors++;
-                log.warn("DirectoryCrawlerService: scrape failed url={}: {}", url, e.getMessage());
+                log.warn("DirectoryCrawlerService: failed url={}: {}", url, e.getMessage());
             }
         }
 
