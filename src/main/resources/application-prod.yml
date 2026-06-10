@@ -136,9 +136,7 @@ leadfinder:
       o1jobs
       +49 160 6328144
       www.o1jobs.de
-      
-      ---
-      Wenn Sie keine weiteren Nachrichten erhalten möchten: {{UNSUBSCRIBE_URL}}
+
   scraper:
     min-hours-between-scrapes: 12
 

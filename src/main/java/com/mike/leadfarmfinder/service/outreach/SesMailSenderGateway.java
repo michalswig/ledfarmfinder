@@ -59,10 +59,12 @@ public class SesMailSenderGateway implements MailSenderGateway {
                 .subject(c -> c
                         .data(mail.subject())
                         .charset("UTF-8"))
-                .body(b -> b
-                        .text(c -> c
-                                .data(mail.body())
-                                .charset("UTF-8")));
+                .body(b -> {
+                    b.text(c -> c.data(mail.body()).charset("UTF-8"));
+                    if (EmailType.FOLLOW_UP.name().equals(mail.emailType())) {
+                        b.html(c -> c.data(buildHtmlBody(mail)).charset("UTF-8"));
+                    }
+                });
 
         if (mail.unsubscribeUrl() != null && !mail.unsubscribeUrl().isBlank()) {
             messageBuilder.headers(
@@ -108,5 +110,25 @@ public class SesMailSenderGateway implements MailSenderGateway {
         }
 
         return builder.build();
+    }
+
+    private String buildHtmlBody(PreparedMail mail) {
+        String htmlBody = mail.body()
+                .replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\n", "<br>\n");
+
+        if (mail.unsubscribeUrl() == null || mail.unsubscribeUrl().isBlank()) {
+            return "<html><body>" + htmlBody + "</body></html>";
+        }
+
+        return "<html><body>" +
+                htmlBody +
+                "<p style=\"font-size:11px;color:#999;margin-top:24px;\">" +
+                "Wenn Sie keine weiteren Nachrichten erhalten möchten: " +
+                "<a href=\"" + mail.unsubscribeUrl() + "\" style=\"color:#999;\">Abmelden</a>" +
+                "</p>" +
+                "</body></html>";
     }
 }
