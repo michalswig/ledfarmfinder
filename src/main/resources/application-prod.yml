@@ -147,355 +147,284 @@ leadfinder:
     limit-per-run: 100
     queries-per-run: ${DISCOVERY_QUERIES_PER_RUN:2}
 
-    queries:
-      # Gärtnerei/Gewächshaus — TOP performers, rozszerzenie na nowe regiony
-      - Gärtnerei Familienbetrieb Bayern
-      - Gärtnerei Familienbetrieb Baden-Württemberg
-      - Gärtnerei Familienbetrieb Hessen
-      - Gärtnerei Familienbetrieb Rheinland-Pfalz
-      - Gärtnerei Familienbetrieb Schleswig-Holstein
-      - Gärtnerei Betrieb Bayern
-      - Gärtnerei Betrieb Baden-Württemberg
-      - Topfpflanzen Gärtnerei NRW
-      - Topfpflanzen Gärtnerei Bayern
-      - Topfpflanzen Gärtnerei Baden-Württemberg
-      - Staudenbetrieb Gärtnerei NRW
-      - Staudenbetrieb Gärtnerei Bayern
-      - Staudenbetrieb Gärtnerei Baden-Württemberg
-      - Zierpflanzenbetrieb Bayern
-      - Zierpflanzenbetrieb Baden-Württemberg
-      - Jungpflanzenbetrieb Bayern
-      - Jungpflanzenbetrieb NRW
-      # Gewächshaus — wysoki rate
-      - Gemüsebau Gewächshaus Bayern
-      - Gemüsebau Gewächshaus NRW
-      - Gemüsebau Gewächshaus Baden-Württemberg
-      - Kräuter Gewächshaus Betrieb Bayern
-      - Kräuter Gewächshaus Betrieb Baden-Württemberg
-      - Gurken Gewächshaus Bayern
-      - Gurken Gewächshaus NRW
-      - Tomaten Gewächshaus Betrieb Niedersachsen
-      - Tomaten Gewächshaus Betrieb Bayern
-      - Tomaten Gewächshaus Betrieb NRW
-      # Pilze — wysoki rate
-      - Pilzzuchtbetrieb Bayern
-      - Pilzzuchtbetrieb Niedersachsen
-      - Pilzzuchtbetrieb Baden-Württemberg
-      - Speisepilze Betrieb Bayern
-      - Speisepilze Betrieb Niedersachsen
-      - Champignonfarm Bayern
-      - Champignonfarm NRW
-      - Champignonfarm Baden-Württemberg
-      # Wzorzec "Hof Kontakt" — 43% rate, rozszerzenie
-      - Bauernhof Kontakt Niedersachsen
-      - Bauernhof Kontakt Bayern
-      - Bauernhof Kontakt NRW
-      - Hofladen Kontakt Bayern
-      - Hofladen Kontakt Niedersachsen
-      - Hofladen Kontakt Baden-Württemberg
-      - Spargelhof Kontakt Bayern
-      - Spargelhof Kontakt NRW
-      - Spargelhof Kontakt Niedersachsen
-      - Obsthof Kontakt Bayern
-      - Obsthof Kontakt NRW
-      # Baumschule — wysoki rate
-      - Baumschule Familienbetrieb Bayern
-      - Baumschule Familienbetrieb Niedersachsen
-      - Baumschule Familienbetrieb Baden-Württemberg
-      - Baumschule Familienbetrieb Hessen
-      - Baumschule Betrieb Bayern
-      - Baumschule Betrieb NRW
-      # Blumen — 69% rate to najlepszy w całej bazie
-      - Blumenbetrieb Bayern
-      - Blumenbetrieb NRW
-      - Blumenbetrieb Baden-Württemberg
-      - Blumenbetrieb Niedersachsen
-      - Blumenbetrieb Hessen
-      - Blumenhof Bayern
-      - Blumenhof NRW
-      - Blumenhof Niedersachsen
-      # Rinderhof/Tierhaltung
-      - Rinderhof Bayern
-      - Rinderhof NRW
-      - Rinderhof Baden-Württemberg
-      - Schweinehof Niedersachsen
-      - Schweinehof NRW
-      - Geflügelhof Bayern
-      - Geflügelhof NRW
-      - Geflügelhof Niedersachsen
-      - Spinat Direktverkauf Bayern
-      - Spinat Direktverkauf NRW
-      - Spinat Direktverkauf Baden-Württemberg
-      - Brokkoli Direktverkauf Bayern
-      - Brokkoli Direktverkauf NRW
-      - Brokkoli Direktverkauf Niedersachsen
-      - Paprika Direktverkauf Bayern
-      - Paprika Direktverkauf NRW
-      - Paprika Direktverkauf Baden-Württemberg
-      - Möhren Direktverkauf Bayern
-      - Möhren Direktverkauf NRW
-      - Möhren Direktverkauf Niedersachsen
-      - Möhren Direktverkauf Baden-Württemberg
-      - Lauch Direktverkauf Bayern
-      - Lauch Direktverkauf NRW
-      - Lauch Direktverkauf Niedersachsen
-      - Zwiebel Direktverkauf Bayern
-      - Zwiebel Direktverkauf NRW
-      - Zwiebel Direktverkauf Niedersachsen
-      - Zwiebel Direktverkauf Baden-Württemberg
-      - Birnen Direktverkauf Bayern
-      - Birnen Direktverkauf NRW
-      - Birnen Direktverkauf Baden-Württemberg
-      - Birnen Direktverkauf Niedersachsen
-      - Pflaumen Direktverkauf Bayern
-      - Pflaumen Direktverkauf NRW
-      - Pflaumen Direktverkauf Baden-Württemberg
-      - Blumenkohl Direktverkauf Bayern
-      - Blumenkohl Direktverkauf NRW
-      - Blumenkohl Direktverkauf Niedersachsen
-      - Schnittblumen Direktverkauf Bayern
-      - Schnittblumen Direktverkauf NRW
-      - Schnittblumen Direktverkauf Baden-Württemberg
-      - Schnittblumen Direktverkauf Niedersachsen
-      - Schnittblumen Direktverkauf Hessen
-      - Salatfeld Direktverkauf Bayern
-      - Salatfeld Direktverkauf NRW
-      - Salatfeld Direktverkauf Niedersachsen
-      - Kopfsalat Direktverkauf Bayern
-      - Kopfsalat Direktverkauf NRW
-      - Kopfsalat Direktverkauf Niedersachsen
-      - Zucchini Direktverkauf Bayern
-      - Zucchini Direktverkauf NRW
-      - Zucchini Direktverkauf Baden-Württemberg
-      - Feldsalat Direktverkauf Bayern
-      - Feldsalat Direktverkauf NRW
-      - Feldsalat Direktverkauf Niedersachsen
-      - Porree Direktverkauf Bayern
-      - Porree Direktverkauf NRW
-      - Porree Direktverkauf Niedersachsen
-      - Kohl Betrieb Impressum E-Mail Bayern
-      - Kohl Betrieb Impressum E-Mail NRW
-      - Kohl Betrieb Impressum E-Mail Niedersachsen
-      - Blumen Erzeuger Impressum E-Mail Bayern
-      - Blumen Erzeuger Impressum E-Mail NRW
-      - Blumen Erzeuger Impressum E-Mail Baden-Württemberg
-      - Kirschhof Impressum E-Mail Bayern
-      - Kirschhof Impressum E-Mail NRW
-      - Kirschhof Impressum E-Mail Baden-Württemberg
-      - Pflaumenhof Impressum E-Mail Bayern
-      - Pflaumenhof Impressum E-Mail NRW
-      - Pflaumenhof Impressum E-Mail Baden-Württemberg
-      - Pferdehof Impressum E-Mail Bayern
-      - Pferdehof Impressum E-Mail NRW
-      - Pferdehof Impressum E-Mail Niedersachsen
-      - Pferdehof Impressum E-Mail Baden-Württemberg
-      - Lauch Betrieb Impressum E-Mail Bayern
-      - Lauch Betrieb Impressum E-Mail NRW
-      - Lauch Betrieb Impressum E-Mail Niedersachsen
-      - Kirsch Betrieb Impressum Bayern
-      - Kirsch Betrieb Impressum NRW
-      - Kirsch Betrieb Impressum Niedersachsen
-      - Gemüsehof Impressum E-Mail Bayern
-      - Gemüsehof Impressum E-Mail NRW
-      - Gemüsehof Impressum E-Mail Niedersachsen
-      - Obsthof Impressum E-Mail Bayern
-      - Obsthof Impressum E-Mail NRW
-      - Obsthof Impressum E-Mail Baden-Württemberg
-      - Spargelhof Impressum E-Mail Bayern
-      - Spargelhof Impressum E-Mail NRW
-      - Spargelhof Impressum E-Mail Niedersachsen
-      - Erdbeerfeld Impressum E-Mail Bayern
-      - Erdbeerfeld Impressum E-Mail NRW
-      - Erdbeerfeld Impressum E-Mail Niedersachsen
-      - Biohof Impressum E-Mail Bayern
-      - Biohof Impressum E-Mail NRW
-      - Biohof Impressum E-Mail Niedersachsen
-      - Biohof Impressum E-Mail Baden-Württemberg
-      - Kirschhof Kontakt Bayern
-      - Kirschhof Kontakt NRW
-      - Kirschhof Kontakt Baden-Württemberg
-      - Kirschhof Kontakt Niedersachsen
-      - Birnenhof Kontakt Bayern
-      - Birnenhof Kontakt NRW
-      - Birnenhof Kontakt Baden-Württemberg
-      - Pflaumenhof Kontakt Bayern
-      - Pflaumenhof Kontakt NRW
-      - Pflaumenhof Kontakt Baden-Württemberg
-      - Heidelbeerhof Kontakt Bayern
-      - Heidelbeerhof Kontakt NRW
-      - Heidelbeerhof Kontakt Niedersachsen
-      - Heidelbeerhof Kontaktinformationen Bayern
-      - Heidelbeerhof Kontaktinformationen NRW
-      - Kartoffel Anbieter Kontaktinformation Bayern
-      - Kartoffel Anbieter Kontaktinformation NRW
-      - Kartoffel Anbieter Kontaktinformation Niedersachsen
-      - Speisepilz Anbieter Kontakt Bayern
-      - Speisepilz Anbieter Kontakt NRW
-      - Speisepilz Anbieter Kontakt Niedersachsen
-      - Blumenhof Kontaktinformation Bayern
-      - Blumenhof Kontaktinformation NRW
-      - Blumenhof Kontaktinformation Niedersachsen
-      - Blumenhof Direktvermarktung Kontakt Bayern
-      - Blumenhof Direktvermarktung Kontakt NRW
-      - Erdbeer Anbieter Kontaktseite Bayern
-      - Erdbeer Anbieter Kontaktseite NRW
-      - Erdbeer Anbieter Kontaktseite Niedersachsen
-      - Bauernhof Inhaber Kontaktinformation Bayern
-      - Bauernhof Inhaber Kontaktinformation NRW
-      - Bauernhof Inhaber Kontaktinformation Niedersachsen
-      - Landwirtschaftlicher Hof Unternehmensadresse Bayern
-      - Landwirtschaftlicher Hof Unternehmensadresse NRW
-      - Landwirtschaftlicher Hof Unternehmensadresse Niedersachsen
-      - Schnittblumen Direktverkauf Kontakt Bayern
-      - Schnittblumen Direktverkauf Kontakt NRW
-      - Schnittblumen Direktverkauf Kontakt Baden-Württemberg
-      - Gewächshaus Kontaktformular Bayern
-      - Gewächshaus Kontaktformular NRW
-      - Gewächshaus Kontaktformular Niedersachsen
-      - Gewächshaus Betrieb Kontaktinformation Bayern
-      - Gewächshaus Betrieb Kontaktinformation NRW
-      - Gewächshaus Betrieb Kontaktinformation Baden-Württemberg
-      - Gewächshaus Verwaltung E-Mail Bayern
-      - Gewächshaus Verwaltung E-Mail NRW
-      - Gewächshaus Verwaltung E-Mail Niedersachsen
-      - Hydroponik Gewächshaus Kontakt Bayern
-      - Hydroponik Gewächshaus Kontakt NRW
-      - Hydroponik Gewächshaus Kontakt Baden-Württemberg
-      - Tomaten Gewächshaus Kontakt Bayern
-      - Tomaten Gewächshaus Kontakt NRW
-      - Tomaten Gewächshaus Kontakt Baden-Württemberg
-      - Gurken Gewächshaus Kontakt Bayern
-      - Gurken Gewächshaus Kontakt NRW
-      - Gurken Gewächshaus Kontakt Niedersachsen
-      - Paprika Gewächshaus Bayern
-      - Paprika Gewächshaus NRW
-      - Salat Gewächshaus Betrieb Bayern
-      - Salat Gewächshaus Betrieb NRW
-      - Kräuter Gewächshaus Bayern
-      - Kräuter Gewächshaus Baden-Württemberg
-      - Kräuter Gewächshaus Niedersachsen
-      - Pilzzucht Anbieter Kontaktinformation Bayern
-      - Pilzzucht Anbieter Kontaktinformation NRW
-      - Pilzzucht Anbieter Kontaktinformation Baden-Württemberg
-      - Pilzzucht Anbieter Firmenadresse Bayern
-      - Pilzzucht Anbieter Firmenadresse NRW
-      - Pilzzucht Anbieter Firmenadresse Niedersachsen
-      - Pilzfarm Unternehmensadresse Bayern
-      - Pilzfarm Unternehmensadresse NRW
-      - Pilzfarm Unternehmensadresse Niedersachsen
-      - Pilzfarm Unternehmensadresse Baden-Württemberg
-      - Speisepilze Betrieb Bayern
-      - Speisepilze Betrieb Baden-Württemberg
-      - Speisepilze Betrieb Hessen
-      - Champignonfarm Baden-Württemberg
-      - Champignonfarm Hessen
-      - Champignonfarm Rheinland-Pfalz
-      - Gärtnerei Familienbetrieb Bayern
-      - Gärtnerei Familienbetrieb Baden-Württemberg
-      - Gärtnerei Familienbetrieb Hessen
-      - Gärtnerei Familienbetrieb Rheinland-Pfalz
-      - Gärtnerei Familienbetrieb Schleswig-Holstein
-      - Gärtnerei Familienbetrieb Sachsen
-      - Gärtnerei Familienbetrieb Thüringen
-      - Gärtnerei Betrieb Bayern
-      - Gärtnerei Betrieb Baden-Württemberg
-      - Gärtnerei Betrieb Hessen
-      - Gärtnerei Betrieb Rheinland-Pfalz
-      - Topfpflanzen Gärtnerei Bayern
-      - Topfpflanzen Gärtnerei Baden-Württemberg
-      - Topfpflanzen Gärtnerei Hessen
-      - Topfpflanzen Gärtnerei Rheinland-Pfalz
-      - Topfpflanzen Gärtnerei Schleswig-Holstein
-      - Staudenbetrieb Gärtnerei Bayern
-      - Staudenbetrieb Gärtnerei Baden-Württemberg
-      - Staudenbetrieb Gärtnerei Hessen
-      - Staudenbetrieb Gärtnerei Rheinland-Pfalz
-      - Zierpflanzenbetrieb Bayern
-      - Zierpflanzenbetrieb Baden-Württemberg
-      - Zierpflanzenbetrieb Hessen
-      - Zierpflanzenbetrieb Rheinland-Pfalz
-      - Zierpflanzenbetrieb Schleswig-Holstein
-      - Jungpflanzenbetrieb Bayern
-      - Jungpflanzenbetrieb Baden-Württemberg
-      - Jungpflanzenbetrieb Hessen
-      - Weihnachtsstern Gärtnerei Bayern
-      - Weihnachtsstern Gärtnerei Baden-Württemberg
-      - Weihnachtsstern Gärtnerei Niedersachsen
-      - Baumschule Familienbetrieb Bayern
-      - Baumschule Familienbetrieb Baden-Württemberg
-      - Baumschule Familienbetrieb Hessen
-      - Baumschule Familienbetrieb Niedersachsen
-      - Baumschule Familienbetrieb Rheinland-Pfalz
-      - Baumschule Betrieb Bayern
-      - Baumschule Betrieb Baden-Württemberg
-      - Baumschule Betrieb Hessen
-      - Blumenbetrieb Bayern
-      - Blumenbetrieb NRW
-      - Blumenbetrieb Baden-Württemberg
-      - Blumenbetrieb Niedersachsen
-      - Blumenbetrieb Hessen
-      - Blumenbetrieb Rheinland-Pfalz
-      - Blumenbetrieb Schleswig-Holstein
-      - Blumenhof Bayern
-      - Blumenhof NRW
-      - Blumenhof Baden-Württemberg
-      - Blumenhof Niedersachsen
-      - Blumenhof Hessen
-      - Schnittblumen Betrieb Bayern
-      - Schnittblumen Betrieb NRW
-      - Schnittblumen Betrieb Niedersachsen
-      - Schnittblumen Erzeuger Bayern
-      - Schnittblumen Erzeuger NRW
-      - Schnittblumen Erzeuger Niedersachsen
-      - Hopfenbau Unternehmen Kontaktseite Bayern
-      - Hopfenbau Unternehmen Kontaktseite NRW
-      - Hopfenbau Bayern Kontakt
-      - Hopfenbau Niedersachsen Kontakt
-      - Salatfeld Kontakt Bayern
-      - Salatfeld Kontakt NRW
-      - Salatfeld Kontakt Niedersachsen
-      - Rinderhof Bayern
-      - Rinderhof NRW
-      - Rinderhof Baden-Württemberg
-      - Rinderhof Hessen
-      - Rinderhof Schleswig-Holstein
-      - Geflügelhof Bayern
-      - Geflügelhof NRW
-      - Geflügelhof Niedersachsen
-      - Geflügelhof Baden-Württemberg
-      - Geflügelhof Hessen
-      - Schweinehof Bayern
-      - Schweinehof NRW
-      - Schweinehof Niedersachsen
-      - Pferdehof Bayern
-      - Pferdehof NRW
-      - Pferdehof Niedersachsen
-      - Pferdehof Baden-Württemberg
-      - Lammhof Bayern
-      - Lammhof NRW
-      - Lammhof Niedersachsen
-      - Schäferei Bayern
-      - Schäferei NRW
-      - Schäferei Niedersachsen
-      - Schäferei Baden-Württemberg
-      - Imkerei Bayern Kontakt
-      - Imkerei NRW Kontakt
-      - Imkerei Niedersachsen Kontakt
-      - Imkerei Baden-Württemberg Kontakt
-      - Imkerei Hessen Kontakt
-      - Bioland Betrieb Bayern Kontakt
-      - Bioland Betrieb NRW Kontakt
-      - Bioland Betrieb Niedersachsen Kontakt
-      - Demeter Hof Bayern Kontakt
-      - Demeter Hof NRW Kontakt
-      - Demeter Hof Baden-Württemberg Kontakt
-      - Naturland Betrieb Bayern Kontakt
-      - Naturland Betrieb NRW Kontakt
-      - Naturland Betrieb Niedersachsen Kontakt
-      - Biogärtnerei Bayern Kontakt
-      - Biogärtnerei NRW Kontakt
-      - Biogärtnerei Niedersachsen Kontakt
-      - Biogärtnerei Baden-Württemberg Kontakt
+queries:
+  # === KÜRBIS — sezon wrzesień-październik, duże zapotrzebowanie na pracowników ===
+  - '"Verantwortlich für den Inhalt" Kürbis Dachau Adresse'
+  - '"Verantwortlich für den Inhalt" Kürbis Erding Adresse'
+  - '"Verantwortlich für den Inhalt" Kürbis Weilheim Kontakt'
+  - '"Verantwortlich für den Inhalt" Kürbis Miesbach Telefon'
+  - '"Verantwortlich für den Inhalt" Kürbis Traunstein Adresse'
+  - '"Verantwortlich für den Inhalt" Kürbis Kelheim Kontakt'
+  - '"Verantwortlich für den Inhalt" Kürbis Straubing Telefon'
+  - '"GbR" Kürbis Bamberg Adresse'
+  - '"GbR" Kürbis Lichtenfels Kontakt'
+  - '"GbR" Kürbis Kitzingen Telefon'
+  - '"GbR" Kürbis Schweinfurt Land Adresse'
+  - '"GbR" Kürbis Haßberge Kontakt'
+  - '"wir bauen an" Kürbis Cloppenburg Adresse'
+  - '"wir bauen an" Kürbis Oldenburg Land Kontakt'
+  - '"wir bauen an" Kürbis Emsland Telefon'
+  - '"wir bauen an" Kürbis Grafschaft Bentheim Adresse'
+  - '"wir bauen an" Kürbis Steinfurt Kontakt'
+  - '"wir bauen an" Kürbis Borken Telefon'
+  - '"wir bauen an" Kürbis Wesel Adresse'
+  - '"direkt vom Hof" Kürbis Kleve Kontakt'
+  - '"direkt vom Hof" Kürbis Viersen Telefon'
+  - '"direkt vom Hof" Kürbis Krefeld Adresse'
+  - '"direkt vom Hof" Kürbis Neuss Kontakt'
+  - '"direkt vom Hof" Kürbis Bergisch Gladbach Telefon'
+
+  # === ÄPFEL — szczyt sezonu sierpień-październik ===
+  - '"Verantwortlich für den Inhalt" Äpfel Bodenseekreis Kontakt'
+  - '"Verantwortlich für den Inhalt" Äpfel Konstanz Adresse'
+  - '"Verantwortlich für den Inhalt" Äpfel Ravensburg Telefon'
+  - '"Verantwortlich für den Inhalt" Äpfel Sigmaringen Adresse'
+  - '"Verantwortlich für den Inhalt" Äpfel Biberach Kontakt'
+  - '"Verantwortlich für den Inhalt" Äpfel Ortenaukreis Telefon'
+  - '"Verantwortlich für den Inhalt" Äpfel Emmendingen Adresse'
+  - '"Verantwortlich für den Inhalt" Äpfel Breisgau-Hochschwarzwald Kontakt'
+  - '"GbR" Äpfel Marburg-Biedenkopf Telefon'
+  - '"GbR" Äpfel Lahn-Dill-Kreis Adresse'
+  - '"GbR" Äpfel Gießen Land Kontakt'
+  - '"GbR" Äpfel Wetteraukreis Telefon'
+  - '"GbR" Äpfel Hochtaunuskreis Adresse'
+  - '"GbR" Äpfel Main-Taunus-Kreis Kontakt'
+  - '"wir bauen an" Äpfel Altenkirchen Telefon'
+  - '"wir bauen an" Äpfel Westerwald Adresse'
+  - '"wir bauen an" Äpfel Mayen-Koblenz Kontakt'
+  - '"wir bauen an" Äpfel Ahrweiler Telefon'
+  - '"wir bauen an" Äpfel Vulkaneifel Adresse'
+  - '"direkt vom Hof" Äpfel Bernkastel-Wittlich Kontakt'
+  - '"direkt vom Hof" Äpfel Trier-Saarburg Telefon'
+  - '"direkt vom Hof" Äpfel Birkenfeld Adresse'
+  - '"direkt vom Hof" Äpfel Kusel Kontakt'
+  - '"direkt vom Hof" Äpfel Südwestpfalz Telefon'
+
+  # === ZWETSCHGEN / PFLAUMEN — sierpień-wrzesień ===
+  - '"Verantwortlich für den Inhalt" Zwetschgen Kitzingen Adresse'
+  - '"Verantwortlich für den Inhalt" Zwetschgen Würzburg Land Kontakt'
+  - '"Verantwortlich für den Inhalt" Zwetschgen Main-Spessart Telefon'
+  - '"Verantwortlich für den Inhalt" Zwetschgen Miltenberg Adresse'
+  - '"Verantwortlich für den Inhalt" Zwetschgen Aschaffenburg Land Kontakt'
+  - '"GbR" Zwetschgen Rhein-Hunsrück Telefon'
+  - '"GbR" Zwetschgen Bad Kreuznach Adresse'
+  - '"GbR" Zwetschgen Alzey-Worms Kontakt'
+  - '"GbR" Pflaumen Germersheim Telefon'
+  - '"GbR" Pflaumen Südliche Weinstraße Adresse'
+  - '"wir bauen an" Zwetschgen Heilbronn Land Kontakt'
+  - '"wir bauen an" Zwetschgen Ludwigsburg Land Telefon'
+  - '"wir bauen an" Zwetschgen Rems-Murr-Kreis Adresse'
+  - '"wir bauen an" Pflaumen Böblingen Kontakt'
+  - '"direkt vom Hof" Zwetschgen Esslingen Telefon'
+  - '"direkt vom Hof" Pflaumen Göppingen Adresse'
+  - '"direkt vom Hof" Zwetschgen Heidenheim Kontakt'
+  - '"direkt vom Hof" Pflaumen Biberach Telefon'
+
+  # === BIRNEN — sierpień-październik ===
+  - '"Verantwortlich für den Inhalt" Birnen Bodenseekreis Kontakt'
+  - '"Verantwortlich für den Inhalt" Birnen Konstanz Adresse'
+  - '"GbR" Birnen Ravensburg Telefon'
+  - '"GbR" Birnen Breisgau-Hochschwarzwald Adresse'
+  - '"wir bauen an" Birnen Ortenaukreis Kontakt'
+  - '"wir bauen an" Birnen Emmendingen Telefon'
+  - '"direkt vom Hof" Birnen Markgräflerland Adresse'
+  - '"direkt vom Hof" Birnen Kaiserstuhl Kontakt'
+
+  # === WEINTRAUBEN — wrzesień-październik (Mosel, Pfalz, Rheingau) ===
+  - '"Verantwortlich für den Inhalt" Weintrauben Bernkastel-Wittlich Adresse'
+  - '"Verantwortlich für den Inhalt" Weintrauben Cochem-Zell Kontakt'
+  - '"Verantwortlich für den Inhalt" Weintrauben Trier-Saarburg Telefon'
+  - '"GbR" Weintrauben Südliche Weinstraße Adresse'
+  - '"GbR" Weintrauben Bad Dürkheim Kontakt'
+  - '"GbR" Weintrauben Neustadt Weinstraße Telefon'
+  - '"wir bauen an" Weintrauben Rheingau-Taunus Adresse'
+  - '"wir bauen an" Weintrauben Mainz-Bingen Kontakt'
+  - '"direkt vom Hof" Weintrauben Alzey-Worms Telefon'
+  - '"direkt vom Hof" Weintrauben Groß-Gerau Adresse'
+
+  # === GRÜNKOHL — październik-styczeń, Niedersachsen / NRW ===
+  - '"Verantwortlich für den Inhalt" Grünkohl Oldenburg Land Adresse'
+  - '"Verantwortlich für den Inhalt" Grünkohl Wesermarsch Kontakt'
+  - '"Verantwortlich für den Inhalt" Grünkohl Friesland Telefon'
+  - '"Verantwortlich für den Inhalt" Grünkohl Aurich Adresse'
+  - '"Verantwortlich für den Inhalt" Grünkohl Leer Kontakt'
+  - '"GbR" Grünkohl Cloppenburg Telefon'
+  - '"GbR" Grünkohl Vechta Adresse'
+  - '"GbR" Grünkohl Osnabrück Land Kontakt'
+  - '"GbR" Grünkohl Emsland Telefon'
+  - '"wir bauen an" Grünkohl Grafschaft Bentheim Adresse'
+  - '"wir bauen an" Grünkohl Steinfurt Kontakt'
+  - '"wir bauen an" Grünkohl Borken Telefon'
+  - '"direkt vom Hof" Grünkohl Wesel Adresse'
+  - '"direkt vom Hof" Grünkohl Kleve Kontakt'
+
+  # === ROSENKOHL — październik-grudzień ===
+  - '"Verantwortlich für den Inhalt" Rosenkohl Diepholz Adresse'
+  - '"Verantwortlich für den Inhalt" Rosenkohl Nienburg Kontakt'
+  - '"Verantwortlich für den Inhalt" Rosenkohl Schaumburg Telefon'
+  - '"GbR" Rosenkohl Hameln-Pyrmont Adresse'
+  - '"GbR" Rosenkohl Holzminden Kontakt'
+  - '"GbR" Rosenkohl Northeim Telefon'
+  - '"wir bauen an" Rosenkohl Göttingen Land Adresse'
+  - '"wir bauen an" Rosenkohl Osterode Kontakt'
+  - '"direkt vom Hof" Rosenkohl Goslar Land Telefon'
+  - '"direkt vom Hof" Rosenkohl Wolfenbüttel Adresse'
+
+  # === FELDSALAT — październik-marzec ===
+  - '"Verantwortlich für den Inhalt" Feldsalat Erfurt Land Adresse'
+  - '"Verantwortlich für den Inhalt" Feldsalat Nordhausen Kontakt'
+  - '"Verantwortlich für den Inhalt" Feldsalat Kyffhäuserkreis Telefon'
+  - '"GbR" Feldsalat Sömmerda Adresse'
+  - '"GbR" Feldsalat Weimarer Land Kontakt'
+  - '"GbR" Feldsalat Saale-Holzland-Kreis Telefon'
+  - '"wir bauen an" Feldsalat Jena Land Adresse'
+  - '"wir bauen an" Feldsalat Saale-Orla-Kreis Kontakt'
+  - '"direkt vom Hof" Feldsalat Greiz Telefon'
+  - '"direkt vom Hof" Feldsalat Altenburger Land Adresse'
+
+  # === SELLERIE — wrzesień-listopad ===
+  - '"Verantwortlich für den Inhalt" Sellerie Rendsburg-Eckernförde Kontakt'
+  - '"Verantwortlich für den Inhalt" Sellerie Schleswig-Flensburg Telefon'
+  - '"Verantwortlich für den Inhalt" Sellerie Dithmarschen Adresse'
+  - '"GbR" Sellerie Steinburg Kontakt'
+  - '"GbR" Sellerie Pinneberg Telefon'
+  - '"GbR" Sellerie Segeberg Adresse'
+  - '"wir bauen an" Sellerie Herzogtum Lauenburg Kontakt'
+  - '"wir bauen an" Sellerie Stormarn Telefon'
+  - '"direkt vom Hof" Sellerie Lübeck Land Adresse'
+  - '"direkt vom Hof" Sellerie Plön Kontakt'
+
+  # === KARTOFFELN — lipiec-październik, nowe regiony ===
+  - '"Verantwortlich für den Inhalt" Kartoffeln Prignitz Adresse'
+  - '"Verantwortlich für den Inhalt" Kartoffeln Ostprignitz-Ruppin Kontakt'
+  - '"Verantwortlich für den Inhalt" Kartoffeln Oberhavel Telefon'
+  - '"Verantwortlich für den Inhalt" Kartoffeln Barnim Adresse'
+  - '"Verantwortlich für den Inhalt" Kartoffeln Märkisch-Oderland Kontakt'
+  - '"GbR" Kartoffeln Oder-Spree Telefon'
+  - '"GbR" Kartoffeln Dahme-Spreewald Adresse'
+  - '"GbR" Kartoffeln Fläming Kontakt'
+  - '"GbR" Kartoffeln Elbe-Elster Telefon'
+  - '"wir bauen an" Kartoffeln Nordsachsen Adresse'
+  - '"wir bauen an" Kartoffeln Meißen Land Kontakt'
+  - '"wir bauen an" Kartoffeln Bautzen Telefon'
+  - '"wir bauen an" Kartoffeln Görlitz Adresse'
+  - '"direkt vom Hof" Kartoffeln Zwickau Land Kontakt'
+  - '"direkt vom Hof" Kartoffeln Erzgebirge Telefon'
+
+  # === SPITZKOHL / WEISSERKOHL — wrzesień-listopad ===
+  - '"Verantwortlich für den Inhalt" Spitzkohl Dithmarschen Adresse'
+  - '"Verantwortlich für den Inhalt" Spitzkohl Rendsburg-Eckernförde Kontakt'
+  - '"GbR" Spitzkohl Schleswig-Flensburg Telefon'
+  - '"GbR" Weißkohl Dithmarschen Adresse'
+  - '"wir bauen an" Weißkohl Rendsburg-Eckernförde Kontakt'
+  - '"wir bauen an" Spitzkohl Steinburg Telefon'
+  - '"direkt vom Hof" Weißkohl Pinneberg Adresse'
+  - '"direkt vom Hof" Spitzkohl Segeberg Kontakt'
+
+  # === MÖHREN — lipiec-listopad, nowe regiony ===
+  - '"Verantwortlich für den Inhalt" Möhren Dithmarschen Adresse'
+  - '"Verantwortlich für den Inhalt" Möhren Herzogtum Lauenburg Kontakt'
+  - '"GbR" Möhren Lüneburg Land Telefon'
+  - '"GbR" Möhren Uelzen Adresse'
+  - '"GbR" Möhren Heidekreis Kontakt'
+  - '"wir bauen an" Möhren Celle Telefon'
+  - '"wir bauen an" Möhren Gifhorn Adresse'
+  - '"direkt vom Hof" Möhren Wolfsburg Land Kontakt'
+  - '"direkt vom Hof" Möhren Helmstedt Telefon'
+
+  # === NÜSSE (Walnüsse, Haselnüsse) — wrzesień-październik ===
+  - '"Verantwortlich für den Inhalt" Walnüsse Bodenseekreis Adresse'
+  - '"Verantwortlich für den Inhalt" Walnüsse Konstanz Kontakt'
+  - '"Verantwortlich für den Inhalt" Haselnüsse Ortenaukreis Telefon'
+  - '"GbR" Walnüsse Breisgau-Hochschwarzwald Adresse'
+  - '"GbR" Haselnüsse Emmendingen Kontakt'
+  - '"wir bauen an" Walnüsse Markgräflerland Telefon'
+  - '"direkt vom Hof" Haselnüsse Ravensburg Adresse'
+  - '"direkt vom Hof" Walnüsse Sigmaringen Kontakt'
+
+  # === SPARGEL — dodatkowe Landkreise (kwiecień-czerwiec, wcześniejsze planowanie) ===
+  - '"Verantwortlich für den Inhalt" Spargel Germersheim Adresse'
+  - '"Verantwortlich für den Inhalt" Spargel Südliche Weinstraße Kontakt'
+  - '"Verantwortlich für den Inhalt" Spargel Bad Dürkheim Telefon'
+  - '"GbR" Spargel Rhein-Pfalz-Kreis Adresse'
+  - '"GbR" Spargel Alzey-Worms Kontakt'
+  - '"GbR" Spargel Mainz-Bingen Telefon'
+  - '"wir bauen an" Spargel Groß-Gerau Adresse'
+  - '"wir bauen an" Spargel Darmstadt-Dieburg Kontakt'
+  - '"direkt vom Hof" Spargel Bergstraße Telefon'
+  - '"direkt vom Hof" Spargel Odenwald Adresse'
+
+  # === KÜRBISKERNE / ÖLKÜRBIS — sierpień-październik (Austria-style, Oberbayern) ===
+  - '"Verantwortlich für den Inhalt" Kürbiskerne Rosenheim Kontakt'
+  - '"Verantwortlich für den Inhalt" Kürbiskerne Altötting Adresse'
+  - '"Verantwortlich für den Inhalt" Kürbiskerne Mühldorf am Inn Telefon'
+  - '"GbR" Kürbiskerne Traunstein Adresse'
+  - '"GbR" Kürbiskerne Berchtesgadener Land Kontakt'
+  - '"wir bauen an" Kürbiskerne Passau Telefon'
+  - '"wir bauen an" Kürbiskerne Rottal-Inn Adresse'
+  - '"direkt vom Hof" Kürbiskerne Dingolfing-Landau Kontakt'
+
+  # === WINTERGEMÜSE — mix produktów jesiennych, nowe regiony Sachsen/Thüringen ===
+  - '"Verantwortlich für den Inhalt" Pastinaken Nordhausen Adresse'
+  - '"Verantwortlich für den Inhalt" Pastinaken Kyffhäuserkreis Kontakt'
+  - '"GbR" Schwarzwurzel Burgenlandkreis Telefon'
+  - '"GbR" Schwarzwurzel Saalekreis Adresse'
+  - '"wir bauen an" Steckrüben Anhalt-Bitterfeld Kontakt'
+  - '"wir bauen an" Steckrüben Wittenberg Telefon'
+  - '"direkt vom Hof" Pastinaken Jerichower Land Adresse'
+  - '"direkt vom Hof" Steckrüben Harz Kontakt'
+
+  # === ZWIEBELN — lipiec-październik, Hessen / Rheinland-Pfalz ===
+  - '"Verantwortlich für den Inhalt" Zwiebeln Rheingau-Taunus Adresse'
+  - '"Verantwortlich für den Inhalt" Zwiebeln Untertaunus Kontakt'
+  - '"Verantwortlich für den Inhalt" Zwiebeln Limburg-Weilburg Telefon'
+  - '"GbR" Zwiebeln Vogelsbergkreis Adresse'
+  - '"GbR" Zwiebeln Fulda Land Kontakt'
+  - '"GbR" Zwiebeln Hersfeld-Rotenburg Telefon'
+  - '"wir bauen an" Zwiebeln Schwalm-Eder-Kreis Adresse'
+  - '"wir bauen an" Zwiebeln Waldeck-Frankenberg Kontakt'
+  - '"direkt vom Hof" Zwiebeln Kassel Land Telefon'
+  - '"direkt vom Hof" Zwiebeln Werra-Meißner-Kreis Adresse'
+
+  # === CHICOREE / ENDIVIE — sezon jesienny ===
+  - '"Verantwortlich für den Inhalt" Endivie Rhein-Erft-Kreis Adresse'
+  - '"Verantwortlich für den Inhalt" Endivie Rhein-Sieg-Kreis Kontakt'
+  - '"GbR" Chicorée Aachen Land Telefon'
+  - '"GbR" Endivie Düren Adresse'
+  - '"wir bauen an" Feldsalat Rhein-Erft-Kreis Kontakt'
+  - '"direkt vom Hof" Chicorée Heinsberg Telefon'
+
+  # === OBST-PRZETWORY — produkty przetworzone z owoców jesiennych ===
+  - '"Verantwortlich für den Inhalt" Apfelsaft Bodenseekreis Adresse'
+  - '"Verantwortlich für den Inhalt" Apfelmost Ortenaukreis Kontakt'
+  - '"GbR" Apfelsaft Breisgau-Hochschwarzwald Telefon'
+  - '"GbR" Most Emmendingen Adresse'
+  - '"wir bauen an" Apfelsaft Kaiserstuhl Kontakt'
+  - '"direkt vom Hof" Apfelmost Markgräflerland Telefon'
+
+  # === KÜRBIS — dodatkowe regiony Thüringen / Sachsen (niedoreprezentowane) ===
+  - '"Verantwortlich für den Inhalt" Kürbis Erfurt Land Adresse'
+  - '"Verantwortlich für den Inhalt" Kürbis Weimarer Land Kontakt'
+  - '"Verantwortlich für den Inhalt" Kürbis Sömmerda Telefon'
+  - '"GbR" Kürbis Gotha Land Adresse'
+  - '"GbR" Kürbis Ilm-Kreis Kontakt'
+  - '"GbR" Kürbis Hildburghausen Telefon'
+  - '"wir bauen an" Kürbis Sonneberg Adresse'
+  - '"wir bauen an" Kürbis Saale-Orla-Kreis Kontakt'
+  - '"direkt vom Hof" Kürbis Greiz Telefon'
+  - '"direkt vom Hof" Kürbis Altenburger Land Adresse'
+
+  # === ÄPFEL — Ostdeutschland (historycznie pomijane) ===
+  - '"Verantwortlich für den Inhalt" Äpfel Nordsachsen Kontakt'
+  - '"Verantwortlich für den Inhalt" Äpfel Meißen Land Telefon'
+  - '"Verantwortlich für den Inhalt" Äpfel Bautzen Adresse'
+  - '"GbR" Äpfel Görlitz Kontakt'
+  - '"GbR" Äpfel Zwickau Land Telefon'
+  - '"GbR" Äpfel Erzgebirge Adresse'
+  - '"wir bauen an" Äpfel Mittelsachsen Kontakt'
+  - '"wir bauen an" Äpfel Leipzig Land Telefon'
+  - '"direkt vom Hof" Äpfel Anhalt-Bitterfeld Adresse'
+  - '"direkt vom Hof" Äpfel Wittenberg Kontakt'
 
 app:
   outreach:
