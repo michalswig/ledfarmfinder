@@ -148,187 +148,67 @@ leadfinder:
     queries-per-run: ${DISCOVERY_QUERIES_PER_RUN:2}
 
     queries:
-      # === SPARGEL — konkretne Landkreise z tabeli (Nienburg, Burgdorf, Bruchsal, Schrobenhausen) ===
-      - '"Verantwortlich für den Inhalt" Spargel Nienburg Adresse'
-      - '"Verantwortlich für den Inhalt" Spargel Nienburg Kontakt'
-      - '"GbR" Spargel Nienburg Telefon'
-      - '"Verantwortlich für den Inhalt" Spargel Burgdorf Adresse'
-      - '"GbR" Spargel Burgdorf Kontakt'
-      - '"wir bauen an" Spargel Burgdorf Telefon'
-      - '"Verantwortlich für den Inhalt" Spargel Bruchsal Adresse'
-      - '"GbR" Spargel Bruchsal Kontakt'
-      - '"wir bauen an" Spargel Bruchsal Telefon'
-      - '"Verantwortlich für den Inhalt" Spargel Schrobenhausen Adresse'
-      - '"GbR" Spargel Schrobenhausen Kontakt'
-      - '"wir bauen an" Spargel Schrobenhausen Telefon'
-      - '"direkt vom Hof" Spargel Nienburg Adresse'
-      - '"direkt vom Hof" Spargel Schrobenhausen Kontakt'
-      - '"direkt vom Hof" Spargel Bruchsal Telefon'
-    
-      # === ÄPFEL — Altes Land (Stade/Harburg) — najsilniejszy region jabłkowy Niemiec ===
-      - '"Verantwortlich für den Inhalt" Äpfel Altes Land Adresse'
-      - '"Verantwortlich für den Inhalt" Äpfel Altes Land Kontakt'
-      - '"GbR" Äpfel Altes Land Telefon'
-      - '"wir bauen an" Äpfel Altes Land Adresse'
-      - '"direkt vom Hof" Äpfel Altes Land Kontakt'
-      - '"Verantwortlich für den Inhalt" Obsthof Altes Land Adresse'
-      - '"GbR" Obsthof Altes Land Kontakt'
-      - '"Verantwortlich für den Inhalt" Äpfel Stade Adresse'
-      - '"GbR" Äpfel Stade Kontakt'
-      - '"wir bauen an" Äpfel Stade Telefon'
-      - '"Verantwortlich für den Inhalt" Äpfel Harburg Land Adresse'
-      - '"GbR" Äpfel Harburg Land Kontakt'
-    
-      # === ÄPFEL — Neckar-Tauber / Hohenlohe (brakuje w obecnej puli) ===
-      - '"Verantwortlich für den Inhalt" Äpfel Neckar-Tauber Adresse'
-      - '"GbR" Äpfel Neckar-Tauber Kontakt'
-      - '"wir bauen an" Äpfel Neckar-Tauber Telefon'
-      - '"Verantwortlich für den Inhalt" Äpfel Main-Tauber-Kreis Adresse'
-      - '"GbR" Äpfel Main-Tauber-Kreis Kontakt'
-      - '"direkt vom Hof" Äpfel Main-Tauber-Kreis Telefon'
-    
-      # === GRÜNKOHL — Niedersachsen coastal belt (najsilniejszy region w Niemczech) ===
-      - '"Verantwortlich für den Inhalt" Grünkohl Diepholz Adresse'
-      - '"Verantwortlich für den Inhalt" Grünkohl Nienburg Kontakt'
-      - '"GbR" Grünkohl Rotenburg Wümme Adresse'
-      - '"GbR" Grünkohl Verden Kontakt'
-      - '"wir bauen an" Grünkohl Stade Telefon'
-      - '"wir bauen an" Grünkohl Harburg Land Adresse'
-      - '"direkt vom Hof" Grünkohl Cuxhaven Kontakt'
-      - '"direkt vom Hof" Grünkohl Wesermarsch Telefon'
-      - '"Verantwortlich für den Inhalt" Grünkohl Schaumburg Adresse'
-      - '"GbR" Grünkohl Hameln-Pyrmont Kontakt'
-    
-      # === ROSENKOHL — NRW / Niedersachsen (best region) ===
-      - '"Verantwortlich für den Inhalt" Rosenkohl Kleve Adresse'
-      - '"Verantwortlich für den Inhalt" Rosenkohl Viersen Kontakt'
-      - '"GbR" Rosenkohl Wesel Telefon'
-      - '"GbR" Rosenkohl Borken Adresse'
-      - '"wir bauen an" Rosenkohl Steinfurt Kontakt'
-      - '"wir bauen an" Rosenkohl Coesfeld Telefon'
-      - '"direkt vom Hof" Rosenkohl Neuss Adresse'
-      - '"direkt vom Hof" Rosenkohl Rhein-Erft-Kreis Kontakt'
-      - '"Verantwortlich für den Inhalt" Rosenkohl Stade Adresse'
-      - '"GbR" Rosenkohl Rotenburg Wümme Kontakt'
-    
-      # === FELDSALAT — Baden-Württemberg (lider produkcji w Niemczech) ===
-      - '"Verantwortlich für den Inhalt" Feldsalat Heilbronn Land Adresse'
-      - '"Verantwortlich für den Inhalt" Feldsalat Ludwigsburg Land Kontakt'
-      - '"GbR" Feldsalat Rems-Murr-Kreis Telefon'
-      - '"GbR" Feldsalat Böblingen Adresse'
-      - '"wir bauen an" Feldsalat Esslingen Kontakt'
-      - '"wir bauen an" Feldsalat Göppingen Telefon'
-      - '"direkt vom Hof" Feldsalat Neckar-Tauber Adresse'
-      - '"direkt vom Hof" Feldsalat Main-Tauber-Kreis Kontakt'
-    
-      # === KÜRBIS — Brandenburg / Sachsen-Anhalt (poprawione regiony, nie Oberbayern) ===
-      - '"Verantwortlich für den Inhalt" Kürbis Havelland Adresse'
-      - '"Verantwortlich für den Inhalt" Kürbis Oder-Spree Kontakt'
-      - '"GbR" Kürbis Dahme-Spreewald Telefon'
-      - '"GbR" Kürbis Fläming Adresse'
-      - '"wir bauen an" Kürbis Elbe-Elster Kontakt'
-      - '"wir bauen an" Kürbis Jerichower Land Telefon'
-      - '"direkt vom Hof" Kürbis Börde Adresse'
-      - '"direkt vom Hof" Kürbis Anhalt-Bitterfeld Kontakt'
-      - '"Verantwortlich für den Inhalt" Kürbis Wesel Adresse'
-      - '"GbR" Kürbis Kleve Kontakt'
-      - '"wir bauen an" Kürbis Rhein-Erft-Kreis Telefon'
-      - '"direkt vom Hof" Kürbis Düren Adresse'
-    
-      # === WEINTRAUBEN — Rheinhessen (największy region winiarski Niemiec, niedoreprezentowany) ===
-      - '"Verantwortlich für den Inhalt" Weintrauben Mainz-Bingen Adresse'
-      - '"Verantwortlich für den Inhalt" Weintrauben Alzey-Worms Adresse'
-      - '"GbR" Weintrauben Rhein-Pfalz-Kreis Kontakt'
-      - '"GbR" Weintrauben Germersheim Telefon'
-      - '"wir bauen an" Weintrauben Südliche Weinstraße Adresse'
-      - '"wir bauen an" Weintrauben Kaiserslautern Land Kontakt'
-      - '"direkt vom Hof" Weintrauben Ortenaukreis Telefon'
-      - '"direkt vom Hof" Weintrauben Emmendingen Adresse'
-      - '"Verantwortlich für den Inhalt" Weintrauben Saale-Unstrut Kontakt'
-      - '"GbR" Weintrauben Burgenlandkreis Telefon'
-    
-      # === KIRSCHEN — Baden-Württemberg (Schwarzwald, Neckar) ===
-      - '"Verantwortlich für den Inhalt" Kirschen Ortenaukreis Adresse'
-      - '"Verantwortlich für den Inhalt" Kirschen Breisgau-Hochschwarzwald Kontakt'
-      - '"GbR" Kirschen Emmendingen Telefon'
-      - '"GbR" Kirschen Schwarzwald-Baar-Kreis Adresse'
-      - '"wir bauen an" Kirschen Neckar-Tauber Kontakt'
-      - '"wir bauen an" Kirschen Main-Tauber-Kreis Telefon'
-      - '"direkt vom Hof" Kirschen Rhein-Neckar-Kreis Adresse'
-      - '"direkt vom Hof" Kirschen Heilbronn Land Kontakt'
-    
-      # === ZWETSCHGEN — Rheinland-Pfalz / Hessen (primary regions) ===
-      - '"Verantwortlich für den Inhalt" Zwetschgen Mainz-Bingen Adresse'
-      - '"Verantwortlich für den Inhalt" Zwetschgen Rhein-Hunsrück Kontakt'
-      - '"GbR" Zwetschgen Birkenfeld Telefon'
-      - '"GbR" Zwetschgen Bernkastel-Wittlich Adresse'
-      - '"wir bauen an" Zwetschgen Rheingau-Taunus Kontakt'
-      - '"wir bauen an" Zwetschgen Hochtaunuskreis Telefon'
-      - '"direkt vom Hof" Zwetschgen Main-Taunus-Kreis Adresse'
-      - '"direkt vom Hof" Zwetschgen Bergstraße Kontakt'
-    
-      # === MÖHREN — Niedersachsen / NRW (wiodące regiony) ===
-      - '"Verantwortlich für den Inhalt" Möhren Nienburg Adresse'
-      - '"Verantwortlich für den Inhalt" Möhren Verden Kontakt'
-      - '"GbR" Möhren Rotenburg Wümme Telefon'
-      - '"GbR" Möhren Diepholz Adresse'
-      - '"wir bauen an" Möhren Kleve Kontakt'
-      - '"wir bauen an" Möhren Viersen Telefon'
-      - '"direkt vom Hof" Möhren Wesel Adresse'
-      - '"direkt vom Hof" Möhren Borken Kontakt'
-    
-      # === SELLERIE — Niedersachsen / Bayern (primary) ===
-      - '"Verantwortlich für den Inhalt" Sellerie Nienburg Adresse'
-      - '"Verantwortlich für den Inhalt" Sellerie Diepholz Kontakt'
-      - '"GbR" Sellerie Schrobenhausen Telefon'
-      - '"GbR" Sellerie Neuburg-Schrobenhausen Adresse'
-      - '"wir bauen an" Sellerie Pfaffenhofen Kontakt'
-      - '"direkt vom Hof" Sellerie Dachau Telefon'
-    
-      # === BLUMENKOHL/BROKKOLI — Niedersachsen / NRW / Schleswig-Holstein ===
-      - '"Verantwortlich für den Inhalt" Blumenkohl Dithmarschen Adresse'
-      - '"Verantwortlich für den Inhalt" Brokkoli Dithmarschen Kontakt'
-      - '"GbR" Blumenkohl Steinburg Telefon'
-      - '"GbR" Brokkoli Rendsburg-Eckernförde Adresse'
-      - '"wir bauen an" Blumenkohl Kleve Kontakt'
-      - '"wir bauen an" Brokkoli Viersen Telefon'
-      - '"direkt vom Hof" Blumenkohl Wesel Adresse'
-      - '"direkt vom Hof" Brokkoli Borken Kontakt'
-    
-      # === KARTOFFELN — Niedersachsen (dominujący region) ===
-      - '"Verantwortlich für den Inhalt" Kartoffeln Nienburg Adresse'
-      - '"Verantwortlich für den Inhalt" Kartoffeln Emsland Kontakt'
-      - '"GbR" Kartoffeln Grafschaft Bentheim Telefon'
-      - '"GbR" Kartoffeln Diepholz Adresse'
-      - '"wir bauen an" Kartoffeln Rotenburg Wümme Kontakt'
-      - '"direkt vom Hof" Kartoffeln Uelzen Telefon'
-      - '"direkt vom Hof" Kartoffeln Lüchow-Dannenberg Adresse'
-    
-      # === ZWIEBELN — Niedersachsen / NRW (primary) ===
-      - '"Verantwortlich für den Inhalt" Zwiebeln Nienburg Adresse'
-      - '"GbR" Zwiebeln Diepholz Kontakt'
-      - '"wir bauen an" Zwiebeln Kleve Telefon'
-      - '"direkt vom Hof" Zwiebeln Wesel Adresse'
-      - '"Verantwortlich für den Inhalt" Zwiebeln Bernburg Kontakt'
-      - '"GbR" Zwiebeln Saalekreis Telefon'
+      # === THÜRINGEN — prawie nieobecny w puli ===
+      - '"Inhaber" Gemüsehof Thüringen Kontakt'
+      - '"Inhaber" Obsthof Thüringen Adresse'
+      - '"GbR" Spargelhof Thüringen Telefon'
+      - '"Inhaber" Bauernhof Erfurt Kontakt'
+      - '"GbR" Hofladen Gotha Adresse'
+      - '"Inhaber" Direktvermarkter Weimarer Land Kontakt'
+      - '"GbR" Gemüsebau Nordhausen Telefon'
+      - '"Inhaber" Obsthof Kyffhäuserkreis Adresse'
 
-      # === WRZOSY / ROŚLINY OZDOBNE — Gärtnerei z produkcją jesienną ===
-      - '"Verantwortlich für den Inhalt" Gärtnerei Heidepflanzen Niedersachsen Adresse'
-      - '"Verantwortlich für den Inhalt" Gärtnerei Heidepflanzen Schleswig-Holstein Kontakt'
-      - '"GbR" Gärtnerei Calluna Niedersachsen Telefon'
-      - '"GbR" Gärtnerei Heidepflanzen Lüneburg Land Adresse'
-      - '"wir bauen an" Calluna Gärtnerei Heidekreis Kontakt'
-      - '"direkt vom Hof" Heidepflanzen Gärtnerei Uelzen Telefon'
+      # === SACHSEN-ANHALT — uzupełnienie ===
+      - '"Inhaber" Hofladen Magdeburg Land Kontakt'
+      - '"GbR" Obsthof Harz Adresse'
+      - '"Inhaber" Direktvermarkter Mansfeld-Südharz Telefon'
+      - '"GbR" Gemüsehof Saalekreis Kontakt'
+      - '"Inhaber" Bauernhof Wittenberg Adresse'
+      - '"GbR" Spargelhof Stendal Telefon'
+      - '"Inhaber" Hofladen Jerichower Land Kontakt'
 
-      # === KWIATY DONICZKOWE / BALKONOWE — Gewächshaus Betrieb ===
-      - '"Verantwortlich für den Inhalt" Gärtnerei Topfpflanzen NRW Adresse'
-      - '"Verantwortlich für den Inhalt" Gewächshaus Zierpflanzen Niedersachsen Kontakt'
-      - '"GbR" Gärtnerei Balkonpflanzen Bayern Adresse'
-      - '"GbR" Zierpflanzenbetrieb Gewächshaus NRW Kontakt'
-      - '"wir bauen an" Gärtnerei Topfpflanzen Baden-Württemberg Adresse'
-      - '"wir bauen an" Zierpflanzen Gewächshaus Niedersachsen Telefon'
-      - '"direkt vom Hof" Balkonpflanzen Gärtnerei NRW Kontakt'
-      - '"direkt vom Hof" Topfpflanzen Betrieb Bayern Adresse'
+      # === MECKLENBURG-VORPOMMERN — brak w puli ===
+      - '"Inhaber" Obsthof Rostock Land Kontakt'
+      - '"GbR" Gemüsehof Schwerin Land Adresse'
+      - '"Inhaber" Direktvermarkter Vorpommern-Rügen Telefon'
+      - '"GbR" Hofladen Mecklenburgische Seenplatte Kontakt'
+      - '"Inhaber" Bauernhof Nordwestmecklenburg Adresse'
+      - '"GbR" Spargelhof Ludwigslust-Parchim Telefon'
+
+      # === RHEINLAND-PFALZ — brakujące Landkreise ===
+      - '"Inhaber" Obsthof Cochem-Zell Kontakt'
+      - '"GbR" Weingut Mosel-Saar-Ruwer Adresse'
+      - '"Inhaber" Direktvermarkter Vulkaneifel Telefon'
+      - '"GbR" Hofladen Donnersbergkreis Kontakt'
+      - '"Inhaber" Gemüsehof Bad Kreuznach Adresse'
+      - '"GbR" Obsthof Kusel Telefon'
+
+      # === SAARLAND — całkowity brak ===
+      - '"Inhaber" Hofladen Saarland Kontakt'
+      - '"GbR" Direktvermarkter Saarlouis Adresse'
+      - '"Inhaber" Obsthof Merzig-Wadern Telefon'
+      - '"GbR" Gemüsehof Saar-Pfalz-Kreis Kontakt'
+
+      # === HESSEN — brakujące Landkreise ===
+      - '"Inhaber" Obsthof Bergstraße Kontakt'
+      - '"GbR" Gemüsehof Wetteraukreis Adresse'
+      - '"Inhaber" Direktvermarkter Marburg-Biedenkopf Telefon'
+      - '"GbR" Hofladen Lahn-Dill-Kreis Kontakt'
+      - '"Inhaber" Obsthof Schwalm-Eder-Kreis Adresse'
+      - '"GbR" Gemüsehof Waldeck-Frankenberg Telefon'
+      - '"Inhaber" Spargelhof Groß-Gerau Kontakt'
+      - '"GbR" Direktvermarkter Darmstadt-Dieburg Adresse'
+
+      # === BAYERN FRANKEN / SCHWABEN — uzupełnienie ===
+      - '"Inhaber" Obsthof Schweinfurt Land Kontakt'
+      - '"GbR" Gemüsehof Kitzingen Adresse'
+      - '"Inhaber" Direktvermarkter Haßberge Telefon'
+      - '"GbR" Hofladen Rhön-Grabfeld Kontakt'
+      - '"Inhaber" Obsthof Miltenberg Adresse'
+      - '"GbR" Gemüsehof Aschaffenburg Land Telefon'
+      - '"Inhaber" Spargelhof Donau-Ries Kontakt'
+      - '"GbR" Direktvermarkter Augsburg Land Adresse'
+      - '"Inhaber" Obsthof Unterallgäu Telefon'
 
 app:
   outreach:
