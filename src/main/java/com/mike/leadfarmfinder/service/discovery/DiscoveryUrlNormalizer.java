@@ -25,15 +25,16 @@ public class DiscoveryUrlNormalizer {
 
     public String normalizeUrl(String url) {
         try {
-            URI uri = new URI(url.trim());
-            String scheme = (uri.getScheme() == null) ? "https" : uri.getScheme().toLowerCase(Locale.ROOT);
-            String host = uri.getHost();
-            if (host == null) return url.trim();
-            host = host.toLowerCase(Locale.ROOT);
-            if (host.startsWith("www.")) host = host.substring(4);
-            host = IDN.toASCII(host);
+            String trimmed = url.trim();
 
-            String path = uri.getPath();
+            // URI nie akceptuje non-ASCII w hostname — parsujemy przez URL (legacy ale toleruje unicode)
+            java.net.URL parsed = new java.net.URL(trimmed);
+            String scheme = parsed.getProtocol().toLowerCase(Locale.ROOT);
+            String host = parsed.getHost().toLowerCase(Locale.ROOT);
+            if (host.startsWith("www.")) host = host.substring(4);
+            host = IDN.toASCII(host); // umlauty → punycode: gemüsehof → xn--gemsehof-n2a
+
+            String path = parsed.getPath();
             if (path == null || path.isBlank()) path = "/";
             String p = path.toLowerCase(Locale.ROOT);
             if (p.endsWith("/index.html") || p.endsWith("/index.htm")) {
@@ -43,9 +44,11 @@ public class DiscoveryUrlNormalizer {
             if (path.length() > 1 && path.endsWith("/")) {
                 path = path.substring(0, path.length() - 1);
             }
+
             return new URI(scheme, host, path, null).toString();
-        } catch (URISyntaxException e) {
-            return url.trim();
+        } catch (Exception e) {
+            log.debug("DiscoveryUrlNormalizer: cannot normalize url={} reason={}", url, e.getMessage());
+            return null; // caller w DirectoryCrawlerService już obsługuje null → continue
         }
     }
 
@@ -76,12 +79,12 @@ public class DiscoveryUrlNormalizer {
 
     private String extractDomain(String url) {
         try {
-            URI uri = new URI(url);
-            String host = uri.getHost();
-            if (host == null) return null;
+            java.net.URL parsed = new java.net.URL(url);
+            String host = parsed.getHost();
+            if (host == null || host.isBlank()) return null;
             host = host.toLowerCase(Locale.ROOT);
             if (host.startsWith("www.")) host = host.substring(4);
-            return host;
+            return IDN.toASCII(host);
         } catch (Exception e) {
             log.warn("DiscoveryUrlNormalizer: failed to extract domain from url={} reason={}", url, e.getMessage());
             return null;
