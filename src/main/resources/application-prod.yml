@@ -148,67 +148,67 @@ leadfinder:
     queries-per-run: ${DISCOVERY_QUERIES_PER_RUN:2}
 
     queries:
-      # === THÜRINGEN — prawie nieobecny w puli ===
-      - '"Inhaber" Gemüsehof Thüringen Kontakt'
-      - '"Inhaber" Obsthof Thüringen Adresse'
-      - '"GbR" Spargelhof Thüringen Telefon'
-      - '"Inhaber" Bauernhof Erfurt Kontakt'
-      - '"GbR" Hofladen Gotha Adresse'
-      - '"Inhaber" Direktvermarkter Weimarer Land Kontakt'
-      - '"GbR" Gemüsebau Nordhausen Telefon'
-      - '"Inhaber" Obsthof Kyffhäuserkreis Adresse'
+      # === THÜRINGEN — lato/jesień ===
+      - '"Inhaber" Erdbeerhof Thüringen Kontakt'
+      - '"GbR" Kirschenhof Thüringen Adresse'
+      - '"Inhaber" Pflaumenhof Erfurt Telefon'
+      - '"GbR" Kürbisbauernhof Weimarer Land Kontakt'
+      - '"Inhaber" Apfelhof Kyffhäuserkreis Adresse'
+      - '"GbR" Zwiebelanbau Nordhausen Telefon'
+      - '"Inhaber" Kartoffelhof Gotha Kontakt'
+      - '"GbR" Gemüsehof Saalfeld-Rudolstadt Adresse'
 
-      # === SACHSEN-ANHALT — uzupełnienie ===
-      - '"Inhaber" Hofladen Magdeburg Land Kontakt'
-      - '"GbR" Obsthof Harz Adresse'
-      - '"Inhaber" Direktvermarkter Mansfeld-Südharz Telefon'
-      - '"GbR" Gemüsehof Saalekreis Kontakt'
-      - '"Inhaber" Bauernhof Wittenberg Adresse'
-      - '"GbR" Spargelhof Stendal Telefon'
-      - '"Inhaber" Hofladen Jerichower Land Kontakt'
+      # === SACHSEN-ANHALT — lato/jesień ===
+      - '"Inhaber" Spargelhof Magdeburg Land Kontakt'
+      - '"GbR" Erdbeerhof Harz Adresse'
+      - '"Inhaber" Apfelhof Wittenberg Telefon'
+      - '"GbR" Kürbisbauernhof Mansfeld-Südharz Kontakt'
+      - '"Inhaber" Kartoffelhof Stendal Adresse'
+      - '"GbR" Zwiebelhof Jerichower Land Telefon'
+      - '"Inhaber" Pflaumenanbau Börde Kontakt'
 
-      # === MECKLENBURG-VORPOMMERN — brak w puli ===
-      - '"Inhaber" Obsthof Rostock Land Kontakt'
-      - '"GbR" Gemüsehof Schwerin Land Adresse'
-      - '"Inhaber" Direktvermarkter Vorpommern-Rügen Telefon'
-      - '"GbR" Hofladen Mecklenburgische Seenplatte Kontakt'
-      - '"Inhaber" Bauernhof Nordwestmecklenburg Adresse'
-      - '"GbR" Spargelhof Ludwigslust-Parchim Telefon'
+      # === MECKLENBURG-VORPOMMERN — lato/jesień ===
+      - '"Inhaber" Erdbeerhof Rostock Land Kontakt'
+      - '"GbR" Apfelhof Nordwestmecklenburg Adresse'
+      - '"Inhaber" Kartoffelhof Vorpommern-Rügen Telefon'
+      - '"GbR" Kürbisbauernhof Mecklenburgische Seenplatte Kontakt'
+      - '"Inhaber" Heidelbeerhof Ludwigslust-Parchim Adresse'
+      - '"GbR" Pflaumenhof Schwerin Land Telefon'
 
-      # === RHEINLAND-PFALZ — brakujące Landkreise ===
-      - '"Inhaber" Obsthof Cochem-Zell Kontakt'
-      - '"GbR" Weingut Mosel-Saar-Ruwer Adresse'
-      - '"Inhaber" Direktvermarkter Vulkaneifel Telefon'
-      - '"GbR" Hofladen Donnersbergkreis Kontakt'
-      - '"Inhaber" Gemüsehof Bad Kreuznach Adresse'
-      - '"GbR" Obsthof Kusel Telefon'
+      # === RHEINLAND-PFALZ — winogrona + jesień ===
+      - '"Inhaber" Weintrauben Cochem-Zell Kontakt'
+      - '"GbR" Weintrauben Vulkaneifel Adresse'
+      - '"Inhaber" Apfelhof Bad Kreuznach Telefon'
+      - '"GbR" Zwetschgenhof Donnersbergkreis Kontakt'
+      - '"Inhaber" Pflaumenanbau Kusel Adresse'
+      - '"GbR" Kartoffelhof Birkenfeld Telefon'
 
-      # === SAARLAND — całkowity brak ===
-      - '"Inhaber" Hofladen Saarland Kontakt'
-      - '"GbR" Direktvermarkter Saarlouis Adresse'
-      - '"Inhaber" Obsthof Merzig-Wadern Telefon'
-      - '"GbR" Gemüsehof Saar-Pfalz-Kreis Kontakt'
+      # === HESSEN — lato/jesień ===
+      - '"Inhaber" Erdbeerhof Bergstraße Kontakt'
+      - '"GbR" Apfelhof Wetteraukreis Adresse'
+      - '"Inhaber" Kirschenhof Marburg-Biedenkopf Telefon'
+      - '"GbR" Kartoffelhof Waldeck-Frankenberg Kontakt'
+      - '"Inhaber" Kürbisbauernhof Schwalm-Eder-Kreis Adresse'
+      - '"GbR" Zwiebelanbau Groß-Gerau Telefon'
+      - '"Inhaber" Pflaumenhof Darmstadt-Dieburg Kontakt'
+      - '"GbR" Apfelhof Lahn-Dill-Kreis Adresse'
 
-      # === HESSEN — brakujące Landkreise ===
-      - '"Inhaber" Obsthof Bergstraße Kontakt'
-      - '"GbR" Gemüsehof Wetteraukreis Adresse'
-      - '"Inhaber" Direktvermarkter Marburg-Biedenkopf Telefon'
-      - '"GbR" Hofladen Lahn-Dill-Kreis Kontakt'
-      - '"Inhaber" Obsthof Schwalm-Eder-Kreis Adresse'
-      - '"GbR" Gemüsehof Waldeck-Frankenberg Telefon'
-      - '"Inhaber" Spargelhof Groß-Gerau Kontakt'
-      - '"GbR" Direktvermarkter Darmstadt-Dieburg Adresse'
+      # === BAYERN FRANKEN / SCHWABEN — lato/jesień ===
+      - '"Inhaber" Hopfenbauernhof Hallertau Kontakt'
+      - '"GbR" Apfelhof Kitzingen Adresse'
+      - '"Inhaber" Kirschenhof Schweinfurt Land Telefon'
+      - '"GbR" Zwetschgenhof Haßberge Kontakt'
+      - '"Inhaber" Kartoffelhof Rhön-Grabfeld Adresse'
+      - '"GbR" Kürbisbauernhof Donau-Ries Telefon'
+      - '"Inhaber" Erdbeerhof Unterallgäu Kontakt'
+      - '"GbR" Apfelhof Aschaffenburg Land Adresse'
+      - '"Inhaber" Zwiebelanbau Augsburg Land Telefon'
 
-      # === BAYERN FRANKEN / SCHWABEN — uzupełnienie ===
-      - '"Inhaber" Obsthof Schweinfurt Land Kontakt'
-      - '"GbR" Gemüsehof Kitzingen Adresse'
-      - '"Inhaber" Direktvermarkter Haßberge Telefon'
-      - '"GbR" Hofladen Rhön-Grabfeld Kontakt'
-      - '"Inhaber" Obsthof Miltenberg Adresse'
-      - '"GbR" Gemüsehof Aschaffenburg Land Telefon'
-      - '"Inhaber" Spargelhof Donau-Ries Kontakt'
-      - '"GbR" Direktvermarkter Augsburg Land Adresse'
-      - '"Inhaber" Obsthof Unterallgäu Telefon'
+      # === SAARLAND — lato/jesień ===
+      - '"Inhaber" Erdbeerhof Saarlouis Kontakt'
+      - '"GbR" Apfelhof Merzig-Wadern Adresse'
+      - '"Inhaber" Kartoffelhof Saar-Pfalz-Kreis Telefon'
+      - '"GbR" Zwetschgenhof St. Wendel Kontakt'
 
 app:
   outreach:
