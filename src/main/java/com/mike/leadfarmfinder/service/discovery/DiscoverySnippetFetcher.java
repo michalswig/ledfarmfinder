@@ -117,18 +117,14 @@ public class DiscoverySnippetFetcher {
                 return FetchResult.empty();
 
             } catch (HttpStatusException e) {
-                log.warn(
-                        "DiscoverySnippetFetcher: failed to fetch text from {}: HTTP {}",
-                        url,
-                        e.getStatusCode()
-                );
-                if (e.getStatusCode() == 403) {
+                log.warn("DiscoverySnippetFetcher: failed to fetch text from {}: HTTP {}", url, e.getStatusCode());
+                if (e.getStatusCode() == 403 || e.getStatusCode() == 418) {
                     return FetchResult.blocked();
                 }
                 if (e.getStatusCode() == 404) {
                     return FetchResult.empty();
                 }
-
+                return FetchResult.empty(); // inne kody HTTP — nie retry, nie ma sensu
             } catch (Exception e) {
                 log.warn(
                         "DiscoverySnippetFetcher: failed to fetch text from {} (attempt {}/{}): {}",
