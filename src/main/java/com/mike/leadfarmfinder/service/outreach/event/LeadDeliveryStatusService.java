@@ -24,11 +24,6 @@ public class LeadDeliveryStatusService {
         Optional<FarmLead> leadOpt = findLead(event);
 
         if (leadOpt.isEmpty()) {
-            log.warn("Lead delivery update ignored - lead not found. leadId={}, email={}, sesMessageId={}, classifiedStatus={}",
-                    event.getLeadId(),
-                    event.getLeadEmail(),
-                    event.getSesMessageId(),
-                    classifiedEvent.getDeliveryStatus());
             return;
         }
 
@@ -36,12 +31,6 @@ public class LeadDeliveryStatusService {
         MailDeliveryStatus newStatus = classifiedEvent.getDeliveryStatus();
 
         if (isDeliveredAfterTerminalFailure(lead, newStatus)) {
-            log.warn("Delivery event ignored because lead already has terminal failure. leadId={}, email={}, currentStatus={}, incomingStatus={}, sesMessageId={}",
-                    lead.getId(),
-                    lead.getEmail(),
-                    lead.getLastDeliveryStatus(),
-                    newStatus,
-                    event.getSesMessageId());
             return;
         }
 
@@ -68,14 +57,6 @@ public class LeadDeliveryStatusService {
         }
 
         farmLeadRepository.save(lead);
-
-        log.info("Lead delivery state updated. leadId={}, email={}, status={}, active={}, bounce={}, reviewRequired={}",
-                lead.getId(),
-                lead.getEmail(),
-                lead.getLastDeliveryStatus(),
-                lead.isActive(),
-                lead.isBounce(),
-                lead.isReviewRequired());
     }
 
     private Optional<FarmLead> findLead(MailEventMessage event) {
@@ -140,12 +121,6 @@ public class LeadDeliveryStatusService {
         lead.setBounceReason(resolveBounceReason(event, classifiedEvent));
         lead.setLastBounceAt(now);
         lead.setReviewRequired(false);
-
-        log.info("Terminal bounce applied. leadId={}, email={}, status={}, reason={}",
-                lead.getId(),
-                lead.getEmail(),
-                classifiedEvent.getDeliveryStatus(),
-                classifiedEvent.getClassificationReason());
     }
 
     private void applySoftBounce(FarmLead lead,

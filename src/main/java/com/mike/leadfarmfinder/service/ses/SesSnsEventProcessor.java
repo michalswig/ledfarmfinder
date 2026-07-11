@@ -38,15 +38,11 @@ public class SesSnsEventProcessor {
         String emailType = firstTagValue(mail.path("tags"), "emailType");
 
         if (eventTypeValue == null || eventTypeValue.isBlank()) {
-            log.warn("SES event ignored - missing eventType/notificationType. sesMessageId={}, leadId={}, destination={}",
-                    sesMessageId, leadId, destination);
             return;
         }
 
         MailEventType eventType = mapEventType(eventTypeValue);
         if (eventType == null) {
-            log.info("Ignoring unsupported SES event type={}, sesMessageId={}, leadId={}, destination={}",
-                    eventTypeValue, sesMessageId, leadId, destination);
             return;
         }
 
@@ -64,10 +60,6 @@ public class SesSnsEventProcessor {
                 .rawPayload(rawPayload)
                 .occurredAt(LocalDateTime.now())
                 .build();
-
-        log.info("Publishing SES event: type={}, sesMessageId={}, leadId={}, destination={}, emailType={}",
-                eventType, sesMessageId, leadId, destination, emailType);
-
         publishEvent(event);
     }
 
