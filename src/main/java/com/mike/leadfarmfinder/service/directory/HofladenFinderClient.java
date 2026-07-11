@@ -97,6 +97,7 @@ public class HofladenFinderClient implements DirectorySource {
         URI uri = UriComponentsBuilder.fromHttpUrl(properties.baseUrl())
                 .queryParam("Product", product)
                 .queryParam("ZipCodeOrPlace", "")
+                .queryParam("Country", "DE")
                 .queryParam("PageNumber", pageNumber)
                 .encode()
                 .build()
