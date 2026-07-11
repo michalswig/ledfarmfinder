@@ -109,34 +109,26 @@ public class DiscoverySnippetFetcher {
                 return FetchResult.of(snippet);
 
             } catch (UnsupportedMimeTypeException e) {
-                log.warn(
-                        "DiscoverySnippetFetcher: failed to fetch text from {}: unsupported mime {}",
-                        url,
-                        e.getMimeType()
-                );
-                return FetchResult.empty();
+                log.warn("DiscoverySnippetFetcher: failed to fetch text from {}: unsupported mime {}",
+                        url, e.getMimeType());
+                return FetchResult.empty(); // mime się nie zmieni przy retry
 
             } catch (HttpStatusException e) {
-                log.warn("DiscoverySnippetFetcher: failed to fetch text from {}: HTTP {}", url, e.getStatusCode());
+                log.warn("DiscoverySnippetFetcher: failed to fetch text from {}: HTTP {}",
+                        url, e.getStatusCode());
                 if (e.getStatusCode() == 403 || e.getStatusCode() == 418) {
-                    return FetchResult.blocked();
+                    return FetchResult.blocked(); // anty-bot — cały host blokujemy
                 }
-                if (e.getStatusCode() == 404) {
-                    return FetchResult.empty();
-                }
-                return FetchResult.empty(); // inne kody HTTP — nie retry, nie ma sensu
+                return FetchResult.empty(); // 404, 500, inne — nie retry, nie zmieni się
+
             } catch (Exception e) {
-                log.warn(
-                        "DiscoverySnippetFetcher: failed to fetch text from {} (attempt {}/{}): {}",
-                        url,
-                        attempt,
-                        MAX_ATTEMPTS_PER_URL,
-                        e.getMessage()
-                );
+                log.warn("DiscoverySnippetFetcher: failed to fetch text from {} (attempt {}/{}): {}",
+                        url, attempt, MAX_ATTEMPTS_PER_URL, e.getMessage());
 
                 if (isHostLevelError(e)) {
-                    return FetchResult.blocked();
+                    return FetchResult.blocked(); // SSL/connection — cały host martwy
                 }
+                // tylko błędy sieciowe (timeout) trafiają tu i dostają retry
             }
         }
 
