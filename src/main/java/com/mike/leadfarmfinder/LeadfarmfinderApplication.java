@@ -19,7 +19,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         LeadFinderRabbitProperties.class,
         HofladenFinderProperties.class,
         DirectoryProperties.class,
-        OsmProperties.class})
+        OsmProperties.class,
+        EmailTemplateVariants.class})
 public class LeadfarmfinderApplication {
 
     public static void main(String[] args) {

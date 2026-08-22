@@ -95,6 +95,85 @@ leadfinder:
     simulate-only: ${OUTREACH_SIMULATE_ONLY:false}
     interval-millis: ${OUTREACH_INTERVAL_MS:900000}
     delay-between-emails-millis: ${OUTREACH_DELAY_MS:15000}
+    templates:
+      first:
+        - |
+          Guten Tag,
+
+          wir vermitteln aktuell polnische Saisonkräfte für die Ernte
+          (Kürbis, Äpfel, Weintrauben, Kartoffeln), kurzfristig verfügbar.
+
+          Bei Bedarf einfach kurz melden.
+
+          Viele Grüße
+          Patrycja, o1jobs
+          +49 160 6328144 · www.o1jobs.de
+
+          {{UNSUBSCRIBE_URL}}
+        - |
+          Guten Tag,
+
+          ich melde mich kurz: wir haben polnische Erntehelfer verfügbar
+          für die Herbstsaison (Kürbis, Äpfel, Weintrauben, Kartoffeln).
+
+          Falls Bedarf besteht, gerne kurz melden.
+
+          Viele Grüße
+          Patrycja, o1jobs
+          +49 160 6328144 · www.o1jobs.de
+
+          {{UNSUBSCRIBE_URL}}
+        - |
+          Guten Tag,
+
+          für die kommende Erntezeit stehen uns polnische Saisonkräfte
+          zur Verfügung – u.a. für Kürbis, Äpfel, Weintrauben und Kartoffeln.
+
+          Gerne kurz Bescheid geben, falls das für Sie interessant ist.
+
+          Beste Grüße
+          Patrycja, o1jobs
+          +49 160 6328144 · www.o1jobs.de
+
+          {{UNSUBSCRIBE_URL}}
+        - |
+          Guten Tag,
+
+          kurze Frage: haben Sie zur Herbstsaison Bedarf an Erntehelfern?
+          Wir vermitteln polnische Saisonkräfte für Kürbis, Äpfel,
+          Weintrauben und Kartoffeln, kurzfristig einsetzbar.
+
+          Viele Grüße
+          Patrycja, o1jobs
+          +49 160 6328144 · www.o1jobs.de
+
+          {{UNSUBSCRIBE_URL}}
+        - |
+          Guten Tag,
+
+          wir unterstützen Betriebe bei der Suche nach Erntehelfern aus
+          Polen – aktuell verfügbar für Kürbis, Äpfel, Weintrauben und
+          Kartoffeln. Bei Interesse gerne melden.
+
+          Freundliche Grüße
+          Patrycja, o1jobs
+          +49 160 6328144 · www.o1jobs.de
+
+          {{UNSUBSCRIBE_URL}}
+        - |
+          Guten Tag,
+
+          sollten Sie zur Ernte Unterstützung brauchen: wir haben polnische
+          Saisonkräfte verfügbar, erfahren u.a. bei Kürbis, Äpfel,
+          Weintrauben und Kartoffeln.
+
+          Kurze Rückmeldung genügt.
+
+          Viele Grüße
+          Patrycja, o1jobs
+          +49 160 6328144 · www.o1jobs.de
+
+          {{UNSUBSCRIBE_URL}}
     first-email-body-template: |
       Guten Tag,
       
