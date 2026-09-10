@@ -18,7 +18,7 @@ public class HofladenweltClient implements DirectorySource {
 
     private static final String BASE_URL = "https://hofladenwelt.com";
     private static final int TIMEOUT_MS = 15_000;
-    private static final int CRAWL_DELAY_MS = 300;
+    private static final int CRAWL_DELAY_MS = 1_000;
 
     private static final List<String> BUNDESLAND_PATHS = List.of(
             "/baden-wuerttemberg/", "/bayern/", "/berlin/", "/brandenburg/",
