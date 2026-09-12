@@ -89,7 +89,7 @@ leadfinder:
 
   outreach:
     enabled: ${OUTREACH_ENABLED:true}
-    from-address: ${OUTREACH_FROM:Patrycja Swigost <patrycja@office.o1jobs.de>}
+    from-address: ${OUTREACH_FROM:Patrycja Swigost <patricia@kontakt.o1jobs.de>}
     default-subject: ${OUTREACH_SUBJECT:kurze Frage – Arbeitskräfte zur Saison}
     max-emails-per-run: ${OUTREACH_MAX_PER_RUN:10}
     simulate-only: ${OUTREACH_SIMULATE_ONLY:false}
