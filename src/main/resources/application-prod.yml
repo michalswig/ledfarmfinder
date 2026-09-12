@@ -109,7 +109,7 @@ leadfinder:
           Patrycja, o1jobs
           +49 160 6328144 · www.o1jobs.de
 
-          {{UNSUBSCRIBE_URL}}
+          Falls Sie keine weiteren Nachrichten erhalten möchten: {{UNSUBSCRIBE_URL}}
         - |
           Guten Tag,
 
@@ -122,7 +122,7 @@ leadfinder:
           Patrycja, o1jobs
           +49 160 6328144 · www.o1jobs.de
 
-          {{UNSUBSCRIBE_URL}}
+          Falls Sie keine weiteren Nachrichten erhalten möchten: {{UNSUBSCRIBE_URL}}
         - |
           Guten Tag,
 
@@ -135,7 +135,7 @@ leadfinder:
           Patrycja, o1jobs
           +49 160 6328144 · www.o1jobs.de
 
-          {{UNSUBSCRIBE_URL}}
+          Falls Sie keine weiteren Nachrichten erhalten möchten: {{UNSUBSCRIBE_URL}}
         - |
           Guten Tag,
 
@@ -147,7 +147,7 @@ leadfinder:
           Patrycja, o1jobs
           +49 160 6328144 · www.o1jobs.de
 
-          {{UNSUBSCRIBE_URL}}
+          Falls Sie keine weiteren Nachrichten erhalten möchten: {{UNSUBSCRIBE_URL}}
         - |
           Guten Tag,
 
@@ -159,7 +159,7 @@ leadfinder:
           Patrycja, o1jobs
           +49 160 6328144 · www.o1jobs.de
 
-          {{UNSUBSCRIBE_URL}}
+          Falls Sie keine weiteren Nachrichten erhalten möchten: {{UNSUBSCRIBE_URL}}
         - |
           Guten Tag,
 
@@ -173,7 +173,7 @@ leadfinder:
           Patrycja, o1jobs
           +49 160 6328144 · www.o1jobs.de
 
-          {{UNSUBSCRIBE_URL}}
+          Falls Sie keine weiteren Nachrichten erhalten möchten: {{UNSUBSCRIBE_URL}}
     first-email-body-template: |
       Guten Tag,
       
@@ -207,7 +207,7 @@ leadfinder:
       Patrycja Swigost, o1jobs
       +49 160 6328144 · www.o1jobs.de
       
-      {{UNSUBSCRIBE_URL}}
+      Falls Sie keine weiteren Nachrichten erhalten möchten: {{UNSUBSCRIBE_URL}}
 
   scraper:
     min-hours-between-scrapes: 12

@@ -119,16 +119,13 @@ public class SesMailSenderGateway implements MailSenderGateway {
                 .replace(">", "&gt;")
                 .replace("\n", "<br>\n");
 
-        if (mail.unsubscribeUrl() == null || mail.unsubscribeUrl().isBlank()) {
-            return "<html><body>" + htmlBody + "</body></html>";
+        String unsubscribeUrl = mail.unsubscribeUrl();
+        if (unsubscribeUrl != null && !unsubscribeUrl.isBlank()) {
+            String escapedUrl = unsubscribeUrl.replace("&", "&amp;");
+            String niceLink = "<a href=\"" + escapedUrl + "\" style=\"color:#999;\">Abmelden</a>";
+            htmlBody = htmlBody.replace(escapedUrl, niceLink);
         }
 
-        return "<html><body>" +
-                htmlBody +
-                "<p style=\"font-size:11px;color:#999;margin-top:24px;\">" +
-                "Wenn Sie keine weiteren Nachrichten erhalten möchten: " +
-                "<a href=\"" + mail.unsubscribeUrl() + "\" style=\"color:#999;\">Abmelden</a>" +
-                "</p>" +
-                "</body></html>";
+        return "<html><body>" + htmlBody + "</body></html>";
     }
 }
