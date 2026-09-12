@@ -191,25 +191,21 @@ leadfinder:
       o1jobs
       +49 160 6328144
 
-    follow-up-subject: ${OUTREACH_FOLLOWUP_SUBJECT:kurze Rückmeldung}
+    follow-up-subject: ${OUTREACH_FOLLOWUP_SUBJECT:Erntehelfer verfügbar – kurze Frage}
 
     follow-up-min-days-since-last-email: ${OUTREACH_FOLLOWUP_MIN_DAYS:60}
 
     follow-up-email-body-template: |
       Guten Tag,
-    
-      ich melde mich kurz – wir sind weiterhin in Kontakt mit Arbeitskräften aus Polen,
-      die für die Herbstsaison verfügbar sind: Kürbis, Äpfel, Weintrauben, Kartoffeln.
-    
-      Viele haben bereits Erfahrung in deutschen Betrieben und sind kurzfristig einsatzbereit.
-    
-      Falls bei Ihnen Bedarf besteht oder sich etwas ergibt, melden Sie sich gerne kurz.
-
+      
+      haben Sie zur Ernte noch Bedarf an Unterstützung? Wir vermitteln
+      seit einigen Jahren Erntehelfer aus Polen an Betriebe wie Ihren.
+      
+      Kurze Rückmeldung genügt – gerne auch per Telefon.
+      
       Viele Grüße
-      Patrycja
-      o1jobs
-      +49 160 6328144
-      www.o1jobs.de
+      Patrycja Swigost, o1jobs
+      +49 160 6328144 · www.o1jobs.de
       
       {{UNSUBSCRIBE_URL}}
 
